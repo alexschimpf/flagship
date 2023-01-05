@@ -29,11 +29,11 @@ type-check:
 
 # enable commit hook for python linter
 enable-linter:
-	pre-commit install
+	pre-commit install -c .pre-commit.yaml
 
 # disable commit hook for python linter
 disable-linter:
-	pre-commit uninstall
+	pre-commit uninstall -c .pre-commit.yaml
 
 # set up pre-configured pycharm run configurations
 setup-pycharm-run-configs:

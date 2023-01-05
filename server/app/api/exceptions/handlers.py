@@ -1,4 +1,4 @@
-from types import MappingProxyType
+from typing import Any
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
@@ -48,7 +48,7 @@ async def _app_exception_handler(_: Request, e: AppException) -> JSONResponse:
 async def _request_validation_exception_handler(_: Request, e: RequestValidationError) -> JSONResponse:
     formatted_errors = []
     for error in e.errors():
-        loc, code, msg = error['loc'], error['type'], error.get('msg')
+        loc, code, msg = error['loc'], error['type'], error['msg']
         path_list = loc[1:]
         field_path = '.'.join(map(str, path_list))
         msg = add_missing_punctuation(message=msg)
@@ -66,8 +66,9 @@ async def _request_validation_exception_handler(_: Request, e: RequestValidation
     )
 
 
-EXCEPTION_HANDLERS = MappingProxyType({
-    Exception: _exception_handler,
-    AppException: _app_exception_handler,
-    RequestValidationError: _request_validation_exception_handler
-})
+def get_exception_handlers() -> dict[Any, Any]:
+    return {
+        Exception: _exception_handler,
+        AppException: _app_exception_handler,
+        RequestValidationError: _request_validation_exception_handler
+    }

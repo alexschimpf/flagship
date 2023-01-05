@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.routing import APIRoute
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.exceptions.handlers import EXCEPTION_HANDLERS
+from app.api.exceptions.handlers import get_exception_handlers
 from app.api.schemas import ErrorResponseModel
 
 
@@ -43,7 +43,7 @@ class Bootstrap:
                 status_code: {'model': ErrorResponseModel}
                 for status_code in (400, 401, 403, 404, 500)
             },
-            exception_handlers=EXCEPTION_HANDLERS,
+            exception_handlers=get_exception_handlers(),
             swagger_ui_parameters={'defaultModelsExpandDepth': -1}
         )
 
@@ -68,5 +68,3 @@ class Bootstrap:
             allow_methods=['*'],
             allow_headers=['*'],
         )
-
-
