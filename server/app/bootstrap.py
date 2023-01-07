@@ -7,7 +7,8 @@ from fastapi.routing import APIRoute
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.exceptions.handlers import get_exception_handlers
-from app.api.schemas import ErrorResponseModel
+from app.api.routes.schemas import ErrorResponseModel
+from app.services.database.mongodb import MongoDBService
 
 
 class Bootstrap:
@@ -32,7 +33,7 @@ class Bootstrap:
 
     @staticmethod
     def _init_services() -> None:
-        pass
+        MongoDBService.init()
 
     @classmethod
     def _build_app(cls) -> FastAPI:
@@ -40,8 +41,7 @@ class Bootstrap:
             title='Flagship API',
             version='1.0',
             responses={
-                status_code: {'model': ErrorResponseModel}
-                for status_code in (400, 401, 403, 404, 500)
+                400: {'model': ErrorResponseModel}
             },
             exception_handlers=get_exception_handlers(),
             swagger_ui_parameters={'defaultModelsExpandDepth': -1}
