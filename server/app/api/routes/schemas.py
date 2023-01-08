@@ -25,11 +25,11 @@ class FeatureFlagCondition(BaseModel):
     value: Any
 
     @staticmethod
-    def from_raw(raw: types.FeatureFlagCondition) -> 'FeatureFlagCondition':
+    def from_doc(doc: types.FeatureFlagCondition) -> 'FeatureFlagCondition':
         return FeatureFlagCondition(
-            context_key=raw['context_key'],
-            operator=raw['operator'],
-            value=raw['value']
+            context_key=doc['context_key'],
+            operator=doc['operator'],
+            value=doc['value']
         )
 
 
@@ -43,15 +43,15 @@ class ContextField(BaseModel):
     updated_date: datetime
 
     @staticmethod
-    def from_raw(raw: types.ContextField) -> 'ContextField':
+    def from_doc(doc: types.ContextField) -> 'ContextField':
         return ContextField(
-            context_field_id=str(raw['_id']),
-            name=raw['name'],
-            key=raw['key'],
-            value_type=raw['value_type'],
-            description=raw['description'],
-            created_date=raw['created_date'],
-            updated_date=raw['updated_date']
+            context_field_id=str(doc['_id']),
+            name=doc['name'],
+            key=doc['key'],
+            value_type=doc['value_type'],
+            description=doc['description'],
+            created_date=doc['created_date'],
+            updated_date=doc['updated_date']
         )
 
 
@@ -65,19 +65,19 @@ class FeatureFlag(BaseModel):
     updated_date: datetime
 
     @staticmethod
-    def from_raw(raw: types.FeatureFlag) -> 'FeatureFlag':
-        conditions = raw['conditions']
+    def from_doc(doc: types.FeatureFlag) -> 'FeatureFlag':
+        conditions = doc['conditions']
         return FeatureFlag(
-            feature_flag_id=str(raw['_id']),
-            name=raw['name'],
-            description=raw['description'],
-            enabled=raw['enabled'],
+            feature_flag_id=str(doc['_id']),
+            name=doc['name'],
+            description=doc['description'],
+            enabled=doc['enabled'],
             conditions=[
-                [FeatureFlagCondition.from_raw(raw=condition) for condition in group]
+                [FeatureFlagCondition.from_doc(doc=condition) for condition in group]
                 for group in conditions
             ],
-            created_date=raw['created_date'],
-            updated_date=raw['updated_date']
+            created_date=doc['created_date'],
+            updated_date=doc['updated_date']
         )
 
 
@@ -88,12 +88,12 @@ class Project(BaseModel):
     updated_date: datetime
 
     @staticmethod
-    def from_raw(raw: types.Project) -> 'Project':
+    def from_doc(doc: types.Project) -> 'Project':
         return Project(
-            project_id=str(raw['_id']),
-            name=raw['name'],
-            created_date=raw['created_date'],
-            updated_date=raw['updated_date']
+            project_id=str(doc['_id']),
+            name=doc['name'],
+            created_date=doc['created_date'],
+            updated_date=doc['updated_date']
         )
 
 
@@ -102,14 +102,14 @@ class ProjectFull(Project):
     feature_flags: list[FeatureFlag]
 
     @staticmethod
-    def from_raw(raw: types.Project) -> 'ProjectFull':
+    def from_doc(doc: types.Project) -> 'ProjectFull':
         return ProjectFull(
-            project_id=str(raw['_id']),
-            name=raw['name'],
-            context_fields=[ContextField.from_raw(raw=item) for item in raw['context_fields']],
-            feature_flags=[FeatureFlag.from_raw(raw=item) for item in raw['feature_flags']],
-            created_date=raw['created_date'],
-            updated_date=raw['updated_date']
+            project_id=str(doc['_id']),
+            name=doc['name'],
+            context_fields=[ContextField.from_doc(doc=item) for item in doc['context_fields']],
+            feature_flags=[FeatureFlag.from_doc(doc=item) for item in doc['feature_flags']],
+            created_date=doc['created_date'],
+            updated_date=doc['updated_date']
         )
 
 

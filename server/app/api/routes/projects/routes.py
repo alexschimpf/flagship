@@ -16,7 +16,7 @@ router = APIRouter(
 def get_projects() -> Any:
     projects = collections.projects.get_projects()
     return schemas.Projects(
-        projects=[schemas.Project.from_raw(raw=project) for project in projects]
+        projects=[schemas.Project.from_doc(doc=project) for project in projects]
     )
 
 
@@ -26,7 +26,7 @@ def create_project(
 ) -> Any:
     project_id = collections.projects.create_project(name=request.name)
     project = cast(types.Project, collections.projects.get_project(project_id=project_id))
-    return schemas.Project.from_raw(raw=project)
+    return schemas.Project.from_doc(doc=project)
 
 
 @router.get('/{project_id}', response_model=schemas.Project)
@@ -37,7 +37,7 @@ def get_project(
     if not project:
         raise exceptions.NotFoundException
 
-    return schemas.Project.from_raw(raw=project)
+    return schemas.Project.from_doc(doc=project)
 
 
 @router.put('/{project_id}', response_model=schemas.Project)
@@ -50,7 +50,7 @@ def update_project(
         raise exceptions.NotFoundException
 
     project = cast(types.Project, collections.projects.get_project(project_id=ObjectId(project_id)))
-    return schemas.Project.from_raw(raw=project)
+    return schemas.Project.from_doc(doc=project)
 
 
 @router.delete('/{project_id}', response_model=schemas.SuccessResponse)

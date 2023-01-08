@@ -21,7 +21,7 @@ async def get_context_fields(
         raise exceptions.NotFoundException
 
     return schemas.ContextFields(context_fields=[
-        schemas.ContextField.from_raw(raw=context_field)
+        schemas.ContextField.from_doc(doc=context_field)
         for context_field in context_fields
     ])
 
@@ -44,7 +44,7 @@ async def create_context_field(
     context_field = cast(types.ContextField, collections.projects.get_context_field(
         project_id=ObjectId(project_id), context_field_id=context_field_id
     ))
-    return schemas.ContextField.from_raw(raw=context_field)
+    return schemas.ContextField.from_doc(doc=context_field)
 
 
 @router.get('/{context_field_id}', response_model=schemas.ContextField)
@@ -57,7 +57,7 @@ async def get_context_field(
     )
     if not context_field:
         raise exceptions.NotFoundException
-    return schemas.ContextField.from_raw(raw=context_field)
+    return schemas.ContextField.from_doc(doc=context_field)
 
 
 @router.put('/{context_field_id}')
@@ -78,7 +78,7 @@ async def update_context_field(
     context_field = cast(types.ContextField, collections.projects.get_context_field(
         project_id=ObjectId(project_id), context_field_id=ObjectId(context_field_id)
     ))
-    return schemas.ContextField.from_raw(raw=context_field)
+    return schemas.ContextField.from_doc(doc=context_field)
 
 
 @router.delete('/{context_field_id}', response_model=schemas.SuccessResponse)

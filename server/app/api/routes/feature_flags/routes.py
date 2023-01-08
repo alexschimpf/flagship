@@ -21,7 +21,7 @@ async def get_feature_flags(
         raise exceptions.NotFoundException
 
     return schemas.FeatureFlags(feature_flags=[
-        schemas.FeatureFlag.from_raw(raw=feature_flag)
+        schemas.FeatureFlag.from_doc(doc=feature_flag)
         for feature_flag in feature_flags
     ])
 
@@ -53,7 +53,7 @@ async def create_feature_flag(
     feature_flag = cast(types.FeatureFlag, collections.projects.get_feature_flag(
         project_id=ObjectId(project_id), feature_flag_id=feature_flag_id
     ))
-    return schemas.FeatureFlag.from_raw(raw=feature_flag)
+    return schemas.FeatureFlag.from_doc(doc=feature_flag)
 
 
 @router.get('/{feature_flag_id}', response_model=schemas.FeatureFlag)
@@ -66,7 +66,7 @@ async def get_feature_flag(
     )
     if not feature_flag:
         raise exceptions.NotFoundException
-    return schemas.FeatureFlag.from_raw(raw=feature_flag)
+    return schemas.FeatureFlag.from_doc(doc=feature_flag)
 
 
 @router.put('/{feature_flag_id}', response_model=schemas.FeatureFlag)
@@ -98,7 +98,7 @@ async def update_feature_flag(
     feature_flag = cast(types.FeatureFlag, collections.projects.get_feature_flag(
         project_id=ObjectId(project_id), feature_flag_id=ObjectId(feature_flag_id)
     ))
-    return schemas.FeatureFlag.from_raw(raw=feature_flag)
+    return schemas.FeatureFlag.from_doc(doc=feature_flag)
 
 
 @router.delete('/{feature_flag_id}', response_model=schemas.SuccessResponse)
