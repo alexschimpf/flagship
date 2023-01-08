@@ -30,7 +30,7 @@ class ContextField(TypedDict):
     updated_date: datetime
 
 
-class FeatureFlagConditions(TypedDict):
+class FeatureFlagCondition(TypedDict):
     context_key: str
     operator: Operator
     value: Any
@@ -40,10 +40,10 @@ class FeatureFlag(TypedDict):
     _id: NotRequired[ObjectId]
     name: str
     description: str
+    enabled: bool
+    conditions: list[list[FeatureFlagCondition]]
     created_date: datetime
     updated_date: datetime
-    conditions: list[FeatureFlagConditions]
-    enabled: bool
 
 
 class Project(TypedDict):

@@ -1,1 +1,1 @@
-from app.services.database.mongodb.collections import context_fields, projects  # noqa
+from app.services.database.mongodb.collections import projects, users  # noqa

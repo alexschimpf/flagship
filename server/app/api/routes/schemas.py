@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Any
 
 from app.services.database.mongodb import types
 
@@ -19,7 +20,17 @@ class SuccessResponse(BaseModel):
 
 
 class FeatureFlagCondition(BaseModel):
-    pass
+    context_key: str
+    operator: types.Operator
+    value: Any
+
+    @staticmethod
+    def from_raw(raw: types.FeatureFlagCondition) -> 'FeatureFlagCondition':
+        return FeatureFlagCondition(
+            context_key=raw['context_key'],
+            operator=raw['operator'],
+            value=raw['value']
+        )
 
 
 class ContextField(BaseModel):
@@ -45,10 +56,29 @@ class ContextField(BaseModel):
 
 
 class FeatureFlag(BaseModel):
+    feature_flag_id: str
+    name: str
+    description: str
+    enabled: bool
+    conditions: list[list[FeatureFlagCondition]]
+    created_date: datetime
+    updated_date: datetime
 
     @staticmethod
     def from_raw(raw: types.FeatureFlag) -> 'FeatureFlag':
-        return FeatureFlag()
+        conditions = raw['conditions']
+        return FeatureFlag(
+            feature_flag_id=str(raw['_id']),
+            name=raw['name'],
+            description=raw['description'],
+            enabled=raw['enabled'],
+            conditions=[
+                [FeatureFlagCondition.from_raw(raw=condition) for condition in group]
+                for group in conditions
+            ],
+            created_date=raw['created_date'],
+            updated_date=raw['updated_date']
+        )
 
 
 class Project(BaseModel):
@@ -109,3 +139,10 @@ class CreateContextField(BaseModel):
 class UpdateContextField(BaseModel):
     name: str
     description: str
+
+
+class CreateOrUpdateFeatureFlag(BaseModel):
+    name: str
+    description: str
+    enabled: bool
+    conditions: list[list[FeatureFlagCondition]]

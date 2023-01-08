@@ -16,7 +16,7 @@ router = APIRouter(
 async def get_context_fields(
     project_id: str
 ) -> Any:
-    context_fields = collections.context_fields.get_context_fields(project_id=ObjectId(project_id))
+    context_fields = collections.projects.get_context_fields(project_id=ObjectId(project_id))
     if context_fields is None:
         raise exceptions.NotFoundException
 
@@ -31,7 +31,7 @@ async def create_context_field(
     project_id: str,
     request: schemas.CreateContextField
 ) -> Any:
-    context_field_id, project_found = collections.context_fields.create_context_field(
+    context_field_id, project_found = collections.projects.create_context_field(
         project_id=ObjectId(project_id),
         name=request.name,
         key=request.key,
@@ -41,7 +41,7 @@ async def create_context_field(
     if not project_found:
         raise exceptions.NotFoundException
 
-    context_field = cast(types.ContextField, collections.context_fields.get_context_field(
+    context_field = cast(types.ContextField, collections.projects.get_context_field(
         project_id=ObjectId(project_id), context_field_id=context_field_id
     ))
     return schemas.ContextField.from_raw(raw=context_field)
@@ -52,7 +52,7 @@ async def get_context_field(
     project_id: str,
     context_field_id: str
 ) -> Any:
-    context_field = collections.context_fields.get_context_field(
+    context_field = collections.projects.get_context_field(
         project_id=ObjectId(project_id), context_field_id=ObjectId(context_field_id)
     )
     if not context_field:
@@ -66,7 +66,7 @@ async def update_context_field(
     context_field_id: str,
     request: schemas.UpdateContextField
 ) -> Any:
-    matched = collections.context_fields.update_context_field(
+    matched = collections.projects.update_context_field(
         project_id=ObjectId(project_id),
         context_field_id=ObjectId(context_field_id),
         name=request.name,
@@ -75,7 +75,7 @@ async def update_context_field(
     if not matched:
         raise exceptions.NotFoundException
 
-    context_field = cast(types.ContextField, collections.context_fields.get_context_field(
+    context_field = cast(types.ContextField, collections.projects.get_context_field(
         project_id=ObjectId(project_id), context_field_id=ObjectId(context_field_id)
     ))
     return schemas.ContextField.from_raw(raw=context_field)
@@ -86,7 +86,7 @@ async def delete_context_field(
     project_id: str,
     context_field_id: str
 ) -> Any:
-    deleted = collections.context_fields.delete_context_field(
+    deleted = collections.projects.delete_context_field(
         project_id=ObjectId(project_id),
         context_field_id=ObjectId(context_field_id)
     )
