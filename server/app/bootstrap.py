@@ -2,6 +2,8 @@ import os
 import ujson
 import logging
 import logging.config
+from typing import Any
+import fastapi.openapi.utils
 from fastapi import FastAPI
 from fastapi.routing import APIRoute
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,6 +21,7 @@ class Bootstrap:
 
         app = self._build_app()
         self._register_routes(app=app)
+        self._override_openapi(app=app)
         self._add_cors_middleware(app=app)
         self._set_route_operation_ids(app=app)
 
@@ -51,6 +54,24 @@ class Bootstrap:
     def _register_routes(app: FastAPI) -> None:
         from app import api
         app.include_router(api.router)
+
+    @staticmethod
+    def _override_openapi(app: FastAPI) -> None:
+        def openapi() -> dict[str, Any]:
+            openapi_schema = fastapi.openapi.utils.get_openapi(
+                title=app.title,
+                version=app.version,
+                routes=app.routes
+            )
+
+            # Remove 422 response from schema
+            for schema_path in openapi_schema['paths']:
+                for method in openapi_schema['paths'][schema_path]:
+                    openapi_schema['paths'][schema_path][method]['responses'].pop('422', None)
+
+            return openapi_schema
+
+        app.openapi = openapi  # type: ignore
 
     @staticmethod
     def _set_route_operation_ids(app: FastAPI) -> None:

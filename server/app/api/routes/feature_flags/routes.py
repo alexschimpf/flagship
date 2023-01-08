@@ -1,4 +1,4 @@
-from typing import Any, cast
+from typing import Any
 from fastapi import APIRouter
 from bson import ObjectId
 
@@ -20,10 +20,7 @@ async def get_feature_flags(
     if feature_flags is None:
         raise exceptions.NotFoundException
 
-    return schemas.FeatureFlags(feature_flags=[
-        schemas.FeatureFlag.from_doc(doc=feature_flag)
-        for feature_flag in feature_flags
-    ])
+    return schemas.FeatureFlags(feature_flags=feature_flags)
 
 
 @router.post('', response_model=schemas.FeatureFlag)
@@ -38,11 +35,11 @@ async def create_feature_flag(
         enabled=request.enabled,
         conditions=[
             [
-                {
-                    'context_key': condition.context_key,
-                    'operator': condition.operator,
-                    'value': condition.value
-                }
+                types.FeatureFlagCondition(
+                    context_key=condition.context_key,
+                    operator=condition.operator,
+                    value=condition.value
+                )
                 for condition in group
             ] for group in request.conditions
         ]
@@ -50,10 +47,9 @@ async def create_feature_flag(
     if not project_found:
         raise exceptions.NotFoundException
 
-    feature_flag = cast(types.FeatureFlag, collections.projects.get_feature_flag(
+    return collections.projects.get_feature_flag(
         project_id=ObjectId(project_id), feature_flag_id=feature_flag_id
-    ))
-    return schemas.FeatureFlag.from_doc(doc=feature_flag)
+    )
 
 
 @router.get('/{feature_flag_id}', response_model=schemas.FeatureFlag)
@@ -66,7 +62,8 @@ async def get_feature_flag(
     )
     if not feature_flag:
         raise exceptions.NotFoundException
-    return schemas.FeatureFlag.from_doc(doc=feature_flag)
+
+    return feature_flag
 
 
 @router.put('/{feature_flag_id}', response_model=schemas.FeatureFlag)
@@ -83,11 +80,11 @@ async def update_feature_flag(
         enabled=request.enabled,
         conditions=[
             [
-                {
-                    'context_key': condition.context_key,
-                    'operator': condition.operator,
-                    'value': condition.value
-                }
+                types.FeatureFlagCondition(
+                    context_key=condition.context_key,
+                    operator=condition.operator,
+                    value=condition.value
+                )
                 for condition in group
             ] for group in request.conditions
         ]
@@ -95,10 +92,9 @@ async def update_feature_flag(
     if not matched:
         raise exceptions.NotFoundException
 
-    feature_flag = cast(types.FeatureFlag, collections.projects.get_feature_flag(
+    return collections.projects.get_feature_flag(
         project_id=ObjectId(project_id), feature_flag_id=ObjectId(feature_flag_id)
-    ))
-    return schemas.FeatureFlag.from_doc(doc=feature_flag)
+    )
 
 
 @router.delete('/{feature_flag_id}', response_model=schemas.SuccessResponse)

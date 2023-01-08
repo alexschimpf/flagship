@@ -1,8 +1,8 @@
-from typing import Any, cast
+from typing import Any
 from fastapi import APIRouter
 from bson import ObjectId
 
-from app.services.database.mongodb import types, collections
+from app.services.database.mongodb import collections
 from app.api.routes import schemas
 from app.api import exceptions
 
@@ -20,13 +20,10 @@ async def get_context_fields(
     if context_fields is None:
         raise exceptions.NotFoundException
 
-    return schemas.ContextFields(context_fields=[
-        schemas.ContextField.from_doc(doc=context_field)
-        for context_field in context_fields
-    ])
+    return schemas.ContextFields(context_fields=context_fields)
 
 
-@router.post('')
+@router.post('', response_model=schemas.ContextField)
 async def create_context_field(
     project_id: str,
     request: schemas.CreateContextField
@@ -41,10 +38,9 @@ async def create_context_field(
     if not project_found:
         raise exceptions.NotFoundException
 
-    context_field = cast(types.ContextField, collections.projects.get_context_field(
+    return collections.projects.get_context_field(
         project_id=ObjectId(project_id), context_field_id=context_field_id
-    ))
-    return schemas.ContextField.from_doc(doc=context_field)
+    )
 
 
 @router.get('/{context_field_id}', response_model=schemas.ContextField)
@@ -57,10 +53,11 @@ async def get_context_field(
     )
     if not context_field:
         raise exceptions.NotFoundException
-    return schemas.ContextField.from_doc(doc=context_field)
+
+    return context_field
 
 
-@router.put('/{context_field_id}')
+@router.put('/{context_field_id}', response_model=schemas.ContextField)
 async def update_context_field(
     project_id: str,
     context_field_id: str,
@@ -75,10 +72,9 @@ async def update_context_field(
     if not matched:
         raise exceptions.NotFoundException
 
-    context_field = cast(types.ContextField, collections.projects.get_context_field(
+    return collections.projects.get_context_field(
         project_id=ObjectId(project_id), context_field_id=ObjectId(context_field_id)
-    ))
-    return schemas.ContextField.from_doc(doc=context_field)
+    )
 
 
 @router.delete('/{context_field_id}', response_model=schemas.SuccessResponse)

@@ -1,8 +1,26 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Any
+from bson import ObjectId
 
 from app.services.database.mongodb import types
+
+
+class PydanticObjectId(ObjectId):
+
+    @classmethod
+    def validate(cls, v: Any) -> str:
+        if not isinstance(v, ObjectId):
+            raise TypeError('ObjectId required')
+        return str(v)
+
+    @classmethod
+    def __get_validators__(cls) -> Any:
+        yield cls.validate
+
+    @classmethod
+    def __modify_schema__(cls, field_schema: dict[Any, Any]) -> None:
+        field_schema.update(type='string')
 
 
 class ErrorModel(BaseModel):
@@ -24,17 +42,9 @@ class FeatureFlagCondition(BaseModel):
     operator: types.Operator
     value: Any
 
-    @staticmethod
-    def from_doc(doc: types.FeatureFlagCondition) -> 'FeatureFlagCondition':
-        return FeatureFlagCondition(
-            context_key=doc['context_key'],
-            operator=doc['operator'],
-            value=doc['value']
-        )
-
 
 class ContextField(BaseModel):
-    context_field_id: str
+    id_: str | PydanticObjectId = Field(alias='_id')
     name: str
     key: str
     value_type: str
@@ -42,21 +52,9 @@ class ContextField(BaseModel):
     created_date: datetime
     updated_date: datetime
 
-    @staticmethod
-    def from_doc(doc: types.ContextField) -> 'ContextField':
-        return ContextField(
-            context_field_id=str(doc['_id']),
-            name=doc['name'],
-            key=doc['key'],
-            value_type=doc['value_type'],
-            description=doc['description'],
-            created_date=doc['created_date'],
-            updated_date=doc['updated_date']
-        )
-
 
 class FeatureFlag(BaseModel):
-    feature_flag_id: str
+    id_: str | PydanticObjectId = Field(alias='_id')
     name: str
     description: str
     enabled: bool
@@ -64,53 +62,12 @@ class FeatureFlag(BaseModel):
     created_date: datetime
     updated_date: datetime
 
-    @staticmethod
-    def from_doc(doc: types.FeatureFlag) -> 'FeatureFlag':
-        conditions = doc['conditions']
-        return FeatureFlag(
-            feature_flag_id=str(doc['_id']),
-            name=doc['name'],
-            description=doc['description'],
-            enabled=doc['enabled'],
-            conditions=[
-                [FeatureFlagCondition.from_doc(doc=condition) for condition in group]
-                for group in conditions
-            ],
-            created_date=doc['created_date'],
-            updated_date=doc['updated_date']
-        )
-
 
 class Project(BaseModel):
-    project_id: str
+    id_: str | PydanticObjectId = Field(alias='_id')
     name: str
     created_date: datetime
     updated_date: datetime
-
-    @staticmethod
-    def from_doc(doc: types.Project) -> 'Project':
-        return Project(
-            project_id=str(doc['_id']),
-            name=doc['name'],
-            created_date=doc['created_date'],
-            updated_date=doc['updated_date']
-        )
-
-
-class ProjectFull(Project):
-    context_fields: list[ContextField]
-    feature_flags: list[FeatureFlag]
-
-    @staticmethod
-    def from_doc(doc: types.Project) -> 'ProjectFull':
-        return ProjectFull(
-            project_id=str(doc['_id']),
-            name=doc['name'],
-            context_fields=[ContextField.from_doc(doc=item) for item in doc['context_fields']],
-            feature_flags=[FeatureFlag.from_doc(doc=item) for item in doc['feature_flags']],
-            created_date=doc['created_date'],
-            updated_date=doc['updated_date']
-        )
 
 
 class Projects(BaseModel):

@@ -1,8 +1,8 @@
-from typing import Any, cast
+from typing import Any
 from fastapi import APIRouter
 from bson import ObjectId
 
-from app.services.database.mongodb import types, collections
+from app.services.database.mongodb import collections
 from app.api.routes import schemas
 from app.api import exceptions
 
@@ -16,7 +16,7 @@ router = APIRouter(
 def get_projects() -> Any:
     projects = collections.projects.get_projects()
     return schemas.Projects(
-        projects=[schemas.Project.from_doc(doc=project) for project in projects]
+        projects=projects
     )
 
 
@@ -25,8 +25,7 @@ def create_project(
     request: schemas.CreateOrUpdateProject
 ) -> Any:
     project_id = collections.projects.create_project(name=request.name)
-    project = cast(types.Project, collections.projects.get_project(project_id=project_id))
-    return schemas.Project.from_doc(doc=project)
+    return collections.projects.get_project(project_id=project_id)
 
 
 @router.get('/{project_id}', response_model=schemas.Project)
@@ -37,7 +36,7 @@ def get_project(
     if not project:
         raise exceptions.NotFoundException
 
-    return schemas.Project.from_doc(doc=project)
+    return project
 
 
 @router.put('/{project_id}', response_model=schemas.Project)
@@ -49,8 +48,7 @@ def update_project(
     if not matched:
         raise exceptions.NotFoundException
 
-    project = cast(types.Project, collections.projects.get_project(project_id=ObjectId(project_id)))
-    return schemas.Project.from_doc(doc=project)
+    return collections.projects.get_project(project_id=ObjectId(project_id))
 
 
 @router.delete('/{project_id}', response_model=schemas.SuccessResponse)
