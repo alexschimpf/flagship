@@ -9,7 +9,7 @@ from fastapi.routing import APIRoute
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.exceptions.handlers import get_exception_handlers
-from app.api.routes.schemas import ErrorResponseModel
+from app.api.schemas import ErrorResponseModel
 from app.services.database.mongodb import MongoDBService
 
 

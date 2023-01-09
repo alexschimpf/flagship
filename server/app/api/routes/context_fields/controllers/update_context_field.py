@@ -1,0 +1,25 @@
+from typing import Any
+from bson import ObjectId
+
+from app.services.database.mongodb import collections
+from app.api.routes.context_fields import schemas
+from app.api import exceptions
+
+
+def process(
+    project_id: str,
+    context_field_id: str,
+    request: schemas.UpdateContextField
+) -> Any:
+    matched = collections.projects.update_context_field(
+        project_id=ObjectId(project_id),
+        context_field_id=ObjectId(context_field_id),
+        name=request.name,
+        description=request.description
+    )
+    if not matched:
+        raise exceptions.NotFoundException
+
+    return collections.projects.get_context_field(
+        project_id=ObjectId(project_id), context_field_id=ObjectId(context_field_id)
+    )

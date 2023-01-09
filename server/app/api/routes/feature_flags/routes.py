@@ -1,10 +1,9 @@
 from typing import Any
 from fastapi import APIRouter
-from bson import ObjectId
 
-from app.services.database.mongodb import types, collections
-from app.api.routes import schemas
-from app.api import exceptions
+from app.api.routes.feature_flags import schemas
+from app.api.schemas import SuccessResponse
+from app.api.routes.feature_flags import controllers
 
 router = APIRouter(
     prefix='/feature-flags',
@@ -13,100 +12,44 @@ router = APIRouter(
 
 
 @router.get('', response_model=schemas.FeatureFlags)
-async def get_feature_flags(
+def get_feature_flags(
     project_id: str
 ) -> Any:
-    feature_flags = collections.projects.get_feature_flags(project_id=ObjectId(project_id))
-    if feature_flags is None:
-        raise exceptions.NotFoundException
-
-    return schemas.FeatureFlags(feature_flags=feature_flags)
+    return controllers.get_feature_flags.process(project_id=project_id)
 
 
 @router.post('', response_model=schemas.FeatureFlag)
-async def create_feature_flag(
+def create_feature_flag(
     project_id: str,
     request: schemas.CreateOrUpdateFeatureFlag
 ) -> Any:
-    feature_flag_id, project_found = collections.projects.create_feature_flag(
-        project_id=ObjectId(project_id),
-        name=request.name,
-        description=request.description,
-        enabled=request.enabled,
-        conditions=[
-            [
-                types.FeatureFlagCondition(
-                    context_key=condition.context_key,
-                    operator=condition.operator,
-                    value=condition.value
-                )
-                for condition in group
-            ] for group in request.conditions
-        ]
-    )
-    if not project_found:
-        raise exceptions.NotFoundException
-
-    return collections.projects.get_feature_flag(
-        project_id=ObjectId(project_id), feature_flag_id=feature_flag_id
-    )
+    return controllers.create_feature_flag.process(
+        project_id=project_id, request=request)
 
 
 @router.get('/{feature_flag_id}', response_model=schemas.FeatureFlag)
-async def get_feature_flag(
+def get_feature_flag(
     project_id: str,
     feature_flag_id: str
 ) -> Any:
-    feature_flag = collections.projects.get_feature_flag(
-        project_id=ObjectId(project_id), feature_flag_id=ObjectId(feature_flag_id)
-    )
-    if not feature_flag:
-        raise exceptions.NotFoundException
-
-    return feature_flag
+    return controllers.get_feature_flag.process(
+        project_id=project_id, feature_flag_id=feature_flag_id)
 
 
 @router.put('/{feature_flag_id}', response_model=schemas.FeatureFlag)
-async def update_feature_flag(
+def update_feature_flag(
     project_id: str,
     feature_flag_id: str,
     request: schemas.CreateOrUpdateFeatureFlag
 ) -> Any:
-    matched = collections.projects.update_feature_flag(
-        project_id=ObjectId(project_id),
-        feature_flag_id=ObjectId(feature_flag_id),
-        name=request.name,
-        description=request.description,
-        enabled=request.enabled,
-        conditions=[
-            [
-                types.FeatureFlagCondition(
-                    context_key=condition.context_key,
-                    operator=condition.operator,
-                    value=condition.value
-                )
-                for condition in group
-            ] for group in request.conditions
-        ]
-    )
-    if not matched:
-        raise exceptions.NotFoundException
-
-    return collections.projects.get_feature_flag(
-        project_id=ObjectId(project_id), feature_flag_id=ObjectId(feature_flag_id)
-    )
+    return controllers.update_feature_flag.process(
+        project_id=project_id, feature_flag_id=feature_flag_id, request=request)
 
 
-@router.delete('/{feature_flag_id}', response_model=schemas.SuccessResponse)
-async def delete_feature_flag(
+@router.delete('/{feature_flag_id}', response_model=SuccessResponse)
+def delete_feature_flag(
     project_id: str,
     feature_flag_id: str
 ) -> Any:
-    deleted = collections.projects.delete_feature_flag(
-        project_id=ObjectId(project_id),
-        feature_flag_id=ObjectId(feature_flag_id)
-    )
-    if not deleted:
-        raise exceptions.NotFoundException
-
-    return schemas.SuccessResponse(success=True)
+    controllers.delete_feature_flag.process(
+        project_id=project_id, feature_flag_id=feature_flag_id)

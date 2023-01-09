@@ -7,7 +7,7 @@ from fastapi import Request, status
 from app.api.exceptions import AppException, AggregateException, BadRequestFieldException, add_missing_punctuation
 
 
-async def _exception_handler(_: Request, __: AppException) -> JSONResponse:
+def _exception_handler(_: Request, __: AppException) -> JSONResponse:
     return JSONResponse(
         status_code=500,
         content={
@@ -21,7 +21,7 @@ async def _exception_handler(_: Request, __: AppException) -> JSONResponse:
     )
 
 
-async def _app_exception_handler(_: Request, e: AppException) -> JSONResponse:
+def _app_exception_handler(_: Request, e: AppException) -> JSONResponse:
     errors = []
     exceptions = e.exceptions if isinstance(e, AggregateException) else [e]
     for exc in exceptions:
@@ -45,7 +45,7 @@ async def _app_exception_handler(_: Request, e: AppException) -> JSONResponse:
     )
 
 
-async def _request_validation_exception_handler(_: Request, e: RequestValidationError) -> JSONResponse:
+def _request_validation_exception_handler(_: Request, e: RequestValidationError) -> JSONResponse:
     formatted_errors = []
     for error in e.errors():
         loc, code, msg = error['loc'], error['type'], error['msg']

@@ -1,10 +1,9 @@
 from typing import Any
 from fastapi import APIRouter
-from bson import ObjectId
 
-from app.services.database.mongodb import collections
-from app.api.routes import schemas
-from app.api import exceptions
+from app.api.routes.projects import schemas
+from app.api.schemas import SuccessResponse
+from app.api.routes.projects import controllers
 
 router = APIRouter(
     prefix='/projects',
@@ -14,29 +13,21 @@ router = APIRouter(
 
 @router.get('', response_model=schemas.Projects)
 def get_projects() -> Any:
-    projects = collections.projects.get_projects()
-    return schemas.Projects(
-        projects=projects
-    )
+    return controllers.get_projects.process()
 
 
 @router.post('', response_model=schemas.Project)
 def create_project(
     request: schemas.CreateOrUpdateProject
 ) -> Any:
-    project_id = collections.projects.create_project(name=request.name)
-    return collections.projects.get_project(project_id=project_id)
+    return controllers.create_project.process(request=request)
 
 
 @router.get('/{project_id}', response_model=schemas.Project)
 def get_project(
     project_id: str
 ) -> Any:
-    project = collections.projects.get_project(project_id=ObjectId(project_id))
-    if not project:
-        raise exceptions.NotFoundException
-
-    return project
+    return controllers.get_project.process(project_id=project_id)
 
 
 @router.put('/{project_id}', response_model=schemas.Project)
@@ -44,19 +35,12 @@ def update_project(
     project_id: str,
     request: schemas.CreateOrUpdateProject
 ) -> Any:
-    matched = collections.projects.update_project(project_id=ObjectId(project_id), name=request.name)
-    if not matched:
-        raise exceptions.NotFoundException
-
-    return collections.projects.get_project(project_id=ObjectId(project_id))
+    return controllers.update_project.process(
+        project_id=project_id, request=request)
 
 
-@router.delete('/{project_id}', response_model=schemas.SuccessResponse)
+@router.delete('/{project_id}', response_model=SuccessResponse)
 def delete_project(
     project_id: str
 ) -> Any:
-    deleted = collections.projects.delete_project(project_id=ObjectId(project_id))
-    if not deleted:
-        raise exceptions.NotFoundException
-
-    return schemas.SuccessResponse(success=True)
+    return controllers.delete_project.process(project_id=project_id)
