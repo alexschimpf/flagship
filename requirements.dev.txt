@@ -12,4 +12,5 @@ mypy>=0.991
 pre-commit>=2.20.0
 pytest>=7.2.0
 rest-api-tester==0.1.1
+types-requests==2.28.11.7
 types-ujson==5.5.0

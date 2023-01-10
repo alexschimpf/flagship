@@ -1,4 +1,4 @@
-import requests
+import httpx
 from typing import Union, Dict, Any
 from fastapi import FastAPI, testclient
 
@@ -10,14 +10,14 @@ class FastAPITestClient(BaseTestClient):
     def __init__(self, app: FastAPI):
         self.client = testclient.TestClient(app)
 
-    def get(
+    def get(  # type: ignore
         self,
         url: str,
         timeout: int,
         allow_redirects: bool,
         headers: Union[Dict[str, Any], None] = None,
         cookies: Union[Dict[str, Any], None] = None
-    ) -> requests.Response:
+    ) -> httpx.Response:
         return self.client.get(
             url=url,
             timeout=timeout,
@@ -26,7 +26,7 @@ class FastAPITestClient(BaseTestClient):
             cookies=cookies
         )
 
-    def post(
+    def post(  # type: ignore
         self,
         url: str,
         data: str,
@@ -34,7 +34,7 @@ class FastAPITestClient(BaseTestClient):
         allow_redirects: bool,
         headers: Union[Dict[str, Any], None] = None,
         cookies: Union[Dict[str, Any], None] = None
-    ) -> requests.Response:
+    ) -> httpx.Response:
         return self.client.post(
             url=url,
             content=data,
@@ -44,7 +44,7 @@ class FastAPITestClient(BaseTestClient):
             cookies=cookies
         )
 
-    def put(
+    def put(  # type: ignore
         self,
         url: str,
         data: str,
@@ -52,7 +52,7 @@ class FastAPITestClient(BaseTestClient):
         allow_redirects: bool,
         headers: Union[Dict[str, Any], None] = None,
         cookies: Union[Dict[str, Any], None] = None
-    ) -> requests.Response:
+    ) -> httpx.Response:
         return self.client.put(
             url=url,
             content=data,
@@ -62,7 +62,7 @@ class FastAPITestClient(BaseTestClient):
             cookies=cookies
         )
 
-    def patch(
+    def patch(  # type: ignore
         self,
         url: str,
         data: str,
@@ -70,7 +70,7 @@ class FastAPITestClient(BaseTestClient):
         allow_redirects: bool,
         headers: Union[Dict[str, Any], None] = None,
         cookies: Union[Dict[str, Any], None] = None
-    ) -> requests.Response:
+    ) -> httpx.Response:
         return self.client.patch(
             url=url,
             content=data,
@@ -80,14 +80,14 @@ class FastAPITestClient(BaseTestClient):
             cookies=cookies
         )
 
-    def delete(
+    def delete(  # type: ignore
         self,
         url: str,
         timeout: int,
         allow_redirects: bool,
         headers: Union[Dict[str, Any], None] = None,
         cookies: Union[Dict[str, Any], None] = None
-    ) -> requests.Response:
+    ) -> httpx.Response:
         return self.client.delete(
             url=url,
             timeout=timeout,

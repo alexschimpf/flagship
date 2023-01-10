@@ -17,7 +17,10 @@ def process(
     ):
         raise exceptions.NameTakenException(field=nameof(request.name))
 
-    matched = collections.projects.update_project(project_id=ObjectId(project_id), name=request.name)
+    matched = collections.projects.update_project(
+        project_id=ObjectId(project_id),
+        name=request.name
+    )
     if not matched:
         raise exceptions.NotFoundException
 

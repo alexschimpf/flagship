@@ -1,4 +1,4 @@
-from typing import cast
+from typing import cast, Any
 from datetime import datetime
 from bson import ObjectId
 
@@ -54,15 +54,21 @@ def create_project(
 
 def update_project(
     project_id: ObjectId,
-    name: str
+    name: str | None = None,
+    private_key: str | None = None
 ) -> bool:
+    update_data: dict[str, Any] = {}
+    if name:
+        update_data['name'] = name
+    if private_key:
+        update_data['private_key'] = private_key
+    if update_data:
+        update_data['updated_date'] = datetime.utcnow()
+
     result = MongoDBService.projects().update_one(
         filter={'_id': project_id},
         update={
-            '$set': {
-                'name': name,
-                'updated_date': datetime.utcnow()
-            }
+            '$set': update_data
         }
     )
     return result.matched_count > 0

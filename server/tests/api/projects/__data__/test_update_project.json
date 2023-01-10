@@ -41,5 +41,17 @@
                 "message": "Sorry, that name is already taken."
             }]
         }
+    },
+    "test_update_project__200_reset_private_key": {
+        "url": "/projects/{project_id}/private_key",
+        "method": "POST",
+        "status": 200,
+        "response": {
+            "_id": null,
+            "name": "Waste Management, Inc.",
+            "private_key": null,
+            "created_date": null,
+            "updated_date": null
+        }
     }
 }

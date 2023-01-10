@@ -1,25 +1,25 @@
 from typing import Any, cast
-from varname import nameof
+from bson import ObjectId
 
-from app.api import exceptions
 from app.api.routes.projects.controllers import common
 from app.services.database.mongodb import collections, types
 from app.api.routes.projects import schemas
+from app.api import exceptions
 
 
 def process(
-    request: schemas.CreateOrUpdateProject
+    project_id: str
 ) -> Any:
-    if collections.projects.is_project_name_taken(name=request.name):
-        raise exceptions.NameTakenException(field=nameof(request.name))
-
     private_key, encrypted_private_key = common.generate_private_key()
 
-    project_id = collections.projects.create_project(
-        name=request.name,
+    matched = collections.projects.update_project(
+        project_id=ObjectId(project_id),
         private_key=encrypted_private_key
     )
-    project = cast(types.Project, collections.projects.get_project(project_id=project_id))
+    if not matched:
+        raise exceptions.NotFoundException
+
+    project = cast(types.Project, collections.projects.get_project(project_id=ObjectId(project_id)))
     return schemas.ProjectWithPrivateKey(
         **project,
         private_key=private_key

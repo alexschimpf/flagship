@@ -3,5 +3,6 @@ from app.api.routes.projects.controllers import (  # noqa
     delete_project,
     get_project,
     get_projects,
-    update_project
+    update_project,
+    reset_project_private_key
 )

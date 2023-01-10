@@ -51,3 +51,15 @@ class TestUpdateProject(TestCase):
                 url_params={'project_id': project_id}
             )
             self.verify_test_result(result=result)
+
+    def test_update_project__200_reset_private_key(self) -> None:
+        with (
+            utils.new_project(name='Waste Management, Inc.') as project_id
+        ):
+            result = self.runner.run(
+                path_to_test_cases='test_update_project.json',
+                test_name='test_update_project__200_reset_private_key',
+                url_params={'project_id': project_id}
+            )
+            self.ignore_expected_response_fields(result=result, fields=self.DEFAULT_IGNORE_FIELDS)
+            self.verify_test_result(result=result)

@@ -45,3 +45,10 @@ def delete_project(
     project_id: str
 ) -> Any:
     return controllers.delete_project.process(project_id=project_id)
+
+
+@router.post('/{project_id}/private_key', response_model=schemas.ProjectWithPrivateKey)
+def reset_project_private_key(
+    project_id: str
+) -> Any:
+    return controllers.reset_project_private_key.process(project_id=project_id)
