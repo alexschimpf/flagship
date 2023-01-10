@@ -5,7 +5,7 @@ from rest_api_tester.test import TestCase as BaseTestCase, TestResult
 
 class TestCase(BaseTestCase):
 
-    DEFAULT_IGNORE_FIELDS = ('_id', 'created_date', 'updated_date')
+    DEFAULT_IGNORE_FIELDS = ('_id', 'created_date', 'updated_date', 'private_key')
 
     def setUp(self) -> None:
         self.maxDiff = None

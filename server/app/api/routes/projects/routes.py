@@ -16,10 +16,11 @@ def get_projects() -> Any:
     return controllers.get_projects.process()
 
 
-@router.post('', response_model=schemas.Project)
+@router.post('', response_model=schemas.ProjectWithPrivateKey)
 def create_project(
     request: schemas.CreateOrUpdateProject
 ) -> Any:
+
     return controllers.create_project.process(request=request)
 
 

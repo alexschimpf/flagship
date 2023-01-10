@@ -11,6 +11,10 @@ class Project(BaseModel):
     updated_date: datetime
 
 
+class ProjectWithPrivateKey(Project):
+    private_key: str
+
+
 class Projects(BaseModel):
     items: list[Project]
 

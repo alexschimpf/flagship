@@ -6,7 +6,7 @@ from app.services.database.mongodb import types
 
 from tests.api import utils
 from tests.api.client import FastAPITestClient
-from tests.api.test import TestCase
+from tests.api.test_case import TestCase
 
 
 class TestGetFeatureFlags(TestCase):

@@ -9,6 +9,7 @@
         "response": {
             "_id": null,
             "name": "Waste Management, Inc.",
+            "private_key": null,
             "created_date": null,
             "updated_date": null
         }

@@ -49,6 +49,7 @@ class FeatureFlag(TypedDict):
 class Project(TypedDict):
     _id: NotRequired[ObjectId]
     name: str
+    private_key: str
     context_fields: list[ContextField]
     feature_flags: list[FeatureFlag]
     created_date: datetime

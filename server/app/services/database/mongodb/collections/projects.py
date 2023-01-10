@@ -38,10 +38,12 @@ def is_project_name_taken(
 
 
 def create_project(
-    name: str
+    name: str,
+    private_key: str
 ) -> ObjectId:
     result = MongoDBService.projects().insert_one(document=types.Project(
         name=name,
+        private_key=private_key,
         context_fields=[],
         feature_flags=[],
         updated_date=datetime.utcnow(),

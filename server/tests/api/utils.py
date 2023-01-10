@@ -1,4 +1,5 @@
 import contextlib
+import secrets
 from bson import ObjectId
 from typing import Generator
 
@@ -11,7 +12,10 @@ def new_project(
 ) -> Generator[ObjectId, None, None]:
     project_id = None
     try:
-        project_id = collections.projects.create_project(name=name)
+        project_id = collections.projects.create_project(
+            name=name,
+            private_key=secrets.token_hex()
+        )
         yield project_id
     finally:
         if project_id:
