@@ -1,5 +1,6 @@
 from typing import Any
 from bson import ObjectId
+from varname import nameof
 
 from app.services.database.mongodb import types, collections
 from app.api.routes.feature_flags import schemas
@@ -10,6 +11,12 @@ def process(
     project_id: str,
     request: schemas.CreateOrUpdateFeatureFlag
 ) -> Any:
+    if collections.projects.is_feature_flag_name_taken(
+        project_id=ObjectId(project_id),
+        name=request.name
+    ):
+        raise exceptions.NameTakenException(field=nameof(request.name))
+
     feature_flag_id, project_found = collections.projects.create_feature_flag(
         project_id=ObjectId(project_id),
         name=request.name,

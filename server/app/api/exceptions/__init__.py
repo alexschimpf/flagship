@@ -44,6 +44,11 @@ class AggregateException(BadRequestException):
         self.exceptions = exceptions
 
 
+class NameTakenException(BadRequestFieldException):
+    CODE: str = 'NAME_TAKEN'
+    DEFAULT_MESSAGE: str = 'Sorry, that name is already taken'
+
+
 def add_missing_punctuation(message: str) -> str:
     if message and message[-1] not in ('.', '?', '!'):
         message += '.'

@@ -3,3 +3,4 @@ pymongo==4.3.3
 tenacity==8.1.0
 ujson==5.6.0
 uvicorn==0.20.0
+varname==0.10.0

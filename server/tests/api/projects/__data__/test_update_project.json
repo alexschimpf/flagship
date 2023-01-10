@@ -26,5 +26,20 @@
                 "message": "Resource not found."
             }]
         }
+    },
+    "test_update_project__400_name_taken": {
+        "url": "/projects/{project_id}",
+        "method": "PUT",
+        "status": 400,
+        "request": {
+            "name": "Waste Management, Inc."
+        },
+        "response": {
+            "errors": [{
+                "code": "NAME_TAKEN",
+                "field": "name",
+                "message": "Sorry, that name is already taken."
+            }]
+        }
     }
 }

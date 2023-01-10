@@ -2,14 +2,17 @@ from typing import Any
 from datetime import datetime
 from pydantic import BaseModel, Field
 
-from app.api.utils import PydanticObjectId
+from app.api.utils import PydanticObjectId, get_enum_desc
 from app.services.database.mongodb import types
 
 
 class FeatureFlagCondition(BaseModel):
     context_key: str
-    operator: types.Operator
+    operator: types.Operator = Field(description=get_enum_desc(types.Operator))
     value: Any
+
+    class Config:
+        anystr_strip_whitespace = True
 
 
 class FeatureFlag(BaseModel):
@@ -27,7 +30,10 @@ class FeatureFlags(BaseModel):
 
 
 class CreateOrUpdateFeatureFlag(BaseModel):
-    name: str
-    description: str
+    name: str = Field(min_length=1)
+    description: str = Field(default='')
     enabled: bool
     conditions: list[list[FeatureFlagCondition]]
+
+    class Config:
+        anystr_strip_whitespace = True

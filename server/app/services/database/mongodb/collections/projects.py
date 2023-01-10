@@ -23,6 +23,20 @@ def get_project(
     )
 
 
+def is_project_name_taken(
+    name: str,
+    exclude_project_id: ObjectId | None = None
+) -> bool:
+    project = MongoDBService.projects().find_one(
+        filter={'name': name},
+        projection=['name']
+    )
+    return bool(
+        project and
+        (not exclude_project_id or project['_id'] != exclude_project_id)
+    )
+
+
 def create_project(
     name: str
 ) -> ObjectId:
@@ -92,6 +106,29 @@ def get_context_field(
         return None
 
     return project['context_fields'][0]
+
+
+def is_context_field_name_taken(
+    project_id: ObjectId,
+    name: str,
+    exclude_context_field_id: ObjectId | None = None
+) -> bool:
+    project = MongoDBService.projects().find_one(
+        filter={
+            '_id': project_id,
+        },
+        projection={
+            'context_fields': {
+                '$elemMatch': {
+                    'name': name
+                }
+            }
+        }
+    )
+    return bool(
+        project and project.get('context_fields') and
+        (not exclude_context_field_id or project['context_fields'][0]['_id'] != exclude_context_field_id)
+    )
 
 
 def create_context_field(
@@ -195,6 +232,29 @@ def get_feature_flag(
         return None
 
     return project['feature_flags'][0]
+
+
+def is_feature_flag_name_taken(
+    project_id: ObjectId,
+    name: str,
+    exclude_feature_flag_id: ObjectId | None = None
+) -> bool:
+    project = MongoDBService.projects().find_one(
+        filter={
+            '_id': project_id,
+        },
+        projection={
+            'feature_flags': {
+                '$elemMatch': {
+                    'name': name
+                }
+            }
+        }
+    )
+    return bool(
+        project and project.get('feature_flags') and
+        (not exclude_feature_flag_id or project['feature_flags'][0]['_id'] != exclude_feature_flag_id)
+    )
 
 
 def create_feature_flag(

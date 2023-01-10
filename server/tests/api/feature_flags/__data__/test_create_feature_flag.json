@@ -26,5 +26,27 @@
             "created_date": null,
             "updated_date": null
         }
+    },
+    "test_create_feature_flag__400_name_taken": {
+        "url": "/feature-flags?project_id={project_id}",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "tony",
+            "description": "ooooooo!",
+            "enabled": true,
+            "conditions": [[{
+                "context_key": "tony",
+                "operator": 12,
+                "value": "soprano"
+            }]]
+        },
+        "response": {
+            "errors": [{
+                "code": "NAME_TAKEN",
+                "field": "name",
+                "message": "Sorry, that name is already taken."
+            }]
+        }
     }
 }

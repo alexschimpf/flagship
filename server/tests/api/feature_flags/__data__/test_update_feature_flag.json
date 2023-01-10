@@ -47,5 +47,27 @@
                 "message": "Resource not found."
             }]
         }
+    },
+    "test_update_feature_flag__400_name_taken": {
+        "url": "/feature-flags/{feature_flag_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 400,
+        "request": {
+            "name": "tony",
+            "description": "ooooooo!",
+            "enabled": true,
+            "conditions": [[{
+                "context_key": "tony",
+                "operator": 12,
+                "value": "soprano"
+            }]]
+        },
+        "response": {
+            "errors": [{
+                "code": "NAME_TAKEN",
+                "field": "name",
+                "message": "Sorry, that name is already taken."
+            }]
+        }
     }
 }

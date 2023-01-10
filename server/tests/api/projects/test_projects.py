@@ -71,6 +71,14 @@ class TestProjects(TestCase):
             if project_id:
                 collections.projects.delete_project(project_id=ObjectId(project_id))
 
+    def test_create_project__400_name_taken(self) -> None:
+        with utils.new_project(name='Waste Management, Inc.'):
+            result = self.runner.run(
+                path_to_test_cases='test_create_project.json',
+                test_name='test_create_project__400_name_taken'
+            )
+            self.verify_test_result(result=result)
+
     def test_update_project__200(self) -> None:
         with utils.new_project(name='Gabagool Industries') as project_id:
             result = self.runner.run(
@@ -88,6 +96,18 @@ class TestProjects(TestCase):
             url_params={'project_id': str(ObjectId())}
         )
         self.verify_test_result(result=result)
+
+    def test_update_project__400_name_taken(self) -> None:
+        with (
+            utils.new_project(name='Waste Management, Inc.'),
+            utils.new_project(name='Something else') as project_id
+        ):
+            result = self.runner.run(
+                path_to_test_cases='test_update_project.json',
+                test_name='test_update_project__400_name_taken',
+                url_params={'project_id': project_id}
+            )
+            self.verify_test_result(result=result)
 
     def test_delete_project__200(self) -> None:
         with utils.new_project(name='Waste Management, Inc.') as project_id:

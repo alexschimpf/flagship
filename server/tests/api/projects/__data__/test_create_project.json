@@ -12,5 +12,20 @@
             "created_date": null,
             "updated_date": null
         }
+    },
+    "test_create_project__400_name_taken": {
+        "url": "/projects",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "Waste Management, Inc."
+        },
+        "response": {
+            "errors": [{
+                "code": "NAME_TAKEN",
+                "field": "name",
+                "message": "Sorry, that name is already taken."
+            }]
+        }
     }
 }

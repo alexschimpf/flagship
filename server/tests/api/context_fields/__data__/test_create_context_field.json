@@ -18,5 +18,23 @@
             "created_date": null,
             "updated_date": null
         }
+    },
+    "test_create_context_field__400_name_taken": {
+        "url": "/context-fields?project_id={project_id}",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "tony",
+            "key": "soprano",
+            "value_type": "string",
+            "description": "ooooooo!"
+        },
+        "response": {
+            "errors": [{
+                "code": "NAME_TAKEN",
+                "field": "name",
+                "message": "Sorry, that name is already taken."
+            }]
+        }
     }
 }

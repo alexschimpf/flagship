@@ -1,5 +1,6 @@
 from typing import Any
 from bson import ObjectId
+from varname import nameof
 
 from app.services.database.mongodb import collections
 from app.api.routes.context_fields import schemas
@@ -10,6 +11,12 @@ def process(
     project_id: str,
     request: schemas.CreateContextField
 ) -> Any:
+    if collections.projects.is_context_field_name_taken(
+        project_id=ObjectId(project_id),
+        name=request.name
+    ):
+        raise exceptions.NameTakenException(field=nameof(request.name))
+
     context_field_id, project_found = collections.projects.create_context_field(
         project_id=ObjectId(project_id),
         name=request.name,
