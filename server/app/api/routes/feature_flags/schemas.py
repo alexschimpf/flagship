@@ -30,10 +30,10 @@ class FeatureFlags(BaseModel):
 
 
 class CreateOrUpdateFeatureFlag(BaseModel):
-    name: str = Field(min_length=1)
-    description: str = Field(default='')
+    name: str = Field(min_length=1, max_length=128)
+    description: str = Field(default='', max_length=256)
     enabled: bool
-    conditions: list[list[FeatureFlagCondition]]
+    conditions: list[list[FeatureFlagCondition]] = Field(default=[])
 
     class Config:
         anystr_strip_whitespace = True

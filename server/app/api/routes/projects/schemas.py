@@ -16,7 +16,7 @@ class Projects(BaseModel):
 
 
 class CreateOrUpdateProject(BaseModel):
-    name: str = Field(min_length=1)
+    name: str = Field(min_length=1, max_length=128)
 
     class Config:
         anystr_strip_whitespace = True

@@ -55,3 +55,7 @@ run-server-unit-tests:
 # run server api tests
 run-server-api-tests:
 	./server/tests/api/runtests.sh
+
+# get number of lines of python code
+loc:
+	git ls-files | grep '\.py' | xargs wc -l

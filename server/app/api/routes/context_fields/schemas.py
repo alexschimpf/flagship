@@ -19,8 +19,8 @@ class ContextFields(BaseModel):
 
 
 class CreateContextField(BaseModel):
-    name: str = Field(min_length=1)
-    key: str = Field(min_length=1)
+    name: str = Field(min_length=1, max_length=128)
+    key: str = Field(min_length=1, max_length=32)
     value_type: str  # TODO: Need enum for this
     description: str = Field(default='')
 
@@ -29,8 +29,8 @@ class CreateContextField(BaseModel):
 
 
 class UpdateContextField(BaseModel):
-    name: str = Field(min_length=1)
-    description: str = Field(default='')
+    name: str = Field(min_length=1, max_length=128)
+    description: str = Field(default='', max_length=256)
 
     class Config:
         anystr_strip_whitespace = True
