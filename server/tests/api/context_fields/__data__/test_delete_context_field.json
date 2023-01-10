@@ -6,5 +6,16 @@
         "response": {
             "success": true
         }
+    },
+    "test_delete_context_field__404": {
+        "url": "/context-fields/{context_field_id}?project_id={project_id}",
+        "method": "DELETE",
+        "status": 404,
+        "response": {
+            "errors": [{
+                "code": "NOT_FOUND",
+                "message": "Resource not found."
+            }]
+        }
     }
 }

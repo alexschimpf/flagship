@@ -11,14 +11,18 @@ def process(
     context_field_id: str,
     request: schemas.UpdateContextField
 ) -> Any:
-    matched = collections.projects.update_context_field(
+    if not collections.projects.get_context_field(
+        project_id=ObjectId(project_id),
+        context_field_id=ObjectId(context_field_id)
+    ):
+        raise exceptions.NotFoundException
+
+    collections.projects.update_context_field(
         project_id=ObjectId(project_id),
         context_field_id=ObjectId(context_field_id),
         name=request.name,
         description=request.description
     )
-    if not matched:
-        raise exceptions.NotFoundException
 
     return collections.projects.get_context_field(
         project_id=ObjectId(project_id), context_field_id=ObjectId(context_field_id)

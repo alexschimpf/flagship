@@ -35,6 +35,15 @@ class TestProjects(TestCase):
             self.ignore_expected_response_fields(result=result, fields=self.DEFAULT_IGNORE_FIELDS)
             self.verify_test_result(result=result)
 
+    def test_get_project__404(self) -> None:
+        result = self.runner.run(
+            path_to_test_cases='test_get_project.json',
+            test_name='test_get_project__404',
+            url_params={'project_id': str(ObjectId())}
+        )
+        self.ignore_expected_response_fields(result=result, fields=self.DEFAULT_IGNORE_FIELDS)
+        self.verify_test_result(result=result)
+
     def test_get_projects__200(self) -> None:
         with utils.new_project(name='Waste Management, Inc.') as project_id:
             result = self.runner.run(
@@ -72,6 +81,14 @@ class TestProjects(TestCase):
             self.ignore_expected_response_fields(result=result, fields=self.DEFAULT_IGNORE_FIELDS)
             self.verify_test_result(result=result)
 
+    def test_update_project__404(self) -> None:
+        result = self.runner.run(
+            path_to_test_cases='test_update_project.json',
+            test_name='test_update_project__404',
+            url_params={'project_id': str(ObjectId())}
+        )
+        self.verify_test_result(result=result)
+
     def test_delete_project__200(self) -> None:
         with utils.new_project(name='Waste Management, Inc.') as project_id:
             result = self.runner.run(
@@ -80,3 +97,11 @@ class TestProjects(TestCase):
                 url_params={'project_id': str(project_id)}
             )
             self.verify_test_result(result=result)
+
+    def test_delete_project__404(self) -> None:
+        result = self.runner.run(
+            path_to_test_cases='test_delete_project.json',
+            test_name='test_delete_project__404',
+            url_params={'project_id': str(ObjectId())}
+        )
+        self.verify_test_result(result=result)

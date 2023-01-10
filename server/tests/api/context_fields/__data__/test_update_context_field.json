@@ -16,5 +16,20 @@
             "created_date": null,
             "updated_date": null
         }
+    },
+    "test_update_context_field__404": {
+        "url": "/context-fields/{context_field_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 404,
+        "request": {
+            "name": "tony",
+            "description": "ooooooo!"
+        },
+        "response": {
+            "errors": [{
+                "code": "NOT_FOUND",
+                "message": "Resource not found."
+            }]
+        }
     }
 }

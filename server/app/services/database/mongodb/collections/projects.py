@@ -88,7 +88,7 @@ def get_context_field(
             }
         }
     )
-    if not project or not project['context_fields']:
+    if not project or not project.get('context_fields'):
         return None
 
     return project['context_fields'][0]
@@ -191,7 +191,7 @@ def get_feature_flag(
             }
         }
     )
-    if not project or not project['feature_flags']:
+    if not project or not project.get('feature_flags'):
         return None
 
     return project['feature_flags'][0]

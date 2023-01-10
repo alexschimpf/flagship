@@ -9,5 +9,16 @@
             "created_date": null,
             "updated_date": null
         }
+    },
+    "test_get_project__404": {
+        "url": "/projects/{project_id}",
+        "method": "GET",
+        "status": 404,
+        "response": {
+            "errors": [{
+                "code": "NOT_FOUND",
+                "message": "Resource not found."
+            }]
+        }
     }
 }

@@ -16,5 +16,16 @@
             "created_date": null,
             "updated_date": null
         }
+    },
+    "test_get_feature_flag__404": {
+        "url": "/feature-flags/{feature_flag_id}?project_id={project_id}",
+        "method": "GET",
+        "status": 404,
+        "response": {
+            "errors": [{
+                "code": "NOT_FOUND",
+                "message": "Resource not found."
+            }]
+        }
     }
 }

@@ -11,7 +11,13 @@ def process(
     feature_flag_id: str,
     request: schemas.CreateOrUpdateFeatureFlag
 ) -> Any:
-    matched = collections.projects.update_feature_flag(
+    if not collections.projects.get_feature_flag(
+        project_id=ObjectId(project_id),
+        feature_flag_id=ObjectId(feature_flag_id)
+    ):
+        raise exceptions.NotFoundException
+
+    collections.projects.update_feature_flag(
         project_id=ObjectId(project_id),
         feature_flag_id=ObjectId(feature_flag_id),
         name=request.name,
@@ -28,8 +34,6 @@ def process(
             ] for group in request.conditions
         ]
     )
-    if not matched:
-        raise exceptions.NotFoundException
 
     return collections.projects.get_feature_flag(
         project_id=ObjectId(project_id), feature_flag_id=ObjectId(feature_flag_id)

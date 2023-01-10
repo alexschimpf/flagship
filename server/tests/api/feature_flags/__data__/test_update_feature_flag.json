@@ -26,5 +26,26 @@
             "created_date": null,
             "updated_date": null
         }
+    },
+    "test_update_feature_flag__404": {
+        "url": "/feature-flags/{feature_flag_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 404,
+        "request": {
+            "name": "tony",
+            "description": "ooooooo!",
+            "enabled": true,
+            "conditions": [[{
+                "context_key": "tony",
+                "operator": 12,
+                "value": "soprano"
+            }]]
+        },
+        "response": {
+            "errors": [{
+                "code": "NOT_FOUND",
+                "message": "Resource not found."
+            }]
+        }
     }
 }

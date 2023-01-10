@@ -1,4 +1,5 @@
 import os
+from bson import ObjectId
 from rest_api_tester.runner import TestCaseRunner
 
 from app.main import app
@@ -48,6 +49,20 @@ class TestFeatureFlags(TestCase):
                 }
             )
             self.ignore_expected_response_fields(result=result, fields=self.DEFAULT_IGNORE_FIELDS)
+            self.verify_test_result(result=result)
+
+    def test_get_feature_flag__404(self) -> None:
+        with (
+            utils.new_project(name='Waste Management, Inc.') as project_id
+        ):
+            result = self.runner.run(
+                path_to_test_cases='test_get_feature_flag.json',
+                test_name='test_get_feature_flag__404',
+                url_params={
+                    'project_id': str(project_id),
+                    'feature_flag_id': str(ObjectId())
+                }
+            )
             self.verify_test_result(result=result)
 
     def test_get_feature_flags__200(self) -> None:
@@ -115,6 +130,20 @@ class TestFeatureFlags(TestCase):
             self.ignore_expected_response_fields(result=result, fields=self.DEFAULT_IGNORE_FIELDS)
             self.verify_test_result(result=result)
 
+    def test_update_feature_flag__404(self) -> None:
+        with (
+            utils.new_project(name='Waste Management, Inc.') as project_id
+        ):
+            result = self.runner.run(
+                path_to_test_cases='test_update_feature_flag.json',
+                test_name='test_update_feature_flag__404',
+                url_params={
+                    'project_id': str(project_id),
+                    'feature_flag_id': str(ObjectId())
+                }
+            )
+            self.verify_test_result(result=result)
+
     def test_delete_feature_flag__200(self) -> None:
         with (
             utils.new_project(name='Waste Management, Inc.') as project_id,
@@ -132,6 +161,20 @@ class TestFeatureFlags(TestCase):
                 url_params={
                     'project_id': str(project_id),
                     'feature_flag_id': str(feature_flag_id)
+                }
+            )
+            self.verify_test_result(result=result)
+
+    def test_delete_feature_flag__404(self) -> None:
+        with (
+            utils.new_project(name='Waste Management, Inc.') as project_id
+        ):
+            result = self.runner.run(
+                path_to_test_cases='test_delete_feature_flag.json',
+                test_name='test_delete_feature_flag__404',
+                url_params={
+                    'project_id': str(project_id),
+                    'feature_flag_id': str(ObjectId())
                 }
             )
             self.verify_test_result(result=result)
