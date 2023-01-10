@@ -13,4 +13,4 @@ def process(
     if feature_flags is None:
         raise exceptions.NotFoundException
 
-    return schemas.FeatureFlags(feature_flags=feature_flags)
+    return schemas.FeatureFlags(items=feature_flags)

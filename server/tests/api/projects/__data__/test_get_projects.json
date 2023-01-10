@@ -1,0 +1,17 @@
+{
+    "test_get_projects__200": {
+        "url": "/projects",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "items": [
+                {
+                    "_id": "%%id%%",
+                    "name": "Waste Management, Inc.",
+                    "created_date": "%%created_date%%",
+                    "updated_date": "%%updated_date%%"
+                }
+            ]
+        }
+    }
+}

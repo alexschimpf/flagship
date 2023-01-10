@@ -1,0 +1,20 @@
+{
+    "test_get_feature_flag__200": {
+        "url": "/feature-flags/{feature_flag_id}?project_id={project_id}",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "_id": null,
+            "name": "tony",
+            "description": "ooooooo!",
+            "enabled": true,
+            "conditions": [[{
+                "context_key": "tony",
+                "operator": 12,
+                "value": "soprano"
+            }]],
+            "created_date": null,
+            "updated_date": null
+        }
+    }
+}

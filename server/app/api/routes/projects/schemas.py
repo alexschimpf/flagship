@@ -12,7 +12,7 @@ class Project(BaseModel):
 
 
 class Projects(BaseModel):
-    projects: list[Project]
+    items: list[Project]
 
 
 class CreateOrUpdateProject(BaseModel):

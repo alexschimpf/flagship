@@ -1,0 +1,10 @@
+{
+    "test_delete_feature_flag__200": {
+        "url": "/feature-flags/{feature_flag_id}?project_id={project_id}",
+        "method": "DELETE",
+        "status": 200,
+        "response": {
+            "success": true
+        }
+    }
+}

@@ -23,7 +23,7 @@ class FeatureFlag(BaseModel):
 
 
 class FeatureFlags(BaseModel):
-    feature_flags: list[FeatureFlag]
+    items: list[FeatureFlag]
 
 
 class CreateOrUpdateFeatureFlag(BaseModel):

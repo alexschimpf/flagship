@@ -1,0 +1,16 @@
+{
+    "test_create_project__200": {
+        "url": "/projects",
+        "method": "POST",
+        "status": 200,
+        "request": {
+            "name": "Waste Management, Inc."
+        },
+        "response": {
+            "_id": null,
+            "name": "Waste Management, Inc.",
+            "created_date": null,
+            "updated_date": null
+        }
+    }
+}

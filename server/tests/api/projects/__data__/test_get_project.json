@@ -1,0 +1,13 @@
+{
+    "test_get_project__200": {
+        "url": "/projects/{project_id}",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "_id": null,
+            "name": "Waste Management, Inc.",
+            "created_date": null,
+            "updated_date": null
+        }
+    }
+}

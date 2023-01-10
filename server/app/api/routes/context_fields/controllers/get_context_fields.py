@@ -13,4 +13,4 @@ def process(
     if context_fields is None:
         raise exceptions.NotFoundException
 
-    return schemas.ContextFields(context_fields=context_fields)
+    return schemas.ContextFields(items=context_fields)

@@ -50,8 +50,8 @@ install-server-reqs:
 
 # run server unit tests
 run-server-unit-tests:
-	STAGE=local PYTHONPATH=./server python -m pytest -v server/tests/unit
+	PYTHONPATH=./server python -m pytest -v server/tests/unit
 
 # run server api tests
 run-server-api-tests:
-	STAGE=local ./server/tests/api/runtests.sh
+	./server/tests/api/runtests.sh

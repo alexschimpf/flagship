@@ -1,0 +1,24 @@
+{
+    "test_get_feature_flags__200": {
+        "url": "/feature-flags?project_id={project_id}",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "items": [
+                {
+                    "_id": "%%id%%",
+                    "name": "tony",
+                    "description": "ooooooo!",
+                    "enabled": true,
+                    "conditions": [[{
+                        "context_key": "tony",
+                        "operator": 12,
+                        "value": "soprano"
+                    }]],
+                    "created_date": "%%created_date%%",
+                    "updated_date": "%%updated_date%%"
+                }
+            ]
+        }
+    }
+}

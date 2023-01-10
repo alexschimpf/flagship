@@ -1,0 +1,20 @@
+{
+    "test_update_context_field__200": {
+        "url": "/context-fields/{context_field_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 200,
+        "request": {
+            "name": "tony",
+            "description": "ooooooo!"
+        },
+        "response": {
+            "_id": null,
+            "name": "tony",
+            "key": "soprano?",
+            "value_type": "string?",
+            "description": "ooooooo!",
+            "created_date": null,
+            "updated_date": null
+        }
+    }
+}

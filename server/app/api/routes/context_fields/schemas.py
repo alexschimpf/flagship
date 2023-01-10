@@ -15,7 +15,7 @@ class ContextField(BaseModel):
 
 
 class ContextFields(BaseModel):
-    context_fields: list[ContextField]
+    items: list[ContextField]
 
 
 class CreateContextField(BaseModel):

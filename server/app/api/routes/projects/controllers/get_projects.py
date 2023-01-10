@@ -7,5 +7,5 @@ from app.api.routes.projects import schemas
 def process() -> Any:
     projects = collections.projects.get_projects()
     return schemas.Projects(
-        projects=projects
+        items=projects
     )

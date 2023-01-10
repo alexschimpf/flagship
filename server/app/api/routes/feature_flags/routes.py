@@ -51,5 +51,5 @@ def delete_feature_flag(
     project_id: str,
     feature_flag_id: str
 ) -> Any:
-    controllers.delete_feature_flag.process(
+    return controllers.delete_feature_flag.process(
         project_id=project_id, feature_flag_id=feature_flag_id)

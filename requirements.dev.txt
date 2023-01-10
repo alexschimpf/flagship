@@ -6,8 +6,10 @@ flake8-print>=5.0.0
 flake8-length>=0.3.1
 flake8-quotes>=3.3.1
 flake8-use-fstring>=1.4
+httpx>=0.23.3
 ipython>=8.8.0
 mypy>=0.991
 pre-commit>=2.20.0
 pytest>=7.2.0
+rest-api-tester==0.1.1
 types-ujson==5.5.0

@@ -1,0 +1,20 @@
+{
+    "test_get_context_fields__200": {
+        "url": "/context-fields?project_id={project_id}",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "items": [
+                {
+                    "_id": "%%id%%",
+                    "name": "tony",
+                    "key": "soprano",
+                    "value_type": "string",
+                    "description": "ooooooo!",
+                    "created_date": "%%created_date%%",
+                    "updated_date": "%%updated_date%%"
+                }
+            ]
+        }
+    }
+}

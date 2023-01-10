@@ -1,0 +1,10 @@
+{
+    "test_delete_context_field__200": {
+        "url": "/context-fields/{context_field_id}?project_id={project_id}",
+        "method": "DELETE",
+        "status": 200,
+        "response": {
+            "success": true
+        }
+    }
+}
