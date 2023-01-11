@@ -14,7 +14,6 @@ def process(
         raise exceptions.NameTakenException(field=nameof(request.name))
 
     private_key, encrypted_private_key = common.generate_private_key()
-
     project_id = collections.projects.create_project(
         name=request.name,
         private_key=encrypted_private_key

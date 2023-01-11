@@ -11,11 +11,11 @@ def process(
     project_id: str,
     request: schemas.CreateOrUpdateFeatureFlag
 ) -> Any:
-    if collections.projects.is_feature_flag_name_taken(
-        project_id=ObjectId(project_id),
-        name=request.name
-    ):
-        raise exceptions.NameTakenException(field=nameof(request.name))
+    errors: list[exceptions.AppException] = []
+    _validate_name(project_id=project_id, request=request, errors=errors)
+
+    if errors:
+        raise exceptions.AggregateException(exceptions=errors)
 
     feature_flag_id, project_found = collections.projects.create_feature_flag(
         project_id=ObjectId(project_id),
@@ -39,3 +39,15 @@ def process(
     return collections.projects.get_feature_flag(
         project_id=ObjectId(project_id), feature_flag_id=feature_flag_id
     )
+
+
+def _validate_name(
+    project_id: str,
+    request: schemas.CreateOrUpdateFeatureFlag,
+    errors: list[exceptions.AppException]
+) -> None:
+    if collections.projects.is_feature_flag_name_taken(
+        project_id=ObjectId(project_id),
+        name=request.name
+    ):
+        errors.append(exceptions.NameTakenException(field=nameof(request.name)))
