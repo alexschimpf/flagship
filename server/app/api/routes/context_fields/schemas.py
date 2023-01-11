@@ -11,6 +11,7 @@ class ContextField(BaseModel):
     key: str
     value_type: ContextValueType
     description: str
+    enum_def: str | None = Field(default=None)
     created_date: datetime
     updated_date: datetime
 
@@ -24,6 +25,7 @@ class CreateContextField(BaseModel):
     key: str = Field(min_length=1, max_length=32)
     value_type: ContextValueType = Field(description=get_enum_desc(ContextValueType))
     description: str = Field(default='')
+    enum_def: str | None = Field(default=None)
 
     class Config:
         anystr_strip_whitespace = True
@@ -32,6 +34,7 @@ class CreateContextField(BaseModel):
 class UpdateContextField(BaseModel):
     name: str = Field(min_length=1, max_length=128)
     description: str = Field(default='', max_length=256)
+    enum_def: str | None = Field(default=None)
 
     class Config:
         anystr_strip_whitespace = True

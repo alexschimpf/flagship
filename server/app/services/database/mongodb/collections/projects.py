@@ -168,6 +168,7 @@ def create_context_field(
     key: str,
     value_type: types.ContextValueType,
     description: str,
+    enum_def: str | None = None
 ) -> tuple[ObjectId, bool]:
     context_field = types.ContextField(
         _id=ObjectId(),
@@ -175,6 +176,7 @@ def create_context_field(
         key=key,
         value_type=value_type,
         description=description,
+        enum_def=enum_def,
         created_date=datetime.utcnow(),
         updated_date=datetime.utcnow()
     )
@@ -193,7 +195,8 @@ def update_context_field(
     project_id: ObjectId,
     context_field_id: ObjectId,
     name: str,
-    description: str
+    description: str,
+    enum_def: str | None = None
 ) -> bool:
     result = MongoDBService.projects().update_one(
         filter={'_id': project_id},
@@ -201,6 +204,7 @@ def update_context_field(
             '$set': {
                 'context_fields.$[el].name': name,
                 'context_fields.$[el].description': description,
+                'context_fields.$[el].enum_def': enum_def,
                 'context_fields.$[el].updated_date': datetime.utcnow()
             }
         },

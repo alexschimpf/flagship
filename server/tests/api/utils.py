@@ -28,7 +28,8 @@ def new_context_field(
     name: str,
     key: str,
     value_type: types.ContextValueType,
-    description: str
+    description: str,
+    enum_def: str | None = None
 ) -> Generator[ObjectId, None, None]:
     context_field_id = None
     try:
@@ -37,7 +38,8 @@ def new_context_field(
             name=name,
             key=key,
             value_type=value_type,
-            description=description
+            description=description,
+            enum_def=enum_def
         )
         yield context_field_id
     finally:

@@ -5,14 +5,16 @@
         "status": 200,
         "request": {
             "name": "tony",
-            "description": "ooooooo!"
+            "description": "ooooooo!",
+            "enum_def": "{\"a\":1,\"b\":1.2,\"c\":\"blah\"}"
         },
         "response": {
             "_id": null,
             "name": "tony",
             "key": "soprano?",
-            "value_type": 1,
+            "value_type": 5,
             "description": "ooooooo!",
+            "enum_def": "{\"a\":1,\"b\":1.2,\"c\":\"blah\"}",
             "created_date": null,
             "updated_date": null
         }
@@ -46,6 +48,44 @@
                 "field": "name",
                 "message": "Sorry, that name is already taken."
             }]
+        }
+    },
+    "test_update_context_field__400_missing_enum_def": {
+        "url": "/context-fields/{context_field_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 400,
+        "request": {
+            "name": "tony",
+            "description": "ooooooo!",
+            "enum_def": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "ENUM_CONTEXT_FIELD_TYPE_WITHOUT_ENUM_DEF_EXCEPTION",
+                    "field": "enum_def",
+                    "message": "Context fields with \"enum\" or \"enum list\" types require an enum definition."
+                }
+            ]
+        }
+    },
+    "test_update_context_field__400_invalid_enum_def": {
+        "url": "/context-fields/{context_field_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 400,
+        "request": {
+            "name": "tony",
+            "description": "ooooooo!",
+            "enum_def": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "INVALID_ENUM_DEF_EXCEPTION",
+                    "field": "enum_def",
+                    "message": "Invalid enum definition."
+                }
+            ]
         }
     }
 }

@@ -15,6 +15,29 @@
             "key": "soprano",
             "value_type": 1,
             "description": "ooooooo!",
+            "enum_def": null,
+            "created_date": null,
+            "updated_date": null
+        }
+    },
+    "test_create_context_field__200_enum_type": {
+        "url": "/context-fields?project_id={project_id}",
+        "method": "POST",
+        "status": 200,
+        "request": {
+            "name": "tony",
+            "key": "soprano",
+            "value_type": 5,
+            "description": "ooooooo!",
+            "enum_def": "{\"a\": 1, \"b\": 1.2, \"c\": \"blah\"}"
+        },
+        "response": {
+            "_id": null,
+            "name": "tony",
+            "key": "soprano",
+            "value_type": 5,
+            "description": "ooooooo!",
+            "enum_def": "{\"a\":1,\"b\":1.2,\"c\":\"blah\"}",
             "created_date": null,
             "updated_date": null
         }
@@ -40,6 +63,48 @@
                     "code": "CONTEXT_FIELD_KEY_TAKEN",
                     "field": "key",
                     "message": "Sorry, that context field key is already being used in this project."
+                }
+            ]
+        }
+    },
+    "test_create_context_field__400_missing_enum_def": {
+        "url": "/context-fields?project_id={project_id}",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "tony",
+            "key": "soprano",
+            "value_type": 5,
+            "description": "ooooooo!",
+            "enum_def": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "ENUM_CONTEXT_FIELD_TYPE_WITHOUT_ENUM_DEF_EXCEPTION",
+                    "field": "enum_def",
+                    "message": "Context fields with \"enum\" or \"enum list\" types require an enum definition."
+                }
+            ]
+        }
+    },
+    "test_create_context_field__400_invalid_enum_def": {
+        "url": "/context-fields?project_id={project_id}",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "tony",
+            "key": "soprano",
+            "value_type": 5,
+            "description": "ooooooo!",
+            "enum_def": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "INVALID_ENUM_DEF_EXCEPTION",
+                    "field": "enum_def",
+                    "message": "Invalid enum definition."
                 }
             ]
         }

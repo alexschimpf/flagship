@@ -1,6 +1,9 @@
 import os
+import ujson
+from typing import Any, Callable, cast
 from bson import ObjectId
 from rest_api_tester.runner import TestCaseRunner
+from rest_api_tester.test import TestData
 
 from app.main import app
 from app.services.database.mongodb import types
@@ -30,8 +33,9 @@ class TestUpdateContextField(TestCase):
                 project_id=project_id,
                 name='tony?',
                 key='soprano?',
-                value_type=types.ContextValueType.STRING,
-                description='ooooooo!?'
+                value_type=types.ContextValueType.ENUM,
+                description='ooooooo!?',
+                enum_def=ujson.dumps({'a': 1})
             ) as context_field_id
         ):
             result = self.runner.run(
@@ -58,7 +62,7 @@ class TestUpdateContextField(TestCase):
             utils.new_context_field(
                 project_id=project_id,
                 name='tony!',
-                key='soprano',
+                key='soprano!',
                 value_type=types.ContextValueType.STRING,
                 description='ooooooo!'
             ) as context_field_id,
@@ -86,3 +90,66 @@ class TestUpdateContextField(TestCase):
                 }
             )
             self.verify_test_result(result=result)
+
+    def test_update_context_field__400_missing_enum_def(self) -> None:
+        with (
+            utils.new_project(name='Waste Management, Inc.') as project_id,
+            utils.new_context_field(
+                project_id=project_id,
+                name='tony?',
+                key='soprano?',
+                value_type=types.ContextValueType.ENUM_LIST,
+                description='ooooooo!?',
+                enum_def=ujson.dumps({'a': 1})
+            ) as context_field_id
+        ):
+            result = self.runner.run(
+                path_to_test_cases='test_update_context_field.json',
+                test_name='test_update_context_field__400_missing_enum_def',
+                url_params={
+                    'project_id': str(project_id),
+                    'context_field_id': str(context_field_id)
+                }
+            )
+            self.verify_test_result(result=result)
+
+    def test_update_context_field__400_invalid_enum_def(self) -> None:
+        def modifier(enum_def: dict[Any, Any]) -> Callable[[TestData], TestData]:
+            def modifier_(test_data: TestData) -> TestData:
+                request_data = ujson.loads(cast(str, test_data.request_data))
+                request_data['enum_def'] = ujson.dumps(enum_def)
+                test_data.request_data = ujson.dumps(request_data)
+                return test_data
+
+            return modifier_
+
+        invalid_enum_defs: list[dict[Any, Any]] = [
+            {'': 1},
+            {' ': 1},
+            {'a': ' '},
+            {'a': [1]},
+            {'a': {'b': 1}}
+        ]
+        with (
+            utils.new_project(name='Waste Management, Inc.') as project_id,
+            utils.new_context_field(
+                project_id=project_id,
+                name='tony?',
+                key='soprano?',
+                value_type=types.ContextValueType.ENUM_LIST,
+                description='ooooooo!?',
+                enum_def=ujson.dumps({'a': 1})
+            ) as context_field_id
+        ):
+            for invalid_enum_def in invalid_enum_defs:
+                with self.subTest():
+                    result = self.runner.run(
+                        path_to_test_cases='test_update_context_field.json',
+                        test_name='test_update_context_field__400_invalid_enum_def',
+                        url_params={
+                            'project_id': project_id,
+                            'context_field_id': str(context_field_id)
+                        },
+                        test_data_modifier=modifier(invalid_enum_def)
+                    )
+                    self.verify_test_result(result=result)

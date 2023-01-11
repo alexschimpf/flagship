@@ -11,6 +11,7 @@
                     "key": "soprano",
                     "value_type": 1,
                     "description": "ooooooo!",
+                    "enum_def": null,
                     "created_date": "%%created_date%%",
                     "updated_date": "%%updated_date%%"
                 }

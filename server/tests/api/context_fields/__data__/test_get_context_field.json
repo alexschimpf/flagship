@@ -9,6 +9,7 @@
             "key": "soprano",
             "value_type": 1,
             "description": "ooooooo!",
+            "enum_def": null,
             "created_date": null,
             "updated_date": null
         }

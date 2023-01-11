@@ -54,6 +54,16 @@ class ContextFieldKeyTakenException(BadRequestFieldException):
     DEFAULT_MESSAGE: str = 'Sorry, that context field key is already being used in this project'
 
 
+class InvalidEnumDefException(BadRequestFieldException):
+    CODE: str = 'INVALID_ENUM_DEF_EXCEPTION'
+    DEFAULT_MESSAGE: str = 'Invalid enum definition'
+
+
+class EnumContextFieldTypeWithoutEnumDefException(BadRequestFieldException):
+    CODE: str = 'ENUM_CONTEXT_FIELD_TYPE_WITHOUT_ENUM_DEF_EXCEPTION'
+    DEFAULT_MESSAGE: str = 'Context fields with "enum" or "enum list" types require an enum definition'
+
+
 def add_missing_punctuation(message: str) -> str:
     if message and message[-1] not in ('.', '?', '!'):
         message += '.'

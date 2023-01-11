@@ -38,6 +38,7 @@ class ContextField(TypedDict):
     key: str
     value_type: ContextValueType
     description: str
+    enum_def: str | None
     created_date: datetime
     updated_date: datetime
 
