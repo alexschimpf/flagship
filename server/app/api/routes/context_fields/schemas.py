@@ -1,14 +1,15 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
 
-from app.api.utils import PydanticObjectId
+from app.api.utils import PydanticObjectId, get_enum_desc
+from app.services.database.mongodb.types import ContextValueType
 
 
 class ContextField(BaseModel):
     id_: str | PydanticObjectId = Field(alias='_id')
     name: str
     key: str
-    value_type: str
+    value_type: ContextValueType
     description: str
     created_date: datetime
     updated_date: datetime
@@ -21,7 +22,7 @@ class ContextFields(BaseModel):
 class CreateContextField(BaseModel):
     name: str = Field(min_length=1, max_length=128)
     key: str = Field(min_length=1, max_length=32)
-    value_type: str  # TODO: Need enum for this
+    value_type: ContextValueType = Field(description=get_enum_desc(ContextValueType))
     description: str = Field(default='')
 
     class Config:

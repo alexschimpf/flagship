@@ -3,6 +3,7 @@ from bson import ObjectId
 from rest_api_tester.runner import TestCaseRunner
 
 from app.main import app
+from app.services.database.mongodb import types
 
 from tests.api import utils
 from tests.api.client import FastAPITestClient
@@ -29,7 +30,7 @@ class TestDeleteContextField(TestCase):
                 project_id=project_id,
                 name='tony?',
                 key='soprano?',
-                value_type='string?',
+                value_type=types.ContextValueType.STRING,
                 description='ooooooo!?'
             ) as context_field_id
         ):

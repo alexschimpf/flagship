@@ -49,6 +49,11 @@ class NameTakenException(BadRequestFieldException):
     DEFAULT_MESSAGE: str = 'Sorry, that name is already taken'
 
 
+class ContextFieldKeyTakenException(BadRequestFieldException):
+    CODE: str = 'CONTEXT_FIELD_KEY_TAKEN'
+    DEFAULT_MESSAGE: str = 'Sorry, that context field key is already being used in this project'
+
+
 def add_missing_punctuation(message: str) -> str:
     if message and message[-1] not in ('.', '?', '!'):
         message += '.'

@@ -20,11 +20,23 @@ class Operator(IntEnum):
     NOT_CONTAINS = 13
 
 
+class ContextValueType(IntEnum):
+    STRING = 1
+    NUMBER = 2
+    INTEGER = 3
+    BOOLEAN = 4
+    ENUM = 5
+    VERSION = 6
+    STRING_LIST = 7
+    INTEGER_LIST = 8
+    ENUM_LIST = 9
+
+
 class ContextField(TypedDict):
     _id: NotRequired[ObjectId]
     name: str
     key: str
-    value_type: str
+    value_type: ContextValueType
     description: str
     created_date: datetime
     updated_date: datetime

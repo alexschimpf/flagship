@@ -139,11 +139,34 @@ def is_context_field_name_taken(
     )
 
 
+def is_context_field_key_taken(
+    project_id: ObjectId,
+    key: str,
+    exclude_context_field_id: ObjectId | None = None
+) -> bool:
+    project = MongoDBService.projects().find_one(
+        filter={
+            '_id': project_id,
+        },
+        projection={
+            'context_fields': {
+                '$elemMatch': {
+                    'key': key
+                }
+            }
+        }
+    )
+    return bool(
+        project and project.get('context_fields') and
+        (not exclude_context_field_id or project['context_fields'][0]['_id'] != exclude_context_field_id)
+    )
+
+
 def create_context_field(
     project_id: ObjectId,
     name: str,
     key: str,
-    value_type: str,
+    value_type: types.ContextValueType,
     description: str,
 ) -> tuple[ObjectId, bool]:
     context_field = types.ContextField(

@@ -7,7 +7,7 @@
             "_id": null,
             "name": "tony",
             "key": "soprano",
-            "value_type": "string",
+            "value_type": 1,
             "description": "ooooooo!",
             "created_date": null,
             "updated_date": null

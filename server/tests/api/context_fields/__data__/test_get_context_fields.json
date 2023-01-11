@@ -9,7 +9,7 @@
                     "_id": "%%id%%",
                     "name": "tony",
                     "key": "soprano",
-                    "value_type": "string",
+                    "value_type": 1,
                     "description": "ooooooo!",
                     "created_date": "%%created_date%%",
                     "updated_date": "%%updated_date%%"

@@ -11,11 +11,21 @@ def process(
     project_id: str,
     request: schemas.CreateContextField
 ) -> Any:
+    aggregate_exceptions: list[exceptions.AppException] = []
     if collections.projects.is_context_field_name_taken(
         project_id=ObjectId(project_id),
         name=request.name
     ):
-        raise exceptions.NameTakenException(field=nameof(request.name))
+        aggregate_exceptions.append(exceptions.NameTakenException(field=nameof(request.name)))
+
+    if collections.projects.is_context_field_key_taken(
+        project_id=ObjectId(project_id),
+        key=request.key
+    ):
+        aggregate_exceptions.append(exceptions.ContextFieldKeyTakenException(field=nameof(request.key)))
+
+    if aggregate_exceptions:
+        raise exceptions.AggregateException(exceptions=aggregate_exceptions)
 
     context_field_id, project_found = collections.projects.create_context_field(
         project_id=ObjectId(project_id),

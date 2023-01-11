@@ -6,35 +6,42 @@
         "request": {
             "name": "tony",
             "key": "soprano",
-            "value_type": "string",
+            "value_type": 1,
             "description": "ooooooo!"
         },
         "response": {
             "_id": null,
             "name": "tony",
             "key": "soprano",
-            "value_type": "string",
+            "value_type": 1,
             "description": "ooooooo!",
             "created_date": null,
             "updated_date": null
         }
     },
-    "test_create_context_field__400_name_taken": {
+    "test_create_context_field__400_name_and_key_taken": {
         "url": "/context-fields?project_id={project_id}",
         "method": "POST",
         "status": 400,
         "request": {
             "name": "tony",
             "key": "soprano",
-            "value_type": "string",
+            "value_type": 1,
             "description": "ooooooo!"
         },
         "response": {
-            "errors": [{
-                "code": "NAME_TAKEN",
-                "field": "name",
-                "message": "Sorry, that name is already taken."
-            }]
+            "errors": [
+                {
+                    "code": "NAME_TAKEN",
+                    "field": "name",
+                    "message": "Sorry, that name is already taken."
+                },
+                {
+                    "code": "CONTEXT_FIELD_KEY_TAKEN",
+                    "field": "key",
+                    "message": "Sorry, that context field key is already being used in this project."
+                }
+            ]
         }
     }
 }

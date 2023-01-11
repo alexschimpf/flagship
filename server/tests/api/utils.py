@@ -27,7 +27,7 @@ def new_context_field(
     project_id: ObjectId,
     name: str,
     key: str,
-    value_type: str,
+    value_type: types.ContextValueType,
     description: str
 ) -> Generator[ObjectId, None, None]:
     context_field_id = None
