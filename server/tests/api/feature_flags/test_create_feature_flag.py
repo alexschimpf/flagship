@@ -1,6 +1,7 @@
 import os
 import ujson
-from typing import Any, Callable, cast
+from uuid import uuid4
+from typing import Any, cast
 from rest_api_tester.runner import TestCaseRunner
 from rest_api_tester.test import TestData
 
@@ -55,15 +56,6 @@ class TestCreateFeatureFlag(TestCase):
             self.verify_test_result(result=result)
 
     def test_create_feature_flag__400_invalid_conditions(self) -> None:
-        def modifier(conditions: Any) -> Callable[[TestData], TestData]:
-            def modifier_(test_data: TestData) -> TestData:
-                request_data = ujson.loads(cast(str, test_data.request_data))
-                request_data['conditions'] = conditions
-                test_data.request_data = ujson.dumps(request_data)
-                return test_data
-
-            return modifier_
-
         invalid_conditions_tests: Any = [
             [[FeatureFlagCondition(context_key='string', value=[], operator=Operator.EQUALS)]],
             [[FeatureFlagCondition(context_key='string', value={}, operator=Operator.NOT_EQUALS)]],
@@ -109,7 +101,6 @@ class TestCreateFeatureFlag(TestCase):
             [[FeatureFlagCondition(context_key='string_list', value={}, operator=Operator.NOT_CONTAINS)]],
             [[FeatureFlagCondition(context_key='string_list', value=None, operator=Operator.INTERSECTS)]],
             [[FeatureFlagCondition(context_key='string_list', value=[['1']], operator=Operator.INTERSECTS)]],
-            [[FeatureFlagCondition(context_key='string_list', value=[True], operator=Operator.INTERSECTS)]],
             [[FeatureFlagCondition(context_key='string_list', value=['1'], operator=Operator.EQUALS)]],
 
             [[FeatureFlagCondition(context_key='integer_list', value=[], operator=Operator.CONTAINS)]],
@@ -200,7 +191,7 @@ class TestCreateFeatureFlag(TestCase):
                         path_to_test_cases='test_create_feature_flag.json',
                         test_name='test_create_feature_flag__400_invalid_conditions',
                         url_params={'project_id': str(project_id)},
-                        test_data_modifier=modifier(invalid_conditions)
+                        test_data_modifier=self._conditions_modifier(conditions=invalid_conditions)
                     )
                     self.ignore_expected_response_fields(result=result, fields=self.DEFAULT_IGNORE_FIELDS)
                     try:
@@ -208,3 +199,191 @@ class TestCreateFeatureFlag(TestCase):
                     except Exception:
                         print(f'\nFailed case: {ujson.dumps(invalid_conditions)}\n')  # noqa
                         raise
+
+    def test_create_feature_flag__200_with_conditions(self) -> None:
+        conditions_tests: Any = [
+            [[FeatureFlagCondition(context_key='string', value='xyz', operator=Operator.EQUALS)]],
+            (
+                [[FeatureFlagCondition(context_key='string', value=1, operator=Operator.NOT_EQUALS)]],
+                [[FeatureFlagCondition(context_key='string', value='1', operator=Operator.NOT_EQUALS)]]
+            ),
+
+            [[FeatureFlagCondition(context_key='integer', value=1, operator=Operator.EQUALS)]],
+            [[FeatureFlagCondition(context_key='integer', value=0, operator=Operator.GREATER_THAN)]],
+            (
+                [[FeatureFlagCondition(context_key='integer', value='1', operator=Operator.LESS_THAN)]],
+                [[FeatureFlagCondition(context_key='integer', value=1, operator=Operator.LESS_THAN)]]
+            ),
+
+            [[FeatureFlagCondition(context_key='number', value=1.2, operator=Operator.EQUALS)]],
+            [[FeatureFlagCondition(context_key='number', value=1, operator=Operator.GREATER_THAN)]],
+            (
+                [[FeatureFlagCondition(context_key='number', value='1', operator=Operator.LESS_THAN)]],
+                [[FeatureFlagCondition(context_key='number', value=1, operator=Operator.LESS_THAN)]],
+            ),
+            (
+                [[FeatureFlagCondition(context_key='number', value='1.2', operator=Operator.NOT_EQUALS)]],
+                [[FeatureFlagCondition(context_key='number', value=1.2, operator=Operator.NOT_EQUALS)]],
+            ),
+
+            [[FeatureFlagCondition(context_key='boolean', value=True, operator=Operator.EQUALS)]],
+            [[FeatureFlagCondition(context_key='boolean', value=False, operator=Operator.NOT_EQUALS)]],
+            (
+                [[FeatureFlagCondition(context_key='boolean', value='tRue', operator=Operator.EQUALS)]],
+                [[FeatureFlagCondition(context_key='boolean', value=True, operator=Operator.EQUALS)]],
+            ),
+            (
+                [[FeatureFlagCondition(context_key='boolean', value='falSe', operator=Operator.NOT_EQUALS)]],
+                [[FeatureFlagCondition(context_key='boolean', value=False, operator=Operator.NOT_EQUALS)]],
+            ),
+
+            [[FeatureFlagCondition(context_key='version', value='1.2.3', operator=Operator.EQUALS)]],
+
+            [[FeatureFlagCondition(context_key='enum', value='xyz', operator=Operator.EQUALS)]],
+            [[FeatureFlagCondition(context_key='enum', value=1, operator=Operator.EQUALS)]],
+            [[FeatureFlagCondition(context_key='enum', value=1.5, operator=Operator.EQUALS)]],
+
+            [[FeatureFlagCondition(context_key='string_list', value='xyz', operator=Operator.CONTAINS)]],
+            [[FeatureFlagCondition(context_key='string_list', value=['xyz'], operator=Operator.INTERSECTS)]],
+            (
+                [[FeatureFlagCondition(context_key='string_list', value=[1], operator=Operator.NOT_INTERSECTS)]],
+                [[FeatureFlagCondition(context_key='string_list', value=['1'], operator=Operator.NOT_INTERSECTS)]]
+            ),
+            (
+                [[FeatureFlagCondition(context_key='string_list', value=1.0, operator=Operator.NOT_CONTAINS)]],
+                [[FeatureFlagCondition(context_key='string_list', value='1.0', operator=Operator.NOT_CONTAINS)]]
+            ),
+
+            [[FeatureFlagCondition(context_key='integer_list', value=1, operator=Operator.CONTAINS)]],
+            [[FeatureFlagCondition(context_key='integer_list', value=[1], operator=Operator.INTERSECTS)]],
+            (
+                [[FeatureFlagCondition(context_key='integer_list', value='1', operator=Operator.CONTAINS)]],
+                [[FeatureFlagCondition(context_key='integer_list', value=1, operator=Operator.CONTAINS)]]
+            ),
+            (
+                [[FeatureFlagCondition(context_key='integer_list', value=['1'], operator=Operator.INTERSECTS)]],
+                [[FeatureFlagCondition(context_key='integer_list', value=[1], operator=Operator.INTERSECTS)]]
+            ),
+
+            [[FeatureFlagCondition(context_key='enum_list', value='xyz', operator=Operator.CONTAINS)]],
+            [[FeatureFlagCondition(context_key='enum_list', value=1, operator=Operator.CONTAINS)]],
+            [[FeatureFlagCondition(context_key='enum_list', value=1.5, operator=Operator.CONTAINS)]],
+            [[FeatureFlagCondition(context_key='enum_list', value=['xyz'], operator=Operator.INTERSECTS)]],
+            [[FeatureFlagCondition(context_key='enum_list', value=[1], operator=Operator.INTERSECTS)]],
+            [[FeatureFlagCondition(context_key='enum_list', value=[1.5], operator=Operator.INTERSECTS)]]
+        ]
+        with (
+            utils.new_project(name='Waste Management, Inc.') as project_id,
+            utils.new_context_field(
+                project_id=project_id,
+                name='integer',
+                key='integer',
+                value_type=ContextValueType.INTEGER,
+                description=''
+            ),
+            utils.new_context_field(
+                project_id=project_id,
+                name='string',
+                key='string',
+                value_type=ContextValueType.STRING,
+                description=''
+            ),
+            utils.new_context_field(
+                project_id=project_id,
+                name='number',
+                key='number',
+                value_type=ContextValueType.NUMBER,
+                description=''
+            ),
+            utils.new_context_field(
+                project_id=project_id,
+                name='boolean',
+                key='boolean',
+                value_type=ContextValueType.BOOLEAN,
+                description=''
+            ),
+            utils.new_context_field(
+                project_id=project_id,
+                name='version',
+                key='version',
+                value_type=ContextValueType.VERSION,
+                description=''
+            ),
+            utils.new_context_field(
+                project_id=project_id,
+                name='enum',
+                key='enum',
+                value_type=ContextValueType.ENUM,
+                description='',
+                enum_def=ujson.dumps({'test': 1})
+            ),
+            utils.new_context_field(
+                project_id=project_id,
+                name='enum_list',
+                key='enum_list',
+                value_type=ContextValueType.ENUM_LIST,
+                description='',
+                enum_def=ujson.dumps({'test': 1})
+            ),
+            utils.new_context_field(
+                project_id=project_id,
+                name='string_list',
+                key='string_list',
+                value_type=ContextValueType.STRING_LIST,
+                description=''
+            ),
+            utils.new_context_field(
+                project_id=project_id,
+                name='integer_list',
+                key='integer_list',
+                value_type=ContextValueType.INTEGER_LIST,
+                description=''
+            )
+        ):
+            for conditions in conditions_tests:
+                expected_conditions = None
+                if isinstance(conditions, tuple):
+                    conditions, expected_conditions = conditions
+                with self.subTest():
+                    result = self.runner.run(
+                        path_to_test_cases='test_create_feature_flag.json',
+                        test_name='test_create_feature_flag__200_with_conditions',
+                        url_params={'project_id': str(project_id)},
+                        test_data_modifier=self._conditions_modifier(
+                            name=uuid4().hex,
+                            conditions=conditions,
+                            expected_conditions=expected_conditions,
+                            for_200_case=True
+                        )
+                    )
+                    self.ignore_expected_response_fields(result=result, fields=self.DEFAULT_IGNORE_FIELDS)
+                    try:
+                        self.verify_test_result(result=result)
+                    except Exception:
+                        print(f'\nFailed case: {ujson.dumps(conditions)}\n')  # noqa
+                        raise
+
+    @staticmethod
+    def _conditions_modifier(
+        conditions: Any,
+        name: str | None = None,
+        expected_conditions: Any = None,
+        for_200_case: bool = False
+    ) -> Any:
+        def modifier(test_data: TestData) -> TestData:
+            request_data = ujson.loads(cast(str, test_data.request_data))
+            request_data['conditions'] = conditions
+            if name:
+                request_data['name'] = name
+            test_data.request_data = ujson.dumps(request_data)
+
+            if for_200_case:
+                response_data = ujson.loads(cast(str, test_data.expected_response))
+                response_data['conditions'] = expected_conditions or conditions
+                if name:
+                    response_data['name'] = name
+                test_data.expected_response = ujson.dumps(response_data)
+
+            return test_data
+
+        return modifier

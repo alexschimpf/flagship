@@ -56,5 +56,22 @@
                 }
             ]
         }
+    },
+    "test_create_feature_flag__200_with_conditions": {
+        "url": "/feature-flags?project_id={project_id}",
+        "method": "POST",
+        "status": 200,
+        "request": {
+            "name": "tony",
+            "description": "ooooooo!",
+            "enabled": true,
+            "conditions": null
+        },
+        "response": {
+            "name": "tony",
+            "description": "ooooooo!",
+            "enabled": true,
+            "conditions": null
+        }
     }
 }
