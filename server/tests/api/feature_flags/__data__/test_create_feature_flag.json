@@ -7,22 +7,14 @@
             "name": "tony",
             "description": "ooooooo!",
             "enabled": true,
-            "conditions": [[{
-                "context_key": "tony",
-                "operator": 12,
-                "value": "soprano"
-            }]]
+            "conditions": []
         },
         "response": {
             "_id": null,
             "name": "tony",
             "description": "ooooooo!",
             "enabled": true,
-            "conditions": [[{
-                "context_key": "tony",
-                "operator": 12,
-                "value": "soprano"
-            }]],
+            "conditions": [],
             "created_date": null,
             "updated_date": null
         }
@@ -35,11 +27,7 @@
             "name": "tony",
             "description": "ooooooo!",
             "enabled": true,
-            "conditions": [[{
-                "context_key": "tony",
-                "operator": 12,
-                "value": "soprano"
-            }]]
+            "conditions": []
         },
         "response": {
             "errors": [{
