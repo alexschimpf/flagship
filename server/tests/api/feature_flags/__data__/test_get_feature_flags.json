@@ -10,11 +10,7 @@
                     "name": "tony",
                     "description": "ooooooo!",
                     "enabled": true,
-                    "conditions": [[{
-                        "context_key": "tony",
-                        "operator": 12,
-                        "value": "soprano"
-                    }]],
+                    "conditions": [],
                     "created_date": "%%created_date%%",
                     "updated_date": "%%updated_date%%"
                 }

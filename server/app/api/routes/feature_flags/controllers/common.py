@@ -78,7 +78,7 @@ def _validate_value(
     request: schemas.CreateOrUpdateFeatureFlag
 ) -> Any:
     if value in ('', None) or isinstance(value, (list, dict)):
-        raise Exception()
+        raise exceptions.InvalidFeatureFlagConditions(field=nameof(request.conditions))
 
     coerced_value = None
     value_type = context_field['value_type']
@@ -116,10 +116,10 @@ def _validate_string_condition(
 ) -> Any:
     if operator in (types.Operator.IN_LIST, types.Operator.NOT_IN_LIST):
         if not isinstance(value, list):
-            raise Exception()
+            raise Exception
         for i, item in enumerate(value):
             if item in ('', None) or isinstance(item, (list, dict)):
-                raise Exception()
+                raise Exception
             value[i] = str(item)
     else:
         value = str(value)
@@ -133,10 +133,14 @@ def _validate_integer_condition(
 ) -> Any:
     if operator in (types.Operator.IN_LIST, types.Operator.NOT_IN_LIST):
         if not isinstance(value, list):
-            raise Exception()
+            raise Exception
         for i, item in enumerate(value):
+            if isinstance(item, float) or (isinstance(item, str) and '.' in item):
+                raise Exception
             value[i] = int(item)
     else:
+        if isinstance(value, float) or (isinstance(value, str) and '.' in value):
+            raise Exception
         value = int(value)
 
     return value
@@ -148,17 +152,17 @@ def _validate_number_condition(
 ) -> Any:
     if operator in (types.Operator.IN_LIST, types.Operator.NOT_IN_LIST):
         if not isinstance(value, list):
-            raise Exception()
+            raise Exception
         for i, item in enumerate(value):
             try:
-                value[i] = int(item)
-            except Exception:
                 value[i] = float(item)
+            except Exception:
+                value[i] = int(item)
     else:
         try:
-            value = int(value)
-        except Exception:
             value = float(value)
+        except Exception:
+            value = int(value)
 
     return value
 
@@ -172,9 +176,9 @@ def _validate_boolean_condition(
         elif value.lower() == 'false':
             value = False
         else:
-            raise Exception()
+            raise Exception
     elif not isinstance(value, bool):
-        raise Exception()
+        raise Exception
 
     return value
 
@@ -183,7 +187,7 @@ def _validate_version_condition(
     value: Any
 ) -> Any:
     if not isinstance(value, str):
-        raise Exception()
+        raise Exception
 
     return value
 
@@ -195,13 +199,13 @@ def _validate_enum_condition(
     # TODO: Validate against actual enum definition
     if operator in (types.Operator.IN_LIST, types.Operator.NOT_IN_LIST):
         if not isinstance(value, list):
-            raise Exception()
+            raise Exception
         for item in value:
             if not isinstance(item, (str, int, float)):
-                raise Exception()
+                raise Exception
     else:
         if not isinstance(value, (str, int, float)):
-            raise Exception()
+            raise Exception
 
     return value
 
@@ -212,10 +216,10 @@ def _validate_string_list_condition(
 ) -> Any:
     if operator in (types.Operator.INTERSECTS, types.Operator.NOT_INTERSECTS):
         if not isinstance(value, list):
-            raise Exception()
+            raise Exception
         for i, item in enumerate(value):
             if item in ('', None) or isinstance(item, (list, dict)):
-                raise Exception()
+                raise Exception
             value[i] = str(item)
     elif operator in (types.Operator.CONTAINS, types.Operator.NOT_CONTAINS):
         value = str(value)
@@ -229,10 +233,14 @@ def _validate_integer_list_condition(
 ) -> Any:
     if operator in (types.Operator.INTERSECTS, types.Operator.NOT_INTERSECTS):
         if not isinstance(value, list):
-            raise Exception()
+            raise Exception
         for i, item in enumerate(value):
+            if isinstance(item, float) or (isinstance(item, str) and '.' in item):
+                raise Exception
             value[i] = int(item)
     elif operator in (types.Operator.CONTAINS, types.Operator.NOT_CONTAINS):
+        if isinstance(value, float) or (isinstance(value, str) and '.' in value):
+            raise Exception
         value = int(value)
 
     return value
@@ -244,13 +252,13 @@ def _validate_enum_list_condition(
 ) -> Any:
     if operator in (types.Operator.INTERSECTS, types.Operator.NOT_INTERSECTS):
         if not isinstance(value, list):
-            raise Exception()
+            raise Exception
         for item in value:
             if not isinstance(item, (str, int, float)):
-                raise Exception()
+                raise Exception
     elif operator in (types.Operator.CONTAINS, types.Operator.NOT_CONTAINS):
         if not isinstance(value, (str, int, float)):
-            raise Exception()
+            raise Exception
 
     return value
 

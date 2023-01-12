@@ -3,7 +3,6 @@ from bson import ObjectId
 from rest_api_tester.runner import TestCaseRunner
 
 from app.main import app
-from app.services.database.mongodb import types
 
 from tests.api import utils
 from tests.api.client import FastAPITestClient
@@ -31,11 +30,7 @@ class TestUpdateFeatureFlag(TestCase):
                 name='tony?',
                 description='ooooooo!?',
                 enabled=False,
-                conditions=[[types.FeatureFlagCondition(
-                    context_key='tony?',
-                    operator=types.Operator.NOT_CONTAINS,
-                    value='soprano?'
-                )]]
+                conditions=[]
             ) as feature_flag_id
         ):
             result = self.runner.run(

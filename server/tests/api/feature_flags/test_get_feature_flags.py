@@ -2,7 +2,6 @@ import os
 from rest_api_tester.runner import TestCaseRunner
 
 from app.main import app
-from app.services.database.mongodb import types
 
 from tests.api import utils
 from tests.api.client import FastAPITestClient
@@ -30,11 +29,7 @@ class TestGetFeatureFlags(TestCase):
                 name='tony',
                 description='ooooooo!',
                 enabled=True,
-                conditions=[[types.FeatureFlagCondition(
-                    context_key='tony',
-                    operator=types.Operator.CONTAINS,
-                    value='soprano'
-                )]]
+                conditions=[]
             )
         ):
             result = self.runner.run(

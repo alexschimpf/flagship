@@ -36,5 +36,25 @@
                 "message": "Sorry, that name is already taken."
             }]
         }
+    },
+    "test_create_feature_flag__400_invalid_conditions": {
+        "url": "/feature-flags?project_id={project_id}",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "tony",
+            "description": "ooooooo!",
+            "enabled": true,
+            "conditions": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "INVALID_FEATURE_FLAG_CONDITIONS",
+                    "field": "conditions",
+                    "message": "Invalid conditions."
+                }
+            ]
+        }
     }
 }

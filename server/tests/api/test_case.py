@@ -19,7 +19,7 @@ class TestCase(BaseTestCase):
         if result.test_data.expected_response and result.response.status_code == 200:
             expected_response_dict = ujson.loads(result.test_data.expected_response)
             for field in fields:
-                if field in actual_response_dict and expected_response_dict[field] is None:
+                if field in actual_response_dict and expected_response_dict.get(field) is None:
                     self.assertIsNotNone(actual_response_dict[field])
                     expected_response_dict[field] = actual_response_dict[field]
             result.test_data.expected_response = ujson.dumps(expected_response_dict)
