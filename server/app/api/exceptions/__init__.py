@@ -64,6 +64,16 @@ class EnumContextFieldTypeWithoutEnumDefException(BadRequestFieldException):
     DEFAULT_MESSAGE: str = 'Context fields with "enum" or "enum list" types require an enum definition'
 
 
+class SameContextFieldKeysInAndGroup(BadRequestFieldException):
+    CODE: str = 'SAME_CONTEXT_FIELD_KEYS_IN_AND_GROUP'
+    DEFAULT_MESSAGE: str = 'Two of the same context field keys cannot be used in the same AND group'
+
+
+class InvalidFeatureFlagConditions(BadRequestFieldException):
+    CODE: str = 'INVALID_FEATURE_FLAG_CONDITIONS'
+    DEFAULT_MESSAGE: str = 'Invalid conditions'
+
+
 def add_missing_punctuation(message: str) -> str:
     if message and message[-1] not in ('.', '?', '!'):
         message += '.'

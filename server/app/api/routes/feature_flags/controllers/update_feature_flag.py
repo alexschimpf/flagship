@@ -4,6 +4,7 @@ from varname import nameof
 
 from app.services.database.mongodb import types, collections
 from app.api.routes.feature_flags import schemas
+from app.api.routes.feature_flags.controllers import common
 from app.api import exceptions
 
 
@@ -16,6 +17,7 @@ def process(
 
     errors: list[exceptions.AppException] = []
     _validate_name(project_id=project_id, feature_flag_id=feature_flag_id, request=request, errors=errors)
+    _validate_conditions(project_id=project_id, request=request, errors=errors)
 
     if errors:
         raise exceptions.AggregateException(exceptions=errors)
@@ -66,3 +68,14 @@ def _validate_name(
         exclude_feature_flag_id=ObjectId(feature_flag_id)
     ):
         errors.append(exceptions.NameTakenException(field=nameof(request.name)))
+
+
+def _validate_conditions(
+    project_id: str,
+    request: schemas.CreateOrUpdateFeatureFlag,
+    errors: list[exceptions.AppException]
+) -> None:
+    try:
+        common.validate_conditions(project_id=project_id, request=request)
+    except exceptions.AppException as e:
+        errors.append(e)

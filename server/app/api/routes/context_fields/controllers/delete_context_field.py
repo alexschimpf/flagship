@@ -10,6 +10,7 @@ def process(
     project_id: str,
     context_field_id: str
 ) -> Any:
+    # TODO: Cannot delete a context field if it's being used by a feature flag
     deleted = collections.projects.delete_context_field(
         project_id=ObjectId(project_id),
         context_field_id=ObjectId(context_field_id)
