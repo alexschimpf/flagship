@@ -76,7 +76,12 @@ class InvalidFeatureFlagConditions(BadRequestFieldException):
 
 class InvalidSetPasswordAttemptException(BadRequestFieldException):
     CODE: str = 'INVALID_SET_PASSWORD_ATTEMPT'
-    DEFAULT_MESSAGE: str = 'Sorry, there was a problem setting your password. Please double-check the email entered.'
+    DEFAULT_MESSAGE: str = 'Invalid token'
+
+
+class InvalidProjectException(BadRequestFieldException):
+    CODE: str = 'INVALID_PROJECT'
+    DEFAULT_MESSAGE: str = 'Invalid project'
 
 
 def add_missing_punctuation(message: str) -> str:

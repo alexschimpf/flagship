@@ -1,0 +1,15 @@
+{
+    "test_delete_user__200": {
+        "url": "/users/{user_id}",
+        "method": "DELETE",
+        "status": 200,
+        "response": {
+            "success": true
+        }
+    },
+    "test_delete_user__404": {
+        "url": "/users/{user_id}",
+        "method": "DELETE",
+        "status": 404
+    }
+}

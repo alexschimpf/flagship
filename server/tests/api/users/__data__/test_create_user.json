@@ -1,0 +1,43 @@
+{
+    "test_create_user__200": {
+        "url": "/users",
+        "method": "POST",
+        "status": 200,
+        "request": {
+            "email": "tony.soprano@sopranos.com",
+            "name": "Tony Soprano",
+            "role": 2,
+            "projects": null
+        },
+        "response": {
+            "_id": null,
+            "email": "tony.soprano@sopranos.com",
+            "name": "Tony Soprano",
+            "role": 2,
+            "projects": null,
+            "status": 1,
+            "created_date": null,
+            "updated_date": null
+        }
+    },
+    "test_create_user__400_invalid_project": {
+        "url": "/users",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "email": "tony.soprano@sopranos.com",
+            "name": "Tony Soprano",
+            "role": 2,
+            "projects": ["invalid"]
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "INVALID_PROJECT",
+                    "field": "projects",
+                    "message": "Invalid project."
+                }
+            ]
+        }
+    }
+}

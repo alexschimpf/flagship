@@ -70,3 +70,28 @@ def new_feature_flag(
         if feature_flag_id:
             collections.projects.delete_feature_flag(
                 project_id=ObjectId(project_id), feature_flag_id=ObjectId(feature_flag_id))
+
+
+@contextlib.contextmanager
+def new_user(
+    email: str,
+    name: str,
+    role: types.UserRole,
+    projects: list[ObjectId],
+    password_token: str,
+    status: types.UserStatus
+) -> Generator[ObjectId, None, None]:
+    user_id = None
+    try:
+        user_id = collections.users.create_user(
+            email=email,
+            name=name,
+            role=role,
+            projects=projects,
+            password_token=password_token,
+            status=status
+        )
+        yield user_id
+    finally:
+        if user_id:
+            collections.users.delete_user(user_id=user_id)

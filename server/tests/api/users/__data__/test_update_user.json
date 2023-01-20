@@ -1,0 +1,38 @@
+{
+    "test_update_user__200": {
+        "url": "/users/{user_id}",
+        "method": "PUT",
+        "status": 200,
+        "request": {
+            "name": "Tony Soprano!",
+            "role": 3,
+            "projects": null
+        },
+        "response": {
+            "_id": null,
+            "email": "tony.soprano@sopranos.com",
+            "name": "Tony Soprano!",
+            "role": 3,
+            "projects": null,
+            "status": 2,
+            "created_date": null,
+            "updated_date": null
+        }
+    },
+    "test_update_user__404": {
+        "url": "/users/{user_id}",
+        "method": "PUT",
+        "status": 404,
+        "request": {
+            "name": "Tony Soprano!",
+            "role": 3,
+            "projects": []
+        },
+        "response": {
+            "errors": [{
+                "code": "NOT_FOUND",
+                "message": "Resource not found."
+            }]
+        }
+    }
+}

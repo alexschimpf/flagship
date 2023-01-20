@@ -18,12 +18,22 @@ class UpdateUser(BaseModel):
     projects: list[str]
 
 
+class SetPassword(BaseModel):
+    email: str
+    password: str
+    token: str
+
+
+class ResetPassword(BaseModel):
+    email: str
+
+
 class User(BaseModel):
-    _id: str | PydanticObjectId = Field(alias='_id')
+    id_: str | PydanticObjectId = Field(alias='_id')
     email: EmailStr
     name: str
     role: types.UserRole = Field(description=get_enum_desc(types.UserRole))
-    projects: list[str]
+    projects: list[str | PydanticObjectId]
     status: types.UserStatus = Field(description=get_enum_desc(types.UserStatus))
     created_date: datetime
     updated_date: datetime

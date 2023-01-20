@@ -1,6 +1,5 @@
 from typing import Any
-from fastapi import APIRouter, Form, Query
-from fastapi.responses import RedirectResponse
+from fastapi import APIRouter
 
 from app.api.routes.users import controllers, schemas
 from app.api.schemas import SuccessResponse
@@ -9,6 +8,20 @@ router = APIRouter(
     prefix='/users',
     tags=['Users']
 )
+
+
+@router.put('/password', response_model=SuccessResponse)
+def set_password(
+    request: schemas.SetPassword
+) -> Any:
+    return controllers.set_password.process(request=request)
+
+
+@router.post('/password/reset', response_model=SuccessResponse)
+def reset_password(
+    request: schemas.ResetPassword
+) -> Any:
+    return controllers.reset_password.process(request=request)
 
 
 @router.get('', response_model=schemas.Users)
@@ -43,23 +56,3 @@ def delete_user(
     user_id: str
 ) -> Any:
     return controllers.delete_user.process(user_id=user_id)
-
-
-@router.put('/password', response_class=RedirectResponse)
-def set_password(
-    email: str = Form(),
-    password: str = Form(),
-    token: str = Query()
-) -> Any:
-    return controllers.set_password.process(
-        email=email,
-        password=password,
-        token=token
-    )
-
-
-@router.post('/password/reset', response_class=RedirectResponse)
-def reset_password(
-    email: str = Form()
-) -> Any:
-    return controllers.reset_password.process(email=email)

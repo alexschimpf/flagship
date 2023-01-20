@@ -70,7 +70,7 @@ def update_user(
     role: types.UserRole,
     projects: list[ObjectId]
 ) -> bool:
-    result = MongoDBService.projects().update_one(
+    result = MongoDBService.users().update_one(
         filter={'_id': user_id},
         update={
             '$set': {

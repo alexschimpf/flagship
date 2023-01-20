@@ -14,4 +14,5 @@ router = APIRouter(
 def wipe_db() -> Any:
     # TODO: Protect (or remove) this route eventually
     MongoDBService.projects().drop()
+    MongoDBService.users().drop()
     return SuccessResponse(success=True)

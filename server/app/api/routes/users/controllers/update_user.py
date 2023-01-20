@@ -19,4 +19,6 @@ def process(
     if not user_found:
         raise exceptions.NotFoundException
 
+    # TODO: What if user hasn't been activated?
+
     return collections.users.get_user(user_id=ObjectId(user_id))

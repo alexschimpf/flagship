@@ -1,0 +1,21 @@
+{
+    "test_get_users__200": {
+        "url": "/users",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "items": [
+                {
+                    "_id": null,
+                    "email": "tony.soprano@sopranos.com",
+                    "name": "Tony Soprano",
+                    "role": 2,
+                    "projects": null,
+                    "status": 2,
+                    "created_date": null,
+                    "updated_date": null
+                }
+            ]
+        }
+    }
+}

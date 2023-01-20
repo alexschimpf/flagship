@@ -1,16 +1,15 @@
 from typing import Any
 import secrets
-import urllib.parse
-from fastapi.responses import RedirectResponse
 
-from app import config
 from app.services.database.mongodb import collections
+from app.api.routes.users import schemas
+from app.api.schemas import SuccessResponse
 
 
 def process(
-    email: str
+    request: schemas.ResetPassword
 ) -> Any:
-    user = collections.users.get_user_by_email(email=email)
+    user = collections.users.get_user_by_email(email=request.email)
     if user:
         token = secrets.token_urlsafe()
         collections.users.update_user_password_token(
@@ -19,7 +18,4 @@ def process(
         )
         # TODO: Send password reset email
 
-    params = urllib.parse.urlencode({
-        'message': 'A password reset confirmation email has been sent to your inbox.'
-    })
-    return RedirectResponse(f'{config.UI_BASE_URL}/login?{params}')
+    return SuccessResponse(success=True)
