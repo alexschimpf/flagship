@@ -56,6 +56,10 @@ run-server-unit-tests:
 run-server-api-tests:
 	./server/tests/api/runtests.sh
 
+# run server docker compose
+run-server-deps:
+	docker-compose -f docker-compose.deps.yml down -v && docker-compose -f docker-compose.deps.yml up --remove-orphans --build
+
 # get number of lines of python code
 loc:
 	git ls-files | grep '\.py' | xargs wc -l

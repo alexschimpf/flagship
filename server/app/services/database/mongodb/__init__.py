@@ -20,3 +20,7 @@ class MongoDBService:
     @classmethod
     def projects(cls) -> Collection[types.Project]:
         return cast(Collection[types.Project], cls._client.flagship.projects)
+
+    @classmethod
+    def users(cls) -> Collection[types.User]:
+        return cast(Collection[types.User], cls._client.flagship.users)

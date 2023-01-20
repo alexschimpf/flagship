@@ -9,3 +9,8 @@ MONGODB_CONN_STR = os.getenv(
     'MONGODB_CONN_STR',
     'mongodb://root:root@localhost:27017'
 )
+
+UI_BASE_URL = os.getenv(
+    'UI_BASE_URL',
+    'http://localhost:8000'
+)

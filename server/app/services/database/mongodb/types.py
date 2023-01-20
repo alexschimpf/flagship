@@ -67,3 +67,27 @@ class Project(TypedDict):
     feature_flags: list[FeatureFlag]
     created_date: datetime
     updated_date: datetime
+
+
+class UserRole(IntEnum):
+    READ_ONLY = 1
+    STANDARD = 2
+    ADMIN = 3
+
+
+class UserStatus(IntEnum):
+    INVITED = 1
+    ACTIVATED = 2
+
+
+class User(TypedDict):
+    _id: NotRequired[ObjectId]
+    email: str
+    name: str
+    role: UserRole
+    projects: list[ObjectId]
+    password: str | None
+    password_token: str | None
+    status: UserStatus
+    created_date: datetime
+    updated_date: datetime
