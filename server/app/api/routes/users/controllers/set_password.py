@@ -12,7 +12,6 @@ from app.api import exceptions
 def process(
     request: schemas.SetPassword
 ) -> Any:
-    # TODO: Token should expire
     # TODO: Should have minimum requirements for password
     user = collections.users.get_user_by_email(email=request.email)
     if not user:
@@ -31,7 +30,7 @@ def process(
     )
 
     '''
-    TODO: Redirect to home page and set JWT cookies
+    TODO: Set JWT token (to log user in)
     access_token = ''
     refresh_token = ''
     '''
@@ -43,6 +42,7 @@ def process(
 
 
 def _validate_token(user: types.User, token: str, errors: list[exceptions.AppException]) -> None:
-    # TODO: This token should be hashed
+    # TODO: Token should expire
+    # TODO: Token should be hashed
     if user['password_token'] != token:
         errors.append(exceptions.InvalidSetPasswordAttemptException(field='token'))
