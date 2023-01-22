@@ -43,13 +43,35 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "lint": "npx eslint . --ext .ts,.tsx --no-error-on-unmatched-pattern",
-        "pre-commit": "lint-staged"
+        "pre-commit": "lint-staged",
+        "generate-api-client": "openapi --input http://127.0.0.1:8000/openapi.json --output ./src/client --client axios --name APIClient"
     },
     "eslintConfig": {
         "extends": [
             "react-app",
             "react-app/jest"
         ]
+    },
+    "lint-staged": {
+        "*.{ts,tsx}": [
+            "prettier -w src/",
+            "eslint . --ext .ts,.tsx --no-error-on-unmatched-pattern --fix"
+        ]
+    },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/**/*.{ts,tsx}",
+            "!<rootDir>/node_modules/",
+            "!<rootDir>/src/custom.d.ts"
+        ],
+        "coverageThreshold": {
+            "global": {
+                "statements": 69,
+                "branches": 62,
+                "functions": 64,
+                "lines": 70
+            }
+        }
     },
     "browserslist": {
         "production": [
