@@ -6,10 +6,7 @@ function Main(): React.ReactElement {
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        const testLogin = async () => {
-            await APIClient.login.getLoginTest();
-        };
-        testLogin().catch(() => {
+        APIClient.login.getLoginTest().catch(() => {
             navigate('/login', { replace: true });
         });
     }, []);

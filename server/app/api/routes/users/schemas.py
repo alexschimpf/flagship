@@ -25,7 +25,7 @@ class SetPassword(BaseModel):
 
 
 class ResetPassword(BaseModel):
-    email: str
+    email: EmailStr
 
 
 class User(BaseModel):

@@ -6,10 +6,12 @@ import {
 import './index.css';
 import APIClient from '../../../api';
 
-function Login(): React.ReactElement {
+function ForgotPassword(): React.ReactElement {
     const navigate = useNavigate();
 
+    const [email, setEmail] = React.useState('');
     const [error, setError] = React.useState('');
+    const [info, setInfo] = React.useState('');
 
     React.useEffect(() => {
         APIClient.login.getLoginTest().then(() => {
@@ -25,17 +27,30 @@ function Login(): React.ReactElement {
         }
     }, []);
 
+    const onForgotPasswordBtnClick = async () => {
+        try {
+            await APIClient.users.resetPassword({ email });
+            setError('');
+            setInfo(
+                'An email was sent to the provided address, assuming the ' +
+                'address is actually associated to an existing account.'
+            );
+        } catch (e) {
+            setInfo('');
+            setError(e.body.errors[0].message);
+        }
+    };
+
     return (
-        // TODO: Add API base URL to config
-        <form className='login' action='http://localhost:8000/login' method='post'>
-            <div className='login--form'>
+        <div className='forgot-password'>
+            <div className='forgot-password--form'>
                 <Typography
                     sx={{
                         fontSize: '24px',
                         marginBottom: '20px'
                     }}
                 >
-                    Login
+                    Reset Password
                 </Typography>
                 <TextField
                     autoFocus
@@ -56,25 +71,7 @@ function Login(): React.ReactElement {
                             }
                         }
                     }}
-                />
-                <TextField
-                    type='password'
-                    label='Password'
-                    name='password'
-                    sx={{
-                        border: '1px solid #5d5d5d 5px',
-                        marginBottom: '20px',
-                        color: '#5d5d5d',
-                        '& label.Mui-focused': {
-                            color: 'black'
-                        },
-                        '& .MuiOutlinedInput-root': {
-                            '&.Mui-focused fieldset': {
-                                borderColor: 'black',
-                                borderWidth: '1px'
-                            }
-                        }
-                    }}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 {error ?
                     <div>
@@ -89,15 +86,28 @@ function Login(): React.ReactElement {
                     </div>
                     : null
                 }
+                {info ?
+                    <div>
+                        <Typography
+                            sx={{
+                                color: 'green',
+                                marginBottom: '20px'
+                            }}
+                        >
+                            {info}
+                        </Typography>
+                    </div>
+                    : null
+                }
                 <div style={{ textAlign: 'right' }}>
                     <Link
-                        href='/forgot-password'
+                        href='/login'
                     >
-                        Forgot password?
+                        Back to login?
                     </Link>
                     <br />
                     <Button
-                        type='submit'
+                        type='button'
                         sx={{
                             marginTop: '20px',
                             border: '1px solid #5d5d5d',
@@ -107,13 +117,14 @@ function Login(): React.ReactElement {
                                 backgroundColor: '#f5f5f5'
                             }
                         }}
+                        onClick={onForgotPasswordBtnClick}
                     >
-                        Log in
+                        Send email
                     </Button>
                 </div>
             </div>
-        </form>
+        </div>
     );
 }
 
-export default Login;
+export default ForgotPassword;

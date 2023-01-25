@@ -93,8 +93,9 @@ def update_user_password(
         filter={'_id': user_id},
         update={
             '$set': {
-                'password': hashed_password,
+                'password': hashed_password.decode('utf-8'),
                 'updated_date': datetime.utcnow(),
+                'status': types.UserStatus.ACTIVATED,
                 'password_token': None
             }
         }

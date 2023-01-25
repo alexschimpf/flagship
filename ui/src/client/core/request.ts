@@ -204,7 +204,6 @@ const sendRequest = async <T>(
 ): Promise<AxiosResponse<T>> => {
     const source = axios.CancelToken.source();
 
-    // @ts-ignore
     const requestConfig: AxiosRequestConfig = {
         url,
         headers,

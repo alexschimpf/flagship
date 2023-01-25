@@ -68,6 +68,10 @@
                 "ignoreTrailingComments": true,
                 "ignoreComments": true
             }
-        ]
+        ],
+        "no-restricted-syntax": "off",
+        "operator-linebreak": "off",
+        "react/jsx-wrap-multilines": "off",
+        "react/jsx-curly-newline": "off"
     }
 }

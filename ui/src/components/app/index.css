@@ -1,0 +1,11 @@
+.app {
+    padding: 10px 10px;
+}
+
+.app--header {
+    height: 42px;
+}
+
+.app--main {
+    height: calc(100vh - 120px);
+}

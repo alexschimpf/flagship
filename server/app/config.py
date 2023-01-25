@@ -12,5 +12,5 @@ MONGODB_CONN_STR = os.getenv(
 
 UI_BASE_URL = os.getenv(
     'UI_BASE_URL',
-    'http://localhost:8000'
+    'http://localhost:3000'
 )

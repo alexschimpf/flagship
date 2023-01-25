@@ -84,6 +84,11 @@ class InvalidProjectException(BadRequestFieldException):
     DEFAULT_MESSAGE: str = 'Invalid project'
 
 
+class InvalidLoginCredentialsException(BadRequestException):
+    CODE: str = 'INVALID_LOGIN_CREDENTIALS'
+    DEFAULT_MESSAGE: str = 'Sorry, the credentials provided are invalid'
+
+
 def add_missing_punctuation(message: str) -> str:
     if message and message[-1] not in ('.', '?', '!'):
         message += '.'

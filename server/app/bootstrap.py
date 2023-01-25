@@ -4,13 +4,16 @@ import logging
 import logging.config
 from typing import Any
 import fastapi.openapi.utils
+from pydantic import BaseModel
 from fastapi import FastAPI
 from fastapi.routing import APIRoute
+from fastapi_jwt_auth import AuthJWT
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.exceptions.handlers import get_exception_handlers
 from app.api.schemas import ErrorResponseModel
 from app.services.database.mongodb import MongoDBService
+from app import config
 
 
 class Bootstrap:
@@ -20,6 +23,7 @@ class Bootstrap:
         self._init_services()
 
         app = self._build_app()
+        self._init_jwt()
         self._register_routes(app=app)
         self._override_openapi(app=app)
         self._add_cors_middleware(app=app)
@@ -49,6 +53,16 @@ class Bootstrap:
             exception_handlers=get_exception_handlers(),
             swagger_ui_parameters={'defaultModelsExpandDepth': -1}
         )
+
+    @classmethod
+    def _init_jwt(cls) -> None:
+        class Settings(BaseModel):
+            authjwt_secret_key: str = config.SECRET_KEY
+            authjwt_access_token_expires: int = 8 * 60 * 60
+
+        @AuthJWT.load_config  # type: ignore
+        def get_settings() -> Settings:
+            return Settings()
 
     @staticmethod
     def _register_routes(app: FastAPI) -> None:

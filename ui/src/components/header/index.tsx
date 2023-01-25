@@ -1,9 +1,21 @@
 import * as React from 'react';
+import { Link } from '@mui/material';
 
 function Header(): React.ReactElement {
     return (
         <div>
-            <p>header</p>
+            <Link
+                href='/'
+                sx={{
+                    fontSize: '28px',
+                    textDecoration: 'none',
+                    color: 'black',
+                    cursor: 'pointer'
+                }}
+            >
+                Flagship
+            </Link>
+            <hr />
         </div>
     );
 }
