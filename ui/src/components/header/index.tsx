@@ -8,6 +8,7 @@ function Header(): React.ReactElement {
                 href='/'
                 sx={{
                     fontSize: '28px',
+                    fontWeight: 700,
                     textDecoration: 'none',
                     color: 'black',
                     cursor: 'pointer'

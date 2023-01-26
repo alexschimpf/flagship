@@ -4,14 +4,12 @@ import {
     Button, TextField, Typography, Link
 } from '@mui/material';
 import './index.css';
-import APIClient from '../../../api';
+import APIClient from '../../api';
 
-function ForgotPassword(): React.ReactElement {
+function Login(): React.ReactElement {
     const navigate = useNavigate();
 
-    const [email, setEmail] = React.useState('');
     const [error, setError] = React.useState('');
-    const [info, setInfo] = React.useState('');
 
     React.useEffect(() => {
         APIClient.login.getLoginTest().then(() => {
@@ -27,30 +25,17 @@ function ForgotPassword(): React.ReactElement {
         }
     }, []);
 
-    const onForgotPasswordBtnClick = async () => {
-        try {
-            await APIClient.users.resetPassword({ email });
-            setError('');
-            setInfo(
-                'An email was sent to the provided address, assuming the ' +
-                'address is actually associated to an existing account.'
-            );
-        } catch (e) {
-            setInfo('');
-            setError(e.body.errors[0].message);
-        }
-    };
-
     return (
-        <div className='forgot-password'>
-            <div className='forgot-password--form'>
+        // TODO: Add API base URL to config
+        <form className='login' action='http://localhost:8000/login' method='post'>
+            <div className='login--form'>
                 <Typography
                     sx={{
                         fontSize: '24px',
                         marginBottom: '20px'
                     }}
                 >
-                    Reset Password
+                    Login
                 </Typography>
                 <TextField
                     autoFocus
@@ -71,7 +56,25 @@ function ForgotPassword(): React.ReactElement {
                             }
                         }
                     }}
-                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <TextField
+                    type='password'
+                    label='Password'
+                    name='password'
+                    sx={{
+                        border: '1px solid #5d5d5d 5px',
+                        marginBottom: '20px',
+                        color: '#5d5d5d',
+                        '& label.Mui-focused': {
+                            color: 'black'
+                        },
+                        '& .MuiOutlinedInput-root': {
+                            '&.Mui-focused fieldset': {
+                                borderColor: 'black',
+                                borderWidth: '1px'
+                            }
+                        }
+                    }}
                 />
                 {error ?
                     <div>
@@ -86,28 +89,15 @@ function ForgotPassword(): React.ReactElement {
                     </div>
                     : null
                 }
-                {info ?
-                    <div>
-                        <Typography
-                            sx={{
-                                color: 'green',
-                                marginBottom: '20px'
-                            }}
-                        >
-                            {info}
-                        </Typography>
-                    </div>
-                    : null
-                }
                 <div style={{ textAlign: 'right' }}>
                     <Link
-                        href='/login'
+                        href='/forgot-password'
                     >
-                        Back to login?
+                        Forgot password?
                     </Link>
                     <br />
                     <Button
-                        type='button'
+                        type='submit'
                         sx={{
                             marginTop: '20px',
                             border: '1px solid #5d5d5d',
@@ -117,14 +107,13 @@ function ForgotPassword(): React.ReactElement {
                                 backgroundColor: '#f5f5f5'
                             }
                         }}
-                        onClick={onForgotPasswordBtnClick}
                     >
-                        Send email
+                        Log in
                     </Button>
                 </div>
             </div>
-        </div>
+        </form>
     );
 }
 
-export default ForgotPassword;
+export default Login;

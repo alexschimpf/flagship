@@ -4,11 +4,11 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import Header from '../header';
-import Main from '../pages/main';
-import Login from '../pages/login';
-import ForgotPassword from '../pages/forgotPassword';
-import SetPassword from '../pages/setPassword';
-import NotFound from '../pages/notFound';
+import Main from '../main';
+import Login from '../login';
+import ForgotPassword from '../forgotPassword';
+import SetPassword from '../setPassword';
+import NotFound from '../notFound';
 
 function App(): React.ReactElement {
     return (
@@ -20,6 +20,8 @@ function App(): React.ReactElement {
                 <div className='app--main'>
                     <Routes>
                         <Route path='/' element={<Main />} />
+                        <Route path='/users' element={<Main />} />
+                        <Route path='/profile' element={<Main />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/forgot-password' element={<ForgotPassword />} />
                         <Route path='/set-password' element={<SetPassword />} />

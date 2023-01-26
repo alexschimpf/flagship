@@ -61,5 +61,9 @@ run-server-deps:
 	docker-compose -f docker-compose.deps.yml down -v && docker-compose -f docker-compose.deps.yml up --remove-orphans --build
 
 # get number of lines of python code
-loc:
+loc-py:
 	git ls-files | grep '\.py' | xargs wc -l
+
+# get number of lines of ts code
+loc-ts:
+	git ls-files | grep '\.ts' | xargs wc -l
