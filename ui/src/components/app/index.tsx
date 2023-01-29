@@ -20,11 +20,11 @@ function App(): React.ReactElement {
                 <div className='app--main'>
                     <Routes>
                         <Route path='/' element={<Main />} />
-                        <Route path='/users' element={<Main />} />
-                        <Route path='/profile' element={<Main />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/forgot-password' element={<ForgotPassword />} />
                         <Route path='/set-password' element={<SetPassword />} />
+                        <Route path='/users' element={<Main />} />
+                        <Route path='/profile' element={<Main />} />
                         <Route path='*' element={<NotFound />} />
                     </Routes>
                 </div>

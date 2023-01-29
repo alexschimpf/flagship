@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { 
-    useNavigate, BrowserRouter, Routes, Route
+    useNavigate
 } from 'react-router-dom';
 import APIClient from '../../api';
 import Sidebar from '../sidebar';
@@ -33,9 +33,15 @@ function Main(): React.ReactElement {
             >
                 <Sidebar />
             </div>
-            <div>
+            <div
+                style={{
+                    width: '100%'
+                }}
+            >
                 {
-                    page === '' ? <Projects /> : <Users />
+                    page === '' ?
+                        <Projects /> :
+                        <Users />
                 }
             </div>
         </div>

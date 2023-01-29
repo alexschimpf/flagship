@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { 
-    useNavigate, BrowserRouter, Routes, Route
+    useNavigate
 } from 'react-router-dom';
 import APIClient from '../../api';
 
