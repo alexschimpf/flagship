@@ -1,16 +1,21 @@
 import * as React from 'react';
 import { 
-    useNavigate
+    useNavigate, Routes, Route
 } from 'react-router-dom';
 import APIClient from '../../api';
 import Sidebar from '../sidebar';
 import Projects from '../projects';
+import Project from '../project';
 import Users from '../users';
+import User from '../user';
+import NotFound from '../notFound';
+import FeatureFlags from '../featureFlags';
+import ContextFields from '../contextFields';
+import FeatureFlag from '../featureFlag';
+import ContextField from '../contextField';
 
 function Main(): React.ReactElement {
     const navigate = useNavigate();
-
-    const page = window.location.pathname.substring(1);
 
     React.useEffect(() => {
         APIClient.login.getLoginTest().catch(() => {
@@ -38,11 +43,17 @@ function Main(): React.ReactElement {
                     width: '100%'
                 }}
             >
-                {
-                    page === '' ?
-                        <Projects /> :
-                        <Users />
-                }
+                <Routes>
+                    <Route index element={<Projects />} />
+                    <Route path='project/:projectId' element={<Project />} />
+                    <Route path='project/:projectId/feature-flags' element={<FeatureFlags />} />
+                    <Route path='project/:projectId/feature-flag/:featureFlagId' element={<FeatureFlag />} />
+                    <Route path='project/:projectId/context-fields' element={<ContextFields />} />
+                    <Route path='project/:projectId/context-field/:contextFieldId' element={<ContextField />} />
+                    <Route path='users' element={<Users />} />
+                    <Route path='user/:userId' element={<User />} />
+                    <Route path='*' element={<NotFound />} />
+                </Routes>
             </div>
         </div>
     );

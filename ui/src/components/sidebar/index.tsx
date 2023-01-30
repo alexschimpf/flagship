@@ -30,14 +30,14 @@ function Sidebar(): React.ReactElement {
             }}
         >
             <Button 
-                variant="outlined" 
+                variant='outlined' 
                 startIcon={<AppsIcon />}
                 sx={{
                     textTransform: 'none',
                     color: 'black',
                     borderColor: 'black',
                     fontSize: '16px',
-                    fontWeight: page === '' ? 600 : 400
+                    fontWeight: page === '' || page.includes('project') ? 600 : 400
                 }}
                 onClick={() => page !== '' && navigate('/')}
             >
@@ -49,14 +49,14 @@ function Sidebar(): React.ReactElement {
                 }}
             />
             <Button 
-                variant="outlined" 
+                variant='outlined' 
                 startIcon={<PeopleIcon />}
                 sx={{
                     textTransform: 'none',
                     color: 'black',
                     borderColor: 'black',
                     fontSize: '16px',
-                    fontWeight: page === 'users' ? 600 : 400
+                    fontWeight: page.includes('user') ? 600 : 400
                 }}
                 onClick={() => page !== 'users' && navigate('/users')}
             >
@@ -68,7 +68,7 @@ function Sidebar(): React.ReactElement {
                 }}
             />
             <Button 
-                variant="outlined" 
+                variant='outlined' 
                 startIcon={<PersonIcon />}
                 sx={{
                     textTransform: 'none',

@@ -13,4 +13,6 @@ def process(
     if feature_flags is None:
         raise exceptions.NotFoundException
 
+    feature_flags.sort(key=lambda item: item['name'])
+
     return schemas.FeatureFlags(items=feature_flags)
