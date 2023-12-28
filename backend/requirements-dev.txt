@@ -1,0 +1,14 @@
+-r requirements.txt
+
+flake8>=5.0.4
+flake8-builtins>=2.0.1
+flake8-comprehensions>=3.10.1
+flake8-eradicate>=1.4.0
+flake8-print>=5.0.0
+flake8-length>=0.3.1
+flake8-quotes>=3.3.1
+flake8-use-fstring>=1.4
+rest_api_tester==2.0.4
+mypy==1.8.0
+pytest==7.4.3
+types-ujson==5.9.0.0
