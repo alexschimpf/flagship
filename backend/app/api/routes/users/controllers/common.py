@@ -1,6 +1,6 @@
 from sqlalchemy import select
 
-from app.services.database.mysql.models.project import ProjectModel
+from app.services.database.mysql.schemas.project import ProjectRow
 from app.services.database.mysql.service import MySQLService
 
 
@@ -10,7 +10,7 @@ def are_projects_valid(project_ids: list[int]) -> bool:
         all_project_ids = set(
             session.scalars(
                 select(
-                    ProjectModel.project_id
+                    ProjectRow.project_id
                 )
             ) or ()
         )

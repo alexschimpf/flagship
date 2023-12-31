@@ -7,10 +7,10 @@ from sqlalchemy.orm import Mapped, mapped_column, validates, Session
 from sqlalchemy.sql import func, text
 
 from app.services.database.mysql.exceptions.exceptions import ValidationException, ErrorCode
-from app.services.database.mysql.models.base import BaseModel
+from app.services.database.mysql.schemas.base import BaseRow
 
 
-class FeatureFlagModel(BaseModel):
+class FeatureFlagRow(BaseRow):
 
     __tablename__ = 'feature_flags'
 
@@ -37,13 +37,16 @@ class FeatureFlagModel(BaseModel):
     def conditions_json(self) -> list[list[dict[str, Any]]]:
         return ujson.loads(self.conditions)  # type: ignore
 
+
+class FeatureFlagsTable:
+
     @classmethod
-    def get_feature_flags(cls, project_id: int, session: Session) -> Sequence['FeatureFlagModel']:
+    def get_feature_flags(cls, project_id: int, session: Session) -> Sequence[FeatureFlagRow]:
         return session.scalars(
             select(
-                FeatureFlagModel
+                FeatureFlagRow
             ).where(
-                FeatureFlagModel.project_id == project_id
+                FeatureFlagRow.project_id == project_id
             )
         ).all()
 
@@ -55,18 +58,18 @@ class FeatureFlagModel(BaseModel):
         feature_flag_id: int | None = None,
     ) -> bool:
         where_conditions = [
-            FeatureFlagModel.name == name,
-            FeatureFlagModel.project_id == project_id
+            FeatureFlagRow.name == name,
+            FeatureFlagRow.project_id == project_id
         ]
         if feature_flag_id is not None:
             where_conditions.append(
-                FeatureFlagModel.feature_flag_id != feature_flag_id
+                FeatureFlagRow.feature_flag_id != feature_flag_id
             )
 
         stmt = select(
             text('1')
         ).select_from(
-            FeatureFlagModel
+            FeatureFlagRow
         ).where(
             *where_conditions
         ).limit(1)
@@ -78,10 +81,10 @@ class FeatureFlagModel(BaseModel):
     def delete_feature_flag(project_id: int, feature_flag_id: int, session: Session) -> None:
         session.execute(
             delete(
-                FeatureFlagModel
+                FeatureFlagRow
             ).where(
-                FeatureFlagModel.project_id == project_id,
-                FeatureFlagModel.feature_flag_id == feature_flag_id
+                FeatureFlagRow.project_id == project_id,
+                FeatureFlagRow.feature_flag_id == feature_flag_id
             )
         )
 
@@ -97,14 +100,14 @@ class FeatureFlagModel(BaseModel):
     ) -> None:
         session.execute(
             update(
-                FeatureFlagModel
+                FeatureFlagRow
             ).where(
-                FeatureFlagModel.feature_flag_id == feature_flag_id,
-                FeatureFlagModel.project_id == project_id
+                FeatureFlagRow.feature_flag_id == feature_flag_id,
+                FeatureFlagRow.project_id == project_id
             ).values({
-                FeatureFlagModel.name: name,
-                FeatureFlagModel.description: description,
-                FeatureFlagModel.enabled: enabled,
-                FeatureFlagModel.conditions: conditions
+                FeatureFlagRow.name: name,
+                FeatureFlagRow.description: description,
+                FeatureFlagRow.enabled: enabled,
+                FeatureFlagRow.conditions: conditions
             })
         )

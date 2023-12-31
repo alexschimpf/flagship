@@ -1,5 +1,5 @@
 from app.api.routes.projects.schemas import Projects, Project
-from app.services.database.mysql.models.project import ProjectModel
+from app.services.database.mysql.schemas.project import ProjectsTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -12,11 +12,11 @@ class GetProjectsController:
     def handle_request() -> Projects:
         # TODO: Only return projects allowed for user
         with MySQLService.get_session() as session:
-            project_models = ProjectModel.get_projects(session=session)
+            project_rows = ProjectsTable.get_projects(session=session)
 
         projects = [
-            Project.from_model(model=project_model)
-            for project_model in project_models
+            Project.from_row(row=project_row)
+            for project_row in project_rows
         ]
 
         return Projects(

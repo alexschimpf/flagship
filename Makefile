@@ -42,3 +42,7 @@ run-docker-compose-deps:
 	docker-compose -f docker-compose-deps.yml down -v --remove-orphans &&\
 	docker-compose -f docker-compose-deps.yml up
 
+# get lines of python code
+py-size:
+	git ls-files | grep '\.py' | xargs wc -l
+

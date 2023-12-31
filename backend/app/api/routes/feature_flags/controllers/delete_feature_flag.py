@@ -1,5 +1,5 @@
 from app.api.schemas import SuccessResponse
-from app.services.database.mysql.models.feature_flag import FeatureFlagModel
+from app.services.database.mysql.schemas.feature_flag import FeatureFlagsTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -15,7 +15,7 @@ class DeleteFeatureFlagController:
 
     def _delete_feature_flag(self) -> None:
         with MySQLService.get_session() as session:
-            FeatureFlagModel.delete_feature_flag(
+            FeatureFlagsTable.delete_feature_flag(
                 project_id=self.project_id, feature_flag_id=self.feature_flag_id, session=session
             )
             session.commit()

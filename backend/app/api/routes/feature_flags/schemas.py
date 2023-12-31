@@ -4,7 +4,7 @@ from typing import Any
 from pydantic import BaseModel, Field
 
 from app import constants
-from app.services.database.mysql.models.feature_flag import FeatureFlagModel
+from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow
 
 
 class FeatureFlagCondition(BaseModel):
@@ -26,16 +26,16 @@ class FeatureFlag(BaseModel):
     updated_date: datetime
 
     @classmethod
-    def from_model(cls, model: FeatureFlagModel) -> 'FeatureFlag':
+    def from_row(cls, row: FeatureFlagRow) -> 'FeatureFlag':
         # TODO: Fix conditions
         return cls(
-            feature_flag_id=model.feature_flag_id,
-            name=model.name,
-            description=model.description,
-            enabled=model.enabled,
-            conditions=model.conditions_json,  # type: ignore
-            created_date=model.created_date,
-            updated_date=model.updated_date
+            feature_flag_id=row.feature_flag_id,
+            name=row.name,
+            description=row.description,
+            enabled=row.enabled,
+            conditions=row.conditions_json,  # type: ignore
+            created_date=row.created_date,
+            updated_date=row.updated_date
         )
 
 

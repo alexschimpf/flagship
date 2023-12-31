@@ -8,10 +8,10 @@ from sqlalchemy.sql import func, text
 
 from app.constants import UserRole, UserStatus
 from app.services.database.mysql.exceptions.exceptions import ValidationException, ErrorCode
-from app.services.database.mysql.models.base import BaseModel
+from app.services.database.mysql.schemas.base import BaseRow
 
 
-class UserModel(BaseModel):
+class UserRow(BaseRow):
 
     __tablename__ = 'users'
 
@@ -64,11 +64,14 @@ class UserModel(BaseModel):
 
         return value
 
+
+class UsersTable:
+
     @classmethod
-    def get_users(cls, session: Session) -> Sequence['UserModel']:
+    def get_users(cls, session: Session) -> Sequence[UserRow]:
         return session.scalars(
             select(
-                UserModel
+                UserRow
             )
         ).all()
 
@@ -76,9 +79,9 @@ class UserModel(BaseModel):
     def delete_user(user_id: int, session: Session) -> None:
         session.execute(
             delete(
-                UserModel
+                UserRow
             ).where(
-                UserModel.user_id == user_id
+                UserRow.user_id == user_id
             )
         )
 
@@ -86,11 +89,11 @@ class UserModel(BaseModel):
     def update_set_password_token(email: str, set_password_token: str, session: Session) -> None:
         session.execute(
             update(
-                UserModel
+                UserRow
             ).where(
-                UserModel.email == email
+                UserRow.email == email
             ).values({
-                UserModel.set_password_token: set_password_token
+                UserRow.set_password_token: set_password_token
             })
         )
 
@@ -98,22 +101,22 @@ class UserModel(BaseModel):
     def update_password(user_id: int, password: str, session: Session) -> None:
         session.execute(
             update(
-                UserModel
+                UserRow
             ).where(
-                UserModel.user_id == user_id
+                UserRow.user_id == user_id
             ).values({
-                UserModel.set_password_token: None,
-                UserModel.password: password
+                UserRow.set_password_token: None,
+                UserRow.password: password
             })
         )
 
     @classmethod
-    def get_user_by_email(cls, email: str, session: Session) -> 'UserModel | None':
+    def get_user_by_email(cls, email: str, session: Session) -> UserRow | None:
         return session.scalar(
             select(
-                UserModel
+                UserRow
             ).where(
-                UserModel.email == email
+                UserRow.email == email
             )
         )
 
@@ -121,12 +124,12 @@ class UserModel(BaseModel):
     def update_user(cls, user_id: int, name: str, role: int, projects: str, session: Session) -> None:
         session.execute(
             update(
-                UserModel
+                UserRow
             ).where(
-                UserModel.user_id == user_id
+                UserRow.user_id == user_id
             ).values({
-                UserModel.name: name,
-                UserModel.role: role,
-                UserModel.projects: projects
+                UserRow.name: name,
+                UserRow.role: role,
+                UserRow.projects: projects
             })
         )

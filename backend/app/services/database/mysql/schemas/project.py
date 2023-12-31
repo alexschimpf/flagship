@@ -5,10 +5,10 @@ from sqlalchemy import String, DateTime, Integer, delete, select, update
 from sqlalchemy.orm import Mapped, mapped_column, Session
 from sqlalchemy.sql import func, text
 
-from app.services.database.mysql.models.base import BaseModel
+from app.services.database.mysql.schemas.base import BaseRow
 
 
-class ProjectModel(BaseModel):
+class ProjectRow(BaseRow):
 
     __tablename__ = 'projects'
 
@@ -19,21 +19,24 @@ class ProjectModel(BaseModel):
     updated_date: Mapped[datetime.datetime] = mapped_column(
         DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 
+
+class ProjectsTable:
+
     @classmethod
-    def get_project_by_name(cls, name: str, session: Session) -> 'ProjectModel | None':
+    def get_project_by_name(cls, name: str, session: Session) -> ProjectRow | None:
         return session.scalar(
             select(
-                ProjectModel
+                ProjectRow
             ).where(
-                ProjectModel.name == name
+                ProjectRow.name == name
             )
         )
 
     @classmethod
-    def get_projects(cls, session: Session) -> Sequence['ProjectModel']:
+    def get_projects(cls, session: Session) -> Sequence[ProjectRow]:
         return session.scalars(
             select(
-                ProjectModel
+                ProjectRow
             )
         ).all()
 
@@ -41,9 +44,9 @@ class ProjectModel(BaseModel):
     def delete_project(project_id: int, session: Session) -> None:
         session.execute(
             delete(
-                ProjectModel
+                ProjectRow
             ).where(
-                ProjectModel.project_id == project_id
+                ProjectRow.project_id == project_id
             )
         )
 
@@ -51,11 +54,11 @@ class ProjectModel(BaseModel):
     def update_project(project_id: int, name: str, session: Session) -> None:
         session.execute(
             update(
-                ProjectModel
+                ProjectRow
             ).where(
-                ProjectModel.project_id == project_id
+                ProjectRow.project_id == project_id
             ).values({
-                ProjectModel.name: name
+                ProjectRow.name: name
             })
         )
 
@@ -63,10 +66,10 @@ class ProjectModel(BaseModel):
     def update_project_private_key(project_id: int, private_key: str, session: Session) -> None:
         session.execute(
             update(
-                ProjectModel
+                ProjectRow
             ).where(
-                ProjectModel.project_id == project_id
+                ProjectRow.project_id == project_id
             ).values({
-                ProjectModel.private_key: private_key
+                ProjectRow.private_key: private_key
             })
         )

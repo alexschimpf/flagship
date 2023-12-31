@@ -4,7 +4,7 @@ from typing import Any, Self
 from pydantic import BaseModel, Field
 
 from app.constants import ContextValueType
-from app.services.database.mysql.models.context_field import ContextFieldModel
+from app.services.database.mysql.schemas.context_field import ContextFieldRow
 
 
 class ContextField(BaseModel):
@@ -18,16 +18,16 @@ class ContextField(BaseModel):
     updated_date: datetime
 
     @classmethod
-    def from_model(cls, model: ContextFieldModel) -> Self:
+    def from_row(cls, row: ContextFieldRow) -> Self:
         return cls(
-            context_field_id=model.context_field_id,
-            name=model.name,
-            field_key=model.field_key,
-            value_type=ContextValueType(model.value_type),
-            description=model.description,
-            enum_def=model.enum_def_json,
-            created_date=model.created_date,
-            updated_date=model.updated_date
+            context_field_id=row.context_field_id,
+            name=row.name,
+            field_key=row.field_key,
+            value_type=ContextValueType(row.value_type),
+            description=row.description,
+            enum_def=row.enum_def_json,
+            created_date=row.created_date,
+            updated_date=row.updated_date
         )
 
 

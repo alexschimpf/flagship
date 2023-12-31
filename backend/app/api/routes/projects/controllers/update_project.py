@@ -1,6 +1,6 @@
 from app.api.exceptions.exceptions import NotFoundException
 from app.api.routes.projects.schemas import CreateOrUpdateProject, Project
-from app.services.database.mysql.models.project import ProjectModel
+from app.services.database.mysql.schemas.project import ProjectRow, ProjectsTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -11,17 +11,17 @@ class UpdateProjectController:
         self.request = request
 
     def handle_request(self) -> Project:
-        project_model = self._update_project()
-        if not project_model:
+        project_row = self._update_project()
+        if not project_row:
             raise NotFoundException
 
-        return Project.from_model(model=project_model)
+        return Project.from_row(row=project_row)
 
-    def _update_project(self) -> ProjectModel | None:
+    def _update_project(self) -> ProjectRow | None:
         with MySQLService.get_session() as session:
-            ProjectModel.update_project(project_id=self.project_id, name=self.request.name, session=session)
+            ProjectsTable.update_project(project_id=self.project_id, name=self.request.name, session=session)
             session.commit()
 
-            project_model = session.get(ProjectModel, self.project_id)
+            project_row = session.get(ProjectRow, self.project_id)
 
-        return project_model
+        return project_row

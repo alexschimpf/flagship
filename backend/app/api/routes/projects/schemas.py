@@ -3,7 +3,7 @@ from typing import Self
 
 from pydantic import BaseModel, Field
 
-from app.services.database.mysql.models.project import ProjectModel
+from app.services.database.mysql.schemas.project import ProjectRow
 
 
 class Project(BaseModel):
@@ -13,12 +13,12 @@ class Project(BaseModel):
     updated_date: datetime
 
     @classmethod
-    def from_model(cls, model: ProjectModel) -> Self:
+    def from_row(cls, row: ProjectRow) -> Self:
         return cls(
-            project_id=model.project_id,
-            name=model.name,
-            created_date=model.created_date,
-            updated_date=model.updated_date
+            project_id=row.project_id,
+            name=row.name,
+            created_date=row.created_date,
+            updated_date=row.updated_date
         )
 
 

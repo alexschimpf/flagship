@@ -2,7 +2,7 @@ import ujson
 
 from app.api.exceptions.exceptions import NotFoundException, NameTakenException
 from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag
-from app.services.database.mysql.models.feature_flag import FeatureFlagModel
+from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow, FeatureFlagsTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -16,18 +16,18 @@ class UpdateFeatureFlagController:
     def handle_request(self) -> FeatureFlag:
         self._validate()
 
-        feature_flag_model = self._update_feature_flag()
+        feature_flag_row = self._update_feature_flag()
 
-        if not feature_flag_model:
+        if not feature_flag_row:
             raise NotFoundException
 
-        return FeatureFlag.from_model(model=feature_flag_model)
+        return FeatureFlag.from_row(row=feature_flag_row)
 
     def _validate(self) -> None:
         # TODO: Validate conditions
 
         with MySQLService.get_session() as session:
-            if FeatureFlagModel.is_feature_flag_name_taken(
+            if FeatureFlagsTable.is_feature_flag_name_taken(
                 name=self.request.name,
                 feature_flag_id=self.feature_flag_id,
                 project_id=self.project_id,
@@ -35,9 +35,9 @@ class UpdateFeatureFlagController:
             ):
                 raise NameTakenException(field='name')
 
-    def _update_feature_flag(self) -> FeatureFlagModel | None:
+    def _update_feature_flag(self) -> FeatureFlagRow | None:
         with MySQLService.get_session() as session:
-            FeatureFlagModel.update_feature_flag(
+            FeatureFlagsTable.update_feature_flag(
                 project_id=self.project_id,
                 feature_flag_id=self.feature_flag_id,
                 name=self.request.name,
@@ -48,6 +48,6 @@ class UpdateFeatureFlagController:
             )
             session.commit()
 
-            feature_flag_model = session.get(FeatureFlagModel, (self.feature_flag_id, self.project_id))
+            feature_flag_row = session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id))
 
-        return feature_flag_model
+        return feature_flag_row

@@ -1,5 +1,5 @@
 from app.api.schemas import SuccessResponse
-from app.services.database.mysql.models.project import ProjectModel
+from app.services.database.mysql.schemas.project import ProjectsTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -14,5 +14,5 @@ class DeleteProjectController:
 
     def _delete_project(self) -> None:
         with MySQLService.get_session() as session:
-            ProjectModel.delete_project(project_id=self.project_id, session=session)
+            ProjectsTable.delete_project(project_id=self.project_id, session=session)
             session.commit()

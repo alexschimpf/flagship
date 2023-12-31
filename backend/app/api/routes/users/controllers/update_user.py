@@ -1,7 +1,7 @@
 from app.api.exceptions.exceptions import InvalidProjectException, NotFoundException
 from app.api.routes.users.controllers import common
 from app.api.routes.users.schemas import UpdateUser, User
-from app.services.database.mysql.models.user import UserModel
+from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -14,20 +14,20 @@ class UpdateUserController:
     def handle_request(self) -> User:
         self._validate()
 
-        user_model = self._update_user()
-        if not user_model:
+        user_row = self._update_user()
+        if not user_row:
             raise NotFoundException
 
-        return User.from_model(model=user_model)
+        return User.from_row(row=user_row)
 
     def _validate(self) -> None:
         if not common.are_projects_valid(project_ids=self.request.projects):
             raise InvalidProjectException(field='projects')
 
-    def _update_user(self) -> UserModel | None:
+    def _update_user(self) -> UserRow | None:
         projects = ','.join(map(str, self.request.projects))
         with MySQLService.get_session() as session:
-            UserModel.update_user(
+            UsersTable.update_user(
                 user_id=self.user_id,
                 name=self.request.name,
                 role=self.request.role,
@@ -36,6 +36,6 @@ class UpdateUserController:
             )
             session.commit()
 
-            user_model = session.get(UserModel, self.user_id)
+            user_row = session.get(UserRow, self.user_id)
 
-        return user_model
+        return user_row

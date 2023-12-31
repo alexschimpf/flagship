@@ -54,7 +54,7 @@ class Bootstrap:
                 }
             },
             exception_handlers=exceptions_handlers,
-            swagger_ui_parameters={'defaultModelsExpandDepth': -1}
+            swagger_ui_parameters={'defaultRowsExpandDepth': -1}
         )
 
     @staticmethod

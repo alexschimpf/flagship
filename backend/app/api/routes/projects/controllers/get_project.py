@@ -1,6 +1,6 @@
 from app.api.exceptions.exceptions import NotFoundException
 from app.api.routes.projects.schemas import Project
-from app.services.database.mysql.models.project import ProjectModel
+from app.services.database.mysql.schemas.project import ProjectRow
 from app.services.database.mysql.service import MySQLService
 
 
@@ -11,9 +11,9 @@ class GetProjectController:
 
     def handle_request(self) -> Project:
         with MySQLService.get_session() as session:
-            project_model = session.get(ProjectModel, self.project_id)
+            project_row = session.get(ProjectRow, self.project_id)
 
-        if not project_model:
+        if not project_row:
             raise NotFoundException
 
-        return Project.from_model(model=project_model)
+        return Project.from_row(row=project_row)

@@ -1,5 +1,5 @@
 from app.api.routes.context_fields.schemas import ContextFields, ContextField
-from app.services.database.mysql.models.context_field import ContextFieldModel
+from app.services.database.mysql.schemas.context_field import ContextFieldsTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -10,11 +10,11 @@ class GetContextFieldsController:
 
     def handle_request(self) -> ContextFields:
         with MySQLService.get_session() as session:
-            context_field_models = ContextFieldModel.get_context_fields(project_id=self.project_id, session=session)
+            context_field_rows = ContextFieldsTable.get_context_fields(project_id=self.project_id, session=session)
 
         context_fields = [
-            ContextField.from_model(model=context_field_model)
-            for context_field_model in context_field_models
+            ContextField.from_row(row=context_field_row)
+            for context_field_row in context_field_rows
         ]
 
         return ContextFields(

@@ -2,7 +2,7 @@ import bcrypt
 
 from app.api.routes.users.schemas import SetPassword
 from app.api.schemas import SuccessResponse
-from app.services.database.mysql.models.user import UserModel
+from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -19,19 +19,19 @@ class SetPasswordController:
 
         return SuccessResponse()
 
-    def _validate(self, user: UserModel) -> None:
+    def _validate(self, user: UserRow) -> None:
         if not user or user.set_password_token != self.request.token:
             raise Exception('User not found')
 
         # TODO: Validate password
 
-    def _update_password(self, user: UserModel) -> None:
+    def _update_password(self, user: UserRow) -> None:
         hashed_password = bcrypt.hashpw(
             self.request.password.encode('utf-8'),
             bcrypt.gensalt(prefix=b'2a')
         ).decode('utf-8')
         with MySQLService.get_session() as session:
-            UserModel.update_password(
+            UsersTable.update_password(
                 user_id=user.user_id,
                 password=hashed_password,
                 session=session
@@ -39,8 +39,8 @@ class SetPasswordController:
             session.commit()
 
     @staticmethod
-    def _get_user_by_email(email: str) -> UserModel | None:
+    def _get_user_by_email(email: str) -> UserRow | None:
         with MySQLService.get_session() as session:
-            user_model = UserModel.get_user_by_email(email=email, session=session)
+            user_row = UsersTable.get_user_by_email(email=email, session=session)
 
-        return user_model
+        return user_row

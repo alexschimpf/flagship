@@ -1,5 +1,5 @@
 from app.api.schemas import SuccessResponse
-from app.services.database.mysql.models.user import UserModel
+from app.services.database.mysql.schemas.user import UsersTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -10,7 +10,7 @@ class DeleteUserController:
 
     def handle_request(self) -> SuccessResponse:
         with MySQLService.get_session() as session:
-            UserModel.delete_user(user_id=self.user_id, session=session)
+            UsersTable.delete_user(user_id=self.user_id, session=session)
             session.commit()
 
         return SuccessResponse()

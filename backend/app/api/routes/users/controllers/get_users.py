@@ -1,5 +1,5 @@
 from app.api.routes.users.schemas import Users, User
-from app.services.database.mysql.models.user import UserModel
+from app.services.database.mysql.schemas.user import UsersTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -12,11 +12,11 @@ class GetUsersController:
     def handle_request() -> Users:
         # TODO: Protect this endpoint
         with MySQLService.get_session() as session:
-            user_models = UserModel.get_users(session=session)
+            user_rows = UsersTable.get_users(session=session)
 
         users = [
-            User.from_model(model=user_model)
-            for user_model in user_models
+            User.from_row(row=user_row)
+            for user_row in user_rows
         ]
 
         return Users(

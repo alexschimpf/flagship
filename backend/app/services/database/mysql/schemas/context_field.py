@@ -8,10 +8,10 @@ from sqlalchemy.sql import func, text
 
 from app.constants import ContextValueType
 from app.services.database.mysql.exceptions.exceptions import ValidationException, ErrorCode
-from app.services.database.mysql.models.base import BaseModel
+from app.services.database.mysql.schemas.base import BaseRow
 
 
-class ContextFieldModel(BaseModel):
+class ContextFieldRow(BaseRow):
 
     __tablename__ = 'context_fields'
 
@@ -50,13 +50,16 @@ class ContextFieldModel(BaseModel):
             return None
         return ujson.loads(self.enum_def)  # type: ignore
 
+
+class ContextFieldsTable:
+
     @classmethod
-    def get_context_fields(cls, project_id: int, session: Session) -> Sequence['ContextFieldModel']:
+    def get_context_fields(cls, project_id: int, session: Session) -> Sequence[ContextFieldRow]:
         return session.scalars(
             select(
-                ContextFieldModel
+                ContextFieldRow
             ).where(
-                ContextFieldModel.project_id == project_id
+                ContextFieldRow.project_id == project_id
             )
         ).all()
 
@@ -71,14 +74,14 @@ class ContextFieldModel(BaseModel):
     ) -> None:
         session.execute(
             update(
-                ContextFieldModel
+                ContextFieldRow
             ).where(
-                ContextFieldModel.context_field_id == context_field_id,
-                ContextFieldModel.project_id == project_id
+                ContextFieldRow.context_field_id == context_field_id,
+                ContextFieldRow.project_id == project_id
             ).values({
-                ContextFieldModel.name: name,
-                ContextFieldModel.enum_def: enum_def,
-                ContextFieldModel.description: description
+                ContextFieldRow.name: name,
+                ContextFieldRow.enum_def: enum_def,
+                ContextFieldRow.description: description
             })
         )
 
@@ -86,10 +89,10 @@ class ContextFieldModel(BaseModel):
     def delete_context_field(project_id: int, context_field_id: int, session: Session) -> None:
         session.execute(
             delete(
-                ContextFieldModel
+                ContextFieldRow
             ).where(
-                ContextFieldModel.project_id == project_id,
-                ContextFieldModel.context_field_id == context_field_id
+                ContextFieldRow.project_id == project_id,
+                ContextFieldRow.context_field_id == context_field_id
             )
         )
 
@@ -101,18 +104,18 @@ class ContextFieldModel(BaseModel):
         context_field_id: int | None = None
     ) -> bool:
         where_conditions = [
-            ContextFieldModel.name == name,
-            ContextFieldModel.project_id == project_id
+            ContextFieldRow.name == name,
+            ContextFieldRow.project_id == project_id
         ]
         if context_field_id is not None:
             where_conditions.append(
-                ContextFieldModel.context_field_id != context_field_id
+                ContextFieldRow.context_field_id != context_field_id
             )
 
         stmt = select(
             text('1')
         ).select_from(
-            ContextFieldModel
+            ContextFieldRow
         ).where(
             *where_conditions
         ).limit(1)
@@ -128,18 +131,18 @@ class ContextFieldModel(BaseModel):
         context_field_id: int | None = None
     ) -> bool:
         where_conditions = [
-            ContextFieldModel.field_key == field_key,
-            ContextFieldModel.project_id == project_id
+            ContextFieldRow.field_key == field_key,
+            ContextFieldRow.project_id == project_id
         ]
         if context_field_id is not None:
             where_conditions.append(
-                ContextFieldModel.context_field_id != context_field_id
+                ContextFieldRow.context_field_id != context_field_id
             )
 
         stmt = select(
             text('1')
         ).select_from(
-            ContextFieldModel
+            ContextFieldRow
         ).where(
             *where_conditions
         ).limit(1)
