@@ -13,6 +13,7 @@ from app.api import exceptions
 from app.api.exceptions import handlers as exception_handlers
 from app.api.schemas import ErrorResponseModel
 from app.api.routers import router
+from app.services.database.mysql.service import MySQLService
 
 
 class Bootstrap:
@@ -21,6 +22,7 @@ class Bootstrap:
         self._init_logger()
 
         app = self._build_app()
+        self._init_services()
         self._register_routes(app=app)
         self._override_openapi(app=app)
         self._add_cors_middleware(app=app)
@@ -53,6 +55,10 @@ class Bootstrap:
             exception_handlers=exceptions_handlers,
             swagger_ui_parameters={'defaultModelsExpandDepth': -1}
         )
+
+    @staticmethod
+    def _init_services() -> None:
+        MySQLService.init()
 
     @staticmethod
     def _register_routes(app: FastAPI) -> None:

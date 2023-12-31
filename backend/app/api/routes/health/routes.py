@@ -9,4 +9,9 @@ router = APIRouter(
 
 @router.get('')
 def get_health() -> str:
-    return 'OK'
+    return 'Ok'
+
+
+@router.get('/deps')
+def get_deps() -> str:
+    return 'Ok'

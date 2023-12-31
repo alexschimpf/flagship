@@ -49,18 +49,23 @@ class NameTakenException(BadRequestFieldException):
     DEFAULT_MESSAGE: str = 'Sorry, that name is already taken'
 
 
+class EmailTakenException(BadRequestFieldException):
+    CODE: str = 'EMAIL_TAKEN'
+    DEFAULT_MESSAGE: str = 'Sorry, that email is already taken'
+
+
 class ContextFieldKeyTakenException(BadRequestFieldException):
     CODE: str = 'CONTEXT_FIELD_KEY_TAKEN'
     DEFAULT_MESSAGE: str = 'Sorry, that context field key is already being used in this project'
 
 
 class InvalidEnumDefException(BadRequestFieldException):
-    CODE: str = 'INVALID_ENUM_DEF_EXCEPTION'
+    CODE: str = 'INVALID_ENUM_DEF'
     DEFAULT_MESSAGE: str = 'Invalid enum definition'
 
 
 class EnumContextFieldTypeWithoutEnumDefException(BadRequestFieldException):
-    CODE: str = 'ENUM_CONTEXT_FIELD_TYPE_WITHOUT_ENUM_DEF_EXCEPTION'
+    CODE: str = 'ENUM_CONTEXT_FIELD_TYPE_WITHOUT_ENUM_DEF'
     DEFAULT_MESSAGE: str = 'Context fields with "enum" or "enum list" types require an enum definition'
 
 
@@ -72,11 +77,6 @@ class SameContextFieldKeysInAndGroup(BadRequestFieldException):
 class InvalidFeatureFlagConditions(BadRequestFieldException):
     CODE: str = 'INVALID_FEATURE_FLAG_CONDITIONS'
     DEFAULT_MESSAGE: str = 'Invalid conditions'
-
-
-class InvalidSetPasswordAttemptException(BadRequestFieldException):
-    CODE: str = 'INVALID_SET_PASSWORD_ATTEMPT'
-    DEFAULT_MESSAGE: str = 'Invalid token'
 
 
 class InvalidProjectException(BadRequestFieldException):

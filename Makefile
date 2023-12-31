@@ -22,11 +22,11 @@ be-type-check:
 
 # install backend python packages
 be-install-reqs:
-	pip install -r server/requirements.txt
+	pip install -r backend/requirements.txt
 
 # install backend python packages
 be-install-dev-reqs:
-	pip install -r server/requirements-dev.txt
+	pip install -r backend/requirements-dev.txt
 
 # run backend unit tests
 be-run-unit-tests:
@@ -35,4 +35,10 @@ be-run-unit-tests:
 # run backend api tests
 be-run-api-tests:
 	./backend/tests/api/runtests.sh
+
+# run dependencies via docker compose
+run-docker-compose-deps:
+	cd docker &&\
+	docker-compose -f docker-compose-deps.yml down -v --remove-orphans &&\
+	docker-compose -f docker-compose-deps.yml up
 

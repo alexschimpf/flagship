@@ -12,4 +12,4 @@ class ErrorResponseModel(BaseModel):
 
 
 class SuccessResponse(BaseModel):
-    success: bool
+    success: bool = True
