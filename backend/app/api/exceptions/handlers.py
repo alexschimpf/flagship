@@ -47,14 +47,13 @@ def app_exception_handler(_: Request, e: AppException) -> JSONResponse:
 def request_validation_exception_handler(_: Request, e: RequestValidationError) -> JSONResponse:
     formatted_errors = []
     for error in e.errors():
-        loc, code, msg = error['loc'], error['type'], error['msg']
-        path_list = loc[1:]
-        field_path = '.'.join(map(str, path_list))
-        msg = add_missing_punctuation(message=msg)
+        error_code, message = error['type'], error['msg']
+        field = error['loc'][1]
+        message = _make_user_friendly(error_code=error_code, field=field, message=message)
         formatted_errors.append({
-            'field': field_path,
-            'code': code,
-            'message': str(msg).capitalize()
+            'field': field,
+            'code': error_code.upper(),
+            'message': message
         })
 
     return JSONResponse(
@@ -63,3 +62,10 @@ def request_validation_exception_handler(_: Request, e: RequestValidationError) 
             'errors': formatted_errors
         })
     )
+
+
+def _make_user_friendly(error_code: str, field: str, message: str) -> str:
+    if error_code in ('string_too_long', 'string_too_short'):
+        message = message.replace('String', field)
+
+    return add_missing_punctuation(message=message).capitalize()

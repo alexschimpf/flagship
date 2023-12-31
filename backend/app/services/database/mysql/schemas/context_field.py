@@ -112,16 +112,15 @@ class ContextFieldsTable:
                 ContextFieldRow.context_field_id != context_field_id
             )
 
-        stmt = select(
-            text('1')
-        ).select_from(
-            ContextFieldRow
-        ).where(
-            *where_conditions
-        ).limit(1)
-
-        row = session.scalar(stmt)
-        return bool(row)
+        return bool(session.scalar(
+            select(
+                text('1')
+            ).select_from(
+                ContextFieldRow
+            ).where(
+                *where_conditions
+            ).limit(1)
+        ))
 
     @staticmethod
     def is_context_field_field_key_taken(
@@ -139,13 +138,12 @@ class ContextFieldsTable:
                 ContextFieldRow.context_field_id != context_field_id
             )
 
-        stmt = select(
-            text('1')
-        ).select_from(
-            ContextFieldRow
-        ).where(
-            *where_conditions
-        ).limit(1)
-
-        row = session.scalar(stmt)
-        return bool(row)
+        return bool(session.scalar(
+            select(
+                text('1')
+            ).select_from(
+                ContextFieldRow
+            ).where(
+                *where_conditions
+            ).limit(1)
+        ))

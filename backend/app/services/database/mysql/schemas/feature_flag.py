@@ -66,16 +66,15 @@ class FeatureFlagsTable:
                 FeatureFlagRow.feature_flag_id != feature_flag_id
             )
 
-        stmt = select(
-            text('1')
-        ).select_from(
-            FeatureFlagRow
-        ).where(
-            *where_conditions
-        ).limit(1)
-
-        row = session.scalar(stmt)
-        return bool(row)
+        return bool(session.scalar(
+            select(
+                text('1')
+            ).select_from(
+                FeatureFlagRow
+            ).where(
+                *where_conditions
+            ).limit(1)
+        ))
 
     @staticmethod
     def delete_feature_flag(project_id: int, feature_flag_id: int, session: Session) -> None:

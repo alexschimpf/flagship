@@ -10,6 +10,7 @@ class GetProjectController:
         self.project_id = project_id
 
     def handle_request(self) -> Project:
+        # TODO: Make sure this project is allowed for the current user
         with MySQLService.get_session() as session:
             project_row = session.get(ProjectRow, self.project_id)
 
