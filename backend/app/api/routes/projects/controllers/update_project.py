@@ -1,7 +1,7 @@
-from app.services.database.mysql.service import MySQLService
-from app.services.database.mysql.models.project import ProjectModel
-from app.api.routes.projects.schemas import CreateOrUpdateProject, Project
 from app.api.exceptions.exceptions import NotFoundException
+from app.api.routes.projects.schemas import CreateOrUpdateProject, Project
+from app.services.database.mysql.models.project import ProjectModel
+from app.services.database.mysql.service import MySQLService
 
 
 class UpdateProjectController:

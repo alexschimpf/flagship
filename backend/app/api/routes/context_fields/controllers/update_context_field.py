@@ -1,9 +1,9 @@
 import ujson
 
+from app.api.exceptions.exceptions import NameTakenException, AggregateException, AppException, NotFoundException
 from app.api.routes.context_fields.schemas import UpdateContextField, ContextField
 from app.services.database.mysql.models.context_field import ContextFieldModel
 from app.services.database.mysql.service import MySQLService
-from app.api.exceptions.exceptions import NameTakenException, AggregateException, AppException, NotFoundException
 
 
 class UpdateContextFieldController:

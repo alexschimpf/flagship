@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 
 from app.api.routes.projects.controllers.create_project import CreateProjectController
-from app.api.routes.projects.controllers.get_projects import GetProjectsController
 from app.api.routes.projects.controllers.delete_project import DeleteProjectController
 from app.api.routes.projects.controllers.get_project import GetProjectController
+from app.api.routes.projects.controllers.get_projects import GetProjectsController
 from app.api.routes.projects.controllers.reset_project_private_key import ResetProjectPrivateKeyController
 from app.api.routes.projects.controllers.update_project import UpdateProjectController
 from app.api.routes.projects.schemas import Project, Projects, CreateOrUpdateProject, ProjectWithPrivateKey

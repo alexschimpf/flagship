@@ -1,4 +1,5 @@
 import secrets
+
 from cryptography import fernet
 
 from app import config

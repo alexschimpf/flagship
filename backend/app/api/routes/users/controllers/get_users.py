@@ -1,6 +1,6 @@
 from app.api.routes.users.schemas import Users, User
-from app.services.database.mysql.service import MySQLService
 from app.services.database.mysql.models.user import UserModel
+from app.services.database.mysql.service import MySQLService
 
 
 class GetUsersController:

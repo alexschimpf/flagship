@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
+from app.api.routes.users.controllers.delete_user import DeleteUserController
 from app.api.routes.users.controllers.get_user import GetUserController
 from app.api.routes.users.controllers.get_users import GetUsersController
-from app.api.routes.users.controllers.delete_user import DeleteUserController
 from app.api.routes.users.controllers.invite_user import InviteUserController
 from app.api.routes.users.controllers.reset_password import ResetPasswordController
 from app.api.routes.users.controllers.set_password import SetPasswordController

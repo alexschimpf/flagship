@@ -1,10 +1,10 @@
 import ujson
 
+from app.api.exceptions.exceptions import NameTakenException
 from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag
 from app.api.routes.feature_flags.schemas import FeatureFlag
 from app.services.database.mysql.models.feature_flag import FeatureFlagModel
 from app.services.database.mysql.service import MySQLService
-from app.api.exceptions.exceptions import NameTakenException
 
 
 class CreateFeatureFlagController:

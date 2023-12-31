@@ -1,12 +1,13 @@
-from typing import Any, Sequence
 import datetime
+from typing import Any, Sequence
+
 import ujson
-from sqlalchemy.sql import func, text
 from sqlalchemy import String, DateTime, Integer, Boolean, ForeignKey, Text, select, delete, update
 from sqlalchemy.orm import Mapped, mapped_column, validates, Session
+from sqlalchemy.sql import func, text
 
-from app.services.database.mysql.models.base import BaseModel
 from app.services.database.mysql.exceptions.exceptions import ValidationException, ErrorCode
+from app.services.database.mysql.models.base import BaseModel
 
 
 class FeatureFlagModel(BaseModel):

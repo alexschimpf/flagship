@@ -1,8 +1,8 @@
-from app.services.database.mysql.service import MySQLService
-from app.services.database.mysql.models.project import ProjectModel
-from app.api.routes.projects.schemas import ProjectWithPrivateKey
 from app.api.exceptions.exceptions import NotFoundException
 from app.api.routes.projects.controllers import common
+from app.api.routes.projects.schemas import ProjectWithPrivateKey
+from app.services.database.mysql.models.project import ProjectModel
+from app.services.database.mysql.service import MySQLService
 
 
 class ResetProjectPrivateKeyController:

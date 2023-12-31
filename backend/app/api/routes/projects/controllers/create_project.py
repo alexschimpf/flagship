@@ -1,8 +1,8 @@
-from app.api.routes.projects.schemas import CreateOrUpdateProject, ProjectWithPrivateKey
-from app.api.routes.projects.controllers import common
-from app.services.database.mysql.service import MySQLService
-from app.services.database.mysql.models.project import ProjectModel
 from app.api.exceptions.exceptions import NameTakenException
+from app.api.routes.projects.controllers import common
+from app.api.routes.projects.schemas import CreateOrUpdateProject, ProjectWithPrivateKey
+from app.services.database.mysql.models.project import ProjectModel
+from app.services.database.mysql.service import MySQLService
 
 
 class CreateProjectController:

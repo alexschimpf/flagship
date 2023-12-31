@@ -1,6 +1,6 @@
 from app.api.routes.context_fields.schemas import ContextFields, ContextField
-from app.services.database.mysql.service import MySQLService
 from app.services.database.mysql.models.context_field import ContextFieldModel
+from app.services.database.mysql.service import MySQLService
 
 
 class GetContextFieldsController:

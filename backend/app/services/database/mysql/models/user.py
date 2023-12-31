@@ -1,13 +1,14 @@
 import datetime
 from typing import Sequence
-from sqlalchemy.sql import func, text
+
+import pydantic
 from sqlalchemy import String, DateTime, Integer, delete, select, update
 from sqlalchemy.orm import Mapped, mapped_column, validates, Session
-import pydantic
+from sqlalchemy.sql import func, text
 
-from app.services.database.mysql.models.base import BaseModel
-from app.services.database.mysql.exceptions.exceptions import ValidationException, ErrorCode
 from app.constants import UserRole, UserStatus
+from app.services.database.mysql.exceptions.exceptions import ValidationException, ErrorCode
+from app.services.database.mysql.models.base import BaseModel
 
 
 class UserModel(BaseModel):

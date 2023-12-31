@@ -1,7 +1,7 @@
+from fastapi import Request, status
+from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
-from fastapi import Request, status
 
 from app.api.exceptions import AppException, AggregateException, BadRequestFieldException, add_missing_punctuation
 

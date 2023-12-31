@@ -1,6 +1,7 @@
 from typing import Any
-from fastapi.responses import RedirectResponse
+
 from fastapi import APIRouter
+from fastapi.responses import RedirectResponse
 
 from app.api.routes.auth.controllers.login import LoginController
 from app.api.routes.auth.controllers.logout import LogoutController

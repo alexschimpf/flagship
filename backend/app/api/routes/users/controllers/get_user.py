@@ -1,7 +1,7 @@
-from app.api.routes.users.schemas import User
-from app.services.database.mysql.service import MySQLService
-from app.services.database.mysql.models.user import UserModel
 from app.api.exceptions.exceptions import NotFoundException
+from app.api.routes.users.schemas import User
+from app.services.database.mysql.models.user import UserModel
+from app.services.database.mysql.service import MySQLService
 
 
 class GetUserController:

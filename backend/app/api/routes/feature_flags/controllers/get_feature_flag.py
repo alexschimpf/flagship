@@ -1,7 +1,7 @@
-from app.services.database.mysql.service import MySQLService
 from app.api.exceptions.exceptions import NotFoundException
-from app.services.database.mysql.models.feature_flag import FeatureFlagModel
 from app.api.routes.feature_flags.schemas import FeatureFlag
+from app.services.database.mysql.models.feature_flag import FeatureFlagModel
+from app.services.database.mysql.service import MySQLService
 
 
 class GetFeatureFlagController:

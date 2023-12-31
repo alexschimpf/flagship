@@ -1,5 +1,6 @@
-from typing import Self
 from datetime import datetime
+from typing import Self
+
 from pydantic import BaseModel, Field
 
 from app.services.database.mysql.models.project import ProjectModel

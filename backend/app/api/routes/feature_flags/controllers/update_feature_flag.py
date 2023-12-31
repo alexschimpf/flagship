@@ -1,9 +1,9 @@
 import ujson
 
-from app.services.database.mysql.service import MySQLService
-from app.services.database.mysql.models.feature_flag import FeatureFlagModel
-from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag
 from app.api.exceptions.exceptions import NotFoundException, NameTakenException
+from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag
+from app.services.database.mysql.models.feature_flag import FeatureFlagModel
+from app.services.database.mysql.service import MySQLService
 
 
 class UpdateFeatureFlagController:

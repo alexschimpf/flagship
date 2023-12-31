@@ -1,8 +1,8 @@
-from app.api.routes.users.schemas import UpdateUser, User
-from app.services.database.mysql.service import MySQLService
-from app.services.database.mysql.models.user import UserModel
 from app.api.exceptions.exceptions import InvalidProjectException, NotFoundException
 from app.api.routes.users.controllers import common
+from app.api.routes.users.schemas import UpdateUser, User
+from app.services.database.mysql.models.user import UserModel
+from app.services.database.mysql.service import MySQLService
 
 
 class UpdateUserController:

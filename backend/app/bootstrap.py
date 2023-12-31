@@ -1,18 +1,19 @@
-import os
-import ujson
 import logging
 import logging.config
+import os
 from typing import Any
+
 import fastapi.openapi.utils
+import ujson
 from fastapi import FastAPI
-from fastapi.routing import APIRoute
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.routing import APIRoute
 
 from app.api import exceptions
 from app.api.exceptions import handlers as exception_handlers
-from app.api.schemas import ErrorResponseModel
 from app.api.routers import router
+from app.api.schemas import ErrorResponseModel
 from app.services.database.mysql.service import MySQLService
 
 

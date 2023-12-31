@@ -1,6 +1,6 @@
 from app.api.routes.projects.schemas import Projects, Project
-from app.services.database.mysql.service import MySQLService
 from app.services.database.mysql.models.project import ProjectModel
+from app.services.database.mysql.service import MySQLService
 
 
 class GetProjectsController:

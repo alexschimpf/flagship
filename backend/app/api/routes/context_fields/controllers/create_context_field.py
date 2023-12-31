@@ -1,10 +1,10 @@
 import ujson
 
+from app.api.exceptions.exceptions import NameTakenException, ContextFieldKeyTakenException, AggregateException, \
+    AppException
 from app.api.routes.context_fields.schemas import CreateContextField, ContextField
 from app.services.database.mysql.models.context_field import ContextFieldModel
 from app.services.database.mysql.service import MySQLService
-from app.api.exceptions.exceptions import NameTakenException, ContextFieldKeyTakenException, AggregateException, \
-    AppException
 
 
 class CreateContextFieldController:

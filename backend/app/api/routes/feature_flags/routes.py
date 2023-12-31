@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 
-from app.api.routes.feature_flags.controllers.get_feature_flag import GetFeatureFlagController
-from app.api.routes.feature_flags.controllers.get_feature_flags import GetFeatureFlagsController
 from app.api.routes.feature_flags.controllers.create_feature_flag import CreateFeatureFlagController
 from app.api.routes.feature_flags.controllers.delete_feature_flag import DeleteFeatureFlagController
+from app.api.routes.feature_flags.controllers.get_feature_flag import GetFeatureFlagController
+from app.api.routes.feature_flags.controllers.get_feature_flags import GetFeatureFlagsController
 from app.api.routes.feature_flags.controllers.update_feature_flag import UpdateFeatureFlagController
 from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag, FeatureFlags
 from app.api.schemas import SuccessResponse
