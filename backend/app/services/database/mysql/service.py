@@ -1,3 +1,4 @@
+from typing import Any
 from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import Session
 
@@ -20,5 +21,5 @@ class MySQLService:
         )
 
     @classmethod
-    def get_session(cls, expire_on_commit=False, **kwargs) -> Session:
+    def get_session(cls, expire_on_commit: bool = False, **kwargs: Any) -> Session:
         return Session(bind=cls._engine, expire_on_commit=expire_on_commit, **kwargs)

@@ -23,7 +23,7 @@ class UpdateFeatureFlagController:
 
         return FeatureFlag.from_model(model=feature_flag_model)
 
-    def _validate(self):
+    def _validate(self) -> None:
         # TODO: Validate conditions
 
         with MySQLService.get_session() as session:

@@ -18,7 +18,7 @@ help:
 
 # run mypy type checker using daemon
 be-type-check:
-	mypy --config-file backend/mypy.ini .
+	cd backend && mypy --config-file mypy.ini .
 
 # install backend python packages
 be-install-reqs:

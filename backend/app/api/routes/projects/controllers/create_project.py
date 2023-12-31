@@ -26,7 +26,7 @@ class CreateProjectController:
     def _validate(self) -> None:
         with MySQLService.get_session() as session:
             if ProjectModel.get_project_by_name(name=self.request.name, session=session):
-                raise NameTakenException
+                raise NameTakenException(field='name')
 
     def _create_project(self) -> tuple[ProjectModel, str]:
         private_key, encrypted_private_key = common.generate_private_key()

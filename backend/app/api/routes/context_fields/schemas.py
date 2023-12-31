@@ -22,7 +22,7 @@ class ContextField(BaseModel):
             context_field_id=model.context_field_id,
             name=model.name,
             field_key=model.field_key,
-            value_type=model.value_type,
+            value_type=ContextValueType(model.value_type),
             description=model.description,
             enum_def=model.enum_def_json,
             created_date=model.created_date,

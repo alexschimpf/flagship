@@ -23,7 +23,7 @@ class InviteUserController:
     def _validate(self) -> None:
         with MySQLService.get_session() as session:
             if UserModel.get_user_by_email(email=self.request.email, session=session):
-                raise EmailTakenException
+                raise EmailTakenException(field='email')
 
         if not common.are_projects_valid(project_ids=self.request.projects):
             raise InvalidProjectException(field='projects')

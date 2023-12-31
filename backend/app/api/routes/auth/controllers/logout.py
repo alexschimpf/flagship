@@ -1,7 +1,7 @@
 class LogoutController:
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def handle_request(self):
+    def handle_request(self) -> None:
         pass

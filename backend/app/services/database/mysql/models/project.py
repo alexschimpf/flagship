@@ -1,7 +1,7 @@
-from typing import Self
 import datetime
+from typing import Sequence
 from sqlalchemy.sql import func, text
-from sqlalchemy import String, DateTime, Integer, delete, Sequence, select, update
+from sqlalchemy import String, DateTime, Integer, delete, select, update
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 from app.services.database.mysql.models.base import BaseModel
@@ -19,7 +19,7 @@ class ProjectModel(BaseModel):
         DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 
     @classmethod
-    def get_project_by_name(cls, name: str, session: Session) -> Self:
+    def get_project_by_name(cls, name: str, session: Session) -> 'ProjectModel | None':
         return session.scalar(
             select(
                 ProjectModel
@@ -29,7 +29,7 @@ class ProjectModel(BaseModel):
         )
 
     @classmethod
-    def get_projects(cls, session: Session) -> Sequence[Self]:
+    def get_projects(cls, session: Session) -> Sequence['ProjectModel']:
         return session.scalars(
             select(
                 ProjectModel

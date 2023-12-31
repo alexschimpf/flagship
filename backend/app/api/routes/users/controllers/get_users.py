@@ -5,7 +5,7 @@ from app.services.database.mysql.models.user import UserModel
 
 class GetUsersController:
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     @staticmethod

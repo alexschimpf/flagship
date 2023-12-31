@@ -5,10 +5,10 @@ from app.services.database.mysql.models.feature_flag import FeatureFlagModel
 
 class GetFeatureFlagsController:
 
-    def __init__(self, project_id: int):
+    def __init__(self, project_id: int) -> None:
         self.project_id = project_id
 
-    def handle_request(self):
+    def handle_request(self) -> FeatureFlags:
         with MySQLService.get_session() as session:
             feature_flag_models = FeatureFlagModel.get_feature_flags(project_id=self.project_id, session=session)
 

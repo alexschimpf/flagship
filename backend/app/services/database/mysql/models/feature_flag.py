@@ -1,8 +1,8 @@
-from typing import Any, Self
+from typing import Any, Sequence
 import datetime
 import ujson
 from sqlalchemy.sql import func, text
-from sqlalchemy import String, DateTime, Integer, Boolean, ForeignKey, Text, select, delete, Sequence, update
+from sqlalchemy import String, DateTime, Integer, Boolean, ForeignKey, Text, select, delete, update
 from sqlalchemy.orm import Mapped, mapped_column, validates, Session
 
 from app.services.database.mysql.models.base import BaseModel
@@ -24,7 +24,7 @@ class FeatureFlagModel(BaseModel):
         DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 
     @validates('conditions')
-    def validate_conditions(self, _, value: str) -> str:
+    def validate_conditions(self, _: str, value: str) -> str:
         try:
             ujson.loads(value)
         except Exception:
@@ -34,10 +34,10 @@ class FeatureFlagModel(BaseModel):
 
     @property
     def conditions_json(self) -> list[list[dict[str, Any]]]:
-        return ujson.loads(self.conditions)
+        return ujson.loads(self.conditions)  # type: ignore
 
     @classmethod
-    def get_feature_flags(cls, project_id: int, session: Session) -> Sequence[Self]:
+    def get_feature_flags(cls, project_id: int, session: Session) -> Sequence['FeatureFlagModel']:
         return session.scalars(
             select(
                 FeatureFlagModel

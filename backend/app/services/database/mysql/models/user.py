@@ -1,5 +1,5 @@
 import datetime
-from typing import Self, Sequence
+from typing import Sequence
 from sqlalchemy.sql import func, text
 from sqlalchemy import String, DateTime, Integer, delete, select, update
 from sqlalchemy.orm import Mapped, mapped_column, validates, Session
@@ -32,7 +32,7 @@ class UserModel(BaseModel):
         return list(map(int, self.projects.split(',')))
 
     @validates('email')
-    def validate_email(self, _, value: str) -> str:
+    def validate_email(self, _: str, value: str) -> str:
         try:
             pydantic.validate_email(value)
         except Exception:
@@ -41,21 +41,21 @@ class UserModel(BaseModel):
         return value
 
     @validates('role')
-    def validate_role(self, _, value: int) -> int:
+    def validate_role(self, _: str, value: int) -> int:
         if value not in UserRole:
             raise ValidationException(ErrorCode.INVALID_USER_ROLE)
 
         return value
 
     @validates('status')
-    def validate_status(self, _, value: int) -> int:
+    def validate_status(self, _: str, value: int) -> int:
         if value not in UserStatus:
             raise ValidationException(ErrorCode.INVALID_USER_STATUS)
 
         return value
 
     @validates('projects')
-    def validate_projects(self, _, value: str) -> str:
+    def validate_projects(self, _: str, value: str) -> str:
         try:
             list(map(int, value.split(',')))
         except Exception:
@@ -64,7 +64,7 @@ class UserModel(BaseModel):
         return value
 
     @classmethod
-    def get_users(cls, session: Session) -> Sequence[Self]:
+    def get_users(cls, session: Session) -> Sequence['UserModel']:
         return session.scalars(
             select(
                 UserModel
@@ -82,7 +82,7 @@ class UserModel(BaseModel):
         )
 
     @staticmethod
-    def update_set_password_token(email: str, set_password_token: str, session: Session):
+    def update_set_password_token(email: str, set_password_token: str, session: Session) -> None:
         session.execute(
             update(
                 UserModel
@@ -94,7 +94,7 @@ class UserModel(BaseModel):
         )
 
     @staticmethod
-    def update_password(user_id: int, password: str, session: Session):
+    def update_password(user_id: int, password: str, session: Session) -> None:
         session.execute(
             update(
                 UserModel
@@ -107,7 +107,7 @@ class UserModel(BaseModel):
         )
 
     @classmethod
-    def get_user_by_email(cls, email: str, session: Session) -> Self:
+    def get_user_by_email(cls, email: str, session: Session) -> 'UserModel | None':
         return session.scalar(
             select(
                 UserModel
@@ -117,7 +117,7 @@ class UserModel(BaseModel):
         )
 
     @classmethod
-    def update_user(cls, user_id: int, name: str, role: int, projects: str, session: Session):
+    def update_user(cls, user_id: int, name: str, role: int, projects: str, session: Session) -> None:
         session.execute(
             update(
                 UserModel

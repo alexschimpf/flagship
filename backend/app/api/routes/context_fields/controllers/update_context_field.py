@@ -45,7 +45,8 @@ class UpdateContextFieldController:
                 context_field_id=self.context_field_id,
                 name=self.request.name,
                 enum_def=enum_def,
-                description=self.request.description
+                description=self.request.description,
+                session=session
             )
             session.commit()
 

@@ -5,7 +5,7 @@ from app.services.database.mysql.models.project import ProjectModel
 
 class GetProjectsController:
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     @staticmethod

@@ -13,8 +13,9 @@ class SetPasswordController:
 
     def handle_request(self) -> SuccessResponse:
         user = self._get_user_by_email(email=self.request.email)
-        self._validate(user=user)
-        self._update_password(user=user)
+        if user:
+            self._validate(user=user)
+            self._update_password(user=user)
 
         return SuccessResponse()
 
@@ -38,7 +39,7 @@ class SetPasswordController:
             session.commit()
 
     @staticmethod
-    def _get_user_by_email(email) -> UserModel | None:
+    def _get_user_by_email(email: str) -> UserModel | None:
         with MySQLService.get_session() as session:
             user_model = UserModel.get_user_by_email(email=email, session=session)
 

@@ -1,4 +1,3 @@
-from typing import Self
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 
@@ -40,14 +39,14 @@ class User(BaseModel):
     updated_date: datetime
 
     @classmethod
-    def from_model(cls, model: UserModel) -> Self:
+    def from_model(cls, model: UserModel) -> 'User':
         return cls(
             user_id=model.user_id,
             email=model.email,
             name=model.name,
-            role=model.role,
+            role=UserRole(model.role),
             projects=model.projects_list,
-            status=model.status,
+            status=UserStatus(model.status),
             created_date=model.created_date,
             updated_date=model.updated_date
         )

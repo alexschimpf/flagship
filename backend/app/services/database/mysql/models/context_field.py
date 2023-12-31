@@ -1,8 +1,8 @@
-from typing import Any, Self
+from typing import Any, Sequence
 import datetime
 import ujson
 from sqlalchemy.sql import func, text
-from sqlalchemy import String, DateTime, Integer, ForeignKey, Text, select, update, delete, Sequence
+from sqlalchemy import String, DateTime, Integer, ForeignKey, Text, select, update, delete
 from sqlalchemy.orm import Mapped, mapped_column, validates, Session
 
 from app.services.database.mysql.models.base import BaseModel
@@ -26,7 +26,7 @@ class ContextFieldModel(BaseModel):
         DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 
     @validates('value_type')
-    def validate_value_type(self, _, value: int) -> int:
+    def validate_value_type(self, _: str, value: int) -> int:
         # TODO: Make sure correct value type is uesd if enum_def is present
         if value not in ContextValueType:
             raise ValidationException(ErrorCode.INVALID_CONTEXT_FIELD_VALUE_TYPE)
@@ -34,7 +34,7 @@ class ContextFieldModel(BaseModel):
         return value
 
     @validates('enum_def')
-    def validate_enum_def(self, _, value: str) -> str:
+    def validate_enum_def(self, _: str, value: str) -> str:
         try:
             # TODO
             ujson.loads(value)
@@ -47,10 +47,10 @@ class ContextFieldModel(BaseModel):
     def enum_def_json(self) -> dict[str, Any] | None:
         if self.enum_def in (None, ''):
             return None
-        return ujson.loads(self.enum_def)
+        return ujson.loads(self.enum_def)  # type: ignore
 
     @classmethod
-    def get_context_fields(cls, project_id: int, session: Session) -> Sequence[Self]:
+    def get_context_fields(cls, project_id: int, session: Session) -> Sequence['ContextFieldModel']:
         return session.scalars(
             select(
                 ContextFieldModel
@@ -64,10 +64,10 @@ class ContextFieldModel(BaseModel):
         project_id: int,
         context_field_id: int,
         name: str,
-        enum_def: str,
+        enum_def: str | None,
         description: str,
         session: Session
-    ):
+    ) -> None:
         session.execute(
             update(
                 ContextFieldModel
@@ -82,7 +82,7 @@ class ContextFieldModel(BaseModel):
         )
 
     @staticmethod
-    def delete_context_field(project_id: int, context_field_id: int, session: Session):
+    def delete_context_field(project_id: int, context_field_id: int, session: Session) -> None:
         session.execute(
             delete(
                 ContextFieldModel

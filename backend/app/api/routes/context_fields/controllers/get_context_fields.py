@@ -5,7 +5,7 @@ from app.services.database.mysql.models.context_field import ContextFieldModel
 
 class GetContextFieldsController:
 
-    def __init__(self, project_id: int):
+    def __init__(self, project_id: int) -> None:
         self.project_id = project_id
 
     def handle_request(self) -> ContextFields:
