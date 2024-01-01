@@ -1,5 +1,4 @@
 import datetime
-from typing import Sequence
 
 import pydantic
 from sqlalchemy import String, DateTime, Integer, delete, select, update
@@ -20,17 +19,11 @@ class UserRow(BaseRow):
     name: Mapped[str] = mapped_column(String(128))
     role: Mapped[int] = mapped_column(Integer)
     status: Mapped[int] = mapped_column(Integer)
-    projects: Mapped[str] = mapped_column(String)
     password: Mapped[str] = mapped_column(String, nullable=True)
     set_password_token: Mapped[str] = mapped_column(String, nullable=True)
     created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
     updated_date: Mapped[datetime.datetime] = mapped_column(
         DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
-
-    @property
-    def projects_list(self) -> list[int]:
-        # TODO: Deal with deleted projects (or empty list of projects)
-        return list(map(int, self.projects.split(',')))
 
     @validates('email')
     def validate_email(self, _: str, value: str) -> str:
@@ -55,25 +48,16 @@ class UserRow(BaseRow):
 
         return value
 
-    @validates('projects')
-    def validate_projects(self, _: str, value: str) -> str:
-        try:
-            list(map(int, value.split(',')))
-        except Exception:
-            raise ValidationException(ErrorCode.INVALID_USER_PROJECTS)
-
-        return value
-
 
 class UsersTable:
 
-    @classmethod
-    def get_users(cls, session: Session) -> Sequence[UserRow]:
-        return session.scalars(
+    @staticmethod
+    def get_users(session: Session) -> list[UserRow]:
+        return list(session.scalars(
             select(
                 UserRow
             )
-        ).all()
+        ))
 
     @staticmethod
     def delete_user(user_id: int, session: Session) -> None:
@@ -110,8 +94,8 @@ class UsersTable:
             })
         )
 
-    @classmethod
-    def get_user_by_email(cls, email: str, session: Session) -> UserRow | None:
+    @staticmethod
+    def get_user_by_email(email: str, session: Session) -> UserRow | None:
         return session.scalar(
             select(
                 UserRow
@@ -120,8 +104,8 @@ class UsersTable:
             )
         )
 
-    @classmethod
-    def update_user(cls, user_id: int, name: str, role: int, projects: str, session: Session) -> None:
+    @staticmethod
+    def update_user(user_id: int, name: str, role: int, session: Session) -> None:
         session.execute(
             update(
                 UserRow
@@ -129,7 +113,6 @@ class UsersTable:
                 UserRow.user_id == user_id
             ).values({
                 UserRow.name: name,
-                UserRow.role: role,
-                UserRow.projects: projects
+                UserRow.role: role
             })
         )

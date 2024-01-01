@@ -1,5 +1,4 @@
 import datetime
-from typing import Sequence
 
 from sqlalchemy import String, DateTime, Integer, delete, select, update
 from sqlalchemy.orm import Mapped, mapped_column, Session
@@ -22,8 +21,8 @@ class ProjectRow(BaseRow):
 
 class ProjectsTable:
 
-    @classmethod
-    def get_project_by_name(cls, name: str, session: Session) -> ProjectRow | None:
+    @staticmethod
+    def get_project_by_name(name: str, session: Session) -> ProjectRow | None:
         return session.scalar(
             select(
                 ProjectRow
@@ -32,13 +31,13 @@ class ProjectsTable:
             )
         )
 
-    @classmethod
-    def get_projects(cls, session: Session) -> Sequence[ProjectRow]:
-        return session.scalars(
+    @staticmethod
+    def get_projects(session: Session) -> list[ProjectRow]:
+        return list(session.scalars(
             select(
                 ProjectRow
             )
-        ).all()
+        ))
 
     @staticmethod
     def delete_project(project_id: int, session: Session) -> None:
@@ -73,3 +72,18 @@ class ProjectsTable:
                 ProjectRow.private_key: private_key
             })
         )
+
+    @staticmethod
+    def are_projects_valid(project_ids: list[int], session: Session) -> bool:
+        all_project_ids = set(
+            session.scalars(
+                select(
+                    ProjectRow.project_id
+                )
+            ) or ()
+        )
+        for project_id in project_ids:
+            if project_id not in all_project_ids:
+                return False
+
+        return True

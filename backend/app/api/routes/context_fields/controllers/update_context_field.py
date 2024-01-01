@@ -1,4 +1,5 @@
 import ujson
+from typing import cast
 
 from app.api.exceptions.exceptions import NameTakenException, AggregateException, AppException, NotFoundException
 from app.api.routes.context_fields.schemas import UpdateContextField, ContextField
@@ -15,10 +16,7 @@ class UpdateContextFieldController:
 
     def handle_request(self) -> ContextField:
         self._validate()
-
         context_field_row = self._update_context_field()
-        if not context_field_row:
-            raise NotFoundException
 
         return ContextField.from_row(row=context_field_row)
 
@@ -26,6 +24,9 @@ class UpdateContextFieldController:
         errors: list[AppException] = []
 
         with MySQLService.get_session() as session:
+            if not session.get(ContextFieldRow, (self.context_field_id, self.project_id)):
+                raise NotFoundException
+
             if ContextFieldsTable.is_context_field_name_taken(
                 name=self.request.name,
                 project_id=self.project_id,
@@ -37,7 +38,7 @@ class UpdateContextFieldController:
         if errors:
             raise AggregateException(exceptions=errors)
 
-    def _update_context_field(self) -> ContextFieldRow | None:
+    def _update_context_field(self) -> ContextFieldRow:
         enum_def = ujson.dumps(self.request.enum_def) if self.request.enum_def else None
         with MySQLService.get_session() as session:
             ContextFieldsTable.update_context_field(
@@ -52,4 +53,4 @@ class UpdateContextFieldController:
 
             context_field_row = session.get(ContextFieldRow, (self.context_field_id, self.project_id))
 
-        return context_field_row
+        return cast(ContextFieldRow, context_field_row)

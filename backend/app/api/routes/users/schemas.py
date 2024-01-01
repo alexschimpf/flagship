@@ -40,14 +40,14 @@ class User(BaseModel):
     updated_date: datetime
 
     @classmethod
-    def from_row(cls, row: UserRow) -> 'User':
+    def from_row(cls, row: UserRow, projects: list[int]) -> 'User':
         return cls(
             user_id=row.user_id,
             email=row.email,
             name=row.name,
             role=UserRole(row.role),
-            projects=row.projects_list,
             status=UserStatus(row.status),
+            projects=projects,
             created_date=row.created_date,
             updated_date=row.updated_date
         )

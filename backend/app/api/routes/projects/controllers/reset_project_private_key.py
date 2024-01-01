@@ -1,3 +1,5 @@
+from typing import cast
+
 from app.api.exceptions.exceptions import NotFoundException
 from app.api.routes.projects.controllers import common
 from app.api.routes.projects.schemas import ProjectWithPrivateKey
@@ -11,9 +13,8 @@ class ResetProjectPrivateKeyController:
         self.project_id = project_id
 
     def handle_request(self) -> ProjectWithPrivateKey:
+        self._validate()
         project_row, private_key = self._reset_private_key()
-        if not project_row:
-            raise NotFoundException
 
         return ProjectWithPrivateKey(
             project_id=project_row.project_id,
@@ -23,7 +24,12 @@ class ResetProjectPrivateKeyController:
             updated_date=project_row.updated_date
         )
 
-    def _reset_private_key(self) -> tuple[ProjectRow | None, str]:
+    def _validate(self) -> None:
+        with MySQLService.get_session() as session:
+            if not session.get(ProjectRow, self.project_id):
+                raise NotFoundException
+
+    def _reset_private_key(self) -> tuple[ProjectRow, str]:
         private_key, encrypted_private_key = common.generate_private_key()
         with MySQLService.get_session() as session:
             ProjectsTable.update_project_private_key(
@@ -32,4 +38,4 @@ class ResetProjectPrivateKeyController:
 
             project_row = session.get(ProjectRow, self.project_id)
 
-        return project_row, private_key
+        return cast(ProjectRow, project_row), private_key

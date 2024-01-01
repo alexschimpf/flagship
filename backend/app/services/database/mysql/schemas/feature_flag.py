@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, Sequence
+from typing import Any
 
 import ujson
 from sqlalchemy import String, DateTime, Integer, Boolean, ForeignKey, Text, select, delete, update
@@ -40,15 +40,15 @@ class FeatureFlagRow(BaseRow):
 
 class FeatureFlagsTable:
 
-    @classmethod
-    def get_feature_flags(cls, project_id: int, session: Session) -> Sequence[FeatureFlagRow]:
-        return session.scalars(
+    @staticmethod
+    def get_feature_flags(project_id: int, session: Session) -> list[FeatureFlagRow]:
+        return list(session.scalars(
             select(
                 FeatureFlagRow
             ).where(
                 FeatureFlagRow.project_id == project_id
             )
-        ).all()
+        ))
 
     @staticmethod
     def is_feature_flag_name_taken(

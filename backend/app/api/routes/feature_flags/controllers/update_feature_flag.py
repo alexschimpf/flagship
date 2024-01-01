@@ -1,4 +1,5 @@
 import ujson
+from typing import cast
 
 from app.api.exceptions.exceptions import NotFoundException, NameTakenException
 from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag
@@ -15,11 +16,7 @@ class UpdateFeatureFlagController:
 
     def handle_request(self) -> FeatureFlag:
         self._validate()
-
         feature_flag_row = self._update_feature_flag()
-
-        if not feature_flag_row:
-            raise NotFoundException
 
         return FeatureFlag.from_row(row=feature_flag_row)
 
@@ -27,6 +24,9 @@ class UpdateFeatureFlagController:
         # TODO: Validate conditions
 
         with MySQLService.get_session() as session:
+            if not session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id)):
+                raise NotFoundException
+
             if FeatureFlagsTable.is_feature_flag_name_taken(
                 name=self.request.name,
                 feature_flag_id=self.feature_flag_id,
@@ -35,7 +35,7 @@ class UpdateFeatureFlagController:
             ):
                 raise NameTakenException(field='name')
 
-    def _update_feature_flag(self) -> FeatureFlagRow | None:
+    def _update_feature_flag(self) -> FeatureFlagRow:
         with MySQLService.get_session() as session:
             FeatureFlagsTable.update_feature_flag(
                 project_id=self.project_id,
@@ -50,4 +50,4 @@ class UpdateFeatureFlagController:
 
             feature_flag_row = session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id))
 
-        return feature_flag_row
+        return cast(FeatureFlagRow, feature_flag_row)

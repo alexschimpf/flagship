@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS flagship.users_projects;
 DROP TABLE IF EXISTS flagship.users;
 DROP TABLE IF EXISTS flagship.feature_flags;
 DROP TABLE IF EXISTS flagship.context_fields;
@@ -66,4 +67,18 @@ CREATE TABLE flagship.users (
 
     PRIMARY KEY (user_id),
     UNIQUE (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE flagship.users_projects (
+    user_id INT UNSIGNED,
+    project_id INT UNSIGNED,
+
+    PRIMARY KEY (user_id, project_id),
+    FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (project_id)
+        REFERENCES projects(project_id)
+        ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

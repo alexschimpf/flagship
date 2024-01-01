@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, Sequence
+from typing import Any
 
 import ujson
 from sqlalchemy import String, DateTime, Integer, ForeignKey, Text, select, update, delete
@@ -53,15 +53,15 @@ class ContextFieldRow(BaseRow):
 
 class ContextFieldsTable:
 
-    @classmethod
-    def get_context_fields(cls, project_id: int, session: Session) -> Sequence[ContextFieldRow]:
-        return session.scalars(
+    @staticmethod
+    def get_context_fields(project_id: int, session: Session) -> list[ContextFieldRow]:
+        return list(session.scalars(
             select(
                 ContextFieldRow
             ).where(
                 ContextFieldRow.project_id == project_id
             )
-        ).all()
+        ))
 
     @staticmethod
     def update_context_field(
