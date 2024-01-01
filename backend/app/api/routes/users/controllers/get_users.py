@@ -1,5 +1,6 @@
-from sqlalchemy import select
 from collections import defaultdict
+
+from sqlalchemy import select
 
 from app.api.routes.users.schemas import Users, User
 from app.services.database.mysql.schemas.user import UsersTable

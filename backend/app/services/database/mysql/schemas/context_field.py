@@ -7,7 +7,6 @@ from sqlalchemy.orm import Mapped, mapped_column, validates, Session
 from sqlalchemy.sql import func, text
 
 from app.constants import ContextValueType
-from app.services.database.mysql.exceptions.exceptions import ValidationException, ErrorCode
 from app.services.database.mysql.schemas.base import BaseRow
 
 
@@ -30,17 +29,16 @@ class ContextFieldRow(BaseRow):
     def validate_value_type(self, _: str, value: int) -> int:
         # TODO: Make sure correct value type is uesd if enum_def is present
         if value not in ContextValueType:
-            raise ValidationException(ErrorCode.INVALID_CONTEXT_FIELD_VALUE_TYPE)
+            raise ValueError('Invalid value type')
 
         return value
 
     @validates('enum_def')
     def validate_enum_def(self, _: str, value: str) -> str:
         try:
-            # TODO
             ujson.loads(value)
         except Exception:
-            raise ValidationException(ErrorCode.INVALID_CONTEXT_FIELD_ENUM_DEF)
+            raise ValueError('Invalid enum def')
 
         return value
 

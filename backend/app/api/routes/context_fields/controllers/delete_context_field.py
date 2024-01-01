@@ -1,7 +1,7 @@
+from app.api.exceptions.exceptions import NotFoundException
 from app.api.schemas import SuccessResponse
 from app.services.database.mysql.schemas.context_field import ContextFieldsTable, ContextFieldRow
 from app.services.database.mysql.service import MySQLService
-from app.api.exceptions.exceptions import NotFoundException
 
 
 class DeleteContextFieldController:

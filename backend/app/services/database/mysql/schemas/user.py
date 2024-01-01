@@ -6,7 +6,6 @@ from sqlalchemy.orm import Mapped, mapped_column, validates, Session
 from sqlalchemy.sql import func, text
 
 from app.constants import UserRole, UserStatus
-from app.services.database.mysql.exceptions.exceptions import ValidationException, ErrorCode
 from app.services.database.mysql.schemas.base import BaseRow
 
 
@@ -30,21 +29,21 @@ class UserRow(BaseRow):
         try:
             pydantic.validate_email(value)
         except Exception:
-            raise ValidationException(ErrorCode.INVALID_EMAIL)
+            raise ValueError('Invalid email')
 
         return value
 
     @validates('role')
     def validate_role(self, _: str, value: int) -> int:
         if value not in UserRole:
-            raise ValidationException(ErrorCode.INVALID_USER_ROLE)
+            raise ValueError('Invalid role')
 
         return value
 
     @validates('status')
     def validate_status(self, _: str, value: int) -> int:
         if value not in UserStatus:
-            raise ValidationException(ErrorCode.INVALID_USER_STATUS)
+            raise ValueError('Invalid status')
 
         return value
 

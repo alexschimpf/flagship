@@ -6,7 +6,6 @@ from sqlalchemy import String, DateTime, Integer, Boolean, ForeignKey, Text, sel
 from sqlalchemy.orm import Mapped, mapped_column, validates, Session
 from sqlalchemy.sql import func, text
 
-from app.services.database.mysql.exceptions.exceptions import ValidationException, ErrorCode
 from app.services.database.mysql.schemas.base import BaseRow
 
 
@@ -29,7 +28,7 @@ class FeatureFlagRow(BaseRow):
         try:
             ujson.loads(value)
         except Exception:
-            raise ValidationException(ErrorCode.INVALID_FEATURE_FLAG_CONDITIONS)
+            raise ValueError('Invalid conditions')
 
         return value
 

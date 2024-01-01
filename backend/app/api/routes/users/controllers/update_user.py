@@ -2,9 +2,9 @@ from typing import cast
 
 from app.api.exceptions.exceptions import InvalidProjectException, NotFoundException
 from app.api.routes.users.schemas import UpdateUser, User
+from app.services.database.mysql.schemas.project import ProjectsTable
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.schemas.user_project import UsersProjectsTable
-from app.services.database.mysql.schemas.project import ProjectsTable
 from app.services.database.mysql.service import MySQLService
 
 

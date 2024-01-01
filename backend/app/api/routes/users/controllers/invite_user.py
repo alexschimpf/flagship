@@ -3,9 +3,9 @@ import secrets
 from app.api.exceptions.exceptions import EmailTakenException, InvalidProjectException
 from app.api.routes.users.schemas import InviteUser, User
 from app.constants import UserStatus
+from app.services.database.mysql.schemas.project import ProjectsTable
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.schemas.user_project import UsersProjectsTable
-from app.services.database.mysql.schemas.project import ProjectsTable
 from app.services.database.mysql.service import MySQLService
 
 

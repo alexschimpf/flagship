@@ -2,7 +2,7 @@ import secrets
 
 from app.api.routes.users.schemas import ResetPassword
 from app.api.schemas import SuccessResponse
-from app.services.database.mysql.schemas.user import UserRow, UsersTable
+from app.services.database.mysql.schemas.user import UsersTable
 from app.services.database.mysql.service import MySQLService
 
 

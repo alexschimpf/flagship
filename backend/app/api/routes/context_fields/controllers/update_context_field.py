@@ -1,5 +1,6 @@
-import ujson
 from typing import cast
+
+import ujson
 
 from app.api.exceptions.exceptions import NameTakenException, AggregateException, AppException, NotFoundException
 from app.api.routes.context_fields.schemas import UpdateContextField, ContextField

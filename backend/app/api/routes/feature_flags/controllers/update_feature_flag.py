@@ -1,5 +1,6 @@
-import ujson
 from typing import cast
+
+import ujson
 
 from app.api.exceptions.exceptions import NotFoundException, NameTakenException
 from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag
