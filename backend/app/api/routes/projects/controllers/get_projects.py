@@ -10,7 +10,6 @@ class GetProjectsController:
 
     @staticmethod
     def handle_request() -> Projects:
-        # TODO: Only return projects allowed for user
         with MySQLService.get_session() as session:
             project_rows = ProjectsTable.get_projects(session=session)
 

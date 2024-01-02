@@ -26,7 +26,7 @@ class UpdateFeatureFlagController:
         errors: list[AppException] = []
         with MySQLService.get_session() as session:
             if not session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id)):
-                errors.append(NotFoundException())
+                raise NotFoundException
 
             if FeatureFlagsTable.is_feature_flag_name_taken(
                 name=self.request.name,

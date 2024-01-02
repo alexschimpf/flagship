@@ -24,12 +24,7 @@ class CreateContextFieldController:
     def _validate(self) -> None:
         errors: list[AppException] = []
 
-        self._validate_enum_type(errors=errors)
-
-        try:
-            common.validate_enum_def(enum_def=self.request.enum_def)
-        except AppException as e:
-            errors.append(e)
+        self._validate_enum_def_and_type(errors=errors)
 
         with MySQLService.get_session() as session:
             if ContextFieldsTable.is_context_field_name_taken(
@@ -49,7 +44,7 @@ class CreateContextFieldController:
         if errors:
             raise AggregateException(exceptions=errors)
 
-    def _validate_enum_type(self, errors: list[AppException]) -> None:
+    def _validate_enum_def_and_type(self, errors: list[AppException]) -> None:
         enum_value_types = {ContextValueType.ENUM, ContextValueType.ENUM_LIST}
 
         if self.request.value_type in enum_value_types and not self.request.enum_def:
@@ -58,6 +53,11 @@ class CreateContextFieldController:
         if self.request.value_type not in enum_value_types and self.request.enum_def:
             # Clear this field, since it isn't applicable for non-enum types
             self.request.enum_def = None
+
+        try:
+            common.validate_enum_def(enum_def=self.request.enum_def)
+        except AppException as e:
+            errors.append(e)
 
     def _create_context_field(self) -> ContextFieldRow:
         enum_def = ujson.dumps(self.request.enum_def) if self.request.enum_def else None

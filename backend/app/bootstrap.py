@@ -15,16 +15,18 @@ from app.api.exceptions import handlers as exception_handlers
 from app.api.routers import router
 from app.api.schemas import ErrorResponseModel
 from app.services.database.mysql.service import MySQLService
+from app.config import Config
 
 
 class Bootstrap:
 
     def run(self) -> FastAPI:
+        Config.init()
         self._init_logger()
 
         app = self._build_app()
         self._init_services()
-        self._register_routes(app=app)
+        app.include_router(router)
         self._override_openapi(app=app)
         self._add_cors_middleware(app=app)
         self._set_route_operation_ids(app=app)
@@ -60,10 +62,6 @@ class Bootstrap:
     @staticmethod
     def _init_services() -> None:
         MySQLService.init()
-
-    @staticmethod
-    def _register_routes(app: FastAPI) -> None:
-        app.include_router(router)
 
     @staticmethod
     def _override_openapi(app: FastAPI) -> None:

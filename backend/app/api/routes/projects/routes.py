@@ -17,7 +17,6 @@ router = APIRouter(
 
 @router.get('', response_model=Projects)
 def get_projects() -> Projects:
-    # TODO
     return GetProjectsController().handle_request()
 
 

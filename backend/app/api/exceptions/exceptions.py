@@ -84,6 +84,11 @@ class InvalidProjectException(BadRequestFieldException):
     DEFAULT_MESSAGE: str = 'Invalid project'
 
 
+class InvalidPasswordException(BadRequestFieldException):
+    CODE: str = 'INVALID_PASSWORD_EXCEPTION'
+    DEFAULT_MESSAGE: str = 'Invalid password. Please see requirements.'
+
+
 class InvalidLoginCredentialsException(BadRequestException):
     CODE: str = 'INVALID_LOGIN_CREDENTIALS'
     DEFAULT_MESSAGE: str = 'Sorry, the credentials provided are invalid'
@@ -91,8 +96,13 @@ class InvalidLoginCredentialsException(BadRequestException):
 
 class ContextFieldInUseException(BadRequestException):
     CODE: str = 'CONTEXT_FIELD_IN_USE'
-    DEFAULT_MESSAGE: str = ('Sorry, this context field cannot be deleted because it is currently being '
+    DEFAULT_MESSAGE: str = ('This context field cannot be deleted because it is currently being '
                             'referenced by one or more feature flags')
+
+
+class NoProjectAssignedException(BadRequestFieldException):
+    CODE: str = 'NO_PROJECT_ASSIGNED'
+    DEFAULT_MESSAGE: str = 'This user must be assigned to at least one project'
 
 
 def add_missing_punctuation(message: str) -> str:

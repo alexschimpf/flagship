@@ -3,7 +3,7 @@ from typing import Any
 from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import Session
 
-from app import config
+from app.config import Config
 
 
 class MySQLService:
@@ -13,12 +13,12 @@ class MySQLService:
     @classmethod
     def init(cls) -> None:
         cls._engine = create_engine(
-            url=config.MYSQL_CONN_STR,
-            echo=config.MYSQL_ECHO,
-            echo_pool=config.MYSQL_ECHO,
-            isolation_level=config.MYSQL_ISOLATION_LEVEL,
-            pool_size=config.MYSQL_POOL_SIZE,
-            max_overflow=config.MYSQL_MAX_OVERFLOW
+            url=Config.MYSQL_CONN_STR,
+            echo=Config.MYSQL_ECHO,
+            echo_pool=Config.MYSQL_ECHO,
+            isolation_level=Config.MYSQL_ISOLATION_LEVEL,
+            pool_size=Config.MYSQL_POOL_SIZE,
+            max_overflow=Config.MYSQL_MAX_OVERFLOW
         )
 
     @classmethod

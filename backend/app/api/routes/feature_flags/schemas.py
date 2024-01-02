@@ -28,7 +28,6 @@ class FeatureFlag(BaseModel):
 
     @classmethod
     def from_row(cls, row: FeatureFlagRow) -> 'FeatureFlag':
-        # TODO: Fix conditions
         return cls(
             feature_flag_id=row.feature_flag_id,
             name=row.name,

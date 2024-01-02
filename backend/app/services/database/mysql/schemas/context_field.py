@@ -27,7 +27,6 @@ class ContextFieldRow(BaseRow):
 
     @validates('value_type')
     def validate_value_type(self, _: str, value: int) -> int:
-        # TODO: Make sure correct value type is uesd if enum_def is present
         if value not in ContextValueType:
             raise ValueError('Invalid value type')
 

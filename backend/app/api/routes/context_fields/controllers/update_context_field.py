@@ -25,11 +25,6 @@ class UpdateContextFieldController:
     def _validate(self) -> None:
         errors: list[AppException] = []
 
-        try:
-            common.validate_enum_def(enum_def=self.request.enum_def)
-        except AppException as e:
-            errors.append(e)
-
         with MySQLService.get_session() as session:
             if not session.get(ContextFieldRow, (self.context_field_id, self.project_id)):
                 raise NotFoundException
@@ -41,6 +36,11 @@ class UpdateContextFieldController:
                 session=session
             ):
                 errors.append(NameTakenException(field='name'))
+
+        try:
+            common.validate_enum_def(enum_def=self.request.enum_def)
+        except AppException as e:
+            errors.append(e)
 
         if errors:
             raise AggregateException(exceptions=errors)

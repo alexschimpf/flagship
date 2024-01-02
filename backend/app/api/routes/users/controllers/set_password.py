@@ -4,6 +4,7 @@ from app.api.routes.users.schemas import SetPassword
 from app.api.schemas import SuccessResponse
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.service import MySQLService
+from app.api.exceptions.exceptions import InvalidPasswordException
 
 
 class SetPasswordController:
@@ -23,7 +24,35 @@ class SetPasswordController:
         if not user or user.set_password_token != self.request.token:
             raise Exception('User not found')
 
-        # TODO: Validate password
+        if not self.is_password_valid():
+            raise InvalidPasswordException(field='password')
+
+    def is_password_valid(self) -> bool:
+        password = self.request.password
+
+        if len(password) < 8:
+            return False
+
+        has_one_uppercase_letter = False
+        has_one_lowercase_letter = False
+        has_one_number = False
+        has_one_special_char = False
+        for c in password:
+            if c.islower():
+                has_one_lowercase_letter = True
+            elif c.isupper():
+                has_one_uppercase_letter = True
+            elif c.isdigit():
+                has_one_number = True
+            else:
+                has_one_special_char = True
+
+        return (
+            has_one_uppercase_letter and
+            has_one_lowercase_letter and
+            has_one_number and
+            has_one_special_char
+        )
 
     def _update_password(self, user: UserRow) -> None:
         hashed_password = bcrypt.hashpw(

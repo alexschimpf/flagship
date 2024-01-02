@@ -1,8 +1,6 @@
 from enum import IntEnum
 from typing import Final
 
-# TODO: Do all of these need to be here?
-
 
 class ContextValueType(IntEnum):
     STRING = 1

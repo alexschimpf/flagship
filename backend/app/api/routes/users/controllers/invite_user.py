@@ -1,6 +1,6 @@
 import secrets
 
-from app.api.exceptions.exceptions import EmailTakenException, InvalidProjectException
+from app.api.exceptions.exceptions import EmailTakenException, InvalidProjectException, NoProjectAssignedException
 from app.api.routes.users.schemas import InviteUser, User
 from app.constants import UserStatus
 from app.services.database.mysql.schemas.project import ProjectsTable
@@ -22,6 +22,9 @@ class InviteUserController:
         return User.from_row(row=user_row, projects=self.request.projects)
 
     def _validate(self) -> None:
+        if not self.request.projects:
+            raise NoProjectAssignedException(field='projects')
+
         with MySQLService.get_session() as session:
             if UsersTable.get_user_by_email(email=self.request.email, session=session):
                 raise EmailTakenException(field='email')

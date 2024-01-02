@@ -1,6 +1,6 @@
 from typing import cast
 
-from app.api.exceptions.exceptions import InvalidProjectException, NotFoundException
+from app.api.exceptions.exceptions import InvalidProjectException, NotFoundException, NoProjectAssignedException
 from app.api.routes.users.schemas import UpdateUser, User
 from app.services.database.mysql.schemas.project import ProjectsTable
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
@@ -21,6 +21,9 @@ class UpdateUserController:
         return User.from_row(row=user_row, projects=self.request.projects)
 
     def _validate(self) -> None:
+        if not self.request.projects:
+            raise NoProjectAssignedException(field='projects')
+
         with MySQLService.get_session() as session:
             if not session.get(UserRow, self.user_id):
                 raise NotFoundException
