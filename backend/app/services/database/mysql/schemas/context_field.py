@@ -34,7 +34,10 @@ class ContextFieldRow(BaseRow):
         return value
 
     @validates('enum_def')
-    def validate_enum_def(self, _: str, value: str) -> str:
+    def validate_enum_def(self, _: str, value: str | None) -> str | None:
+        if value is None:
+            return value
+
         try:
             ujson.loads(value)
         except Exception:

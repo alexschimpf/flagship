@@ -3,6 +3,7 @@ from typing import Any, Self
 
 from pydantic import BaseModel, Field
 
+from app.api import utils
 from app.constants import ContextValueType
 from app.services.database.mysql.schemas.context_field import ContextFieldRow
 
@@ -11,7 +12,7 @@ class ContextField(BaseModel):
     context_field_id: int
     name: str
     field_key: str
-    value_type: ContextValueType
+    value_type: ContextValueType = Field(description=utils.get_enum_description(enum=ContextValueType))
     description: str
     enum_def: dict[str, Any] | None
     created_date: datetime
@@ -38,7 +39,7 @@ class ContextFields(BaseModel):
 class CreateContextField(BaseModel):
     name: str = Field(min_length=1, max_length=128)
     field_key: str = Field(min_length=1, max_length=64)
-    value_type: ContextValueType
+    value_type: ContextValueType = Field(description=utils.get_enum_description(enum=ContextValueType))
     description: str = Field(default='', max_length=256)
     enum_def: dict[str, Any] | None = None
 

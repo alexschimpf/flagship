@@ -1,8 +1,9 @@
-from typing import cast
+from typing import cast, Any
 
 import ujson
 
-from app.api.exceptions.exceptions import NotFoundException, NameTakenException
+from app.api.exceptions.exceptions import NotFoundException, NameTakenException, AppException, AggregateException
+from app.api.routes.feature_flags.controllers import common
 from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow, FeatureFlagsTable
 from app.services.database.mysql.service import MySQLService
@@ -22,11 +23,10 @@ class UpdateFeatureFlagController:
         return FeatureFlag.from_row(row=feature_flag_row)
 
     def _validate(self) -> None:
-        # TODO: Validate conditions
-
+        errors: list[AppException] = []
         with MySQLService.get_session() as session:
             if not session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id)):
-                raise NotFoundException
+                errors.append(NotFoundException())
 
             if FeatureFlagsTable.is_feature_flag_name_taken(
                 name=self.request.name,
@@ -34,9 +34,24 @@ class UpdateFeatureFlagController:
                 project_id=self.project_id,
                 session=session
             ):
-                raise NameTakenException(field='name')
+                errors.append(NameTakenException(field='name'))
+
+            try:
+                common.validate_feature_flag_conditions(
+                    project_id=self.project_id, conditions=self.request.conditions, session=session)
+            except AppException as e:
+                errors.append(e)
+
+        if not errors:
+            raise AggregateException(exceptions=errors)
 
     def _update_feature_flag(self) -> FeatureFlagRow:
+        conditions: list[list[dict[str, Any]]] = []
+        for and_group in self.request.conditions:
+            conditions.append([
+                condition.model_dump() for condition in and_group
+            ])
+
         with MySQLService.get_session() as session:
             FeatureFlagsTable.update_feature_flag(
                 project_id=self.project_id,
@@ -44,7 +59,7 @@ class UpdateFeatureFlagController:
                 name=self.request.name,
                 description=self.request.description,
                 enabled=self.request.enabled,
-                conditions=ujson.dumps(self.request.conditions),
+                conditions=ujson.dumps(conditions),
                 session=session
             )
             session.commit()

@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
+from app.api import utils
 from app.constants import UserRole, UserStatus
 from app.services.database.mysql.schemas.user import UserRow
 
@@ -9,13 +10,13 @@ from app.services.database.mysql.schemas.user import UserRow
 class InviteUser(BaseModel):
     email: EmailStr
     name: str
-    role: UserRole
+    role: UserRole = Field(description=utils.get_enum_description(enum=UserRole))
     projects: list[int]
 
 
 class UpdateUser(BaseModel):
     name: str
-    role: UserRole
+    role: UserRole = Field(description=utils.get_enum_description(enum=UserRole))
     projects: list[int]
 
 
@@ -33,9 +34,9 @@ class User(BaseModel):
     user_id: int
     email: EmailStr
     name: str
-    role: UserRole
+    role: UserRole = Field(description=utils.get_enum_description(enum=UserRole))
     projects: list[int]
-    status: UserStatus
+    status: UserStatus = Field(description=utils.get_enum_description(enum=UserStatus))
     created_date: datetime
     updated_date: datetime
 

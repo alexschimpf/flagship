@@ -3,13 +3,14 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-from app import constants
+from app.api import utils
+from app.constants import Operator
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow
 
 
 class FeatureFlagCondition(BaseModel):
     context_key: str
-    operator: constants.Operator
+    operator: Operator = Field(description=utils.get_enum_description(enum=Operator))
     value: Any
 
     class Config:
