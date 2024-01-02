@@ -3,6 +3,7 @@ from typing import cast
 import ujson
 
 from app.api.exceptions.exceptions import NameTakenException, AggregateException, AppException, NotFoundException
+from app.api.routes.context_fields.controllers import common
 from app.api.routes.context_fields.schemas import UpdateContextField, ContextField
 from app.services.database.mysql.schemas.context_field import ContextFieldRow, ContextFieldsTable
 from app.services.database.mysql.service import MySQLService
@@ -23,6 +24,11 @@ class UpdateContextFieldController:
 
     def _validate(self) -> None:
         errors: list[AppException] = []
+
+        try:
+            common.validate_enum_def(enum_def=self.request.enum_def)
+        except AppException as e:
+            errors.append(e)
 
         with MySQLService.get_session() as session:
             if not session.get(ContextFieldRow, (self.context_field_id, self.project_id)):
