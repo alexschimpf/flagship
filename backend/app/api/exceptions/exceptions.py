@@ -89,6 +89,12 @@ class InvalidLoginCredentialsException(BadRequestException):
     DEFAULT_MESSAGE: str = 'Sorry, the credentials provided are invalid'
 
 
+class ContextFieldInUseException(BadRequestException):
+    CODE: str = 'CONTEXT_FIELD_IN_USE'
+    DEFAULT_MESSAGE: str = ('Sorry, this context field cannot be deleted because it is currently being '
+                            'referenced by one or more feature flags')
+
+
 def add_missing_punctuation(message: str) -> str:
     if message and message[-1] not in ('.', '?', '!'):
         message += '.'

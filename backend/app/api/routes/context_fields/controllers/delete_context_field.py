@@ -1,6 +1,9 @@
-from app.api.exceptions.exceptions import NotFoundException
+from sqlalchemy.orm import Session
+
+from app.api.exceptions.exceptions import NotFoundException, ContextFieldInUseException
 from app.api.schemas import SuccessResponse
 from app.services.database.mysql.schemas.context_field import ContextFieldsTable, ContextFieldRow
+from app.services.database.mysql.schemas.feature_flag import FeatureFlagsTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -18,8 +21,20 @@ class DeleteContextFieldController:
 
     def _validate(self) -> None:
         with MySQLService.get_session() as session:
-            if not session.get(ContextFieldRow, (self.context_field_id, self.project_id)):
+            context_field_row = session.get(ContextFieldRow, (self.context_field_id, self.project_id))
+            if not context_field_row:
                 raise NotFoundException
+
+            if self.is_context_field_key_used(field_key=context_field_row.field_key, session=session):
+                raise ContextFieldInUseException
+
+    def is_context_field_key_used(self, field_key: str, session: Session) -> bool:
+        feature_flags = FeatureFlagsTable.get_feature_flags(project_id=self.project_id, session=session)
+        for feature_flag in feature_flags:
+            if f'"context_key":"{field_key}"' in feature_flag.conditions:
+                return True
+
+        return False
 
     def _delete_context_field(self) -> None:
         with MySQLService.get_session() as session:
