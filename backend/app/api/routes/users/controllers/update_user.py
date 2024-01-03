@@ -1,7 +1,10 @@
 from typing import cast
 
-from app.api.exceptions.exceptions import InvalidProjectException, NotFoundException, NoProjectAssignedException
-from app.api.routes.users.schemas import UpdateUser, User
+from app.api.exceptions.exceptions import InvalidProjectException, NotFoundException, NoProjectAssignedException, \
+    UnauthorizedException
+from app.api.routes.users.schemas import UpdateUser
+from app.api.schemas import User
+from app.constants import Permission
 from app.services.database.mysql.schemas.project import ProjectsTable
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.schemas.user_project import UsersProjectsTable
@@ -10,9 +13,10 @@ from app.services.database.mysql.service import MySQLService
 
 class UpdateUserController:
 
-    def __init__(self, user_id: int, request: UpdateUser):
+    def __init__(self, user_id: int, request: UpdateUser, me: User):
         self.user_id = user_id
         self.request = request
+        self.me = me
 
     def handle_request(self) -> User:
         self._validate()
@@ -21,6 +25,9 @@ class UpdateUserController:
         return User.from_row(row=user_row, projects=self.request.projects)
 
     def _validate(self) -> None:
+        if self.me.user_id != self.user_id and not self.me.role.has_permission(Permission.UPDATE_USER):
+            raise UnauthorizedException
+
         if not self.request.projects:
             raise NoProjectAssignedException(field='projects')
 

@@ -9,13 +9,16 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
+from fastapi_another_jwt_auth import AuthJWT
+from fastapi_another_jwt_auth.exceptions import AuthJWTException
+from pydantic import BaseModel
 
 from app.api import exceptions
 from app.api.exceptions import handlers as exception_handlers
 from app.api.routers import router
 from app.api.schemas import ErrorResponseModel
-from app.services.database.mysql.service import MySQLService
 from app.config import Config
+from app.services.database.mysql.service import MySQLService
 
 
 class Bootstrap:
@@ -25,6 +28,7 @@ class Bootstrap:
         self._init_logger()
 
         app = self._build_app()
+        self._init_jwt()
         self._init_services()
         app.include_router(router)
         self._override_openapi(app=app)
@@ -45,7 +49,8 @@ class Bootstrap:
         exceptions_handlers: dict[Any, Any] = {
             Exception: exception_handlers.exception_handler,
             exceptions.AppException: exception_handlers.app_exception_handler,
-            RequestValidationError: exception_handlers.request_validation_exception_handler
+            RequestValidationError: exception_handlers.request_validation_exception_handler,
+            AuthJWTException: exception_handlers.jwt_exception_handler
         }
         return FastAPI(
             title='Flagship API',
@@ -80,6 +85,19 @@ class Bootstrap:
             return openapi_schema
 
         app.openapi = openapi  # type: ignore
+
+    @classmethod
+    def _init_jwt(cls) -> None:
+        class Settings(BaseModel):
+            authjwt_token_location: tuple[str] = ('cookies',)
+            authjwt_access_cookie_key: str = 'flagship-session'
+            authjwt_secret_key: str = Config.SECRET_KEY
+            authjwt_access_token_expires: int = Config.SESSION_COOKIE_MAX_AGE
+            authjwt_cookie_csrf_protect: bool = False
+
+        @AuthJWT.load_config  # type: ignore
+        def get_settings() -> Settings:
+            return Settings()
 
     @staticmethod
     def _set_route_operation_ids(app: FastAPI) -> None:

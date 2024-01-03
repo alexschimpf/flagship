@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 from typing import Any
 
 logger = logging.getLogger(__name__)
@@ -13,6 +13,9 @@ class Config:
     MYSQL_POOL_SIZE: int
     MYSQL_MAX_OVERFLOW: int
     MYSQL_CONN_STR: str
+    UI_BASE_URL: str
+    SESSION_COOKIE_MAX_AGE: int
+    SESSION_COOKIE_DOMAIN: str
 
     @classmethod
     def init(cls) -> None:
@@ -29,6 +32,12 @@ class Config:
         cls.MYSQL_CONN_STR = cls._get_value(
             env_var='MYSQL_CONN_STR', default='mysql+mysqlconnector://root:test@localhost:3306/flagship',
             warn_if_missing=True)
+        cls.UI_BASE_URL = cls._get_value(
+            env_var='UI_BASE_URL', default='http://localhost:5000', warn_if_missing=True)
+        cls.SESSION_COOKIE_MAX_AGE = cls._get_value(
+            env_var='COOKIE_MAX_AGE', default=86400)
+        cls.SESSION_COOKIE_DOMAIN = cls._get_value(
+            env_var='SESSION_COOKIE_DOMAIN', default='localhost:8000', warn_if_missing=True)
 
     @staticmethod
     def _to_bool(val: Any) -> bool:

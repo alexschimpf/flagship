@@ -1,7 +1,10 @@
 import secrets
 
-from app.api.exceptions.exceptions import EmailTakenException, InvalidProjectException, NoProjectAssignedException
-from app.api.routes.users.schemas import InviteUser, User
+from app.api.exceptions.exceptions import EmailTakenException, InvalidProjectException, NoProjectAssignedException, \
+    UnauthorizedException
+from app.api.routes.users.schemas import InviteUser
+from app.api.schemas import User
+from app.constants import Permission
 from app.constants import UserStatus
 from app.services.database.mysql.schemas.project import ProjectsTable
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
@@ -11,8 +14,9 @@ from app.services.database.mysql.service import MySQLService
 
 class InviteUserController:
 
-    def __init__(self, request: InviteUser):
+    def __init__(self, request: InviteUser, me: User):
         self.request = request
+        self.me = me
 
     def handle_request(self) -> User:
         self._validate()
@@ -22,6 +26,9 @@ class InviteUserController:
         return User.from_row(row=user_row, projects=self.request.projects)
 
     def _validate(self) -> None:
+        if not self.me.role.has_permission(Permission.INVITE_USER):
+            raise UnauthorizedException
+
         if not self.request.projects:
             raise NoProjectAssignedException(field='projects')
 

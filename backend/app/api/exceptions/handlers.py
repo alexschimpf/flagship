@@ -2,8 +2,10 @@ from fastapi import Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi_another_jwt_auth.exceptions import AuthJWTException
 
-from app.api.exceptions import AppException, AggregateException, BadRequestFieldException, add_missing_punctuation
+from app.api.exceptions import AppException, AggregateException, BadRequestFieldException, add_missing_punctuation, \
+    UnauthenticatedException
 
 
 def exception_handler(_: Request, __: AppException) -> JSONResponse:
@@ -61,6 +63,18 @@ def request_validation_exception_handler(_: Request, e: RequestValidationError) 
         content=jsonable_encoder({
             'errors': formatted_errors
         })
+    )
+
+
+def jwt_exception_handler(_: Request, __: AuthJWTException) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        content={
+            'errors': [{
+                'code': UnauthenticatedException.CODE,
+                'message': UnauthenticatedException.DEFAULT_MESSAGE
+            }]
+        }
     )
 
 

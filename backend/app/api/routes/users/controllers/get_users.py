@@ -2,7 +2,10 @@ from collections import defaultdict
 
 from sqlalchemy import select
 
-from app.api.routes.users.schemas import Users, User
+from app.api.exceptions.exceptions import UnauthorizedException
+from app.api.routes.users.schemas import Users
+from app.api.schemas import User
+from app.constants import Permission
 from app.services.database.mysql.schemas.user import UsersTable
 from app.services.database.mysql.schemas.user_project import UserProjectRow
 from app.services.database.mysql.service import MySQLService
@@ -10,11 +13,13 @@ from app.services.database.mysql.service import MySQLService
 
 class GetUsersController:
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, me: User) -> None:
+        self.me = me
 
-    @staticmethod
-    def handle_request() -> Users:
+    def handle_request(self) -> Users:
+        if not self.me.role.has_permission(Permission.READ_USERS):
+            raise UnauthorizedException
+
         with MySQLService.get_session() as session:
             user_rows = UsersTable.get_users(session=session)
             all_user_projects = session.scalars(

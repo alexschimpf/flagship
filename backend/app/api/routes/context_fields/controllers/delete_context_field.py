@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 
-from app.api.exceptions.exceptions import NotFoundException, ContextFieldInUseException
-from app.api.schemas import SuccessResponse
+from app.api.exceptions.exceptions import NotFoundException, ContextFieldInUseException, UnauthorizedException
+from app.api.schemas import SuccessResponse, User
+from app.constants import Permission
 from app.services.database.mysql.schemas.context_field import ContextFieldsTable, ContextFieldRow
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagsTable
 from app.services.database.mysql.service import MySQLService
@@ -9,9 +10,10 @@ from app.services.database.mysql.service import MySQLService
 
 class DeleteContextFieldController:
 
-    def __init__(self, project_id: int, context_field_id: int):
+    def __init__(self, project_id: int, context_field_id: int, me: User):
         self.project_id = project_id
         self.context_field_id = context_field_id
+        self.me = me
 
     def handle_request(self) -> SuccessResponse:
         self._validate()
@@ -20,6 +22,9 @@ class DeleteContextFieldController:
         return SuccessResponse()
 
     def _validate(self) -> None:
+        if not self.me.role.has_permission(Permission.DELETE_CONTEXT_FIELD):
+            raise UnauthorizedException
+
         with MySQLService.get_session() as session:
             context_field_row = session.get(ContextFieldRow, (self.context_field_id, self.project_id))
             if not context_field_row:

@@ -1,4 +1,4 @@
-from enum import IntEnum
+from enum import IntEnum, auto
 from typing import Final
 
 
@@ -30,10 +30,56 @@ class Operator(IntEnum):
     NOT_CONTAINS = 13
 
 
+class Permission(IntEnum):
+    # Projects
+    CREATE_PROJECT = auto()
+    UPDATE_PROJECT = auto()
+    DELETE_PROJECT = auto()
+    RESET_PROJECT_PRIVATE_KEY = auto()
+
+    # Feature flags
+    CREATE_FEATURE_FLAG = auto()
+    UPDATE_FEATURE_FLAG = auto()
+    DELETE_FEATURE_FLAG = auto()
+
+    # Context fields
+    CREATE_CONTEXT_FIELD = auto()
+    UPDATE_CONTEXT_FIELD = auto()
+    DELETE_CONTEXT_FIELD = auto()
+
+    # Users
+    READ_USERS = auto()
+    INVITE_USER = auto()
+    UPDATE_USER = auto()
+    DELETE_USER = auto()
+
+
 class UserRole(IntEnum):
     READ_ONLY = 1
     STANDARD = 2
     ADMIN = 3
+    OWNER = 4
+
+    def has_permission(self, permission: Permission) -> bool:
+        if self is self.STANDARD:
+            return permission in (
+                Permission.CREATE_FEATURE_FLAG,
+                Permission.UPDATE_FEATURE_FLAG,
+                Permission.DELETE_FEATURE_FLAG
+            )
+        elif self is self.ADMIN:
+            return permission in (
+                Permission.CREATE_FEATURE_FLAG,
+                Permission.UPDATE_FEATURE_FLAG,
+                Permission.DELETE_FEATURE_FLAG,
+                Permission.CREATE_CONTEXT_FIELD,
+                Permission.UPDATE_CONTEXT_FIELD,
+                Permission.DELETE_CONTEXT_FIELD
+            )
+        elif self is self.OWNER:
+            return True
+
+        return False
 
 
 class UserStatus(IntEnum):

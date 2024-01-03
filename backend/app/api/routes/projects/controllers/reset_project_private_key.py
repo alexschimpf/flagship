@@ -1,16 +1,19 @@
 from typing import cast
 
-from app.api.exceptions.exceptions import NotFoundException
+from app.api.exceptions.exceptions import NotFoundException, UnauthorizedException
 from app.api.routes.projects.controllers import common
 from app.api.routes.projects.schemas import ProjectWithPrivateKey
+from app.api.schemas import User
+from app.constants import Permission
 from app.services.database.mysql.schemas.project import ProjectRow, ProjectsTable
 from app.services.database.mysql.service import MySQLService
 
 
 class ResetProjectPrivateKeyController:
 
-    def __init__(self, project_id: int):
+    def __init__(self, project_id: int, me: User):
         self.project_id = project_id
+        self.me = me
 
     def handle_request(self) -> ProjectWithPrivateKey:
         self._validate()
@@ -25,6 +28,9 @@ class ResetProjectPrivateKeyController:
         )
 
     def _validate(self) -> None:
+        if not self.me.role.has_permission(Permission.RESET_PROJECT_PRIVATE_KEY):
+            raise UnauthorizedException
+
         with MySQLService.get_session() as session:
             if not session.get(ProjectRow, self.project_id):
                 raise NotFoundException

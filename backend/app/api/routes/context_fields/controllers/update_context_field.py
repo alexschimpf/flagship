@@ -2,19 +2,23 @@ from typing import cast
 
 import ujson
 
-from app.api.exceptions.exceptions import NameTakenException, AggregateException, AppException, NotFoundException
+from app.api.exceptions.exceptions import NameTakenException, AggregateException, AppException, NotFoundException, \
+    UnauthorizedException
 from app.api.routes.context_fields.controllers import common
 from app.api.routes.context_fields.schemas import UpdateContextField, ContextField
+from app.api.schemas import User
+from app.constants import Permission
 from app.services.database.mysql.schemas.context_field import ContextFieldRow, ContextFieldsTable
 from app.services.database.mysql.service import MySQLService
 
 
 class UpdateContextFieldController:
 
-    def __init__(self, project_id: int, context_field_id: int, request: UpdateContextField):
+    def __init__(self, project_id: int, context_field_id: int, request: UpdateContextField, me: User):
         self.project_id = project_id
         self.context_field_id = context_field_id
         self.request = request
+        self.me = me
 
     def handle_request(self) -> ContextField:
         self._validate()
@@ -23,8 +27,10 @@ class UpdateContextFieldController:
         return ContextField.from_row(row=context_field_row)
 
     def _validate(self) -> None:
-        errors: list[AppException] = []
+        if not self.me.role.has_permission(Permission.UPDATE_CONTEXT_FIELD):
+            raise UnauthorizedException
 
+        errors: list[AppException] = []
         with MySQLService.get_session() as session:
             if not session.get(ContextFieldRow, (self.context_field_id, self.project_id)):
                 raise NotFoundException

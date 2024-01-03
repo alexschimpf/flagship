@@ -2,19 +2,23 @@ from typing import cast, Any
 
 import ujson
 
-from app.api.exceptions.exceptions import NotFoundException, NameTakenException, AppException, AggregateException
+from app.api.exceptions.exceptions import NotFoundException, NameTakenException, AppException, AggregateException, \
+    UnauthorizedException
 from app.api.routes.feature_flags.controllers import common
 from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag
+from app.api.schemas import User
+from app.constants import Permission
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow, FeatureFlagsTable
 from app.services.database.mysql.service import MySQLService
 
 
 class UpdateFeatureFlagController:
 
-    def __init__(self, project_id: int, feature_flag_id: int, request: CreateOrUpdateFeatureFlag):
+    def __init__(self, project_id: int, feature_flag_id: int, request: CreateOrUpdateFeatureFlag, me: User):
         self.project_id = project_id
         self.feature_flag_id = feature_flag_id
         self.request = request
+        self.me = me
 
     def handle_request(self) -> FeatureFlag:
         self._validate()
@@ -23,6 +27,9 @@ class UpdateFeatureFlagController:
         return FeatureFlag.from_row(row=feature_flag_row)
 
     def _validate(self) -> None:
+        if not self.me.role.has_permission(Permission.UPDATE_FEATURE_FLAG):
+            raise UnauthorizedException
+
         errors: list[AppException] = []
         with MySQLService.get_session() as session:
             if not session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id)):

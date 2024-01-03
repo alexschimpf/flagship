@@ -1,19 +1,21 @@
 import ujson
 
 from app.api.exceptions.exceptions import NameTakenException, ContextFieldKeyTakenException, AggregateException, \
-    AppException, EnumContextFieldTypeWithoutEnumDefException
+    AppException, EnumContextFieldTypeWithoutEnumDefException, UnauthorizedException
 from app.api.routes.context_fields.controllers import common
 from app.api.routes.context_fields.schemas import CreateContextField, ContextField
-from app.constants import ContextValueType
+from app.api.schemas import User
+from app.constants import ContextValueType, Permission
 from app.services.database.mysql.schemas.context_field import ContextFieldRow, ContextFieldsTable
 from app.services.database.mysql.service import MySQLService
 
 
 class CreateContextFieldController:
 
-    def __init__(self, project_id: int, request: CreateContextField):
+    def __init__(self, project_id: int, request: CreateContextField, me: User):
         self.project_id = project_id
         self.request = request
+        self.me = me
 
     def handle_request(self) -> ContextField:
         self._validate()
@@ -22,6 +24,9 @@ class CreateContextFieldController:
         return ContextField.from_row(row=context_field_row)
 
     def _validate(self) -> None:
+        if not self.me.role.has_permission(Permission.CREATE_CONTEXT_FIELD):
+            raise UnauthorizedException
+
         errors: list[AppException] = []
 
         self._validate_enum_def_and_type(errors=errors)

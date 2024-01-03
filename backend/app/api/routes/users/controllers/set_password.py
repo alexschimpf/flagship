@@ -1,10 +1,10 @@
 import bcrypt
 
+from app.api.exceptions.exceptions import InvalidPasswordException
 from app.api.routes.users.schemas import SetPassword
 from app.api.schemas import SuccessResponse
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.service import MySQLService
-from app.api.exceptions.exceptions import InvalidPasswordException
 
 
 class SetPasswordController:
@@ -18,11 +18,16 @@ class SetPasswordController:
             self._validate(user=user)
             self._update_password(user=user)
 
+        # TODO: Set JWT token so user is logged in
+
         return SuccessResponse()
 
     def _validate(self, user: UserRow) -> None:
-        if not user or user.set_password_token != self.request.token:
+        # TODO: Token should expire and be hashed
+        if not user:
             raise Exception('User not found')
+        if user.set_password_token != self.request.token:
+            raise Exception('Set password token not valid')
 
         if not self.is_password_valid():
             raise InvalidPasswordException(field='password')
