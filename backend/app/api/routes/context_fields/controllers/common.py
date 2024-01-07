@@ -9,6 +9,10 @@ def validate_enum_def(
     if enum_def is None:
         return
 
+    value_types = {type(value) for value in enum_def.values()}
+    if len(value_types) > 1:
+        raise InvalidEnumDefException(field='enum_def')
+
     for key, value in enum_def.items() or {}:
         if (
             not isinstance(key, str) or

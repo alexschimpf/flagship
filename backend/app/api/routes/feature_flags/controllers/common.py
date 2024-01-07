@@ -90,13 +90,15 @@ def _validate_value(
             case ContextValueType.VERSION:
                 coerced_value = _validate_version_condition(value=value)
             case ContextValueType.ENUM:
-                coerced_value = _validate_enum_condition(operator=operator, value=value)
+                coerced_value = _validate_enum_condition(
+                    operator=operator, value=value, enum_def=context_field.enum_def_dict)
             case ContextValueType.STRING_LIST:
                 coerced_value = _validate_string_list_condition(operator=operator, value=value)
             case ContextValueType.INTEGER_LIST:
                 coerced_value = _validate_integer_list_condition(operator=operator, value=value)
             case ContextValueType.ENUM_LIST:
-                coerced_value = _validate_enum_list_condition(operator=operator, value=value)
+                coerced_value = _validate_enum_list_condition(
+                    operator=operator, value=value, enum_def=context_field.enum_def_dict)
             case _:
                 raise Exception('Unexpected value type')
     except Exception:
@@ -191,17 +193,22 @@ def _validate_version_condition(
 
 def _validate_enum_condition(
     operator: Operator,
-    value: Any
+    value: Any,
+    enum_def: dict[str, Any] | None
 ) -> Any:
-    # TODO: Validate against actual enum definition
+    if not enum_def:
+        raise Exception
+
+    value_type = type(list(enum_def.values())[0])
+
     if operator in (Operator.IN_LIST, Operator.NOT_IN_LIST):
         if not isinstance(value, list):
             raise Exception
         for item in value:
-            if isinstance(item, bool) or not isinstance(item, (str, int, float)):
+            if not isinstance(item, value_type):
                 raise Exception
     else:
-        if isinstance(value, bool) or not isinstance(value, (str, int, float)):
+        if not isinstance(value, value_type):
             raise Exception
 
     return value
@@ -247,16 +254,22 @@ def _validate_integer_list_condition(
 
 def _validate_enum_list_condition(
     operator: Operator,
-    value: Any
+    value: Any,
+    enum_def: dict[str, Any] | None
 ) -> Any:
+    if not enum_def:
+        raise Exception
+
+    value_type = type(list(enum_def.values())[0])
+
     if operator in (Operator.INTERSECTS, Operator.NOT_INTERSECTS):
         if not isinstance(value, list):
             raise Exception
         for item in value:
-            if isinstance(item, bool) or not isinstance(item, (str, int, float)):
+            if not isinstance(item, value_type):
                 raise Exception
     elif operator in (Operator.CONTAINS, Operator.NOT_CONTAINS):
-        if isinstance(value, bool) or not isinstance(value, (str, int, float)):
+        if not isinstance(value, value_type):
             raise Exception
 
     return value

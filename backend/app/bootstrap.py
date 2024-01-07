@@ -110,7 +110,7 @@ class Bootstrap:
         # TODO: Make this configurable
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=['*'],
+            allow_origins=Config.CORS_ALLOW_ORIGINS,
             allow_credentials=True,
             allow_methods=['*'],
             allow_headers=['*'],

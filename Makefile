@@ -34,7 +34,7 @@ be-run-unit-tests:
 
 # run backend api tests
 be-run-api-tests:
-	./backend/tests/api/runtests.sh
+	./backend/tests/api/run-tests.sh
 
 # run dependencies via docker compose
 run-docker-compose-deps:

@@ -54,6 +54,6 @@ class CreateProjectController:
             )
 
             session.commit()
-            session.refresh(project_row)  # TODO: Is this needed anymore?
+            session.refresh(project_row)
 
             return project_row, private_key

@@ -17,6 +17,7 @@ class Config:
     SESSION_COOKIE_KEY: str
     SESSION_COOKIE_MAX_AGE: int
     SESSION_COOKIE_DOMAIN: str
+    CORS_ALLOW_ORIGINS: list[str]
 
     @classmethod
     def init(cls) -> None:
@@ -41,13 +42,22 @@ class Config:
             env_var='COOKIE_MAX_AGE', default=86400)
         cls.SESSION_COOKIE_DOMAIN = cls._get_value(
             env_var='SESSION_COOKIE_DOMAIN', default='localhost:8000', warn_if_missing=True)
+        cls.CORS_ALLOW_ORIGINS = cls._get_value(
+            env_var='CORS_ALLOW_ORIGINS', default='*', warn_if_missing=True, type_cast=cls._to_str_list)
 
     @staticmethod
-    def _to_bool(val: Any) -> bool:
-        if not val or (isinstance(val, str) and val.lower() in ('false', 'no', '0')):
+    def _to_bool(val: str) -> bool:
+        if not val or (val.lower() in ('false', 'no', '0')):
             return False
 
         return True
+
+    @staticmethod
+    def _to_str_list(val: str) -> list[str]:
+        if not val:
+            return []
+
+        return val.split(',')
 
     @staticmethod
     def _get_value(env_var: str, default: Any, type_cast: Any = None, warn_if_missing: bool = False) -> Any:
