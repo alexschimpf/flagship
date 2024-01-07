@@ -1,18 +1,19 @@
 import contextlib
+from typing import Generator, Any
+
 import bcrypt
 import ujson
-from typing import Generator, Any
-from sqlalchemy import delete
 from pydantic import BaseModel, EmailStr
+from sqlalchemy import delete
 
-from app.services.database.mysql.service import MySQLService
+from app.api.routes.feature_flags.schemas import FeatureFlagCondition
+from app.constants import UserRole, UserStatus, ContextValueType
+from app.services.database.mysql.schemas.context_field import ContextFieldRow
+from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow
+from app.services.database.mysql.schemas.project import ProjectRow
 from app.services.database.mysql.schemas.user import UserRow
 from app.services.database.mysql.schemas.user_project import UsersProjectsTable
-from app.services.database.mysql.schemas.project import ProjectRow
-from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow
-from app.services.database.mysql.schemas.context_field import ContextFieldRow
-from app.constants import UserRole, UserStatus, ContextValueType
-from app.api.routes.feature_flags.schemas import FeatureFlagCondition
+from app.services.database.mysql.service import MySQLService
 
 
 class User(BaseModel):

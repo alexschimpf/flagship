@@ -1,11 +1,12 @@
-import ujson
-from typing import Any, Callable, cast, Type
-from rest_api_tester.test import TestCase, TestResult, TestData
-from rest_api_tester.runner import TestCaseRunner
-from rest_api_tester.client.base_client import BaseTestClient
+from typing import Any, Callable, cast
 
-from tests.api import utils
+import ujson
+from rest_api_tester.client.base_client import BaseTestClient
+from rest_api_tester.runner import TestCaseRunner
+from rest_api_tester.test import TestCase, TestResult, TestData
+
 from app.config import Config
+from tests.api import utils
 
 
 class BaseTestCase(TestCase):

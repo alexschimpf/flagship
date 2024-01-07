@@ -1,15 +1,16 @@
-import bcrypt
-from typing import cast
 import urllib.parse
+from typing import cast
+
+import bcrypt
 from fastapi import status
 from fastapi.responses import RedirectResponse
 from fastapi_another_jwt_auth import AuthJWT
 
 from app.api.exceptions.exceptions import InvalidPasswordException, InvalidSetPasswordTokenException, AppException
 from app.api.routes.users.schemas import SetPassword
+from app.config import Config
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.service import MySQLService
-from app.config import Config
 
 
 class SetPasswordController:

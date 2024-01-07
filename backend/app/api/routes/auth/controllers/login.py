@@ -25,7 +25,7 @@ class LoginController:
             with MySQLService.get_session() as session:
                 user = UsersTable.get_user_by_email(email=self.email, session=session)
 
-            if user.status != UserStatus.ACTIVATED.value:
+            if user and user.status != UserStatus.ACTIVATED.value:
                 raise exceptions.UserNotActivatedException
             if not user:
                 raise exceptions.InvalidLoginCredentialsException

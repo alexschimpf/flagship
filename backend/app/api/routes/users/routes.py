@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Response
-from fastapi_another_jwt_auth import AuthJWT
 from fastapi.responses import RedirectResponse
+from fastapi_another_jwt_auth import AuthJWT
 
 from app.api import auth
 from app.api.routes.users.controllers.delete_user import DeleteUserController

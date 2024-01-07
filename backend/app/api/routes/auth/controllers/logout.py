@@ -1,5 +1,5 @@
-from fastapi.responses import RedirectResponse
 from fastapi import status
+from fastapi.responses import RedirectResponse
 
 from app.config import Config
 

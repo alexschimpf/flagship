@@ -1,12 +1,13 @@
 import os
 import secrets
+
 from rest_api_tester.runner import TestCaseRunner
 
-from app.main import app
-from tests.api.fastapi_test_client import FastAPITestClient
-from tests.api.base_test_case import BaseTestCase
-from tests.api import utils
 from app.config import Config
+from app.main import app
+from tests.api import utils
+from tests.api.base_test_case import BaseTestCase
+from tests.api.fastapi_test_client import FastAPITestClient
 
 
 class TestSetPassword(BaseTestCase):

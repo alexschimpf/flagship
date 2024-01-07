@@ -1,9 +1,9 @@
-from sqlalchemy import select
 from fastapi import Response
+from sqlalchemy import select
 
-from app.config import Config
 from app.api.exceptions.exceptions import UnauthorizedException, CannotDeleteLastOwnerException, NotFoundException
 from app.api.schemas import SuccessResponse, User
+from app.config import Config
 from app.constants import Permission, UserRole
 from app.services.database.mysql.schemas.user import UsersTable, UserRow
 from app.services.database.mysql.service import MySQLService

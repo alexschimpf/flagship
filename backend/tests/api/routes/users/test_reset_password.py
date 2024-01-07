@@ -1,12 +1,13 @@
 import os
+
 from rest_api_tester.runner import TestCaseRunner
 
 from app.main import app
-from tests.api.fastapi_test_client import FastAPITestClient
-from tests.api.base_test_case import BaseTestCase
-from tests.api import utils
-from app.services.database.mysql.service import MySQLService
 from app.services.database.mysql.schemas.user import UserRow
+from app.services.database.mysql.service import MySQLService
+from tests.api import utils
+from tests.api.base_test_case import BaseTestCase
+from tests.api.fastapi_test_client import FastAPITestClient
 
 
 class TestResetPassword(BaseTestCase):

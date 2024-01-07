@@ -1,7 +1,7 @@
-import httpx
 from typing import Union, Any, Dict
-from fastapi import FastAPI, testclient
 
+import httpx
+from fastapi import FastAPI, testclient
 from rest_api_tester.client.base_client import BaseTestClient
 from rest_api_tester.client.response_data import ResponseData
 
