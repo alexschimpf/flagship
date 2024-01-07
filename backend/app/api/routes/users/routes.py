@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
+from fastapi_another_jwt_auth import AuthJWT
+from fastapi.responses import RedirectResponse
 
 from app.api import auth
 from app.api.routes.users.controllers.delete_user import DeleteUserController
@@ -17,10 +19,11 @@ router = APIRouter(
 )
 
 
-@router.put('/password', response_model=SuccessResponse)
-def set_password(request: SetPassword) -> SuccessResponse:
+@router.put('/password', response_class=RedirectResponse)
+def set_password(request: SetPassword, authorize: AuthJWT = Depends()) -> RedirectResponse:
     return SetPasswordController(
-        request=request
+        request=request,
+        authorize=authorize
     ).handle_request()
 
 
@@ -64,8 +67,12 @@ def update_user(user_id: int, request: UpdateUser, me: User = Depends(auth.get_u
 
 
 @router.delete('/{user_id}', response_model=SuccessResponse)
-def delete_user(user_id: int, me: User = Depends(auth.get_user)) -> SuccessResponse:
+def delete_user(
+    user_id: int,
+    response: Response,
+    me: User = Depends(auth.get_user)
+) -> SuccessResponse:
     return DeleteUserController(
         user_id=user_id,
         me=me
-    ).handle_request()
+    ).handle_request(response=response)

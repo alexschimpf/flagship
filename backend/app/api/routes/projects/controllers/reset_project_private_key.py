@@ -28,7 +28,8 @@ class ResetProjectPrivateKeyController:
         )
 
     def _validate(self) -> None:
-        if not self.me.role.has_permission(Permission.RESET_PROJECT_PRIVATE_KEY):
+        if (not self.me.role.has_permission(Permission.RESET_PROJECT_PRIVATE_KEY) or
+                self.project_id not in self.me.projects):
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:

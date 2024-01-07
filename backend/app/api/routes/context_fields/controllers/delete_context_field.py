@@ -22,7 +22,8 @@ class DeleteContextFieldController:
         return SuccessResponse()
 
     def _validate(self) -> None:
-        if not self.me.role.has_permission(Permission.DELETE_CONTEXT_FIELD):
+        if (not self.me.role.has_permission(Permission.DELETE_CONTEXT_FIELD) or
+                self.project_id not in self.me.projects):
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:

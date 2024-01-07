@@ -90,7 +90,7 @@ class Bootstrap:
     def _init_jwt(cls) -> None:
         class Settings(BaseModel):
             authjwt_token_location: tuple[str] = ('cookies',)
-            authjwt_access_cookie_key: str = 'flagship-session'
+            authjwt_access_cookie_key: str = Config.SESSION_COOKIE_KEY
             authjwt_secret_key: str = Config.SECRET_KEY
             authjwt_access_token_expires: int = Config.SESSION_COOKIE_MAX_AGE
             authjwt_cookie_csrf_protect: bool = False

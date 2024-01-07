@@ -1,0 +1,87 @@
+{
+    "test_create_context_field__200": {
+        "url": "/context_fields?project_id={project_id}",
+        "method": "POST",
+        "status": 200,
+        "request": {
+            "name": "User ID",
+            "description": "This is a context field",
+            "field_key": "user_id",
+            "value_type": 3,
+            "enum_def": null
+        },
+        "response": {
+            "name": "User ID",
+            "field_key": "user_id",
+            "value_type": 3,
+            "description": "This is a context field",
+            "enum_def": null
+        }
+    },
+    "test_create_context_field__403_project_not_assigned": {
+        "url": "/context_fields?project_id={project_id}",
+        "method": "POST",
+        "status": 403,
+        "request": {
+            "name": "User ID",
+            "description": "This is a context field",
+            "field_key": "user_id",
+            "value_type": 3,
+            "enum_def": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_create_context_field__403_read_only_role": {
+        "url": "/context_fields?project_id={project_id}",
+        "method": "POST",
+        "status": 403,
+        "request": {
+            "name": "User ID",
+            "description": "This is a context field",
+            "field_key": "user_id",
+            "value_type": 3,
+            "enum_def": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_create_context_field__400_name_and_field_key_taken": {
+        "url": "/context_fields?project_id={project_id}",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "other",
+            "description": "This is a context field",
+            "field_key": "context_field",
+            "value_type": 3,
+            "enum_def": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "field": "name",
+                    "code": "NAME_TAKEN",
+                    "message": "Sorry, that name is already taken."
+                },
+                {
+                    "field": "field_key",
+                    "code": "CONTEXT_FIELD_KEY_TAKEN",
+                    "message": "Sorry, that context field key is already being used in this project."
+                }
+            ]
+        }
+    }
+}

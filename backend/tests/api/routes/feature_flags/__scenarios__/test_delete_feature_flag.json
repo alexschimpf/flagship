@@ -1,0 +1,36 @@
+{
+    "test_delete_feature_flag__200": {
+        "url": "/feature_flags/{feature_flag_id}?project_id={project_id}",
+        "method": "DELETE",
+        "status": 200,
+        "response": {
+            "success": true
+        }
+    },
+    "test_delete_feature_flag__403_project_not_assigned": {
+        "url": "/feature_flags/{feature_flag_id}?project_id={project_id}",
+        "method": "DELETE",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_delete_feature_flag__403_read_only_role": {
+        "url": "/feature_flags/{feature_flag_id}?project_id={project_id}",
+        "method": "DELETE",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    }
+}

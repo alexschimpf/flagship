@@ -4,6 +4,7 @@ from app.api.routes.projects.schemas import CreateOrUpdateProject, ProjectWithPr
 from app.api.schemas import User
 from app.constants import Permission
 from app.services.database.mysql.schemas.project import ProjectRow, ProjectsTable
+from app.services.database.mysql.schemas.user_project import UserProjectRow
 from app.services.database.mysql.service import MySQLService
 
 
@@ -35,14 +36,24 @@ class CreateProjectController:
                 raise NameTakenException(field='name')
 
     def _create_project(self) -> tuple[ProjectRow, str]:
-        private_key, encrypted_private_key = common.generate_private_key()
-        project_row = ProjectRow(
-            name=self.request.name,
-            private_key=encrypted_private_key
-        )
         with MySQLService.get_session() as session:
-            session.add(project_row)
-            session.commit()
-            session.refresh(project_row)
+            private_key, encrypted_private_key = common.generate_private_key()
+            project_row = ProjectRow(
+                name=self.request.name,
+                private_key=encrypted_private_key
+            )
 
-        return project_row, private_key
+            session.add(project_row)
+            session.flush()
+
+            session.add(
+                UserProjectRow(
+                    user_id=self.me.user_id,
+                    project_id=project_row.project_id
+                )
+            )
+
+            session.commit()
+            session.refresh(project_row)  # TODO: Is this needed anymore?
+
+            return project_row, private_key

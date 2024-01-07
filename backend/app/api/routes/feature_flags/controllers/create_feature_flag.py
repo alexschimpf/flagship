@@ -26,7 +26,8 @@ class CreateFeatureFlagController:
         return FeatureFlag.from_row(row=feature_flag_row)
 
     def _validate(self) -> None:
-        if not self.me.role.has_permission(Permission.CREATE_FEATURE_FLAG):
+        if (not self.me.role.has_permission(Permission.CREATE_FEATURE_FLAG) or
+                self.project_id not in self.me.projects):
             raise UnauthorizedException
 
         errors: list[AppException] = []

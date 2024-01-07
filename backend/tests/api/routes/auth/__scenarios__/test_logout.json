@@ -1,0 +1,8 @@
+{
+    "test_logout__302": {
+        "url": "/auth/logout",
+        "method": "POST",
+        "status": 302,
+        "allow_redirects": false
+    }
+}

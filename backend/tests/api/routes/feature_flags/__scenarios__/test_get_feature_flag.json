@@ -1,0 +1,16 @@
+{
+    "test_get_feature_flag__200": {
+        "url": "/feature_flags/{feature_flag_id}?project_id={project_id}",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "feature_flag_id": "$$$",
+            "name": "Enable some feature",
+            "description": "This flag enables some feature",
+            "enabled": true,
+            "conditions": [],
+            "updated_date": "$$$",
+            "created_date": "$$$"
+        }
+    }
+}

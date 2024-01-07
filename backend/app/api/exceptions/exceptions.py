@@ -85,8 +85,13 @@ class InvalidProjectException(BadRequestFieldException):
 
 
 class InvalidPasswordException(BadRequestFieldException):
-    CODE: str = 'INVALID_PASSWORD_EXCEPTION'
+    CODE: str = 'INVALID_PASSWORD'
     DEFAULT_MESSAGE: str = 'Invalid password. Please see requirements.'
+
+
+class InvalidSetPasswordTokenException(BadRequestException):
+    CODE: str = 'INVALID_SET_PASSWORD_TOKEN'
+    DEFAULT_MESSAGE: str = 'Invalid token'
 
 
 class InvalidLoginCredentialsException(BadRequestException):
@@ -103,6 +108,16 @@ class ContextFieldInUseException(BadRequestException):
 class NoProjectAssignedException(BadRequestFieldException):
     CODE: str = 'NO_PROJECT_ASSIGNED'
     DEFAULT_MESSAGE: str = 'This user must be assigned to at least one project'
+
+
+class CannotDeleteLastOwnerException(BadRequestException):
+    CODE: str = 'CANNOT_DELETE_LAST_OWNER'
+    DEFAULT_MESSAGE: str = 'This user cannot be deleted because there must be at least one Flagship owner left'
+
+
+class UserNotActivatedException(BadRequestException):
+    CODE: str = 'USER_NOT_ACTIVATED'
+    DEFAULT_MESSAGE: str = 'User is not activated'
 
 
 def add_missing_punctuation(message: str) -> str:

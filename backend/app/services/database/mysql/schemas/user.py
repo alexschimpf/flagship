@@ -19,7 +19,7 @@ class UserRow(BaseRow):
     role: Mapped[int] = mapped_column(Integer)
     status: Mapped[int] = mapped_column(Integer)
     password: Mapped[str] = mapped_column(String, nullable=True)
-    set_password_token: Mapped[str] = mapped_column(String, nullable=True)
+    set_password_token: Mapped[str | None] = mapped_column(String, nullable=True)
     created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
     updated_date: Mapped[datetime.datetime] = mapped_column(
         DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))

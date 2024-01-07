@@ -25,12 +25,14 @@ class LoginController:
             with MySQLService.get_session() as session:
                 user = UsersTable.get_user_by_email(email=self.email, session=session)
 
-            if not user or user.status != UserStatus.ACTIVATED.value:
+            if user.status != UserStatus.ACTIVATED.value:
+                raise exceptions.UserNotActivatedException
+            if not user:
                 raise exceptions.InvalidLoginCredentialsException
 
-            attempted_password = self.password.encode('utf-8')
-            hashed_password = user.password.encode('utf-8')
-            if bcrypt.hashpw(attempted_password, hashed_password) != hashed_password:
+            attempted_password = self.password.encode()
+            hashed_password = user.password.encode()
+            if not bcrypt.checkpw(attempted_password, hashed_password):
                 raise exceptions.InvalidLoginCredentialsException
 
             access_token = self.authorize.create_access_token(subject=user.user_id)
@@ -49,7 +51,7 @@ class LoginController:
         )
 
         response.set_cookie(
-            key='flagship-session',
+            key=Config.SESSION_COOKIE_KEY,
             value=access_token,
             max_age=Config.SESSION_COOKIE_MAX_AGE,
             domain=Config.SESSION_COOKIE_DOMAIN,

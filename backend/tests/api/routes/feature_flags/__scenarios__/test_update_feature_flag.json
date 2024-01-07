@@ -1,0 +1,149 @@
+{
+    "test_update_feature_flag__200": {
+        "url": "/feature_flags/{feature_flag_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 200,
+        "request": {
+            "name": "Feature Flag #1 - updated",
+            "description": "This is feature flag - updated",
+            "conditions": [
+                [
+                    {
+                        "context_key": "user_id",
+                        "operator": 1,
+                        "value": 123
+                    },
+                    {
+                        "context_key": "country_code",
+                        "operator": 8,
+                        "value": [
+                            "jp",
+                            "cn"
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "context_key": "user_id",
+                        "operator": 9,
+                        "value": [
+                            999
+                        ]
+                    },
+                    {
+                        "context_key": "country_code",
+                        "operator": 1,
+                        "value": "us"
+                    },
+                    {
+                        "context_key": "groups",
+                        "operator": 12,
+                        "value": 2
+                    }
+                ]
+            ],
+            "enabled": false
+        },
+        "response": {
+            "feature_flag_id": "$$$",
+            "name": "Feature Flag #1 - updated",
+            "description": "This is feature flag - updated",
+            "enabled": false,
+            "conditions": [
+                [
+                    {
+                        "context_key": "user_id",
+                        "operator": 1,
+                        "value": 123
+                    },
+                    {
+                        "context_key": "country_code",
+                        "operator": 8,
+                        "value": [
+                            "jp",
+                            "cn"
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "context_key": "user_id",
+                        "operator": 9,
+                        "value": [
+                            999
+                        ]
+                    },
+                    {
+                        "context_key": "country_code",
+                        "operator": 1,
+                        "value": "us"
+                    },
+                    {
+                        "context_key": "groups",
+                        "operator": 12,
+                        "value": 2
+                    }
+                ]
+            ],
+            "created_date": "$$$"
+        }
+    },
+    "test_update_feature_flag__403_project_not_assigned": {
+        "url": "/feature_flags/{feature_flag_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 403,
+        "request": {
+            "name": "Feature Flag #1 - updated",
+            "description": "This is feature flag - updated",
+            "enabled": false,
+            "conditions": []
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_update_feature_flag__403_read_only_role": {
+        "url": "/feature_flags/{feature_flag_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 403,
+        "request": {
+            "name": "Feature Flag #1 - updated",
+            "description": "This is feature flag - updated",
+            "enabled": false,
+            "conditions": []
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_update_feature_flag__400_name_taken": {
+        "url": "/feature_flags/{feature_flag_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 400,
+        "request": {
+            "name": "other",
+            "description": "This is feature flag - updated",
+            "enabled": false,
+            "conditions": []
+        },
+        "response": {
+            "errors": [
+                {
+                    "field": "name",
+                    "code": "NAME_TAKEN",
+                    "message": "Sorry, that name is already taken."
+                }
+            ]
+        }
+    }
+}

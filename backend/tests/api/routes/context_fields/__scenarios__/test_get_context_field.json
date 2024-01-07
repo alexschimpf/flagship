@@ -1,0 +1,17 @@
+{
+    "test_get_context_field__200": {
+        "url": "/context_fields/{context_field_id}?project_id={project_id}",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "context_field_id": "$$$",
+            "name": "Context Field #1",
+            "field_key": "context_field",
+            "value_type": 1,
+            "description": "This is a context field",
+            "enum_def": null,
+            "created_date": "$$$",
+            "updated_date": "$$$"
+        }
+    }
+}

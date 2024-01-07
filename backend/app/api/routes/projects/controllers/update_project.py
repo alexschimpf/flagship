@@ -21,7 +21,8 @@ class UpdateProjectController:
         return Project.from_row(row=project_row)
 
     def _validate(self) -> None:
-        if not self.me.role.has_permission(Permission.UPDATE_PROJECT):
+        if (not self.me.role.has_permission(Permission.UPDATE_PROJECT) or
+                self.project_id not in self.me.projects):
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:

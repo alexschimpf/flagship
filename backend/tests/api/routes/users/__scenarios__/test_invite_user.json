@@ -1,0 +1,103 @@
+{
+    "test_invite_user__200": {
+        "url": "/users",
+        "method": "POST",
+        "status": 200,
+        "request": {
+            "email": "test@test.com",
+            "name": "test",
+            "role": 1,
+            "projects": "$$$"
+        },
+        "response": {
+            "email": "test@test.com",
+            "name": "test",
+            "role": 1,
+            "projects": [
+                236
+            ],
+            "status": 1
+        }
+    },
+    "test_invite_user__400_no_project_assigned": {
+        "url": "/users",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "email": "test@test.com",
+            "name": "test",
+            "role": 1,
+            "projects": []
+        },
+        "response": {
+            "errors": [
+                {
+                    "field": "projects",
+                    "code": "NO_PROJECT_ASSIGNED",
+                    "message": "This user must be assigned to at least one project."
+                }
+            ]
+        }
+    },
+    "test_invite_user__400_invalid_project": {
+        "url": "/users",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "email": "test@test.com",
+            "name": "test",
+            "role": 1,
+            "projects": [
+                999
+            ]
+        },
+        "response": {
+            "errors": [
+                {
+                    "field": "projects",
+                    "code": "INVALID_PROJECT",
+                    "message": "Invalid project."
+                }
+            ]
+        }
+    },
+    "test_invite_user__400_email_taken": {
+        "url": "/users",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "email": "test.user@gmail.com",
+            "name": "test",
+            "role": 1,
+            "projects": "$$$"
+        },
+        "response": {
+            "errors": [
+                {
+                    "field": "email",
+                    "code": "EMAIL_TAKEN",
+                    "message": "Sorry, that email is already taken."
+                }
+            ]
+        }
+    },
+    "test_invite_user__403": {
+        "url": "/users",
+        "method": "POST",
+        "status": 403,
+        "request": {
+            "email": "test@test.com",
+            "name": "test",
+            "role": 1,
+            "projects": "$$$"
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    }
+}

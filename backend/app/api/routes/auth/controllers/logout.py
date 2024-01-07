@@ -1,7 +1,13 @@
+from fastapi.responses import RedirectResponse
+from fastapi import status
+
+from app.config import Config
+
+
 class LogoutController:
 
-    def __init__(self) -> None:
-        pass
-
-    def handle_request(self) -> None:
-        pass
+    @staticmethod
+    def handle_request() -> RedirectResponse:
+        response = RedirectResponse(url=f'{Config.UI_BASE_URL}/login', status_code=status.HTTP_302_FOUND)
+        response.delete_cookie(key=Config.SESSION_COOKIE_KEY)
+        return response

@@ -1,0 +1,17 @@
+{
+    "test_get_projects__200": {
+        "url": "/projects",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "items": [
+                {
+                    "project_id": "$$$",
+                    "name": "Project #1",
+                    "created_date": "$$$",
+                    "updated_date": "$$$"
+                }
+            ]
+        }
+    }
+}

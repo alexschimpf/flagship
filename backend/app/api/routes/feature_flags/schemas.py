@@ -33,7 +33,7 @@ class FeatureFlag(BaseModel):
             name=row.name,
             description=row.description,
             enabled=row.enabled,
-            conditions=row.conditions_json,  # type: ignore
+            conditions=row.conditions_list,  # type: ignore
             created_date=row.created_date,
             updated_date=row.updated_date
         )

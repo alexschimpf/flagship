@@ -1,0 +1,49 @@
+{
+    "test_delete_context_field__200": {
+        "url": "/context_fields/{context_field_id}?project_id={project_id}",
+        "method": "DELETE",
+        "status": 200,
+        "response": {
+            "success": true
+        }
+    },
+    "test_delete_context_field__403_project_not_assigned": {
+        "url": "/context_fields/{context_field_id}?project_id={project_id}",
+        "method": "DELETE",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_delete_context_field__403_read_only_role": {
+        "url": "/context_fields/{context_field_id}?project_id={project_id}",
+        "method": "DELETE",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_delete_context_field__400_context_field_in_use": {
+        "url": "/context_fields/{context_field_id}?project_id={project_id}",
+        "method": "DELETE",
+        "status": 400,
+        "response": {
+            "errors": [
+                {
+                    "code": "CONTEXT_FIELD_IN_USE",
+                    "message": "This context field cannot be deleted because it is currently being referenced by one or more feature flags."
+                }
+            ]
+        }
+    }
+}

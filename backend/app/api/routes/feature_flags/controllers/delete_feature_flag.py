@@ -18,7 +18,8 @@ class DeleteFeatureFlagController:
         return SuccessResponse()
 
     def _validate(self) -> None:
-        if not self.me.role.has_permission(Permission.DELETE_FEATURE_FLAG):
+        if (not self.me.role.has_permission(Permission.DELETE_FEATURE_FLAG)
+                or self.project_id not in self.me.projects):
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:

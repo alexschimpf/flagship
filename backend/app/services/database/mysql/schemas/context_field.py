@@ -45,7 +45,7 @@ class ContextFieldRow(BaseRow):
         return value
 
     @property
-    def enum_def_json(self) -> dict[str, Any] | None:
+    def enum_def_dict(self) -> dict[str, Any] | None:
         if self.enum_def in (None, ''):
             return None
         return ujson.loads(self.enum_def)  # type: ignore

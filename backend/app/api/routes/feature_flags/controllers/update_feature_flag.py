@@ -27,7 +27,8 @@ class UpdateFeatureFlagController:
         return FeatureFlag.from_row(row=feature_flag_row)
 
     def _validate(self) -> None:
-        if not self.me.role.has_permission(Permission.UPDATE_FEATURE_FLAG):
+        if (not self.me.role.has_permission(Permission.UPDATE_FEATURE_FLAG) or
+                self.project_id not in self.me.projects):
             raise UnauthorizedException
 
         errors: list[AppException] = []
@@ -49,7 +50,7 @@ class UpdateFeatureFlagController:
             except AppException as e:
                 errors.append(e)
 
-        if not errors:
+        if errors:
             raise AggregateException(exceptions=errors)
 
     def _update_feature_flag(self) -> FeatureFlagRow:

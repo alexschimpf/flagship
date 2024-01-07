@@ -1,0 +1,147 @@
+{
+    "test_create_feature_flag__200": {
+        "url": "/feature_flags?project_id={project_id}",
+        "method": "POST",
+        "status": 200,
+        "request": {
+            "name": "Feature Flag #1",
+            "description": "This is feature flag",
+            "conditions": [
+                [
+                    {
+                        "context_key": "user_id",
+                        "operator": 1,
+                        "value": 123
+                    },
+                    {
+                        "context_key": "country_code",
+                        "operator": 8,
+                        "value": [
+                            "jp",
+                            "cn"
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "context_key": "user_id",
+                        "operator": 9,
+                        "value": [
+                            999
+                        ]
+                    },
+                    {
+                        "context_key": "country_code",
+                        "operator": 1,
+                        "value": "us"
+                    },
+                    {
+                        "context_key": "groups",
+                        "operator": 12,
+                        "value": 2
+                    }
+                ]
+            ],
+            "enabled": true
+        },
+        "response": {
+            "name": "Feature Flag #1",
+            "description": "This is feature flag",
+            "enabled": true,
+            "conditions": [
+                [
+                    {
+                        "context_key": "user_id",
+                        "operator": 1,
+                        "value": 123
+                    },
+                    {
+                        "context_key": "country_code",
+                        "operator": 8,
+                        "value": [
+                            "jp",
+                            "cn"
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "context_key": "user_id",
+                        "operator": 9,
+                        "value": [
+                            999
+                        ]
+                    },
+                    {
+                        "context_key": "country_code",
+                        "operator": 1,
+                        "value": "us"
+                    },
+                    {
+                        "context_key": "groups",
+                        "operator": 12,
+                        "value": 2
+                    }
+                ]
+            ]
+        }
+    },
+    "test_create_feature_flag__403_project_not_assigned": {
+        "url": "/feature_flags?project_id={project_id}",
+        "method": "POST",
+        "status": 403,
+        "request": {
+            "name": "Feature Flag #1",
+            "description": "This is feature flag",
+            "conditions": [],
+            "enabled": false
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_create_feature_flag__403_read_only_role": {
+        "url": "/feature_flags?project_id={project_id}",
+        "method": "POST",
+        "status": 403,
+        "request": {
+            "name": "Feature Flag #1",
+            "description": "This is feature flag",
+            "conditions": [],
+            "enabled": false
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_create_feature_flag__400_name_taken": {
+        "url": "/feature_flags?project_id={project_id}",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "Enable some feature",
+            "description": "This is feature flag",
+            "conditions": [],
+            "enabled": false
+        },
+        "response": {
+            "errors": [
+                {
+                    "field": "name",
+                    "code": "NAME_TAKEN",
+                    "message": "Sorry, that name is already taken."
+                }
+            ]
+        }
+    }
+}

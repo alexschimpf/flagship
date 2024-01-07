@@ -1,33 +1,58 @@
 import bcrypt
+from typing import cast
+import urllib.parse
+from fastapi import status
+from fastapi.responses import RedirectResponse
+from fastapi_another_jwt_auth import AuthJWT
 
-from app.api.exceptions.exceptions import InvalidPasswordException
+from app.api.exceptions.exceptions import InvalidPasswordException, InvalidSetPasswordTokenException, AppException
 from app.api.routes.users.schemas import SetPassword
-from app.api.schemas import SuccessResponse
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.service import MySQLService
+from app.config import Config
 
 
 class SetPasswordController:
 
-    def __init__(self, request: SetPassword):
+    def __init__(self, request: SetPassword, authorize: AuthJWT):
         self.request = request
+        self.authorize = authorize
 
-    def handle_request(self) -> SuccessResponse:
-        user = self._get_user_by_email(email=self.request.email)
-        if user:
+    def handle_request(self) -> RedirectResponse:
+        try:
+            user = self._get_user_by_email(email=self.request.email)
             self._validate(user=user)
-            self._update_password(user=user)
+            if user:
+                self._update_password(user=user)
+        except Exception as e:
+            error = urllib.parse.quote(
+                str(e) if isinstance(e, AppException) else AppException.DEFAULT_MESSAGE
+            )
+            return RedirectResponse(
+                url=f'{Config.UI_BASE_URL}/set-password?error={error}',
+                status_code=status.HTTP_302_FOUND
+            )
+        else:
+            access_token = self.authorize.create_access_token(subject=cast(UserRow, user).user_id)
+            response = RedirectResponse(
+                url=Config.UI_BASE_URL,
+                status_code=status.HTTP_302_FOUND
+            )
+            response.set_cookie(
+                key=Config.SESSION_COOKIE_KEY,
+                value=access_token,
+                max_age=Config.SESSION_COOKIE_MAX_AGE,
+                domain=Config.SESSION_COOKIE_DOMAIN,
+                secure=True
+            )
+            return response
 
-        # TODO: Set JWT token so user is logged in
-
-        return SuccessResponse()
-
-    def _validate(self, user: UserRow) -> None:
+    def _validate(self, user: UserRow | None) -> None:
         # TODO: Token should expire and be hashed
         if not user:
-            raise Exception('User not found')
+            raise InvalidSetPasswordTokenException
         if user.set_password_token != self.request.token:
-            raise Exception('Set password token not valid')
+            raise InvalidSetPasswordTokenException
 
         if not self.is_password_valid():
             raise InvalidPasswordException(field='password')
@@ -61,9 +86,9 @@ class SetPasswordController:
 
     def _update_password(self, user: UserRow) -> None:
         hashed_password = bcrypt.hashpw(
-            self.request.password.encode('utf-8'),
+            self.request.password.encode(),
             bcrypt.gensalt(prefix=b'2a')
-        ).decode('utf-8')
+        ).decode()
         with MySQLService.get_session() as session:
             UsersTable.update_password(
                 user_id=user.user_id,

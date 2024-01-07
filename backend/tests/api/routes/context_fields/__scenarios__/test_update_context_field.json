@@ -1,0 +1,76 @@
+{
+    "test_update_context_field__200": {
+        "url": "/context_fields/{context_field_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 200,
+        "request": {
+            "name": "User ID",
+            "description": "This is a context field",
+            "enum_def": null
+        },
+        "response": {
+            "context_field_id": "$$$",
+            "name": "User ID",
+            "field_key": "context_field",
+            "value_type": 1,
+            "description": "This is a context field",
+            "enum_def": null,
+            "created_date": "$$$"
+        }
+    },
+    "test_update_context_field__403_project_not_assigned": {
+        "url": "/context_fields/{context_field_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 403,
+        "request": {
+            "name": "User ID",
+            "description": "This is a context field",
+            "enum_def": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_update_context_field__403_read_only_role": {
+        "url": "/context_fields/{context_field_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 403,
+        "request": {
+            "name": "User ID",
+            "description": "This is a context field",
+            "enum_def": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_update_context_field__400_name_taken": {
+        "url": "/context_fields/{context_field_id}?project_id={project_id}",
+        "method": "PUT",
+        "status": 400,
+        "request": {
+            "name": "other",
+            "description": "This is a context field",
+            "enum_def": null
+        },
+        "response": {
+            "errors": [
+                {
+                    "field": "name",
+                    "code": "NAME_TAKEN",
+                    "message": "Sorry, that name is already taken."
+                }
+            ]
+        }
+    }
+}

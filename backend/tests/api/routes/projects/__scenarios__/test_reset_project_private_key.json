@@ -1,0 +1,38 @@
+{
+    "test_reset_project_private_key__200": {
+        "url": "/projects/{project_id}/private_key",
+        "method": "POST",
+        "status": 200,
+        "response": {
+            "project_id": "$$$",
+            "name": "Project #1",
+            "created_date": "$$$"
+        }
+    },
+    "test_reset_project_private_key__403_read_only_role": {
+        "url": "/projects/{project_id}/private_key",
+        "method": "POST",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_reset_project_private_key__403_project_not_assigned_to_user": {
+        "url": "/projects/{project_id}/private_key",
+        "method": "POST",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    }
+}

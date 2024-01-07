@@ -1,0 +1,45 @@
+{
+    "test_get_user__200": {
+        "url": "/users/{user_id}",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "user_id": 297,
+            "email": "test@test.com",
+            "name": "Test User",
+            "role": 4,
+            "projects": [
+                224
+            ],
+            "status": 2,
+            "created_date": "2024-01-07T07:53:05",
+            "updated_date": "2024-01-07T07:53:05"
+        }
+    },
+    "test_get_user__403": {
+        "url": "/users/{user_id}",
+        "method": "GET",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_get_user__404": {
+        "url": "/users/999",
+        "method": "GET",
+        "status": 404,
+        "response": {
+            "errors": [
+                {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found."
+                }
+            ]
+        }
+    }
+}

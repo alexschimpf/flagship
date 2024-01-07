@@ -1,0 +1,23 @@
+{
+    "test_delete_project__200": {
+        "url": "/projects/{project_id}",
+        "method": "DELETE",
+        "status": 200,
+        "response": {
+            "success": true
+        }
+    },
+    "test_delete_project__401": {
+        "url": "/projects/{project_id}",
+        "method": "DELETE",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,63 @@
+{
+    "test_create_project__200": {
+        "url": "/projects",
+        "method": "POST",
+        "status": 200,
+        "request": {
+            "name": "Project #1"
+        },
+        "response": {
+            "name": "Project #1"
+        }
+    },
+    "test_create_project__400_name_too_long": {
+        "url": "/projects",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "732076532342452858655233076301267469904353883494153346107897737747662444618678645980914434922988769121610658054332529276369226293"
+        },
+        "response": {
+            "errors": [
+                {
+                    "field": "name",
+                    "code": "STRING_TOO_LONG",
+                    "message": "Name should have at most 128 characters."
+                }
+            ]
+        }
+    },
+    "test_create_project__400_name_taken": {
+        "url": "/projects",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "Project #1"
+        },
+        "response": {
+            "errors": [
+                {
+                    "field": "name",
+                    "code": "NAME_TAKEN",
+                    "message": "Sorry, that name is already taken."
+                }
+            ]
+        }
+    },
+    "test_create_project__401": {
+        "url": "/projects",
+        "method": "POST",
+        "status": 403,
+        "request": {
+            "name": "Project #1"
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    }
+}

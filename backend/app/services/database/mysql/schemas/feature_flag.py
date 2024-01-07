@@ -33,7 +33,7 @@ class FeatureFlagRow(BaseRow):
         return value
 
     @property
-    def conditions_json(self) -> list[list[dict[str, Any]]]:
+    def conditions_list(self) -> list[list[dict[str, Any]]]:
         return ujson.loads(self.conditions)  # type: ignore
 
 

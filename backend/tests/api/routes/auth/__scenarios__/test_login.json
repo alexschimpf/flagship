@@ -1,0 +1,31 @@
+{
+    "test_login__302_success": {
+        "url": "/auth/login",
+        "method": "POST",
+        "request": "email=test.user@gmail.com&password=Test123!",
+        "status": 302,
+        "allow_redirects": false
+    },
+    "test_login__302_user_not_activated": {
+        "url": "/auth/login",
+        "method": "POST",
+        "request": "email=test.user@gmail.com&password=Test123!",
+        "status": 302,
+        "allow_redirects": false,
+        "response_headers": {
+            "content-length": "0",
+            "location": "http://localhost:5000/login?error=User%20is%20not%20activated."
+        }
+    },
+    "test_login__302_invalid_credentials": {
+        "url": "/auth/login",
+        "method": "POST",
+        "request": "email=test.user@gmail.com&password=invalid",
+        "status": 302,
+        "allow_redirects": false,
+        "response_headers": {
+            "content-length": "0",
+            "location": "http://localhost:5000/login?error=Sorry%2C%20the%20credentials%20provided%20are%20invalid."
+        }
+    }
+}

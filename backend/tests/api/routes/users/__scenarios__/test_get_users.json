@@ -1,0 +1,34 @@
+{
+    "test_get_users__200": {
+        "url": "/users",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "items": [
+                {
+                    "user_id": "$$$",
+                    "email": "test.user@gmail.com",
+                    "name": "Test User",
+                    "role": 4,
+                    "projects": "$$$",
+                    "status": 2,
+                    "created_date": "$$$",
+                    "updated_date": "$$$"
+                }
+            ]
+        }
+    },
+    "test_get_users__403": {
+        "url": "/users",
+        "method": "GET",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    }
+}

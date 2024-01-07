@@ -1,0 +1,26 @@
+{
+    "test_get_project__200": {
+        "url": "/projects/{project_id}",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "name": "Project #1",
+            "project_id": "$$$",
+            "created_date": "$$$",
+            "updated_date": "$$$"
+        }
+    },
+    "test_get_project__403": {
+        "url": "/projects/{project_id}",
+        "method": "GET",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    }
+}

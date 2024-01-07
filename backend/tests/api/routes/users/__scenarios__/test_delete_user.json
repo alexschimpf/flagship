@@ -1,0 +1,57 @@
+{
+    "test_delete_user__200": {
+        "url": "/users/{user_id}",
+        "method": "DELETE",
+        "status": 200,
+        "response": {
+            "success": true
+        }
+    },
+    "test_delete_user__200_delete_myself": {
+        "url": "/users/{user_id}",
+        "method": "DELETE",
+        "status": 200,
+        "response": {
+            "success": true
+        }
+    },
+    "test_delete_user__403_read_only_role": {
+        "url": "/users/{user_id}",
+        "method": "DELETE",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_delete_user__400_no_owners_left": {
+        "url": "/users/{user_id}",
+        "method": "DELETE",
+        "status": 400,
+        "response": {
+            "errors": [
+                {
+                    "code": "CANNOT_DELETE_LAST_OWNER",
+                    "message": "This user cannot be deleted because there must be at least one Flagship owner left."
+                }
+            ]
+        }
+    },
+    "test_delete_user__404": {
+        "url": "/users/{user_id}",
+        "method": "DELETE",
+        "status": 404,
+        "response": {
+            "errors": [
+                {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found."
+                }
+            ]
+        }
+    }
+}

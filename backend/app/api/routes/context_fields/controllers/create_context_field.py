@@ -24,7 +24,8 @@ class CreateContextFieldController:
         return ContextField.from_row(row=context_field_row)
 
     def _validate(self) -> None:
-        if not self.me.role.has_permission(Permission.CREATE_CONTEXT_FIELD):
+        if (not self.me.role.has_permission(Permission.CREATE_CONTEXT_FIELD) or
+                self.project_id not in self.me.projects):
             raise UnauthorizedException
 
         errors: list[AppException] = []

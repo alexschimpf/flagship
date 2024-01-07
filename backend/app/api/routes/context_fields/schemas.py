@@ -26,7 +26,7 @@ class ContextField(BaseModel):
             field_key=row.field_key,
             value_type=ContextValueType(row.value_type),
             description=row.description,
-            enum_def=row.enum_def_json,
+            enum_def=row.enum_def_dict,
             created_date=row.created_date,
             updated_date=row.updated_date
         )

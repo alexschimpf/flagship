@@ -14,6 +14,7 @@ class Config:
     MYSQL_MAX_OVERFLOW: int
     MYSQL_CONN_STR: str
     UI_BASE_URL: str
+    SESSION_COOKIE_KEY: str
     SESSION_COOKIE_MAX_AGE: int
     SESSION_COOKIE_DOMAIN: str
 
@@ -34,6 +35,8 @@ class Config:
             warn_if_missing=True)
         cls.UI_BASE_URL = cls._get_value(
             env_var='UI_BASE_URL', default='http://localhost:5000', warn_if_missing=True)
+        cls.SESSION_COOKIE_KEY = cls._get_value(
+            env_var='SESSION_COOKIE_KEY', default='flagship-session')
         cls.SESSION_COOKIE_MAX_AGE = cls._get_value(
             env_var='COOKIE_MAX_AGE', default=86400)
         cls.SESSION_COOKIE_DOMAIN = cls._get_value(
@@ -41,7 +44,7 @@ class Config:
 
     @staticmethod
     def _to_bool(val: Any) -> bool:
-        if not val or (isinstance(val, str) and val.lower() in ('false', 'no')):
+        if not val or (isinstance(val, str) and val.lower() in ('false', 'no', '0')):
             return False
 
         return True
