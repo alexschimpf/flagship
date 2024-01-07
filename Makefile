@@ -30,7 +30,7 @@ be-install-dev-reqs:
 
 # run backend unit tests
 be-run-unit-tests:
-	PYTHONPATH=./backend python -m pytest --verbose --no-cov-on-fail backend/tests/unit
+	PYTHONPATH=./backend python -m pytest --verbose --disable-warnings backend/tests/unit
 
 # run backend api tests
 be-run-api-tests:

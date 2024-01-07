@@ -52,16 +52,15 @@ def _validate_condition(
         raise exceptions.InvalidFeatureFlagConditions(field='conditions')
 
     context_field = context_fields_by_key[key]
-    _validate_context_field_and_operator(context_field=context_field, operator=operator)
+    _validate_context_field_and_operator(value_type=context_field.value_type, operator=operator)
     coerced_value = _validate_value(context_field=context_field, operator=operator, value=value)
     return coerced_value
 
 
 def _validate_context_field_and_operator(
-    context_field: ContextFieldRow,
+    value_type: int,
     operator: Operator
 ) -> None:
-    value_type = context_field.value_type
     allowed_operators = CONTEXT_VALUE_TYPE_OPERATORS[ContextValueType(value_type)]
     if operator not in allowed_operators:
         raise exceptions.InvalidFeatureFlagConditions(field='conditions')
@@ -115,11 +114,11 @@ def _validate_string_condition(
         if not isinstance(value, list):
             raise Exception
         for i, item in enumerate(value):
-            if item in ('', None) or isinstance(item, (list, dict)):
+            if item is None or isinstance(item, (list, dict)):
                 raise Exception
             value[i] = str(item)
     else:
-        if isinstance(value, list):
+        if value is None or isinstance(value, (list, dict)):
             raise Exception
         value = str(value)
 
@@ -153,11 +152,15 @@ def _validate_number_condition(
         if not isinstance(value, list):
             raise Exception
         for i, item in enumerate(value):
+            if isinstance(item, bool):
+                raise Exception
             try:
                 value[i] = float(item)
             except Exception:
                 value[i] = int(item)
     else:
+        if isinstance(value, bool):
+            raise Exception
         try:
             value = float(value)
         except Exception:
@@ -179,13 +182,13 @@ def _validate_boolean_condition(
     elif not isinstance(value, bool):
         raise Exception
 
-    return value
+    return bool(value)
 
 
 def _validate_version_condition(
     value: Any
 ) -> Any:
-    if not isinstance(value, str):
+    if not value or not isinstance(value, str):
         raise Exception
 
     return value
@@ -205,10 +208,10 @@ def _validate_enum_condition(
         if not isinstance(value, list):
             raise Exception
         for item in value:
-            if not isinstance(item, value_type):
+            if type(item) is not value_type:
                 raise Exception
     else:
-        if not isinstance(value, value_type):
+        if type(value) is not value_type:
             raise Exception
 
     return value
@@ -222,11 +225,11 @@ def _validate_string_list_condition(
         if not isinstance(value, list):
             raise Exception
         for i, item in enumerate(value):
-            if item in ('', None) or isinstance(item, (list, dict)):
+            if item is None or isinstance(item, (list, dict)):
                 raise Exception
             value[i] = str(item)
     elif operator in (Operator.CONTAINS, Operator.NOT_CONTAINS):
-        if isinstance(value, list):
+        if value is None or isinstance(value, (list, dict)):
             raise Exception
         value = str(value)
 
@@ -266,10 +269,10 @@ def _validate_enum_list_condition(
         if not isinstance(value, list):
             raise Exception
         for item in value:
-            if not isinstance(item, value_type):
+            if type(item) is not value_type:
                 raise Exception
     elif operator in (Operator.CONTAINS, Operator.NOT_CONTAINS):
-        if not isinstance(value, value_type):
+        if type(value) is not value_type:
             raise Exception
 
     return value

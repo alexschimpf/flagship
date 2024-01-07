@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from app.api import utils
 from app.constants import Operator
@@ -13,8 +13,9 @@ class FeatureFlagCondition(BaseModel):
     operator: Operator = Field(description=utils.get_enum_description(enum=Operator))
     value: Any
 
-    class Config:
-        str_strip_whitespace = True
+    model_config = ConfigDict(
+        str_strip_whitespace=True
+    )
 
 
 class FeatureFlag(BaseModel):
@@ -49,5 +50,6 @@ class CreateOrUpdateFeatureFlag(BaseModel):
     enabled: bool
     conditions: list[list[FeatureFlagCondition]] = Field(default=[])
 
-    class Config:
-        str_strip_whitespace = True
+    model_config = ConfigDict(
+        str_strip_whitespace=True
+    )

@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Self
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from app.services.database.mysql.schemas.project import ProjectRow
 
@@ -33,5 +33,6 @@ class Projects(BaseModel):
 class CreateOrUpdateProject(BaseModel):
     name: str = Field(min_length=1, max_length=128)
 
-    class Config:
-        str_strip_whitespace = True
+    model_config = ConfigDict(
+        str_strip_whitespace=True
+    )

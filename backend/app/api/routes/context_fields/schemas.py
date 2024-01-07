@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, Self
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from app.api import utils
 from app.constants import ContextValueType
@@ -43,8 +43,9 @@ class CreateContextField(BaseModel):
     description: str = Field(default='', max_length=256)
     enum_def: dict[str, Any] | None = None
 
-    class Config:
-        str_strip_whitespace = True
+    model_config = ConfigDict(
+        str_strip_whitespace=True
+    )
 
 
 class UpdateContextField(BaseModel):
@@ -52,5 +53,6 @@ class UpdateContextField(BaseModel):
     description: str = Field(default='', max_length=256)
     enum_def: dict[str, Any] | None = None
 
-    class Config:
-        str_strip_whitespace = True
+    model_config = ConfigDict(
+        str_strip_whitespace=True
+    )
