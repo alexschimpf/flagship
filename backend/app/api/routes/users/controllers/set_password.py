@@ -45,7 +45,8 @@ class SetPasswordController:
                 value=access_token,
                 max_age=Config.SESSION_COOKIE_MAX_AGE,
                 domain=Config.SESSION_COOKIE_DOMAIN,
-                secure=True
+                secure=True,
+                samesite='lax'
             )
             return response
 
