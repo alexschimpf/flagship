@@ -17,4 +17,4 @@ done
 
 sleep 5
 
-PYTHONPATH=./backend MYSQL_ECHO=0 python -m pytest --disable-warnings --cov=./backend/ --cov-fail-under=90 --no-cov-on-fail ./backend/tests/api
+PYTHONPATH=./backend MYSQL_ECHO=0 python -m pytest --disable-warnings --cov=./backend/app --cov-fail-under=90 --no-cov-on-fail ./backend/tests/api

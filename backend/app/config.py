@@ -18,6 +18,7 @@ class Config:
     SESSION_COOKIE_MAX_AGE: int
     SESSION_COOKIE_DOMAIN: str
     CORS_ALLOW_ORIGINS: list[str]
+    SET_PASSWORD_TOKEN_TTL: int
 
     @classmethod
     def init(cls) -> None:
@@ -44,9 +45,14 @@ class Config:
             env_var='SESSION_COOKIE_DOMAIN', default='localhost:8000', warn_if_missing=True)
         cls.CORS_ALLOW_ORIGINS = cls._get_value(
             env_var='CORS_ALLOW_ORIGINS', default='*', warn_if_missing=True, type_cast=cls._to_str_list)
+        cls.SET_PASSWORD_TOKEN_TTL = cls._get_value(
+            env_var='SET_PASSWORD_TOKEN_TTL', default=86400
+        )
 
     @staticmethod
-    def _to_bool(val: str) -> bool:
+    def _to_bool(val: Any) -> bool:
+        if isinstance(val, bool):
+            return val
         if not val or (val.lower() in ('false', 'no', '0')):
             return False
 

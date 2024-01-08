@@ -1,7 +1,7 @@
 import datetime
 
 import pydantic
-from sqlalchemy import String, DateTime, Integer, delete, select, update
+from sqlalchemy import String, DateTime, Integer, delete, select, update, Text
 from sqlalchemy.orm import Mapped, mapped_column, validates, Session
 from sqlalchemy.sql import func, text
 
@@ -19,7 +19,7 @@ class UserRow(BaseRow):
     role: Mapped[int] = mapped_column(Integer)
     status: Mapped[int] = mapped_column(Integer)
     password: Mapped[str] = mapped_column(String, nullable=True)
-    set_password_token: Mapped[str | None] = mapped_column(String, nullable=True)
+    set_password_token: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
     updated_date: Mapped[datetime.datetime] = mapped_column(
         DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
@@ -89,7 +89,8 @@ class UsersTable:
                 UserRow.user_id == user_id
             ).values({
                 UserRow.set_password_token: None,
-                UserRow.password: password
+                UserRow.password: password,
+                UserRow.status: UserStatus.ACTIVATED.value
             })
         )
 

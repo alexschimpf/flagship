@@ -1,7 +1,6 @@
-import secrets
-
 from app.api.exceptions.exceptions import EmailTakenException, InvalidProjectException, NoProjectAssignedException, \
     UnauthorizedException
+from app.api.routes.users.controllers import common
 from app.api.routes.users.schemas import InviteUser
 from app.api.schemas import User
 from app.constants import Permission
@@ -21,7 +20,10 @@ class InviteUserController:
     def handle_request(self) -> User:
         self._validate()
 
-        user_row = self._create_user()
+        hashed_set_password_token, token = common.generate_set_password_token()
+        user_row = self._create_user(set_password_token=hashed_set_password_token)
+
+        # TODO: Send invite/set password email (using token)
 
         return User.from_row(row=user_row, projects=self.request.projects)
 
@@ -39,8 +41,7 @@ class InviteUserController:
             if not ProjectsTable.are_projects_valid(project_ids=self.request.projects, session=session):
                 raise InvalidProjectException(field='projects')
 
-    def _create_user(self) -> UserRow:
-        set_password_token = secrets.token_urlsafe()
+    def _create_user(self, set_password_token: str) -> UserRow:
         with MySQLService.get_session() as session:
             user_row = UserRow(
                 email=self.request.email,

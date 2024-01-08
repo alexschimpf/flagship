@@ -1,3 +1,4 @@
+import time
 import urllib.parse
 from typing import cast
 
@@ -49,10 +50,13 @@ class SetPasswordController:
             return response
 
     def _validate(self, user: UserRow | None) -> None:
-        # TODO: Token should expire and be hashed
-        if not user:
+        if not user or not user.set_password_token:
             raise InvalidSetPasswordTokenException
-        if user.set_password_token != self.request.token:
+
+        hashed_token, expire_time = user.set_password_token.split('|')
+        if not bcrypt.checkpw(self.request.token.encode(), hashed_token.encode()):
+            raise InvalidSetPasswordTokenException
+        if time.time() > float(expire_time):
             raise InvalidSetPasswordTokenException
 
         if not self.is_password_valid():

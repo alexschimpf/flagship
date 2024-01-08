@@ -1,8 +1,9 @@
 import os
-import secrets
+import time
 
 from rest_api_tester.runner import TestCaseRunner
 
+from app.api.routes.users.controllers import common
 from app.config import Config
 from app.main import app
 from tests.api import utils
@@ -25,14 +26,14 @@ class TestSetPassword(BaseTestCase):
         utils.clear_database()
 
     def test_set_password__302_success(self) -> None:
-        set_password_token = secrets.token_urlsafe()
+        hashed_set_password_token, token = common.generate_set_password_token()
         result = self.run_test_with_user(
             runner=self.runner,
             path_to_test_cases=self.path_to_test_cases,
             test_name='test_set_password__302_success',
-            user=utils.User(set_password_token=set_password_token),
+            user=utils.User(set_password_token=hashed_set_password_token),
             request_json_modifiers={
-                'token': set_password_token
+                'token': token
             }
         )
         self.verify_test_result(result=result)
@@ -43,37 +44,55 @@ class TestSetPassword(BaseTestCase):
         self.assertTrue(Config.SESSION_COOKIE_KEY in set_cookie)
 
     def test_set_password__302_invalid_email(self) -> None:
-        set_password_token = secrets.token_urlsafe()
+        hashed_set_password_token, token = common.generate_set_password_token()
         result = self.run_test_with_user(
             runner=self.runner,
             path_to_test_cases=self.path_to_test_cases,
             test_name='test_set_password__302_invalid_email',
-            user=utils.User(set_password_token=set_password_token),
+            user=utils.User(set_password_token=hashed_set_password_token),
             request_json_modifiers={
-                'token': set_password_token
+                'token': token
             }
         )
         self.verify_test_result(result=result)
 
     def test_set_password__302_invalid_token(self) -> None:
-        set_password_token = secrets.token_urlsafe()
+        hashed_set_password_token, _ = common.generate_set_password_token()
         result = self.run_test_with_user(
             runner=self.runner,
             path_to_test_cases=self.path_to_test_cases,
             test_name='test_set_password__302_invalid_token',
-            user=utils.User(set_password_token=set_password_token)
+            user=utils.User(set_password_token=hashed_set_password_token)
         )
         self.verify_test_result(result=result)
 
     def test_set_password__302_invalid_password(self) -> None:
-        set_password_token = secrets.token_urlsafe()
+        hashed_set_password_token, token = common.generate_set_password_token()
         result = self.run_test_with_user(
             runner=self.runner,
             path_to_test_cases=self.path_to_test_cases,
             test_name='test_set_password__302_invalid_password',
-            user=utils.User(set_password_token=set_password_token),
+            user=utils.User(set_password_token=hashed_set_password_token),
             request_json_modifiers={
-                'token': set_password_token
+                'token': token
             }
         )
         self.verify_test_result(result=result)
+
+    def test_set_password__302_token_expired(self) -> None:
+        hashed_set_password_token, token = common.generate_set_password_token()
+        hashed_token, _ = hashed_set_password_token.split('|')
+        hashed_set_password_token = '|'.join((
+            hashed_token,
+            str(time.time() - Config.SET_PASSWORD_TOKEN_TTL)
+        ))
+        result = self.run_test_with_user(
+            runner=self.runner,
+            path_to_test_cases=self.path_to_test_cases,
+            test_name='test_set_password__302_token_expired',
+            user=utils.User(set_password_token=hashed_set_password_token),
+            request_json_modifiers={
+                'token': token
+            }
+        )
+        self.verify_test_result(result=result, update_scenarios_on_fail=True)

@@ -61,7 +61,7 @@ CREATE TABLE flagship.users (
     status TINYINT NOT NULL,
     projects TEXT,
     password VARCHAR(200) DEFAULT NULL,
-    set_password_token VARCHAR(200) DEFAULT NULL,
+    set_password_token TEXT DEFAULT NULL,
     created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 

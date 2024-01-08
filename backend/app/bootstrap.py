@@ -107,7 +107,6 @@ class Bootstrap:
 
     @staticmethod
     def _add_cors_middleware(app: FastAPI) -> None:
-        # TODO: Make this configurable
         app.add_middleware(
             CORSMiddleware,
             allow_origins=Config.CORS_ALLOW_ORIGINS,

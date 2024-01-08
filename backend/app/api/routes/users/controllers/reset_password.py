@@ -1,5 +1,4 @@
-import secrets
-
+from app.api.routes.users.controllers import common
 from app.api.routes.users.schemas import ResetPassword
 from app.api.schemas import SuccessResponse
 from app.services.database.mysql.schemas.user import UsersTable
@@ -12,13 +11,15 @@ class ResetPasswordController:
         self.request = request
 
     def handle_request(self) -> SuccessResponse:
-        set_password_token = secrets.token_urlsafe()
+        hashed_set_password_token, token = common.generate_set_password_token()
         with MySQLService.get_session() as session:
             UsersTable.update_set_password_token(
                 email=self.request.email,
-                set_password_token=set_password_token,
+                set_password_token=hashed_set_password_token,
                 session=session
             )
             session.commit()
+
+        # TODO: Send reset password email (using token)
 
         return SuccessResponse()
