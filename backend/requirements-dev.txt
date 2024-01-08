@@ -9,7 +9,7 @@ flake8-length>=0.3.1
 flake8-quotes>=3.3.1
 flake8-use-fstring>=1.4
 httpx==0.26.0
-rest_api_tester==2.0.4
+rest_api_tester==3.0.0
 mypy==1.8.0
 pytest==7.4.3
 pytest-cov==4.1.0
