@@ -16,8 +16,8 @@ class DeleteProjectPrivateKeyController:
         self.me = me
 
     def handle_request(self) -> SuccessResponse:
-        name = self._validate()
-        self._delete_private_key(name=name)
+        project_name = self._validate()
+        self._delete_private_key(project_name=project_name)
 
         return SuccessResponse()
 
@@ -35,13 +35,13 @@ class DeleteProjectPrivateKeyController:
 
         return row.name
 
-    def _delete_private_key(self, name: str) -> None:
+    def _delete_private_key(self, project_name: str) -> None:
         with MySQLService.get_session() as session:
             ProjectPrivateKeysTable.delete_project_private_key(
                 project_id=self.project_id, project_private_key=self.project_private_key_id, session=session)
             session.add(SystemAuditLogRow(
                 actor=self.me.email,
                 event_type=AuditLogEventType.DELETED_PROJECT_PRIVATE_KEY,
-                details=f'Name: {name}'
+                details=f'Name: {project_name}'
             ))
             session.commit()

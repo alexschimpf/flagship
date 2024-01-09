@@ -38,5 +38,9 @@ class CreateOrUpdateProject(BaseModel):
     )
 
 
-class PrivateKey(BaseModel):
+class ProjectPrivateKey(BaseModel):
     private_key: str
+
+
+class ProjectPrivateKeyName(BaseModel):
+    name: str

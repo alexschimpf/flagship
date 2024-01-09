@@ -53,7 +53,8 @@ class CreateProjectController:
             ))
             session.add(ProjectPrivateKeyRow(
                 project_id=project_row.project_id,
-                private_key=encrypted_private_key
+                private_key=encrypted_private_key,
+                name='First private key'
             ))
             session.add(SystemAuditLogRow(
                 actor=self.me.email,

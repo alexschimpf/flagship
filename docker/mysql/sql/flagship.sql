@@ -21,6 +21,8 @@ CREATE TABLE flagship.project_private_keys (
     project_private_key_id INT UNSIGNED AUTO_INCREMENT,
     project_id INT UNSIGNED,
     private_key VARCHAR(184) NOT NULL,
+    name VARCHAR(128) NOT NULL,
+    created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (project_private_key_id),
     KEY (project_id),
@@ -168,9 +170,9 @@ VALUES
 INSERT INTO `projects` (`name`, `created_date`, `updated_date`)
 VALUES
 	('alex', '2024-01-09 01:21:46', '2024-01-09 01:21:46');
-INSERT INTO `project_private_keys` (`project_id`, `private_key`)
+INSERT INTO `project_private_keys` (`project_id`, `private_key`, `name`)
 VALUES
-    (1, 'gAAAAABlnJ-qa9wnux-mAIycDpxqFRGfEbwii3cTtv1a42JDqqncwZk9x131JZGf99ERiSnmTNdMxzDkc5OwQv-BdawEqk408WQeJRSjky-ZXpCtTUKjKuQbjf5N1w1u_HzYAYArGVrEmtsB-HEWqpyv6rI3ZkwinYxVd3ymhuo2kc837sryyck=');
+    (1, 'gAAAAABlnJ-qa9wnux-mAIycDpxqFRGfEbwii3cTtv1a42JDqqncwZk9x131JZGf99ERiSnmTNdMxzDkc5OwQv-BdawEqk408WQeJRSjky-ZXpCtTUKjKuQbjf5N1w1u_HzYAYArGVrEmtsB-HEWqpyv6rI3ZkwinYxVd3ymhuo2kc837sryyck=', 'test');
 INSERT INTO `context_fields` (`project_id`, `name`, `description`, `field_key`, `value_type`, `enum_def`, `created_date`, `updated_date`)
 VALUES
 	(1, 'str', 'str', 'str', 1, NULL, '2024-01-09 01:22:38', '2024-01-09 01:22:38'),

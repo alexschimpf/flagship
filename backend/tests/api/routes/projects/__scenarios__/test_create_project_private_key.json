@@ -3,6 +3,9 @@
         "url": "/projects/{project_id}/private_keys",
         "method": "POST",
         "status": 200,
+        "request": {
+            "name": "test"
+        },
         "response": {
             "private_key": "$$$"
         }
@@ -11,6 +14,9 @@
         "url": "/projects/{project_id}/private_keys",
         "method": "POST",
         "status": 403,
+        "request": {
+            "name": "test"
+        },
         "response": {
             "errors": [
                 {
@@ -24,11 +30,31 @@
         "url": "/projects/{project_id}/private_keys",
         "method": "POST",
         "status": 403,
+        "request": {
+            "name": "test"
+        },
         "response": {
             "errors": [
                 {
                     "code": "UNAUTHORIZED",
                     "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_create_project_private_key__400_name_taken": {
+        "url": "/projects/{project_id}/private_keys",
+        "method": "POST",
+        "status": 400,
+        "request": {
+            "name": "$$$"
+        },
+        "response": {
+            "errors": [
+                {
+                    "field": "name",
+                    "code": "NAME_TAKEN",
+                    "message": "Sorry, that name is already taken."
                 }
             ]
         }

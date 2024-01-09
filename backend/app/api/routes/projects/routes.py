@@ -9,7 +9,7 @@ from app.api.routes.projects.controllers.get_project import GetProjectController
 from app.api.routes.projects.controllers.get_projects import GetProjectsController
 from app.api.routes.projects.controllers.update_project import UpdateProjectController
 from app.api.routes.projects.schemas import Project, Projects, CreateOrUpdateProject, ProjectWithPrivateKey, \
-    PrivateKey
+    ProjectPrivateKey, ProjectPrivateKeyName
 from app.api.schemas import SuccessResponse, User
 
 router = APIRouter(
@@ -63,13 +63,15 @@ def delete_project(project_id: int, me: User = Depends(auth.get_user)) -> Succes
     ).handle_request()
 
 
-@router.post('/{project_id}/private_keys', response_model=PrivateKey)
+@router.post('/{project_id}/private_keys', response_model=ProjectPrivateKey)
 def create_project_private_key(
     project_id: int,
+    request: ProjectPrivateKeyName,
     me: User = Depends(auth.get_user)
-) -> PrivateKey:
+) -> ProjectPrivateKey:
     return CreateProjectPrivateKeyController(
         project_id=project_id,
+        request=request,
         me=me
     ).handle_request()
 

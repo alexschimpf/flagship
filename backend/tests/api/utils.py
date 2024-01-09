@@ -1,4 +1,5 @@
 import contextlib
+import uuid
 from typing import Generator, Any
 
 import bcrypt
@@ -126,7 +127,8 @@ def new_project(project: Project) -> Generator[ProjectRow, None, None]:
 
             session.add(ProjectPrivateKeyRow(
                 project_id=project_row.project_id,
-                private_key=project.private_key
+                private_key=project.private_key,
+                name=uuid.uuid4().hex
             ))
 
             session.commit()

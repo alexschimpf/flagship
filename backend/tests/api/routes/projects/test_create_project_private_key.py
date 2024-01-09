@@ -1,9 +1,12 @@
 import os
 
 from rest_api_tester.runner import TestCaseRunner
+from sqlalchemy import select
 
 from app.constants import UserRole
 from app.main import app
+from app.services.database.mysql.schemas.project_private_key import ProjectPrivateKeyRow
+from app.services.database.mysql.service import MySQLService
 from tests.api import utils
 from tests.api.base_test_case import BaseTestCase
 from tests.api.fastapi_test_client import FastAPITestClient
@@ -61,5 +64,29 @@ class TestResetProjectPrivateKey(BaseTestCase):
                 test_name='test_create_project_private_key__403_project_not_assigned_to_user',
                 user=utils.User(),
                 url_params={'project_id': project_id}
+            )
+            self.verify_test_result(result=result)
+
+    def test_create_project_private_key__400_name_taken(self) -> None:
+        with utils.new_project(project=utils.Project()) as project:
+            with MySQLService.get_session() as session:
+                project_private_key_name = session.scalar(
+                    select(
+                        ProjectPrivateKeyRow.name
+                    ).where(
+                        ProjectPrivateKeyRow.project_id == project.project_id
+                    ).limit(1)
+                )
+
+            project_id = project.project_id
+            result = self.run_test_with_user(
+                runner=self.runner,
+                path_to_test_cases=self.path_to_test_cases,
+                test_name='test_create_project_private_key__400_name_taken',
+                user=utils.User(projects=[project_id]),
+                url_params={'project_id': project_id},
+                request_json_modifiers={
+                    'name': project_private_key_name
+                }
             )
             self.verify_test_result(result=result)
