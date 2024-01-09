@@ -9,6 +9,7 @@ from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, Feat
 from app.api.schemas import User
 from app.constants import Permission
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow, FeatureFlagsTable
+from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogRow
 from app.services.database.mysql.service import MySQLService
 
 
@@ -70,6 +71,16 @@ class UpdateFeatureFlagController:
                 conditions=ujson.dumps(conditions),
                 session=session
             )
+            audit_log_row = FeatureFlagAuditLogRow(
+                feature_flag_id=self.feature_flag_id,
+                project_id=self.project_id,
+                actor=self.me.email,
+                name=self.request.name,
+                description=self.request.description,
+                conditions=ujson.dumps(conditions),
+                enabled=self.request.enabled
+            )
+            session.add(audit_log_row)
             session.commit()
 
             feature_flag_row = session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id))

@@ -4,9 +4,11 @@ from app.api import auth
 from app.api.routes.feature_flags.controllers.create_feature_flag import CreateFeatureFlagController
 from app.api.routes.feature_flags.controllers.delete_feature_flag import DeleteFeatureFlagController
 from app.api.routes.feature_flags.controllers.get_feature_flag import GetFeatureFlagController
+from app.api.routes.feature_flags.controllers.get_feature_flag_audit_logs import GetFeatureFlagAuditLogsController
 from app.api.routes.feature_flags.controllers.get_feature_flags import GetFeatureFlagsController
 from app.api.routes.feature_flags.controllers.update_feature_flag import UpdateFeatureFlagController
-from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag, FeatureFlags
+from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag, FeatureFlags, \
+    FeatureFlagAuditLogs
 from app.api.schemas import SuccessResponse, User
 
 router = APIRouter(
@@ -65,6 +67,19 @@ def delete_feature_flag(
     me: User = Depends(auth.get_user)
 ) -> SuccessResponse:
     return DeleteFeatureFlagController(
+        project_id=project_id,
+        feature_flag_id=feature_flag_id,
+        me=me
+    ).handle_request()
+
+
+@router.get('/{feature_flag_id}/audit_logs', response_model=FeatureFlagAuditLogs)
+def get_feature_flag_audit_logs(
+    project_id: int,
+    feature_flag_id: int,
+    me: User = Depends(auth.get_user)
+) -> FeatureFlagAuditLogs:
+    return GetFeatureFlagAuditLogsController(
         project_id=project_id,
         feature_flag_id=feature_flag_id,
         me=me

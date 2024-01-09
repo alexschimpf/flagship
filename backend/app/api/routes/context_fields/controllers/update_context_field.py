@@ -9,6 +9,7 @@ from app.api.routes.context_fields.schemas import UpdateContextField, ContextFie
 from app.api.schemas import User
 from app.constants import Permission
 from app.services.database.mysql.schemas.context_field import ContextFieldRow, ContextFieldsTable
+from app.services.database.mysql.schemas.context_field_audit_logs import ContextFieldAuditLogRow
 from app.services.database.mysql.service import MySQLService
 
 
@@ -63,6 +64,14 @@ class UpdateContextFieldController:
                 description=self.request.description,
                 session=session
             )
+            session.add(ContextFieldAuditLogRow(
+                context_field_id=self.context_field_id,
+                project_id=self.project_id,
+                actor=self.me.email,
+                name=self.request.name,
+                description=self.request.description,
+                enum_def=enum_def
+            ))
             session.commit()
 
             context_field_row = session.get(ContextFieldRow, (self.context_field_id, self.project_id))

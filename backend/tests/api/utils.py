@@ -11,6 +11,7 @@ from app.constants import UserRole, UserStatus, ContextValueType
 from app.services.database.mysql.schemas.context_field import ContextFieldRow
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow
 from app.services.database.mysql.schemas.project import ProjectRow
+from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user import UserRow
 from app.services.database.mysql.schemas.user_project import UsersProjectsTable
 from app.services.database.mysql.service import MySQLService
@@ -185,4 +186,5 @@ def clear_database() -> None:
     with MySQLService.get_session() as session:
         session.execute(delete(UserRow))
         session.execute(delete(ProjectRow))
+        session.execute(delete(SystemAuditLogRow))
         session.commit()

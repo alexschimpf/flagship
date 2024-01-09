@@ -5,8 +5,10 @@ from app.api.exceptions.exceptions import NameTakenException, ContextFieldKeyTak
 from app.api.routes.context_fields.controllers import common
 from app.api.routes.context_fields.schemas import CreateContextField, ContextField
 from app.api.schemas import User
-from app.constants import ContextValueType, Permission
+from app.constants import ContextValueType, Permission, AuditLogEventType
 from app.services.database.mysql.schemas.context_field import ContextFieldRow, ContextFieldsTable
+from app.services.database.mysql.schemas.context_field_audit_logs import ContextFieldAuditLogRow
+from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.service import MySQLService
 
 
@@ -77,6 +79,23 @@ class CreateContextFieldController:
                 enum_def=enum_def
             )
             session.add(context_field_row)
+            session.flush()
+
+            session.add(ContextFieldAuditLogRow(
+                context_field_id=context_field_row.context_field_id,
+                project_id=self.project_id,
+                actor=self.me.email,
+                name=context_field_row.name,
+                description=context_field_row.description,
+                enum_def=context_field_row.enum_def
+            ))
+
+            session.add(SystemAuditLogRow(
+                actor=self.me.email,
+                event_type=AuditLogEventType.CREATED_CONTEXT_FIELD,
+                details=f'Name: {context_field_row.name}'
+            ))
+
             session.commit()
             session.refresh(context_field_row)
 

@@ -41,17 +41,22 @@ class Permission(IntEnum):
     CREATE_FEATURE_FLAG = auto()
     UPDATE_FEATURE_FLAG = auto()
     DELETE_FEATURE_FLAG = auto()
+    READ_FEATURE_FLAG_AUDIT_LOGS = auto()
 
     # Context fields
     CREATE_CONTEXT_FIELD = auto()
     UPDATE_CONTEXT_FIELD = auto()
     DELETE_CONTEXT_FIELD = auto()
+    READ_CONTEXT_FIELD_AUDIT_LOGS = auto()
 
     # Users
     READ_USERS = auto()
     INVITE_USER = auto()
     UPDATE_USER = auto()
     DELETE_USER = auto()
+
+    # Admin
+    READ_SYSTEM_AUDIT_LOGS = auto()
 
 
 class UserRole(IntEnum):
@@ -65,7 +70,8 @@ class UserRole(IntEnum):
             return permission in (
                 Permission.CREATE_FEATURE_FLAG,
                 Permission.UPDATE_FEATURE_FLAG,
-                Permission.DELETE_FEATURE_FLAG
+                Permission.DELETE_FEATURE_FLAG,
+                Permission.READ_FEATURE_FLAG_AUDIT_LOGS
             )
         elif self is self.ADMIN:
             return permission in (
@@ -74,7 +80,10 @@ class UserRole(IntEnum):
                 Permission.DELETE_FEATURE_FLAG,
                 Permission.CREATE_CONTEXT_FIELD,
                 Permission.UPDATE_CONTEXT_FIELD,
-                Permission.DELETE_CONTEXT_FIELD
+                Permission.DELETE_CONTEXT_FIELD,
+                Permission.READ_FEATURE_FLAG_AUDIT_LOGS,
+                Permission.READ_CONTEXT_FIELD_AUDIT_LOGS,
+                Permission.READ_SYSTEM_AUDIT_LOGS
             )
         elif self is self.OWNER:
             return True
@@ -152,3 +161,18 @@ CONTEXT_VALUE_TYPE_OPERATORS: Final[dict[ContextValueType, set[Operator]]] = {
         Operator.NOT_CONTAINS
     }
 }
+
+
+class AuditLogEventType(IntEnum):
+    INVITED_USER = 1
+    DELETED_USER = 2
+    UPDATED_USER = 3
+    SET_PASSWORD = 4
+    RESET_PASSWORD = 5
+    RESET_PROJECT_PRIVATE_KEY = 6
+    CREATED_PROJECT = 7
+    DELETED_PROJECT = 8
+    CREATED_CONTEXT_FIELD = 9
+    DELETED_CONTEXT_FIELD = 10
+    CREATED_FEATURE_FLAG = 11
+    DELETED_FEATURE_FLAG = 12

@@ -4,9 +4,11 @@ from app.api import auth
 from app.api.routes.context_fields.controllers.create_context_field import CreateContextFieldController
 from app.api.routes.context_fields.controllers.delete_context_field import DeleteContextFieldController
 from app.api.routes.context_fields.controllers.get_context_field import GetContextFieldController
+from app.api.routes.context_fields.controllers.get_context_field_audit_logs import GetContextFieldAuditLogsController
 from app.api.routes.context_fields.controllers.get_context_fields import GetContextFieldsController
 from app.api.routes.context_fields.controllers.update_context_field import UpdateContextFieldController
-from app.api.routes.context_fields.schemas import CreateContextField, UpdateContextField, ContextField, ContextFields
+from app.api.routes.context_fields.schemas import CreateContextField, UpdateContextField, ContextField, \
+    ContextFields, ContextFieldAuditLogs
 from app.api.schemas import SuccessResponse, User
 
 router = APIRouter(
@@ -65,6 +67,19 @@ def delete_context_field(
     me: User = Depends(auth.get_user)
 ) -> SuccessResponse:
     return DeleteContextFieldController(
+        project_id=project_id,
+        context_field_id=context_field_id,
+        me=me
+    ).handle_request()
+
+
+@router.get('/{context_field_id}/audit_logs', response_model=ContextFieldAuditLogs)
+def get_context_field_audit_logs(
+    project_id: int,
+    context_field_id: int,
+    me: User = Depends(auth.get_user)
+) -> ContextFieldAuditLogs:
+    return GetContextFieldAuditLogsController(
         project_id=project_id,
         context_field_id=context_field_id,
         me=me

@@ -53,3 +53,19 @@ class CreateOrUpdateFeatureFlag(BaseModel):
     model_config = ConfigDict(
         str_strip_whitespace=True
     )
+
+
+class FeatureFlagChange(BaseModel):
+    field: str
+    old: str | None
+    new: str
+
+
+class FeatureFlagAuditLog(BaseModel):
+    actor: str
+    event_time: datetime
+    changes: list[FeatureFlagChange]
+
+
+class FeatureFlagAuditLogs(BaseModel):
+    items: list[FeatureFlagAuditLog]

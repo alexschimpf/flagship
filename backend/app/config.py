@@ -19,6 +19,7 @@ class Config:
     SESSION_COOKIE_DOMAIN: str
     CORS_ALLOW_ORIGINS: list[str]
     SET_PASSWORD_TOKEN_TTL: int
+    ENABLE_FAKE_AUTH: bool
 
     @classmethod
     def init(cls) -> None:
@@ -46,8 +47,9 @@ class Config:
         cls.CORS_ALLOW_ORIGINS = cls._get_value(
             env_var='CORS_ALLOW_ORIGINS', default='*', warn_if_missing=True, type_cast=cls._to_str_list)
         cls.SET_PASSWORD_TOKEN_TTL = cls._get_value(
-            env_var='SET_PASSWORD_TOKEN_TTL', default=86400
-        )
+            env_var='SET_PASSWORD_TOKEN_TTL', default=86400)
+        cls.ENABLE_FAKE_AUTH = cls._get_value(
+            env_var='ENABLE_FAKE_AUTH', default=False, type_cast=cls._to_bool)
 
     @staticmethod
     def _to_bool(val: Any) -> bool:

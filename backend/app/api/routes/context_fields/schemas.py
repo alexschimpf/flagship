@@ -56,3 +56,19 @@ class UpdateContextField(BaseModel):
     model_config = ConfigDict(
         str_strip_whitespace=True
     )
+
+
+class ContextFieldChange(BaseModel):
+    field: str
+    old: str | None
+    new: str | None
+
+
+class ContextFieldAuditLog(BaseModel):
+    actor: str
+    event_time: datetime
+    changes: list[ContextFieldChange]
+
+
+class ContextFieldAuditLogs(BaseModel):
+    items: list[ContextFieldAuditLog]

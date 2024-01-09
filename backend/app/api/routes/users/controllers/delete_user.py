@@ -4,7 +4,8 @@ from sqlalchemy import select
 from app.api.exceptions.exceptions import UnauthorizedException, CannotDeleteLastOwnerException, NotFoundException
 from app.api.schemas import SuccessResponse, User
 from app.config import Config
-from app.constants import Permission, UserRole
+from app.constants import Permission, UserRole, AuditLogEventType
+from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user import UsersTable, UserRow
 from app.services.database.mysql.service import MySQLService
 
@@ -20,10 +21,11 @@ class DeleteUserController:
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:
-            if not session.get(UserRow, self.user_id):
+            row = session.get(UserRow, self.user_id)
+            if not row:
                 raise NotFoundException
 
-            user_row = session.scalar(
+            other_owner = session.scalar(
                 select(
                     UserRow.user_id
                 ).where(
@@ -31,10 +33,17 @@ class DeleteUserController:
                     UserRow.user_id != self.user_id
                 ).limit(1)
             )
-            if not user_row:
+            if not other_owner:
                 raise CannotDeleteLastOwnerException
 
             UsersTable.delete_user(user_id=self.user_id, session=session)
+
+            session.add(SystemAuditLogRow(
+                actor=self.me.email,
+                event_type=AuditLogEventType.DELETED_USER,
+                details=f'Email: {row.email}'
+            ))
+
             session.commit()
 
         if self.user_id == self.me.user_id:

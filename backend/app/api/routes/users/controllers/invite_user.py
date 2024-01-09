@@ -3,9 +3,9 @@ from app.api.exceptions.exceptions import EmailTakenException, InvalidProjectExc
 from app.api.routes.users.controllers import common
 from app.api.routes.users.schemas import InviteUser
 from app.api.schemas import User
-from app.constants import Permission
-from app.constants import UserStatus
+from app.constants import Permission, UserStatus, AuditLogEventType
 from app.services.database.mysql.schemas.project import ProjectsTable
+from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.schemas.user_project import UsersProjectsTable
 from app.services.database.mysql.service import MySQLService
@@ -55,6 +55,12 @@ class InviteUserController:
 
             UsersProjectsTable.update_user_projects(
                 user_id=user_row.user_id, project_ids=self.request.projects, session=session)
+
+            session.add(SystemAuditLogRow(
+                actor=self.me.email,
+                event_type=AuditLogEventType.INVITED_USER,
+                details=f'Email: {user_row.email}'
+            ))
 
             session.commit()
             session.refresh(user_row)

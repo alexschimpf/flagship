@@ -10,6 +10,8 @@ from fastapi_another_jwt_auth import AuthJWT
 from app.api.exceptions.exceptions import InvalidPasswordException, InvalidSetPasswordTokenException, AppException
 from app.api.routes.users.schemas import SetPassword
 from app.config import Config
+from app.constants import AuditLogEventType
+from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.service import MySQLService
 
@@ -101,6 +103,10 @@ class SetPasswordController:
                 password=hashed_password,
                 session=session
             )
+            session.add(SystemAuditLogRow(
+                actor=self.request.email,
+                event_type=AuditLogEventType.SET_PASSWORD
+            ))
             session.commit()
 
     @staticmethod

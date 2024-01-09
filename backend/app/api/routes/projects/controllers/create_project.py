@@ -2,8 +2,9 @@ from app.api.exceptions.exceptions import NameTakenException, UnauthorizedExcept
 from app.api.routes.projects.controllers import common
 from app.api.routes.projects.schemas import CreateOrUpdateProject, ProjectWithPrivateKey
 from app.api.schemas import User
-from app.constants import Permission
+from app.constants import Permission, AuditLogEventType
 from app.services.database.mysql.schemas.project import ProjectRow, ProjectsTable
+from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user_project import UserProjectRow
 from app.services.database.mysql.service import MySQLService
 
@@ -46,12 +47,15 @@ class CreateProjectController:
             session.add(project_row)
             session.flush()
 
-            session.add(
-                UserProjectRow(
-                    user_id=self.me.user_id,
-                    project_id=project_row.project_id
-                )
-            )
+            session.add(UserProjectRow(
+                user_id=self.me.user_id,
+                project_id=project_row.project_id
+            ))
+            session.add(SystemAuditLogRow(
+                actor=self.me.email,
+                event_type=AuditLogEventType.CREATED_PROJECT,
+                details=f'Name: {project_row.name}'
+            ))
 
             session.commit()
             session.refresh(project_row)

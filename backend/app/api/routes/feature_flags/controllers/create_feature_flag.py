@@ -6,8 +6,10 @@ from app.api.exceptions.exceptions import NameTakenException, AppException, Aggr
 from app.api.routes.feature_flags.controllers import common
 from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag
 from app.api.schemas import User
-from app.constants import Permission
+from app.constants import Permission, AuditLogEventType
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow, FeatureFlagsTable
+from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogRow
+from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.service import MySQLService
 
 
@@ -64,6 +66,23 @@ class CreateFeatureFlagController:
                 enabled=self.request.enabled
             )
             session.add(feature_flag_row)
+            session.flush()
+
+            session.add(FeatureFlagAuditLogRow(
+                feature_flag_id=feature_flag_row.feature_flag_id,
+                project_id=self.project_id,
+                actor=self.me.email,
+                name=feature_flag_row.name,
+                description=feature_flag_row.description,
+                conditions=feature_flag_row.conditions,
+                enabled=feature_flag_row.enabled
+            ))
+            session.add(SystemAuditLogRow(
+                actor=self.me.email,
+                event_type=AuditLogEventType.CREATED_FEATURE_FLAG,
+                details=f'Name: {self.request.name}'
+            ))
+
             session.commit()
             session.refresh(feature_flag_row)
 
