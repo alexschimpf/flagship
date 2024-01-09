@@ -7,11 +7,13 @@ from pydantic import BaseModel, EmailStr
 from sqlalchemy import delete
 
 from app.api.routes.feature_flags.schemas import FeatureFlagCondition
-from app.constants import UserRole, UserStatus, ContextValueType
+from app.constants import UserRole, UserStatus, ContextValueType, AuditLogEventType
 from app.services.database.mysql.schemas.context_field import ContextFieldRow
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow
 from app.services.database.mysql.schemas.project import ProjectRow
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
+from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogRow
+from app.services.database.mysql.schemas.context_field_audit_logs import ContextFieldAuditLogRow
 from app.services.database.mysql.schemas.user import UserRow
 from app.services.database.mysql.schemas.user_project import UsersProjectsTable
 from app.services.database.mysql.service import MySQLService
@@ -51,6 +53,27 @@ class ContextField(BaseModel):
     description: str = 'This is a context field'
     field_key: str = 'context_field'
     value_type: ContextValueType = ContextValueType.STRING
+    enum_def: dict[str, Any] | None = None
+
+
+class SystemAuditLog(BaseModel):
+    event_type: AuditLogEventType
+    actor: str = 'owner@flag.ship'
+    details: str | None = None
+
+
+class FeatureFlagAuditLog(BaseModel):
+    actor: str = 'owner@flag.ship'
+    name: str = 'Feature Flag #1'
+    description: str = 'This is a feature flag'
+    conditions: list[list[FeatureFlagCondition]] = []
+    enabled: bool = True
+
+
+class ContextFieldAuditLog(BaseModel):
+    actor: str = 'owner@flag.ship'
+    name: str = 'Context Field #1'
+    description: str = 'This is a context field'
     enum_def: dict[str, Any] | None = None
 
 
@@ -177,6 +200,107 @@ def new_context_field(project_id: int, context_field: ContextField) -> Generator
                     ).where(
                         ContextFieldRow.project_id == context_field_row.project_id,
                         ContextFieldRow.context_field_id == context_field_row.context_field_id
+                    )
+                )
+                session.commit()
+
+
+@contextlib.contextmanager
+def new_system_audit_log(audit_log: SystemAuditLog) -> Generator[SystemAuditLogRow, None, None]:
+    row = SystemAuditLogRow(
+        actor=audit_log.actor,
+        event_type=audit_log.event_type.value,
+        details=audit_log.details
+    )
+    try:
+        with MySQLService.get_session() as session:
+            session.add(row)
+            session.commit()
+            session.refresh(row)
+
+        yield row
+    finally:
+        if row.audit_log_id:
+            with MySQLService.get_session() as session:
+                session.execute(
+                    delete(
+                        SystemAuditLogRow
+                    ).where(
+                        SystemAuditLogRow.audit_log_id == row.audit_log_id
+                    )
+                )
+                session.commit()
+
+
+@contextlib.contextmanager
+def new_feature_flag_audit_log(
+    project_id: int,
+    feature_flag_id: int,
+    audit_log: FeatureFlagAuditLog
+) -> Generator[FeatureFlagAuditLogRow, None, None]:
+    conditions = ujson.dumps([
+        [condition.model_dump() for condition in and_group]
+        for and_group in audit_log.conditions
+    ])
+    row = FeatureFlagAuditLogRow(
+        feature_flag_id=feature_flag_id,
+        project_id=project_id,
+        actor=audit_log.actor,
+        name=audit_log.name,
+        description=audit_log.description,
+        conditions=conditions,
+        enabled=audit_log.enabled
+    )
+    try:
+        with MySQLService.get_session() as session:
+            session.add(row)
+            session.commit()
+            session.refresh(row)
+
+        yield row
+    finally:
+        if row.audit_log_id:
+            with MySQLService.get_session() as session:
+                session.execute(
+                    delete(
+                        FeatureFlagAuditLogRow
+                    ).where(
+                        FeatureFlagAuditLogRow.audit_log_id == row.audit_log_id
+                    )
+                )
+                session.commit()
+
+
+@contextlib.contextmanager
+def new_context_field_audit_log(
+    project_id: int,
+    context_field_id: int,
+    audit_log: ContextFieldAuditLog
+) -> Generator[ContextFieldAuditLogRow, None, None]:
+    enum_def = ujson.dumps(audit_log.enum_def) if audit_log.enum_def else None
+    row = ContextFieldAuditLogRow(
+        context_field_id=context_field_id,
+        project_id=project_id,
+        actor=audit_log.actor,
+        name=audit_log.name,
+        description=audit_log.description,
+        enum_def=enum_def
+    )
+    try:
+        with MySQLService.get_session() as session:
+            session.add(row)
+            session.commit()
+            session.refresh(row)
+
+        yield row
+    finally:
+        if row.audit_log_id:
+            with MySQLService.get_session() as session:
+                session.execute(
+                    delete(
+                        ContextFieldAuditLogRow
+                    ).where(
+                        ContextFieldAuditLogRow.audit_log_id == row.audit_log_id
                     )
                 )
                 session.commit()

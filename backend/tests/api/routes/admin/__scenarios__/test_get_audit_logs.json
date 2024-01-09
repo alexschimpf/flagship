@@ -1,0 +1,29 @@
+{
+    "test_get_audit_logs__200": {
+        "url": "/admin/audit_logs",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "items": [
+                {
+                    "actor": "owner@flag.ship",
+                    "event_time": "$$$",
+                    "event_type": "Set password",
+                    "details": null
+                },
+                {
+                    "actor": "owner@flag.ship",
+                    "event_time": "$$$",
+                    "event_type": "Deleted project",
+                    "details": "Project #1"
+                },
+                {
+                    "actor": "email@email.com",
+                    "event_time": "$$$",
+                    "event_type": "Invited user",
+                    "details": "Email: other@email.com"
+                }
+            ]
+        }
+    }
+}

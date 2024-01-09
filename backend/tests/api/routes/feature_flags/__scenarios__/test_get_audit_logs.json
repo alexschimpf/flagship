@@ -1,0 +1,74 @@
+{
+    "test_get_audit_logs__200": {
+        "url": "/feature_flags/{feature_flag_id}/audit_logs?project_id={project_id}",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "items": [
+                {
+                    "actor": "other@email.com",
+                    "event_time": "$$$",
+                    "changes": [
+                        {
+                            "field": "Name",
+                            "old": "Feature Flag #1",
+                            "new": "New name"
+                        },
+                        {
+                            "field": "Description",
+                            "old": "New description",
+                            "new": "Newest description"
+                        },
+                        {
+                            "field": "Conditions",
+                            "old": "[]",
+                            "new": "[[{\"context_key\":\"context_key\",\"operator\":1,\"value\":\"1\"}]]"
+                        },
+                        {
+                            "field": "Enabled",
+                            "old": "true",
+                            "new": "false"
+                        }
+                    ]
+                },
+                {
+                    "actor": "owner@flag.ship",
+                    "event_time": "$$$",
+                    "changes": [
+                        {
+                            "field": "Description",
+                            "old": "This is a feature flag",
+                            "new": "New description"
+                        }
+                    ]
+                },
+                {
+                    "actor": "owner@flag.ship",
+                    "event_time": "$$$",
+                    "changes": [
+                        {
+                            "field": "Name",
+                            "old": null,
+                            "new": "Feature Flag #1"
+                        },
+                        {
+                            "field": "Description",
+                            "old": null,
+                            "new": "This is a feature flag"
+                        },
+                        {
+                            "field": "Conditions",
+                            "old": null,
+                            "new": "[]"
+                        },
+                        {
+                            "field": "Enabled",
+                            "old": null,
+                            "new": "true"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

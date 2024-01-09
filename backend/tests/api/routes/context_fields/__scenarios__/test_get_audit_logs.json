@@ -1,0 +1,64 @@
+{
+    "test_get_audit_logs__200": {
+        "url": "/context_fields/{context_field_id}/audit_logs?project_id={project_id}",
+        "method": "GET",
+        "status": 200,
+        "response": {
+            "items": [
+                {
+                    "actor": "other@email.com",
+                    "event_time": "$$$",
+                    "changes": [
+                        {
+                            "field": "Name",
+                            "old": "Context Field #1",
+                            "new": "New name"
+                        },
+                        {
+                            "field": "Description",
+                            "old": "New description",
+                            "new": "This is a context field"
+                        },
+                        {
+                            "field": "Enum Definition",
+                            "old": null,
+                            "new": "{\"a\":1,\"b\":2}"
+                        }
+                    ]
+                },
+                {
+                    "actor": "owner@flag.ship",
+                    "event_time": "$$$",
+                    "changes": [
+                        {
+                            "field": "Description",
+                            "old": "This is a context field",
+                            "new": "New description"
+                        }
+                    ]
+                },
+                {
+                    "actor": "owner@flag.ship",
+                    "event_time": "$$$",
+                    "changes": [
+                        {
+                            "field": "Name",
+                            "old": null,
+                            "new": "Context Field #1"
+                        },
+                        {
+                            "field": "Description",
+                            "old": null,
+                            "new": "This is a context field"
+                        },
+                        {
+                            "field": "Enum Definition",
+                            "old": null,
+                            "new": null
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
