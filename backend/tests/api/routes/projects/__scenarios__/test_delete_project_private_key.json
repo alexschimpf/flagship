@@ -1,0 +1,49 @@
+{
+    "test_delete_project_private_key__200": {
+        "url": "/projects/{project_id}/private_keys/{project_private_key_id}",
+        "method": "DELETE",
+        "status": 200,
+        "response": {
+            "success": true
+        }
+    },
+    "test_delete_project_private_key__403_read_only_role": {
+        "url": "/projects/999/private_keys/1",
+        "method": "DELETE",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_delete_project_private_key__403_project_not_assigned_to_user": {
+        "url": "/projects/{project_id}/private_keys/{project_private_key_id}",
+        "method": "DELETE",
+        "status": 403,
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_delete_project_private_key__404": {
+        "url": "/projects/{project_id}/private_keys/999",
+        "method": "DELETE",
+        "status": 404,
+        "response": {
+            "errors": [
+                {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found."
+                }
+            ]
+        }
+    }
+}

@@ -15,7 +15,7 @@ class TestResetProjectPrivateKey(BaseTestCase):
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
         path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
-        self.path_to_test_cases = 'test_reset_project_private_key.json'
+        self.path_to_test_cases = 'test_create_project_private_key.json'
         self.runner = TestCaseRunner(
             client=test_client,
             path_to_scenarios_dir=path_to_scenarios_dir,
@@ -23,46 +23,42 @@ class TestResetProjectPrivateKey(BaseTestCase):
         )
         utils.clear_database()
 
-    def test_reset_project_private_key__200(self) -> None:
+    def test_create_project_private_key__200(self) -> None:
         with utils.new_project(project=utils.Project()) as project:
             project_id = project.project_id
             result = self.run_test_with_user(
                 runner=self.runner,
                 path_to_test_cases=self.path_to_test_cases,
-                test_name='test_reset_project_private_key__200',
+                test_name='test_create_project_private_key__200',
                 user=utils.User(projects=[project_id]),
-                url_params={'project_id': project_id},
-                response_json_modifiers={
-                    'project_id': project_id,
-                    'created_date': project.created_date.isoformat()
-                }
+                url_params={'project_id': project_id}
             )
             self.verify_test_result(
                 result=result,
                 excluded_response_paths=[
-                    'updated_date', 'private_key'
+                    'private_key'
                 ]
             )
 
-    def test_reset_project_private_key__403_read_only_role(self) -> None:
+    def test_create_project_private_key__403_read_only_role(self) -> None:
         with utils.new_project(project=utils.Project()) as project:
             project_id = project.project_id
             result = self.run_test_with_user(
                 runner=self.runner,
                 path_to_test_cases=self.path_to_test_cases,
-                test_name='test_reset_project_private_key__403_read_only_role',
+                test_name='test_create_project_private_key__403_read_only_role',
                 user=utils.User(projects=[project_id], role=UserRole.READ_ONLY),
                 url_params={'project_id': project_id}
             )
             self.verify_test_result(result=result)
 
-    def test_reset_project_private_key__403_project_not_assigned_to_user(self) -> None:
+    def test_create_project_private_key__403_project_not_assigned_to_user(self) -> None:
         with utils.new_project(project=utils.Project()) as project:
             project_id = project.project_id
             result = self.run_test_with_user(
                 runner=self.runner,
                 path_to_test_cases=self.path_to_test_cases,
-                test_name='test_reset_project_private_key__403_project_not_assigned_to_user',
+                test_name='test_create_project_private_key__403_project_not_assigned_to_user',
                 user=utils.User(),
                 url_params={'project_id': project_id}
             )

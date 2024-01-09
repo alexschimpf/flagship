@@ -9,12 +9,24 @@ DROP TABLE IF EXISTS flagship.projects;
 CREATE TABLE flagship.projects (
     project_id INT UNSIGNED AUTO_INCREMENT,
     name VARCHAR(128) NOT NULL,
-    private_key VARCHAR(184) NOT NULL,
     created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     PRIMARY KEY (project_id),
     UNIQUE (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE flagship.project_private_keys (
+    project_private_key_id INT UNSIGNED AUTO_INCREMENT,
+    project_id INT UNSIGNED,
+    private_key VARCHAR(184) NOT NULL,
+
+    PRIMARY KEY (project_private_key_id),
+    KEY (project_id),
+    FOREIGN KEY (project_id)
+        REFERENCES projects(project_id)
+        ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -153,9 +165,12 @@ VALUES
     '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100',
     '$2a$12$Qwux2dsu.moP5dLszwxJ5uWbPy59UY1PPnoraat/lFh35ZbpZ7SLq' -- Test123!
 );
-INSERT INTO `projects` (`name`, `private_key`, `created_date`, `updated_date`)
+INSERT INTO `projects` (`name`, `created_date`, `updated_date`)
 VALUES
-	('alex', 'gAAAAABlnJ-qa9wnux-mAIycDpxqFRGfEbwii3cTtv1a42JDqqncwZk9x131JZGf99ERiSnmTNdMxzDkc5OwQv-BdawEqk408WQeJRSjky-ZXpCtTUKjKuQbjf5N1w1u_HzYAYArGVrEmtsB-HEWqpyv6rI3ZkwinYxVd3ymhuo2kc837sryyck=', '2024-01-09 01:21:46', '2024-01-09 01:21:46');
+	('alex', '2024-01-09 01:21:46', '2024-01-09 01:21:46');
+INSERT INTO `project_private_keys` (`project_id`, `private_key`)
+VALUES
+    (1, 'gAAAAABlnJ-qa9wnux-mAIycDpxqFRGfEbwii3cTtv1a42JDqqncwZk9x131JZGf99ERiSnmTNdMxzDkc5OwQv-BdawEqk408WQeJRSjky-ZXpCtTUKjKuQbjf5N1w1u_HzYAYArGVrEmtsB-HEWqpyv6rI3ZkwinYxVd3ymhuo2kc837sryyck=');
 INSERT INTO `context_fields` (`project_id`, `name`, `description`, `field_key`, `value_type`, `enum_def`, `created_date`, `updated_date`)
 VALUES
 	(1, 'str', 'str', 'str', 1, NULL, '2024-01-09 01:22:38', '2024-01-09 01:22:38'),

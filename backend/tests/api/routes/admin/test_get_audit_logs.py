@@ -2,8 +2,8 @@ import os
 
 from rest_api_tester.runner import TestCaseRunner
 
-from app.main import app
 from app.constants import AuditLogEventType
+from app.main import app
 from tests.api import utils
 from tests.api.base_test_case import BaseTestCase
 from tests.api.fastapi_test_client import FastAPITestClient

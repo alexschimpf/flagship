@@ -36,3 +36,7 @@ class CreateOrUpdateProject(BaseModel):
     model_config = ConfigDict(
         str_strip_whitespace=True
     )
+
+
+class PrivateKey(BaseModel):
+    private_key: str

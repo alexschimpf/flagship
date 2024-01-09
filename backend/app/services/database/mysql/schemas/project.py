@@ -13,7 +13,6 @@ class ProjectRow(BaseRow):
 
     project_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(128), unique=True)
-    private_key: Mapped[str] = mapped_column(String(184))
     created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
     updated_date: Mapped[datetime.datetime] = mapped_column(
         DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
@@ -58,18 +57,6 @@ class ProjectsTable:
                 ProjectRow.project_id == project_id
             ).values({
                 ProjectRow.name: name
-            })
-        )
-
-    @staticmethod
-    def update_project_private_key(project_id: int, private_key: str, session: Session) -> None:
-        session.execute(
-            update(
-                ProjectRow
-            ).where(
-                ProjectRow.project_id == project_id
-            ).values({
-                ProjectRow.private_key: private_key
             })
         )
 

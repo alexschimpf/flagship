@@ -95,4 +95,4 @@ class TestSetPassword(BaseTestCase):
                 'token': token
             }
         )
-        self.verify_test_result(result=result, update_scenarios_on_fail=True)
+        self.verify_test_result(result=result)

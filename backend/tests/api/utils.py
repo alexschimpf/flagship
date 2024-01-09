@@ -9,11 +9,12 @@ from sqlalchemy import delete
 from app.api.routes.feature_flags.schemas import FeatureFlagCondition
 from app.constants import UserRole, UserStatus, ContextValueType, AuditLogEventType
 from app.services.database.mysql.schemas.context_field import ContextFieldRow
-from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow
-from app.services.database.mysql.schemas.project import ProjectRow
-from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
-from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogRow
 from app.services.database.mysql.schemas.context_field_audit_logs import ContextFieldAuditLogRow
+from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow
+from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogRow
+from app.services.database.mysql.schemas.project import ProjectRow
+from app.services.database.mysql.schemas.project_private_key import ProjectPrivateKeyRow
+from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user import UserRow
 from app.services.database.mysql.schemas.user_project import UsersProjectsTable
 from app.services.database.mysql.service import MySQLService
@@ -116,12 +117,18 @@ def new_user(user: User) -> Generator[UserRow, None, None]:
 @contextlib.contextmanager
 def new_project(project: Project) -> Generator[ProjectRow, None, None]:
     project_row = ProjectRow(
-        name=project.name,
-        private_key=project.private_key
+        name=project.name
     )
     try:
         with MySQLService.get_session() as session:
             session.add(project_row)
+            session.flush()
+
+            session.add(ProjectPrivateKeyRow(
+                project_id=project_row.project_id,
+                private_key=project.private_key
+            ))
+
             session.commit()
             session.refresh(project_row)
 
