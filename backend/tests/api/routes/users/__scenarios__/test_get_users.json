@@ -15,7 +15,8 @@
                     "created_date": "$$$",
                     "updated_date": "$$$"
                 }
-            ]
+            ],
+            "total": 1
         }
     },
     "test_get_users__403": {

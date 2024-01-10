@@ -1,4 +1,5 @@
 import datetime
+from typing import cast
 
 from sqlalchemy import String, DateTime, Integer, select
 from sqlalchemy.orm import Mapped, mapped_column
@@ -22,12 +23,25 @@ class SystemAuditLogRow(BaseRow):
 class SystemAuditLogsTable:
 
     @staticmethod
-    def get_system_audit_logs() -> list[SystemAuditLogRow]:
+    def get_system_audit_logs(page: int, page_size: int) -> tuple[list[SystemAuditLogRow], int]:
         with MySQLService.get_session() as session:
-            return list(session.scalars(
+            rows = list(session.scalars(
                 select(
                     SystemAuditLogRow
                 ).order_by(
                     SystemAuditLogRow.created_date.desc()
+                ).offset(
+                    page * page_size
+                ).limit(
+                    page_size
                 )
             ))
+            total_count = cast(int, session.scalar(
+                select(
+                    func.count()
+                ).select_from(
+                    SystemAuditLogRow
+                )
+            ))
+
+        return rows, total_count

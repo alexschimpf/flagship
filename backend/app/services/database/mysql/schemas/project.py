@@ -31,12 +31,27 @@ class ProjectsTable:
         )
 
     @staticmethod
-    def get_projects(session: Session) -> list[ProjectRow]:
-        return list(session.scalars(
+    def get_projects(
+        project_ids: list[int],
+        page: int,
+        page_size: int,
+        session: Session
+    ) -> tuple[list[ProjectRow], int]:
+        rows = list(session.scalars(
             select(
                 ProjectRow
+            ).where(
+                ProjectRow.project_id.in_(project_ids)
+            ).order_by(
+                ProjectRow.name
+            ).offset(
+                page * page_size
+            ).limit(
+                page_size
             )
         ))
+
+        return rows, len(project_ids)
 
     @staticmethod
     def delete_project(project_id: int, session: Session) -> None:

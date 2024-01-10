@@ -4,6 +4,7 @@ from app.api import auth
 from app.api.routes.admin.controllers.get_audit_logs import GetAuditLogsController
 from app.api.routes.admin.schemas import SystemAuditLogs
 from app.api.schemas import User
+from app.constants import DEFAULT_PAGE_SIZE
 
 router = APIRouter(
     prefix='/admin',
@@ -12,7 +13,13 @@ router = APIRouter(
 
 
 @router.get('/audit_logs', response_model=SystemAuditLogs)
-def get_audit_logs(me: User = Depends(auth.get_user)) -> SystemAuditLogs:
+def get_audit_logs(
+    page: int = 0,
+    page_size: int = DEFAULT_PAGE_SIZE,
+    me: User = Depends(auth.get_user)
+) -> SystemAuditLogs:
     return GetAuditLogsController(
+        page=page,
+        page_size=page_size,
         me=me
     ).handle_request()

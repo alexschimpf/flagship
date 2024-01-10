@@ -8,8 +8,10 @@ from app.services.database.mysql.service import MySQLService
 
 class GetProjectPrivateKeysController:
 
-    def __init__(self, project_id: int, me: User):
+    def __init__(self, project_id: int, page: int, page_size: int, me: User):
         self.project_id = project_id
+        self.page = page
+        self.page_size = page_size
         self.me = me
 
     def handle_request(self) -> ProjectPrivateKeys:
@@ -18,12 +20,15 @@ class GetProjectPrivateKeysController:
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:
-            private_keys = ProjectPrivateKeysTable.get_project_private_keys(
-                project_id=self.project_id, session=session)
+            private_keys, total_count = ProjectPrivateKeysTable.get_project_private_keys(
+                project_id=self.project_id, page=self.page, page_size=self.page_size, session=session)
 
-        return ProjectPrivateKeys(items=[
-            ProjectPrivateKeyNameAndId(
-                project_private_key_id=private_key.project_private_key_id,
-                name=private_key.name
-            ) for private_key in private_keys
-        ])
+        return ProjectPrivateKeys(
+            items=[
+                ProjectPrivateKeyNameAndId(
+                    project_private_key_id=private_key.project_private_key_id,
+                    name=private_key.name
+                ) for private_key in private_keys
+            ],
+            total=total_count
+        )

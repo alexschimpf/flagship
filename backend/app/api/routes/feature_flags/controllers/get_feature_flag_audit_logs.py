@@ -8,17 +8,19 @@ from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureF
 
 class GetFeatureFlagAuditLogsController:
 
-    def __init__(self, project_id: int, feature_flag_id: int, me: User):
+    def __init__(self, project_id: int, feature_flag_id: int, page: int, page_size: int, me: User):
         self.project_id = project_id
         self.feature_flag_id = feature_flag_id
+        self.page = page
+        self.page_size = page_size
         self.me = me
 
     def handle_request(self) -> FeatureFlagAuditLogs:
         if not self.me.role.has_permission(Permission.READ_FEATURE_FLAG_AUDIT_LOGS):
             raise UnauthorizedException
 
-        audit_logs = FeatureFlagAuditLogsTable.get_feature_flag_audit_logs(
-            project_id=self.project_id, feature_flag_id=self.feature_flag_id
+        audit_logs, total_count = FeatureFlagAuditLogsTable.get_feature_flag_audit_logs(
+            project_id=self.project_id, feature_flag_id=self.feature_flag_id, page=self.page, page_size=self.page_size
         )
 
         result = []
@@ -33,7 +35,7 @@ class GetFeatureFlagAuditLogsController:
                 ))
 
         result.reverse()
-        return FeatureFlagAuditLogs(items=result)
+        return FeatureFlagAuditLogs(items=result, total=total_count)
 
     @staticmethod
     def _get_changes(

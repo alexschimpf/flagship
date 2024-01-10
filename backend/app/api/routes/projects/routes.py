@@ -13,6 +13,7 @@ from app.api.routes.projects.controllers.update_project_private_key import Updat
 from app.api.routes.projects.schemas import Project, Projects, CreateOrUpdateProject, ProjectWithPrivateKey, \
     ProjectPrivateKey, ProjectPrivateKeyName, ProjectPrivateKeys
 from app.api.schemas import SuccessResponse, User
+from app.constants import DEFAULT_PAGE_SIZE
 
 router = APIRouter(
     prefix='/projects',
@@ -21,8 +22,12 @@ router = APIRouter(
 
 
 @router.get('', response_model=Projects)
-def get_projects(me: User = Depends(auth.get_user)) -> Projects:
-    return GetProjectsController(me=me).handle_request()
+def get_projects(
+    page: int = 0,
+    page_size: int = DEFAULT_PAGE_SIZE,
+    me: User = Depends(auth.get_user)
+) -> Projects:
+    return GetProjectsController(me=me, page=page, page_size=page_size).handle_request()
 
 
 @router.post('', response_model=ProjectWithPrivateKey)
@@ -81,10 +86,14 @@ def create_project_private_key(
 @router.get('/{project_id}/private_keys', response_model=ProjectPrivateKeys)
 def get_project_private_keys(
     project_id: int,
+    page: int = 0,
+    page_size: int = DEFAULT_PAGE_SIZE,
     me: User = Depends(auth.get_user)
 ) -> ProjectPrivateKeys:
     return GetProjectPrivateKeysController(
         project_id=project_id,
+        page=page,
+        page_size=page_size,
         me=me
     ).handle_request()
 

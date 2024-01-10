@@ -8,17 +8,20 @@ from app.services.database.mysql.schemas.context_field_audit_logs import Context
 
 class GetContextFieldAuditLogsController:
 
-    def __init__(self, project_id: int, context_field_id: int, me: User):
+    def __init__(self, project_id: int, context_field_id: int, page: int, page_size: int, me: User):
         self.project_id = project_id
         self.context_field_id = context_field_id
+        self.page = page
+        self.page_size = page_size
         self.me = me
 
     def handle_request(self) -> ContextFieldAuditLogs:
         if not self.me.role.has_permission(Permission.READ_CONTEXT_FIELD_AUDIT_LOGS):
             raise UnauthorizedException
 
-        audit_logs = ContextFieldAuditLogsTable.get_context_field_audit_logs(
-            project_id=self.project_id, context_field_id=self.context_field_id
+        audit_logs, total_count = ContextFieldAuditLogsTable.get_context_field_audit_logs(
+            project_id=self.project_id, context_field_id=self.context_field_id,
+            page=self.page, page_size=self.page_size
         )
 
         result = []
@@ -33,7 +36,7 @@ class GetContextFieldAuditLogsController:
                 ))
 
         result.reverse()
-        return ContextFieldAuditLogs(items=result)
+        return ContextFieldAuditLogs(items=result, total=total_count)
 
     @staticmethod
     def _get_changes(

@@ -18,7 +18,7 @@ class TestGetAuditLogs(BaseTestCase):
         self.runner = TestCaseRunner(
             client=test_client,
             path_to_scenarios_dir=path_to_scenarios_dir,
-            default_content_type='application/json',
+            default_content_type='application/json'
         )
         utils.clear_database()
 

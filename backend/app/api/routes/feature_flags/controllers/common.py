@@ -282,7 +282,7 @@ def _get_context_fields_by_field_key(
     project_id: int,
     session: Session
 ) -> dict[str, ContextFieldRow]:
-    context_fields = ContextFieldsTable.get_context_fields(project_id=project_id, session=session)
+    context_fields, _ = ContextFieldsTable.get_context_fields(project_id=project_id, session=session)
     context_fields_by_key: dict[str, ContextFieldRow] = {}
     for context_field in context_fields or []:
         context_fields_by_key[context_field.field_key] = context_field

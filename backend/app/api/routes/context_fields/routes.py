@@ -10,6 +10,7 @@ from app.api.routes.context_fields.controllers.update_context_field import Updat
 from app.api.routes.context_fields.schemas import CreateContextField, UpdateContextField, ContextField, \
     ContextFields, ContextFieldAuditLogs
 from app.api.schemas import SuccessResponse, User
+from app.constants import DEFAULT_PAGE_SIZE
 
 router = APIRouter(
     prefix='/context_fields',
@@ -18,9 +19,15 @@ router = APIRouter(
 
 
 @router.get('', response_model=ContextFields)
-def get_context_fields(project_id: int) -> ContextFields:
+def get_context_fields(
+    project_id: int,
+    page: int = 0,
+    page_size: int = DEFAULT_PAGE_SIZE
+) -> ContextFields:
     return GetContextFieldsController(
-        project_id=project_id
+        project_id=project_id,
+        page=page,
+        page_size=page_size
     ).handle_request()
 
 
@@ -77,10 +84,14 @@ def delete_context_field(
 def get_context_field_audit_logs(
     project_id: int,
     context_field_id: int,
+    page: int = 0,
+    page_size: int = DEFAULT_PAGE_SIZE,
     me: User = Depends(auth.get_user)
 ) -> ContextFieldAuditLogs:
     return GetContextFieldAuditLogsController(
         project_id=project_id,
         context_field_id=context_field_id,
+        page=page,
+        page_size=page_size,
         me=me
     ).handle_request()

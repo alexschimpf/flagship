@@ -1,4 +1,5 @@
 import datetime
+from typing import cast
 
 from sqlalchemy import String, Integer, ForeignKey, delete, select, text, DateTime, func, update
 from sqlalchemy.orm import Mapped, mapped_column, Session
@@ -20,14 +21,36 @@ class ProjectPrivateKeyRow(BaseRow):
 class ProjectPrivateKeysTable:
 
     @staticmethod
-    def get_project_private_keys(project_id: int, session: Session) -> list[ProjectPrivateKeyRow]:
-        return list(session.scalars(
+    def get_project_private_keys(
+        project_id: int,
+        page: int,
+        page_size: int,
+        session: Session
+    ) -> tuple[list[ProjectPrivateKeyRow], int]:
+        rows = list(session.scalars(
             select(
                 ProjectPrivateKeyRow
             ).where(
                 ProjectPrivateKeyRow.project_id == project_id
-            ).order_by(ProjectPrivateKeyRow.created_date.asc())
+            ).order_by(
+                ProjectPrivateKeyRow.created_date.asc()
+            ).offset(
+                page * page_size
+            ).limit(
+                page_size
+            )
         ))
+        total_count = cast(int, session.scalar(
+            select(
+                func.count()
+            ).select_from(
+                ProjectPrivateKeyRow
+            ).where(
+                ProjectPrivateKeyRow.project_id == project_id
+            )
+        ))
+
+        return rows, total_count
 
     @staticmethod
     def update_project_private_keys(

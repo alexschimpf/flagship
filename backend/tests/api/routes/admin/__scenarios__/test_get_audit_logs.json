@@ -23,7 +23,8 @@
                     "event_type": "Invited user",
                     "details": "Email: other@email.com"
                 }
-            ]
+            ],
+            "total": 3
         }
     }
 }

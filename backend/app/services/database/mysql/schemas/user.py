@@ -1,4 +1,5 @@
 import datetime
+from typing import cast
 
 import pydantic
 from sqlalchemy import String, DateTime, Integer, delete, select, update, Text
@@ -51,12 +52,27 @@ class UserRow(BaseRow):
 class UsersTable:
 
     @staticmethod
-    def get_users(session: Session) -> list[UserRow]:
-        return list(session.scalars(
+    def get_users(page: int, page_size: int, session: Session) -> tuple[list[UserRow], int]:
+        rows = list(session.scalars(
             select(
+                UserRow
+            ).order_by(
+                UserRow.email
+            ).offset(
+                page * page_size
+            ).limit(
+                page_size
+            )
+        ))
+        total_count = cast(int, session.scalar(
+            select(
+                func.count()
+            ).select_from(
                 UserRow
             )
         ))
+
+        return rows, total_count
 
     @staticmethod
     def delete_user(user_id: int, session: Session) -> None:

@@ -2,6 +2,9 @@ from enum import IntEnum, auto
 from typing import Final
 
 
+DEFAULT_PAGE_SIZE = 50
+
+
 class ContextValueType(IntEnum):
     STRING = 1
     NUMBER = 2

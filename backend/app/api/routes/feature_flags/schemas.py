@@ -42,6 +42,7 @@ class FeatureFlag(BaseModel):
 
 class FeatureFlags(BaseModel):
     items: list[FeatureFlag]
+    total: int
 
 
 class CreateOrUpdateFeatureFlag(BaseModel):
@@ -73,3 +74,4 @@ class FeatureFlagAuditLog(BaseModel):
 
 class FeatureFlagAuditLogs(BaseModel):
     items: list[FeatureFlagAuditLog]
+    total: int

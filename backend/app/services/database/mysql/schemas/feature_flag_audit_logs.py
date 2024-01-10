@@ -1,4 +1,5 @@
 import datetime
+from typing import cast
 
 from sqlalchemy import String, DateTime, Integer, ForeignKey, Text, Boolean
 from sqlalchemy import select
@@ -27,9 +28,14 @@ class FeatureFlagAuditLogRow(BaseRow):
 class FeatureFlagAuditLogsTable:
 
     @staticmethod
-    def get_feature_flag_audit_logs(project_id: int, feature_flag_id: int) -> list[FeatureFlagAuditLogRow]:
+    def get_feature_flag_audit_logs(
+        project_id: int,
+        feature_flag_id: int,
+        page: int,
+        page_size: int
+    ) -> tuple[list[FeatureFlagAuditLogRow], int]:
         with MySQLService.get_session() as session:
-            return list(session.scalars(
+            rows = list(session.scalars(
                 select(
                     FeatureFlagAuditLogRow
                 ).where(
@@ -37,5 +43,21 @@ class FeatureFlagAuditLogsTable:
                     FeatureFlagAuditLogRow.project_id == project_id
                 ).order_by(
                     FeatureFlagAuditLogRow.created_date.asc()
+                ).offset(
+                    page * page_size
+                ).limit(
+                    page_size
                 )
             ))
+            total_count = cast(int, session.scalar(
+                select(
+                    func.count()
+                ).select_from(
+                    FeatureFlagAuditLogRow
+                ).where(
+                    FeatureFlagAuditLogRow.project_id == project_id,
+                    FeatureFlagAuditLogRow.feature_flag_id == feature_flag_id
+                )
+            ))
+
+        return rows, total_count

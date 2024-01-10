@@ -12,3 +12,4 @@ class SystemAuditLog(BaseModel):
 
 class SystemAuditLogs(BaseModel):
     items: list[SystemAuditLog]
+    total: int

@@ -38,7 +38,7 @@ class DeleteContextFieldController:
         return context_field_row.name
 
     def is_context_field_key_used(self, field_key: str, session: Session) -> bool:
-        feature_flags = FeatureFlagsTable.get_feature_flags(project_id=self.project_id, session=session)
+        feature_flags, _ = FeatureFlagsTable.get_feature_flags(project_id=self.project_id, session=session)
         for feature_flag in feature_flags:
             if f'"context_key":"{field_key}"' in feature_flag.conditions:
                 return True

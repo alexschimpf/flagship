@@ -8,15 +8,17 @@ from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLog
 
 class GetAuditLogsController:
 
-    def __init__(self, me: User):
+    def __init__(self, page: int, page_size: int, me: User):
         self.me = me
+        self.page = page
+        self.page_size = page_size
 
     def handle_request(self) -> SystemAuditLogs:
         if not self.me.role.has_permission(Permission.READ_SYSTEM_AUDIT_LOGS):
             raise UnauthorizedException
 
         result = []
-        rows = SystemAuditLogsTable.get_system_audit_logs()
+        rows, total_count = SystemAuditLogsTable.get_system_audit_logs(page=self.page, page_size=self.page_size)
         for row in rows:
             event_type = ' '.join([
                 word.capitalize() if i == 0 else word.lower()
@@ -31,4 +33,4 @@ class GetAuditLogsController:
                 )
             )
 
-        return SystemAuditLogs(items=result)
+        return SystemAuditLogs(items=result, total=total_count)

@@ -38,3 +38,4 @@ class ResetPassword(BaseModel):
 
 class Users(BaseModel):
     items: list[User]
+    total: int

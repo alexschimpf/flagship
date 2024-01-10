@@ -1,5 +1,5 @@
 import datetime
-from typing import Any
+from typing import Any, cast
 
 import ujson
 from sqlalchemy import String, DateTime, Integer, Boolean, ForeignKey, Text, select, delete, update
@@ -40,14 +40,39 @@ class FeatureFlagRow(BaseRow):
 class FeatureFlagsTable:
 
     @staticmethod
-    def get_feature_flags(project_id: int, session: Session) -> list[FeatureFlagRow]:
-        return list(session.scalars(
+    def get_feature_flags(
+        project_id: int,
+        session: Session,
+        page: int | None = None,
+        page_size: int | None = None
+    ) -> tuple[list[FeatureFlagRow], int]:
+        stmt = \
             select(
                 FeatureFlagRow
             ).where(
                 FeatureFlagRow.project_id == project_id
+            ).order_by(
+                FeatureFlagRow.name
             )
-        ))
+
+        if page is not None and page_size is not None:
+            stmt = stmt.offset(page * page_size).limit(page_size)
+
+        rows = list(session.scalars(stmt))
+
+        total_count = 0
+        if page is not None and page_size is not None:
+            total_count = cast(int, session.scalar(
+                select(
+                    func.count()
+                ).select_from(
+                    FeatureFlagRow
+                ).where(
+                    FeatureFlagRow.project_id == project_id
+                )
+            ))
+
+        return rows, total_count
 
     @staticmethod
     def is_feature_flag_name_taken(

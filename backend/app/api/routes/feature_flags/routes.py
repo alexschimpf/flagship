@@ -11,6 +11,7 @@ from app.api.routes.feature_flags.controllers.update_feature_flag_status import 
 from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag, FeatureFlags, \
     FeatureFlagAuditLogs, UpdateFeatureFlagStatus
 from app.api.schemas import SuccessResponse, User
+from app.constants import DEFAULT_PAGE_SIZE
 
 router = APIRouter(
     prefix='/feature_flags',
@@ -19,9 +20,15 @@ router = APIRouter(
 
 
 @router.get('', response_model=FeatureFlags)
-def get_feature_flags(project_id: int) -> FeatureFlags:
+def get_feature_flags(
+    project_id: int,
+    page: int = 0,
+    page_size: int = DEFAULT_PAGE_SIZE
+) -> FeatureFlags:
     return GetFeatureFlagsController(
-        project_id=project_id
+        project_id=project_id,
+        page=page,
+        page_size=page_size
     ).handle_request()
 
 
@@ -78,11 +85,15 @@ def delete_feature_flag(
 def get_feature_flag_audit_logs(
     project_id: int,
     feature_flag_id: int,
+    page: int = 0,
+    page_size: int = DEFAULT_PAGE_SIZE,
     me: User = Depends(auth.get_user)
 ) -> FeatureFlagAuditLogs:
     return GetFeatureFlagAuditLogsController(
         project_id=project_id,
         feature_flag_id=feature_flag_id,
+        page=page,
+        page_size=page_size,
         me=me
     ).handle_request()
 

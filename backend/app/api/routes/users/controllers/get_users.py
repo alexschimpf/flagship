@@ -13,7 +13,9 @@ from app.services.database.mysql.service import MySQLService
 
 class GetUsersController:
 
-    def __init__(self, me: User) -> None:
+    def __init__(self, page: int, page_size: int, me: User) -> None:
+        self.page = page
+        self.page_size = page_size
         self.me = me
 
     def handle_request(self) -> Users:
@@ -21,7 +23,7 @@ class GetUsersController:
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:
-            user_rows = UsersTable.get_users(session=session)
+            user_rows, total_count = UsersTable.get_users(page=self.page, page_size=self.page_size, session=session)
             all_user_projects = session.scalars(
                 select(
                     UserProjectRow
@@ -39,5 +41,6 @@ class GetUsersController:
         ]
 
         return Users(
-            items=users
+            items=users,
+            total=total_count
         )

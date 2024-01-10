@@ -12,6 +12,7 @@ from app.api.routes.users.controllers.set_password import SetPasswordController
 from app.api.routes.users.controllers.update_user import UpdateUserController
 from app.api.routes.users.schemas import SetPassword, ResetPassword, InviteUser, UpdateUser, Users
 from app.api.schemas import SuccessResponse, User
+from app.constants import DEFAULT_PAGE_SIZE
 
 router = APIRouter(
     prefix='/users',
@@ -35,8 +36,14 @@ def reset_password(request: ResetPassword) -> SuccessResponse:
 
 
 @router.get('', response_model=Users)
-def get_users(me: User = Depends(auth.get_user)) -> Users:
+def get_users(
+    page: int = 0,
+    page_size: int = DEFAULT_PAGE_SIZE,
+    me: User = Depends(auth.get_user)
+) -> Users:
     return GetUsersController(
+        page=page,
+        page_size=page_size,
         me=me
     ).handle_request()
 

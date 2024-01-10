@@ -34,6 +34,7 @@ class ContextField(BaseModel):
 
 class ContextFields(BaseModel):
     items: list[ContextField]
+    total: int
 
 
 class CreateContextField(BaseModel):
@@ -72,3 +73,4 @@ class ContextFieldAuditLog(BaseModel):
 
 class ContextFieldAuditLogs(BaseModel):
     items: list[ContextFieldAuditLog]
+    total: int

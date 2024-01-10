@@ -9,7 +9,8 @@
                     "project_private_key_id": "$$$",
                     "name": "$$$"
                 }
-            ]
+            ],
+            "total": 1
         }
     },
     "test_get_project_private_keys__403_read_only_role": {

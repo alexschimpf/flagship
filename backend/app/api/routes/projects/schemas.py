@@ -28,6 +28,7 @@ class ProjectWithPrivateKey(Project):
 
 class Projects(BaseModel):
     items: list[Project]
+    total: int
 
 
 class CreateOrUpdateProject(BaseModel):
@@ -57,3 +58,4 @@ class ProjectPrivateKeyNameAndId(BaseModel):
 
 class ProjectPrivateKeys(BaseModel):
     items: list[ProjectPrivateKeyNameAndId]
+    total: int
