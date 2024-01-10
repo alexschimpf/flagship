@@ -1,0 +1,61 @@
+{
+    "test_update_project_private_key__200": {
+        "url": "/projects/{project_id}/private_keys/{project_private_key_id}",
+        "method": "PUT",
+        "status": 200,
+        "request": {
+            "name": "testtt"
+        },
+        "response": {
+            "success": true
+        }
+    },
+    "test_update_project_private_key__403_read_only_role": {
+        "url": "/projects/{project_id}/private_keys/{project_private_key_id}",
+        "method": "PUT",
+        "status": 403,
+        "request": {
+            "name": "testtt"
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_update_project_private_key__403_project_not_assigned_to_user": {
+        "url": "/projects/{project_id}/private_keys/{project_private_key_id}",
+        "method": "PUT",
+        "status": 403,
+        "request": {
+            "name": "testtt"
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_update_project_private_key__404": {
+        "url": "/projects/{project_id}/private_keys/999",
+        "method": "PUT",
+        "status": 404,
+        "request": {
+            "name": "testtt"
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found."
+                }
+            ]
+        }
+    }
+}

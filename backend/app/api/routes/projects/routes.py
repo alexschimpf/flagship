@@ -6,10 +6,12 @@ from app.api.routes.projects.controllers.create_project_private_key import Creat
 from app.api.routes.projects.controllers.delete_project import DeleteProjectController
 from app.api.routes.projects.controllers.delete_project_private_key import DeleteProjectPrivateKeyController
 from app.api.routes.projects.controllers.get_project import GetProjectController
+from app.api.routes.projects.controllers.get_project_private_keys import GetProjectPrivateKeysController
 from app.api.routes.projects.controllers.get_projects import GetProjectsController
 from app.api.routes.projects.controllers.update_project import UpdateProjectController
+from app.api.routes.projects.controllers.update_project_private_key import UpdateProjectPrivateKeyController
 from app.api.routes.projects.schemas import Project, Projects, CreateOrUpdateProject, ProjectWithPrivateKey, \
-    ProjectPrivateKey, ProjectPrivateKeyName
+    ProjectPrivateKey, ProjectPrivateKeyName, ProjectPrivateKeys
 from app.api.schemas import SuccessResponse, User
 
 router = APIRouter(
@@ -71,6 +73,32 @@ def create_project_private_key(
 ) -> ProjectPrivateKey:
     return CreateProjectPrivateKeyController(
         project_id=project_id,
+        request=request,
+        me=me
+    ).handle_request()
+
+
+@router.get('/{project_id}/private_keys', response_model=ProjectPrivateKeys)
+def get_project_private_keys(
+    project_id: int,
+    me: User = Depends(auth.get_user)
+) -> ProjectPrivateKeys:
+    return GetProjectPrivateKeysController(
+        project_id=project_id,
+        me=me
+    ).handle_request()
+
+
+@router.put('/{project_id}/private_keys/{project_private_key_id}', response_model=SuccessResponse)
+def update_project_private_key(
+    project_id: int,
+    project_private_key_id: int,
+    request: ProjectPrivateKeyName,
+    me: User = Depends(auth.get_user)
+) -> SuccessResponse:
+    return UpdateProjectPrivateKeyController(
+        project_id=project_id,
+        project_private_key_id=project_private_key_id,
         request=request,
         me=me
     ).handle_request()

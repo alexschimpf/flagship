@@ -1,4 +1,6 @@
-from sqlalchemy import String, Integer, ForeignKey, delete, select, text
+import datetime
+
+from sqlalchemy import String, Integer, ForeignKey, delete, select, text, DateTime, func, update
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 from app.services.database.mysql.schemas.base import BaseRow
@@ -12,18 +14,47 @@ class ProjectPrivateKeyRow(BaseRow):
     project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.project_id'))
     private_key: Mapped[str] = mapped_column(String(184))
     name: Mapped[str] = mapped_column(String(128))
+    created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
 
 
 class ProjectPrivateKeysTable:
 
     @staticmethod
-    def delete_project_private_key(project_id: int, project_private_key: int, session: Session) -> None:
+    def get_project_private_keys(project_id: int, session: Session) -> list[ProjectPrivateKeyRow]:
+        return list(session.scalars(
+            select(
+                ProjectPrivateKeyRow
+            ).where(
+                ProjectPrivateKeyRow.project_id == project_id
+            ).order_by(ProjectPrivateKeyRow.created_date.asc())
+        ))
+
+    @staticmethod
+    def update_project_private_keys(
+        project_id: int,
+        project_private_key_id: int,
+        name: str,
+        session: Session
+    ) -> None:
+        session.execute(
+            update(
+                ProjectPrivateKeyRow
+            ).where(
+                ProjectPrivateKeyRow.project_id == project_id,
+                ProjectPrivateKeyRow.project_private_key_id == project_private_key_id
+            ).values({
+                ProjectPrivateKeyRow.name: name
+            })
+        )
+
+    @staticmethod
+    def delete_project_private_key(project_id: int, project_private_key_id: int, session: Session) -> None:
         session.execute(
             delete(
                 ProjectPrivateKeyRow
             ).where(
                 ProjectPrivateKeyRow.project_id == project_id,
-                ProjectPrivateKeyRow.project_private_key_id == project_private_key
+                ProjectPrivateKeyRow.project_private_key_id == project_private_key_id
             )
         )
 

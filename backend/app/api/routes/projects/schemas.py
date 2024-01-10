@@ -44,3 +44,12 @@ class ProjectPrivateKey(BaseModel):
 
 class ProjectPrivateKeyName(BaseModel):
     name: str
+
+
+class ProjectPrivateKeyNameAndId(BaseModel):
+    project_private_key_id: int
+    name: str
+
+
+class ProjectPrivateKeys(BaseModel):
+    items: list[ProjectPrivateKeyNameAndId]

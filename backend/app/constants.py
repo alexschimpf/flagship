@@ -35,6 +35,8 @@ class Permission(IntEnum):
     CREATE_PROJECT = auto()
     UPDATE_PROJECT = auto()
     DELETE_PROJECT = auto()
+    READ_PROJECT_PRIVATE_KEYS = auto()
+    EDIT_PROJECT_PRIVATE_KEYS = auto()
     CREATE_PROJECT_PRIVATE_KEY = auto()
     DELETE_PROJECT_PRIVATE_KEY = auto()
 
