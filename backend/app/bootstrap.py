@@ -19,6 +19,7 @@ from app.api.routers import router
 from app.api.schemas import ErrorResponseModel
 from app.config import Config
 from app.services.database.mysql.service import MySQLService
+from app.services.strings.service import StringsService
 
 
 class Bootstrap:
@@ -67,6 +68,7 @@ class Bootstrap:
     @staticmethod
     def _init_services() -> None:
         MySQLService.init()
+        StringsService.init(default_locale=Config.DEFAULT_LOCALE)
 
     @staticmethod
     def _override_openapi(app: FastAPI) -> None:

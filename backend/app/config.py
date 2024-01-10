@@ -20,6 +20,7 @@ class Config:
     CORS_ALLOW_ORIGINS: list[str]
     SET_PASSWORD_TOKEN_TTL: int
     ENABLE_FAKE_AUTH: bool
+    DEFAULT_LOCALE: str
 
     @classmethod
     def init(cls) -> None:
@@ -50,6 +51,9 @@ class Config:
             env_var='SET_PASSWORD_TOKEN_TTL', default=86400)
         cls.ENABLE_FAKE_AUTH = cls._get_value(
             env_var='ENABLE_FAKE_AUTH', default=False, type_cast=cls._to_bool)
+        cls.DEFAULT_LOCALE = cls._get_value(
+            env_var='DEFAULT_LOCALE', default='en-us'
+        )
 
     @staticmethod
     def _to_bool(val: Any) -> bool:

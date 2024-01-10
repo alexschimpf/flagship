@@ -14,6 +14,7 @@ from app.constants import AuditLogEventType
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.service import MySQLService
+from app.services.strings.service import StringsService
 
 
 class SetPasswordController:
@@ -30,7 +31,7 @@ class SetPasswordController:
                 self._update_password(user=user)
         except Exception as e:
             error = urllib.parse.quote(
-                str(e) if isinstance(e, AppException) else AppException.DEFAULT_MESSAGE
+                str(e) if isinstance(e, AppException) else StringsService.get(key=AppException.CODE)
             )
             return RedirectResponse(
                 url=f'{Config.UI_BASE_URL}/set-password?error={error}',

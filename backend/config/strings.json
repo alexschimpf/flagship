@@ -1,0 +1,59 @@
+{
+    "UNKNOWN": {
+        "en-us": "Oops, something went wrong!"
+    },
+    "NOT_FOUND": {
+        "en-us": "Resource not found."
+    },
+    "UNAUTHENTICATED": {
+        "en-us": "You are not authorized to perform this action."
+    },
+    "UNAUTHORIZED": {
+        "en-us": "You are not authorized to perform this action."
+    },
+    "NAME_TAKEN": {
+        "en-us": "Sorry, that name is already taken."
+    },
+    "EMAIL_TAKEN": {
+        "en-us": "Sorry, that email is already taken."
+    },
+    "CONTEXT_FIELD_KEY_TAKEN": {
+        "en-us": "Sorry, that context field key is already being used in this project."
+    },
+    "INVALID_ENUM_DEF": {
+        "en-us": "Invalid enum definition."
+    },
+    "ENUM_CONTEXT_FIELD_TYPE_WITHOUT_ENUM_DEF": {
+        "en-us": "Context fields with \"enum\" or \"enum list\" types require an enum definition."
+    },
+    "SAME_CONTEXT_FIELD_KEYS_IN_AND_GROUP": {
+        "en-us": "Two of the same context field keys cannot be used in the same AND group."
+    },
+    "INVALID_FEATURE_FLAG_CONDITIONS": {
+        "en-us": "Invalid conditions."
+    },
+    "INVALID_PROJECT": {
+        "en-us": "Invalid project."
+    },
+    "INVALID_PASSWORD": {
+        "en-us": "Invalid password. Please see requirements."
+    },
+    "INVALID_SET_PASSWORD_TOKEN": {
+        "en-us": "Invalid token."
+    },
+    "INVALID_LOGIN_CREDENTIALS": {
+        "en-us": "Sorry, the credentials provided are invalid."
+    },
+    "CONTEXT_FIELD_IN_USE": {
+        "en-us": "This context field cannot be deleted because it is currently being referenced by one or more feature flags."
+    },
+    "NO_PROJECT_ASSIGNED": {
+        "en-us": "This user must be assigned to at least one project."
+    },
+    "CANNOT_DELETE_LAST_OWNER": {
+        "en-us": "This user cannot be deleted because there must be at least one Flagship owner left."
+    },
+    "USER_NOT_ACTIVATED": {
+        "en-us": "User is not activated."
+    }
+}

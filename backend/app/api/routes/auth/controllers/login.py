@@ -10,6 +10,7 @@ from app.config import Config
 from app.constants import UserStatus
 from app.services.database.mysql.schemas.user import UsersTable
 from app.services.database.mysql.service import MySQLService
+from app.services.strings.service import StringsService
 
 
 class LoginController:
@@ -38,7 +39,9 @@ class LoginController:
             access_token = self.authorize.create_access_token(subject=user.user_id)
         except Exception as e:
             error = urllib.parse.quote(
-                str(e) if isinstance(e, exceptions.AppException) else exceptions.AppException.DEFAULT_MESSAGE
+                str(e)
+                if isinstance(e, exceptions.AppException)
+                else StringsService.get(key=exceptions.AppException.CODE)
             )
             return RedirectResponse(
                 url=f'{Config.UI_BASE_URL}/login?error={error}',

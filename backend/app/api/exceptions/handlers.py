@@ -4,18 +4,19 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi_another_jwt_auth.exceptions import AuthJWTException
 
-from app.api.exceptions import AppException, AggregateException, BadRequestFieldException, add_missing_punctuation, \
+from app.api.exceptions import AppException, AggregateException, BadRequestFieldException, \
     UnauthenticatedException
+from app.services.strings.service import StringsService
 
 
-def exception_handler(_: Request, __: AppException) -> JSONResponse:
+def exception_handler(_: Request, __: Exception) -> JSONResponse:
     return JSONResponse(
         status_code=500,
         content={
             'errors': [
                 {
                     'code': AppException.CODE,
-                    'msg': AppException.DEFAULT_MESSAGE
+                    'msg': StringsService.get(key=AppException.CODE)
                 }
             ]
         }
@@ -47,6 +48,7 @@ def app_exception_handler(_: Request, e: AppException) -> JSONResponse:
 
 
 def request_validation_exception_handler(_: Request, e: RequestValidationError) -> JSONResponse:
+    # TODO: Handle i18n
     formatted_errors = []
     for error in e.errors():
         error_code, message = error['type'], error['msg']
@@ -72,14 +74,17 @@ def jwt_exception_handler(_: Request, __: AuthJWTException) -> JSONResponse:
         content={
             'errors': [{
                 'code': UnauthenticatedException.CODE,
-                'message': UnauthenticatedException.DEFAULT_MESSAGE
+                'message': StringsService.get(key=AppException.CODE)
             }]
         }
     )
 
 
 def _make_user_friendly(error_code: str, field: str, message: str) -> str:
+    if message and message[-1] not in ('.', '?', '!'):
+        message += '.'
+
     if error_code in ('string_too_long', 'string_too_short'):
         message = message.replace('String', field)
 
-    return add_missing_punctuation(message=message).capitalize()
+    return message.capitalize()
