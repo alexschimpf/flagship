@@ -3,11 +3,10 @@ from typing import cast
 
 from sqlalchemy import String, DateTime, Integer, ForeignKey, Text, Boolean
 from sqlalchemy import select
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, Session
 from sqlalchemy.sql import func
 
 from app.services.database.mysql.schemas.base import BaseRow
-from app.services.database.mysql.service import MySQLService
 
 
 class FeatureFlagAuditLogRow(BaseRow):
@@ -32,32 +31,32 @@ class FeatureFlagAuditLogsTable:
         project_id: int,
         feature_flag_id: int,
         page: int,
-        page_size: int
+        page_size: int,
+        session: Session
     ) -> tuple[list[FeatureFlagAuditLogRow], int]:
-        with MySQLService.get_session() as session:
-            rows = list(session.scalars(
-                select(
-                    FeatureFlagAuditLogRow
-                ).where(
-                    FeatureFlagAuditLogRow.feature_flag_id == feature_flag_id,
-                    FeatureFlagAuditLogRow.project_id == project_id
-                ).order_by(
-                    FeatureFlagAuditLogRow.created_date.asc()
-                ).offset(
-                    page * page_size
-                ).limit(
-                    page_size
-                )
-            ))
-            total_count = cast(int, session.scalar(
-                select(
-                    func.count()
-                ).select_from(
-                    FeatureFlagAuditLogRow
-                ).where(
-                    FeatureFlagAuditLogRow.project_id == project_id,
-                    FeatureFlagAuditLogRow.feature_flag_id == feature_flag_id
-                )
-            ))
+        rows = list(session.scalars(
+            select(
+                FeatureFlagAuditLogRow
+            ).where(
+                FeatureFlagAuditLogRow.feature_flag_id == feature_flag_id,
+                FeatureFlagAuditLogRow.project_id == project_id
+            ).order_by(
+                FeatureFlagAuditLogRow.created_date.asc()
+            ).offset(
+                page * page_size
+            ).limit(
+                page_size
+            )
+        ))
+        total_count = cast(int, session.scalar(
+            select(
+                func.count()
+            ).select_from(
+                FeatureFlagAuditLogRow
+            ).where(
+                FeatureFlagAuditLogRow.project_id == project_id,
+                FeatureFlagAuditLogRow.feature_flag_id == feature_flag_id
+            )
+        ))
 
         return rows, total_count

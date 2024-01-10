@@ -4,6 +4,7 @@ from app.api.schemas import User
 from app.constants import Permission
 from app.services.database.mysql.schemas.context_field_audit_logs import ContextFieldAuditLogRow, \
     ContextFieldAuditLogsTable
+from app.services.database.mysql.service import MySQLService
 
 
 class GetContextFieldAuditLogsController:
@@ -19,10 +20,11 @@ class GetContextFieldAuditLogsController:
         if not self.me.role.has_permission(Permission.READ_CONTEXT_FIELD_AUDIT_LOGS):
             raise UnauthorizedException
 
-        audit_logs, total_count = ContextFieldAuditLogsTable.get_context_field_audit_logs(
-            project_id=self.project_id, context_field_id=self.context_field_id,
-            page=self.page, page_size=self.page_size
-        )
+        with MySQLService.get_session() as session:
+            audit_logs, total_count = ContextFieldAuditLogsTable.get_context_field_audit_logs(
+                project_id=self.project_id, context_field_id=self.context_field_id,
+                page=self.page, page_size=self.page_size, session=session
+            )
 
         result = []
         for i, audit_log in enumerate(audit_logs):

@@ -4,6 +4,7 @@ from app.api.routes.admin.schemas import SystemAuditLogs
 from app.api.schemas import User
 from app.constants import Permission, AuditLogEventType
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogsTable
+from app.services.database.mysql.service import MySQLService
 
 
 class GetAuditLogsController:
@@ -17,8 +18,11 @@ class GetAuditLogsController:
         if not self.me.role.has_permission(Permission.READ_SYSTEM_AUDIT_LOGS):
             raise UnauthorizedException
 
+        with MySQLService.get_session() as session:
+            rows, total_count = SystemAuditLogsTable.get_system_audit_logs(
+                page=self.page, page_size=self.page_size, session=session)
+
         result = []
-        rows, total_count = SystemAuditLogsTable.get_system_audit_logs(page=self.page, page_size=self.page_size)
         for row in rows:
             event_type = ' '.join([
                 word.capitalize() if i == 0 else word.lower()

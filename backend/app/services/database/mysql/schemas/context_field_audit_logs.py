@@ -2,11 +2,10 @@ import datetime
 from typing import cast
 
 from sqlalchemy import String, DateTime, Integer, ForeignKey, Text, select
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, Session
 from sqlalchemy.sql import func
 
 from app.services.database.mysql.schemas.base import BaseRow
-from app.services.database.mysql.service import MySQLService
 
 
 class ContextFieldAuditLogRow(BaseRow):
@@ -30,32 +29,32 @@ class ContextFieldAuditLogsTable:
         project_id: int,
         context_field_id: int,
         page: int,
-        page_size: int
+        page_size: int,
+        session: Session
     ) -> tuple[list[ContextFieldAuditLogRow], int]:
-        with MySQLService.get_session() as session:
-            rows = list(session.scalars(
-                select(
-                    ContextFieldAuditLogRow
-                ).where(
-                    ContextFieldAuditLogRow.context_field_id == context_field_id,
-                    ContextFieldAuditLogRow.project_id == project_id
-                ).order_by(
-                    ContextFieldAuditLogRow.created_date.asc()
-                ).offset(
-                    page * page_size
-                ).limit(
-                    page_size
-                )
-            ))
-            total_count = cast(int, session.scalar(
-                select(
-                    func.count()
-                ).select_from(
-                    ContextFieldAuditLogRow
-                ).where(
-                    ContextFieldAuditLogRow.project_id == project_id,
-                    ContextFieldAuditLogRow.context_field_id == context_field_id
-                )
-            ))
+        rows = list(session.scalars(
+            select(
+                ContextFieldAuditLogRow
+            ).where(
+                ContextFieldAuditLogRow.context_field_id == context_field_id,
+                ContextFieldAuditLogRow.project_id == project_id
+            ).order_by(
+                ContextFieldAuditLogRow.created_date.asc()
+            ).offset(
+                page * page_size
+            ).limit(
+                page_size
+            )
+        ))
+        total_count = cast(int, session.scalar(
+            select(
+                func.count()
+            ).select_from(
+                ContextFieldAuditLogRow
+            ).where(
+                ContextFieldAuditLogRow.project_id == project_id,
+                ContextFieldAuditLogRow.context_field_id == context_field_id
+            )
+        ))
 
         return rows, total_count

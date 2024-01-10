@@ -4,6 +4,7 @@ from app.api.schemas import User
 from app.constants import Permission
 from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogsTable, \
     FeatureFlagAuditLogRow
+from app.services.database.mysql.service import MySQLService
 
 
 class GetFeatureFlagAuditLogsController:
@@ -19,9 +20,11 @@ class GetFeatureFlagAuditLogsController:
         if not self.me.role.has_permission(Permission.READ_FEATURE_FLAG_AUDIT_LOGS):
             raise UnauthorizedException
 
-        audit_logs, total_count = FeatureFlagAuditLogsTable.get_feature_flag_audit_logs(
-            project_id=self.project_id, feature_flag_id=self.feature_flag_id, page=self.page, page_size=self.page_size
-        )
+        with MySQLService.get_session() as session:
+            audit_logs, total_count = FeatureFlagAuditLogsTable.get_feature_flag_audit_logs(
+                project_id=self.project_id, feature_flag_id=self.feature_flag_id,
+                page=self.page, page_size=self.page_size, session=session
+            )
 
         result = []
         for i, audit_log in enumerate(audit_logs):
