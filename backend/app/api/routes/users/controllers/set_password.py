@@ -76,6 +76,8 @@ class SetPasswordController:
         has_one_number = False
         has_one_special_char = False
         for c in password:
+            if c.isspace():
+                return False
             if c.islower():
                 has_one_lowercase_letter = True
             elif c.isupper():

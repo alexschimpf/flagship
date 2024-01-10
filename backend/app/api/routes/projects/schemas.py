@@ -45,6 +45,10 @@ class ProjectPrivateKey(BaseModel):
 class ProjectPrivateKeyName(BaseModel):
     name: str = Field(min_length=1, max_length=128)
 
+    model_config = ConfigDict(
+        str_strip_whitespace=True
+    )
+
 
 class ProjectPrivateKeyNameAndId(BaseModel):
     project_private_key_id: int
