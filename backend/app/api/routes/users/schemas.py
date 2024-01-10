@@ -7,19 +7,19 @@ from app.constants import UserRole
 
 class InviteUser(BaseModel):
     email: EmailStr
-    name: str
+    name: str = Field(min_length=1, max_length=128)
     role: UserRole = Field(description=utils.get_enum_description(enum=UserRole))
     projects: list[int]
 
 
 class UpdateUser(BaseModel):
-    name: str
+    name: str = Field(min_length=1, max_length=128)
     role: UserRole = Field(description=utils.get_enum_description(enum=UserRole))
     projects: list[int]
 
 
 class SetPassword(BaseModel):
-    email: str
+    email: EmailStr
     password: str
     token: str
 

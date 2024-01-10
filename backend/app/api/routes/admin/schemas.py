@@ -1,10 +1,10 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class SystemAuditLog(BaseModel):
-    actor: str
+    actor: EmailStr
     event_time: datetime
     event_type: str
     details: str | None

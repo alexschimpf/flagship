@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, EmailStr
 
 from app.api import utils
 from app.constants import Operator
@@ -62,7 +62,7 @@ class FeatureFlagChange(BaseModel):
 
 
 class FeatureFlagAuditLog(BaseModel):
-    actor: str
+    actor: EmailStr
     event_time: datetime
     changes: list[FeatureFlagChange]
 

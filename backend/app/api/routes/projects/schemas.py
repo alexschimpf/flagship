@@ -43,7 +43,7 @@ class ProjectPrivateKey(BaseModel):
 
 
 class ProjectPrivateKeyName(BaseModel):
-    name: str
+    name: str = Field(min_length=1, max_length=128)
 
 
 class ProjectPrivateKeyNameAndId(BaseModel):
