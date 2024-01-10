@@ -55,6 +55,10 @@ class CreateOrUpdateFeatureFlag(BaseModel):
     )
 
 
+class UpdateFeatureFlagStatus(BaseModel):
+    enabled: bool
+
+
 class FeatureFlagChange(BaseModel):
     field: str
     old: str | None

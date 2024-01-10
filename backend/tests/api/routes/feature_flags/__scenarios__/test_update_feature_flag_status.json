@@ -1,0 +1,61 @@
+{
+    "test_update_feature_flag_status__200": {
+        "url": "/feature_flags/{feature_flag_id}/status?project_id={project_id}",
+        "method": "PUT",
+        "status": 200,
+        "request": {
+            "enabled": false
+        },
+        "response": {
+            "success": true
+        }
+    },
+    "test_update_feature_flag_status__403_project_not_assigned": {
+        "url": "/feature_flags/{feature_flag_id}/status?project_id={project_id}",
+        "method": "PUT",
+        "status": 403,
+        "request": {
+            "enabled": false
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_update_feature_flag_status__403_read_only_role": {
+        "url": "/feature_flags/{feature_flag_id}/status?project_id={project_id}",
+        "method": "PUT",
+        "status": 403,
+        "request": {
+            "enabled": false
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "UNAUTHORIZED",
+                    "message": "You are not authorized to perform this action."
+                }
+            ]
+        }
+    },
+    "test_update_feature_flag_status__404": {
+        "url": "/feature_flags/999/status?project_id={project_id}",
+        "method": "PUT",
+        "status": 404,
+        "request": {
+            "enabled": false
+        },
+        "response": {
+            "errors": [
+                {
+                    "code": "NOT_FOUND",
+                    "message": "Resource not found."
+                }
+            ]
+        }
+    }
+}

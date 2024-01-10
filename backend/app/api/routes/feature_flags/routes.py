@@ -7,8 +7,9 @@ from app.api.routes.feature_flags.controllers.get_feature_flag import GetFeature
 from app.api.routes.feature_flags.controllers.get_feature_flag_audit_logs import GetFeatureFlagAuditLogsController
 from app.api.routes.feature_flags.controllers.get_feature_flags import GetFeatureFlagsController
 from app.api.routes.feature_flags.controllers.update_feature_flag import UpdateFeatureFlagController
+from app.api.routes.feature_flags.controllers.update_feature_flag_status import UpdateFeatureFlagStatusController
 from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, FeatureFlag, FeatureFlags, \
-    FeatureFlagAuditLogs
+    FeatureFlagAuditLogs, UpdateFeatureFlagStatus
 from app.api.schemas import SuccessResponse, User
 
 router = APIRouter(
@@ -82,5 +83,20 @@ def get_feature_flag_audit_logs(
     return GetFeatureFlagAuditLogsController(
         project_id=project_id,
         feature_flag_id=feature_flag_id,
+        me=me
+    ).handle_request()
+
+
+@router.put('/{feature_flag_id}/status', response_model=SuccessResponse)
+def update_feature_flag_status(
+    project_id: int,
+    feature_flag_id: int,
+    request: UpdateFeatureFlagStatus,
+    me: User = Depends(auth.get_user)
+) -> SuccessResponse:
+    return UpdateFeatureFlagStatusController(
+        project_id=project_id,
+        feature_flag_id=feature_flag_id,
+        request=request,
         me=me
     ).handle_request()

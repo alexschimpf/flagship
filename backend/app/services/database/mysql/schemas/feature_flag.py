@@ -109,3 +109,21 @@ class FeatureFlagsTable:
                 FeatureFlagRow.conditions: conditions
             })
         )
+
+    @staticmethod
+    def update_feature_flag_status(
+        project_id: int,
+        feature_flag_id: int,
+        enabled: bool,
+        session: Session
+    ) -> None:
+        session.execute(
+            update(
+                FeatureFlagRow
+            ).where(
+                FeatureFlagRow.feature_flag_id == feature_flag_id,
+                FeatureFlagRow.project_id == project_id
+            ).values({
+                FeatureFlagRow.enabled: enabled
+            })
+        )
