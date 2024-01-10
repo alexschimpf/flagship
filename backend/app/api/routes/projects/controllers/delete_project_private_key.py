@@ -30,7 +30,7 @@ class DeleteProjectPrivateKeyController:
             row = session.get(ProjectRow, self.project_id)
             if not row:
                 raise NotFoundException
-            if not session.get(ProjectPrivateKeyRow, self.project_private_key_id):
+            if not session.get(ProjectPrivateKeyRow, (self.project_private_key_id, self.project_id)):
                 raise NotFoundException
 
         return row.name
