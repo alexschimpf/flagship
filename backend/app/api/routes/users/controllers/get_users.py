@@ -1,13 +1,11 @@
 from collections import defaultdict
 
-from sqlalchemy import select
-
 from app.api.exceptions.exceptions import UnauthorizedException
 from app.api.routes.users.schemas import Users
 from app.api.schemas import User
 from app.constants import Permission
 from app.services.database.mysql.schemas.user import UsersTable
-from app.services.database.mysql.schemas.user_project import UserProjectRow
+from app.services.database.mysql.schemas.user_project import UsersProjectsTable
 from app.services.database.mysql.service import MySQLService
 
 
@@ -24,11 +22,7 @@ class GetUsersController:
 
         with MySQLService.get_session() as session:
             user_rows, total_count = UsersTable.get_users(page=self.page, page_size=self.page_size, session=session)
-            all_user_projects = session.scalars(
-                select(
-                    UserProjectRow
-                )
-            )
+            all_user_projects = UsersProjectsTable.get_all_user_projects(session=session)
             projects_by_user: dict[int, list[int]] = defaultdict(list)
             for user_project_row in all_user_projects:
                 projects_by_user[user_project_row.user_id].append(user_project_row.project_id)

@@ -15,6 +15,16 @@ class UserProjectRow(BaseRow):
 class UsersProjectsTable:
 
     @staticmethod
+    def get_all_user_projects(session: Session) -> list[UserProjectRow]:
+        return list(
+            session.scalars(
+                select(
+                    UserProjectRow
+                )
+            )
+        )
+
+    @staticmethod
     def get_user_projects(user_id: int, session: Session) -> list[int]:
         return list(session.scalars(
             select(

@@ -1,10 +1,9 @@
 from fastapi import Response
-from sqlalchemy import select
 
 from app.api.exceptions.exceptions import UnauthorizedException, CannotDeleteLastOwnerException, NotFoundException
 from app.api.schemas import SuccessResponse, User
 from app.config import Config
-from app.constants import Permission, UserRole, AuditLogEventType
+from app.constants import Permission, AuditLogEventType
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user import UsersTable, UserRow
 from app.services.database.mysql.service import MySQLService
@@ -25,15 +24,7 @@ class DeleteUserController:
             if not row:
                 raise NotFoundException
 
-            other_owner = session.scalar(
-                select(
-                    UserRow.user_id
-                ).where(
-                    UserRow.role == UserRole.OWNER.value,
-                    UserRow.user_id != self.user_id
-                ).limit(1)
-            )
-            if not other_owner:
+            if not UsersTable.owners_exist(excluded_user_id=self.user_id, session=session):
                 raise CannotDeleteLastOwnerException
 
             UsersTable.delete_user(user_id=self.user_id, session=session)

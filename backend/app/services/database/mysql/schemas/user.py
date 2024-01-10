@@ -132,3 +132,14 @@ class UsersTable:
                 UserRow.role: role
             })
         )
+
+    @staticmethod
+    def owners_exist(excluded_user_id: int, session: Session) -> bool:
+        return bool(session.scalar(
+            select(
+                UserRow.user_id
+            ).where(
+                UserRow.role == UserRole.OWNER.value,
+                UserRow.user_id != excluded_user_id
+            ).limit(1)
+        ))
