@@ -12,7 +12,7 @@ class ProjectPrivateKeyRow(BaseRow):
     __tablename__ = 'project_private_keys'
 
     project_private_key_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.project_id'), primary_key=True)
+    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.project_id'))
     private_key: Mapped[str] = mapped_column(String(184))
     name: Mapped[str] = mapped_column(String(128))
     created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())

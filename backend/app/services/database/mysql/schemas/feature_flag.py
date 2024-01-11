@@ -14,7 +14,7 @@ class FeatureFlagRow(BaseRow):
     __tablename__ = 'feature_flags'
 
     feature_flag_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.project_id'), primary_key=True)
+    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.project_id'))
     name: Mapped[str] = mapped_column(String(128))
     description: Mapped[str] = mapped_column(String(256))
     conditions: Mapped[str] = mapped_column(Text)

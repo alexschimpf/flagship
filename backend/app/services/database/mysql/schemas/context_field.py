@@ -15,7 +15,7 @@ class ContextFieldRow(BaseRow):
     __tablename__ = 'context_fields'
 
     context_field_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.project_id'), primary_key=True)
+    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.project_id'))
     name: Mapped[str] = mapped_column(String(128))
     description: Mapped[str] = mapped_column(String(256))
     field_key: Mapped[str] = mapped_column(String(64))

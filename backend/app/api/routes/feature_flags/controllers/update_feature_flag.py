@@ -34,7 +34,7 @@ class UpdateFeatureFlagController:
 
         errors: list[AppException] = []
         with MySQLService.get_session() as session:
-            if not session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id)):
+            if not session.get(FeatureFlagRow, self.feature_flag_id):
                 raise NotFoundException
 
             if FeatureFlagsTable.is_feature_flag_name_taken(
@@ -83,6 +83,6 @@ class UpdateFeatureFlagController:
             session.add(audit_log_row)
             session.commit()
 
-            feature_flag_row = session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id))
+            feature_flag_row = session.get(FeatureFlagRow, self.feature_flag_id)
 
         return cast(FeatureFlagRow, feature_flag_row)

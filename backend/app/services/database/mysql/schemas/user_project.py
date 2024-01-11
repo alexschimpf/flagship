@@ -9,7 +9,7 @@ class UserProjectRow(BaseRow):
     __tablename__ = 'users_projects'
 
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.user_id'), primary_key=True)
-    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.project_id'), primary_key=True)
+    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.project_id'))
 
 
 class UsersProjectsTable:

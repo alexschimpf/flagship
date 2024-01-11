@@ -20,7 +20,7 @@ class UpdateProjectPrivateKeyController:
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:
-            if not session.get(ProjectPrivateKeyRow, (self.project_private_key_id, self.project_id)):
+            if not session.get(ProjectPrivateKeyRow, self.project_private_key_id):
                 raise NotFoundException
 
             ProjectPrivateKeysTable.update_project_private_keys(

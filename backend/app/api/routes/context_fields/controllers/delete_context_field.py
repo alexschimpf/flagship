@@ -28,7 +28,7 @@ class DeleteContextFieldController:
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:
-            context_field_row = session.get(ContextFieldRow, (self.context_field_id, self.project_id))
+            context_field_row = session.get(ContextFieldRow, self.context_field_id)
             if not context_field_row:
                 raise NotFoundException
 

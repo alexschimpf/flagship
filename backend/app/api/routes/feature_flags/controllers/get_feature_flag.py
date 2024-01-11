@@ -12,7 +12,7 @@ class GetFeatureFlagController:
 
     def handle_request(self) -> FeatureFlag:
         with MySQLService.get_session() as session:
-            feature_flag_row = session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id))
+            feature_flag_row = session.get(FeatureFlagRow, self.feature_flag_id)
 
         if not feature_flag_row:
             raise NotFoundException

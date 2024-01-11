@@ -34,7 +34,7 @@ class UpdateContextFieldController:
 
         errors: list[AppException] = []
         with MySQLService.get_session() as session:
-            if not session.get(ContextFieldRow, (self.context_field_id, self.project_id)):
+            if not session.get(ContextFieldRow, self.context_field_id):
                 raise NotFoundException
 
             if ContextFieldsTable.is_context_field_name_taken(
@@ -74,6 +74,6 @@ class UpdateContextFieldController:
             ))
             session.commit()
 
-            context_field_row = session.get(ContextFieldRow, (self.context_field_id, self.project_id))
+            context_field_row = session.get(ContextFieldRow, self.context_field_id)
 
         return cast(ContextFieldRow, context_field_row)

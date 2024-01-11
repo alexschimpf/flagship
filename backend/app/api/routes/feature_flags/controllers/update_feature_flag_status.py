@@ -21,7 +21,7 @@ class UpdateFeatureFlagStatusController:
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:
-            row = session.get(FeatureFlagRow, (self.feature_flag_id, self.project_id))
+            row = session.get(FeatureFlagRow, self.feature_flag_id)
             if not row:
                 raise NotFoundException
 
