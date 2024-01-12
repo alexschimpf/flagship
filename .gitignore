@@ -116,5 +116,6 @@ venv.bak/
 TODO
 tmp/
 
-# node
+# frontend
 node_modules*
+.next
