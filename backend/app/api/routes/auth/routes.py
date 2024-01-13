@@ -14,7 +14,7 @@ router = APIRouter(
 )
 
 
-@router.post('/login', response_class=RedirectResponse, include_in_schema=False)
+@router.post('/login', response_class=RedirectResponse)
 def login(email: str = Form(), password: str = Form(), authorize: AuthJWT = Depends()) -> RedirectResponse:
     return LoginController(
         email=email,
@@ -23,13 +23,13 @@ def login(email: str = Form(), password: str = Form(), authorize: AuthJWT = Depe
     ).handle_request()
 
 
-@router.post('/login/test', response_class=RedirectResponse, include_in_schema=False)
+@router.post('/login/test', response_class=RedirectResponse)
 def login_test(authorize: AuthJWT = Depends()) -> Any:
     authorize.jwt_required()
     return SuccessResponse(success=True)
 
 
-@router.post('/logout', response_class=RedirectResponse, include_in_schema=False)
+@router.get('/logout', response_class=RedirectResponse)
 def logout() -> Any:
     return LogoutController().handle_request()
 
