@@ -3,7 +3,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Flagship',
-  description: 'Feature flag management',
+  description: 'Feature flag management'
 }
 
 export default function RootLayout({
@@ -13,6 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+      <link rel="icon" href="/favicon.svg" sizes="any" />
+      </head>
       <body>{children}</body>
     </html>
   )

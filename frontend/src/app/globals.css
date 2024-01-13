@@ -73,4 +73,7 @@
   body {
     @apply bg-background text-foreground;
   }
+  input, textarea {
+    @apply hover:border-slate-400 focus-visible:border-slate-400 focus-visible:outline-none;
+  }
 }
