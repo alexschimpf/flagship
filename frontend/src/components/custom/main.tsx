@@ -1,9 +1,8 @@
-import Projects from '@/components/custom/projects'
-import Members from '@/components/custom/members'
 import AuditLogs from '@/components/custom/auditLogs'
+import Members from '@/components/custom/members'
+import Projects from '@/components/custom/projects'
 import { Toaster } from '@/components/ui/toaster'
-import { useGlobalStore, Page } from '@/stores'
-
+import { Page, useGlobalStore } from '@/stores'
 
 export default function() {
     const globalStore = useGlobalStore();

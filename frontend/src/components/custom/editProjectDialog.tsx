@@ -136,7 +136,7 @@ export default function EditProjectDialog(props: EditProjectDialogProps) {
                                         </FormItem>
                                     )}
                                 />
-                                <Button type='submit' className='w-1/4' disabled={mutation.isPending}>Save</Button>
+                                <Button type='submit' className='w-1/4' disabled={mutation.isPending || mutation.isSuccess}>Save</Button>
                             </form>
                         </Form>
                     </div>
