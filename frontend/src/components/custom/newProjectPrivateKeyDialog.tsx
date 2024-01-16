@@ -16,6 +16,7 @@ import {
     FormLabel,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
     Tooltip,
     TooltipContent,
@@ -29,7 +30,6 @@ import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons
 import {
     useMutation, useQueryClient
 } from '@tanstack/react-query';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
  
@@ -38,30 +38,24 @@ const formSchema = z.object({
     name: z.string()
 });
 
-class EditProjectDialogProps {
+class NewProjectPrivateKeyDialogProps {
     projectId!: number
-    initialName!: string
     trigger: any
 }
 
   
-export default function(props: EditProjectDialogProps) {
+export default function(props: NewProjectPrivateKeyDialogProps) {
     const { toast } = useToast();
-    const [open, setOpen] = useState(false);
     const queryClient = useQueryClient(); 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: props.initialName
+            name: ''
         }
     });
-    const [lastSavedName, setLastSavedName] = useState(props.initialName);
     const mutation = useMutation({
         mutationFn: (name: string) => {
-            return apiClient.projects.updateProject(
-                props.projectId,
-                { name: name }
-            );
+            return apiClient.projects.createProjectPrivateKey(props.projectId, { name })
         },
         onError: (error) => {
             toast({
@@ -76,8 +70,6 @@ export default function(props: EditProjectDialogProps) {
             })
         },
         onSuccess: () => {
-            setLastSavedName(form.getValues().name);
-            queryClient.invalidateQueries({queryKey: ['projects']});
             toast({
                 variant: 'success',
                 title: (
@@ -86,25 +78,25 @@ export default function(props: EditProjectDialogProps) {
                         <p className='text-black ml-2 font-bold'>Success!</p>
                     </div>
                 ),
-                description: 'Your project was sucessfully updated.',
-            });
-            setOpen(false);
+                description: 'Your project private key was sucessfully created.',
+            })
         }
     });
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         mutation.mutate(values.name);
     };
     const onOpenChange = (open: boolean) => {
-        form.reset({
-            name: lastSavedName
-        });
+        form.reset();
         mutation.reset();
-        setOpen(open);
+
+        if (!open && mutation.isSuccess) {
+            queryClient.invalidateQueries({queryKey: [`projects/${props.projectId}/private-keys`]});
+        }
     };
 
 	return (
         <div>
-            <Dialog onOpenChange={onOpenChange} open={open}>
+            <Dialog onOpenChange={onOpenChange}>
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger>
@@ -113,13 +105,13 @@ export default function(props: EditProjectDialogProps) {
                             </DialogTrigger>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <p>Edit project</p>
+                            <p>Add new project private key</p>
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
                 <DialogContent className='sm:max-w-[425px]' onCloseAutoFocus={(e) => { e.preventDefault() }}>
                     <DialogHeader>
-                        <DialogTitle>Edit Project</DialogTitle>
+                        <DialogTitle>New Project Private Key</DialogTitle>
                     </DialogHeader>
                     <div className='w-full'>
                         <Form {...form}>
@@ -131,14 +123,22 @@ export default function(props: EditProjectDialogProps) {
                                         <FormItem className='w-full'>
                                             <FormLabel>Name</FormLabel>
                                             <FormControl>
-                                                <Input className='disabled:cursor-default' placeholder='' {...field} />
+                                                <Input disabled={mutation.isSuccess} className='disabled:cursor-default' placeholder='' {...field} />
                                             </FormControl>
                                         </FormItem>
                                     )}
                                 />
-                                <Button type='submit' className='w-1/4' disabled={mutation.isPending || mutation.isSuccess}>Save</Button>
+                                {!mutation.isSuccess &&
+                                    <Button type='submit' className='w-1/4' disabled={mutation.isPending}>Create</Button>
+                                }
                             </form>
                         </Form>
+                        {mutation.isSuccess &&
+                            <div className='mt-4'>
+                                <p className='mb-4 text-red-500 text-sm text-center'>Your <b>secret key</b> is below. Please save it somewhere safe and accessible. It is needed to authenticate your client's requests. You <b>will not</b> see it again after this dialog closes.</p>
+                                <Textarea className='bg-accent cursor-pointer resize-none text-center' value={mutation.data.private_key}></Textarea>
+                            </div>
+                        }
                     </div>
                 </DialogContent>
             </Dialog>

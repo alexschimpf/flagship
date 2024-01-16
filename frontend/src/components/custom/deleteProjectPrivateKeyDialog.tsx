@@ -22,19 +22,20 @@ import {
 } from '@tanstack/react-query';
  
 
-class DeleteProjectDialogProps {
+class DeleteProjectPrivateKeyDialogProps {
     projectId!: number
+    projectPrivateKeyId!: number
     name!: string
     trigger: any
 }
 
   
-export default function(props: DeleteProjectDialogProps) {
+export default function(props: DeleteProjectPrivateKeyDialogProps) {
     const { toast } = useToast();
     const queryClient = useQueryClient(); 
     const mutation = useMutation({
         mutationFn: () => {
-            return apiClient.projects.deleteProject(props.projectId);
+            return apiClient.projects.deleteProjectPrivateKey(props.projectId, props.projectPrivateKeyId);
         },
         onError: (error) => {
             toast({
@@ -49,7 +50,7 @@ export default function(props: DeleteProjectDialogProps) {
             })
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['projects']});
+            queryClient.invalidateQueries({queryKey: [`projects/${props.projectId}/private-keys`]});
             toast({
                 variant: 'success',
                 title: (
@@ -58,7 +59,7 @@ export default function(props: DeleteProjectDialogProps) {
                         <p className='text-black ml-2 font-bold'>Success!</p>
                     </div>
                 ),
-                description: 'Your project was sucessfully deleted.',
+                description: 'Your project private key was sucessfully deleted.',
             })
         }
     });
@@ -74,16 +75,16 @@ export default function(props: DeleteProjectDialogProps) {
                             </DialogTrigger>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <p>Delete project</p>
+                            <p>Delete project private key</p>
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
                 <DialogContent className='sm:max-w-[425px]' onCloseAutoFocus={(e) => { e.preventDefault() }}>
                     <DialogHeader>
-                        <DialogTitle>Delete Project</DialogTitle>
+                        <DialogTitle>Delete Project Private Key</DialogTitle>
                     </DialogHeader>
                     <div className='w-full flex flex-col items-end'>
-                        <p className='w-full'>Are you sure you want delete project <b>{props.name}</b>? This cannot be undone.</p>
+                        <p className='w-full'>Are you sure you want delete project private key <b>{props.name}</b>? This cannot be undone.</p>
                         <Button className='w-1/4 mt-4 bg-destructive' disabled={mutation.isPending || mutation.isSuccess} onClick={() => mutation.mutate()}>Delete</Button>
                     </div>
                 </DialogContent>

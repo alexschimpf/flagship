@@ -27,7 +27,8 @@ class GetProjectPrivateKeysController:
             items=[
                 ProjectPrivateKeyNameAndId(
                     project_private_key_id=private_key.project_private_key_id,
-                    name=private_key.name
+                    name=private_key.name,
+                    created_date=private_key.created_date
                 ) for private_key in private_keys
             ],
             total=total_count

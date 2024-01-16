@@ -54,6 +54,7 @@ class ProjectPrivateKeyName(BaseModel):
 class ProjectPrivateKeyNameAndId(BaseModel):
     project_private_key_id: int
     name: str
+    created_date: datetime
 
 
 class ProjectPrivateKeys(BaseModel):

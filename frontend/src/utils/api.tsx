@@ -1,7 +1,10 @@
-import { APIClient, ApiError } from "@/api"
+import { APIClient, ApiError } from "@/api";
+import { QueryClient } from "@tanstack/react-query";
 
 
 export const apiClient = new APIClient({BASE: 'http://localhost:8000'});
+
+export const queryClient = new QueryClient()
 
 export const getErrorMessage = (error: Error | string): string => {
     let errorStr: string;

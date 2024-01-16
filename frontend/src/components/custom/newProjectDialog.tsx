@@ -43,7 +43,7 @@ class NewProjectDialogProps {
 }
 
   
-export default function NewProjectDialog(props: NewProjectDialogProps) {
+export default function(props: NewProjectDialogProps) {
     const { toast } = useToast();
     const queryClient = useQueryClient(); 
     const form = useForm<z.infer<typeof formSchema>>({

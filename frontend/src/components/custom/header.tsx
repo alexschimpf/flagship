@@ -1,19 +1,20 @@
 'use client';
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { PersonIcon, QuestionMarkCircledIcon, RocketIcon } from '@radix-ui/react-icons'
-import { useGlobalStore, Page } from '@/stores'
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { PersonIcon, QuestionMarkCircledIcon, RocketIcon } from '@radix-ui/react-icons';
+import { usePathname, useRouter } from 'next/navigation';
 
 
 export default function() {
-    const globalStore = useGlobalStore()
+    const router = useRouter()
+    const pathName = usePathname();
 
     return (
         <header className='sticky top-0 z-50 w-full border-b bg-white'>
@@ -30,22 +31,22 @@ export default function() {
                     <nav>
                         <Button 
                             variant='ghost' 
-                            className={`hover:bg-accent rounded-none ${globalStore.currPage == Page.Projects ? 'bg-accent' : ''}`} 
-                            onClick={() => globalStore.setCurrPage(Page.Projects)}
+                            className={`hover:bg-accent rounded-none ${pathName === '/' ? 'bg-accent' : ''}`} 
+                            onClick={() => router.replace('/')}
                         >
                             Projects
                         </Button>
                         <Button 
                             variant='ghost'
-                            className={`hover:bg-accent rounded-none ${globalStore.currPage == Page.Members ? 'bg-accent' : ''}`}
-                            onClick={() => globalStore.setCurrPage(Page.Members)}
+                            className={`hover:bg-accent rounded-none ${pathName === '/members' ? 'bg-accent' : ''}`}
+                            onClick={() => router.replace('/members')}
                         >
                             Members
                         </Button>
                         <Button 
                             variant='ghost'
-                            className={`hover:bg-accent rounded-none ${globalStore.currPage == Page.AuditLogs ? 'bg-accent' : ''}`}
-                            onClick={() => globalStore.setCurrPage(Page.AuditLogs)}
+                            className={`hover:bg-accent rounded-none ${pathName === '/audit-logs' ? 'bg-accent' : ''}`}
+                            onClick={() => router.replace('/audit-logs')}
                         >
                             Audit Logs
                         </Button>

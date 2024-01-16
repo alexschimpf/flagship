@@ -1,29 +1,41 @@
 import NewProjectDialog from '@/components/custom/newProjectDialog'
 import SearchBar from '@/components/custom/searchBar'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger
+} from '@/components/ui/tooltip'
 import { apiClient } from '@/utils/api'
-import { EyeOpenIcon, Pencil1Icon, PlusCircledIcon, TrashIcon } from '@radix-ui/react-icons'
+import { getLocalTimeString } from '@/utils/time'
+import { EyeOpenIcon, GearIcon, Pencil1Icon, PlusCircledIcon, TrashIcon } from '@radix-ui/react-icons'
+import { TooltipProvider } from '@radix-ui/react-tooltip'
 import { useQuery } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
 import DeleteProjectDialog from './deleteProjectDialog'
 import EditProjectDialog from './editProjectDialog'
 
 export default function() {
+    const router = useRouter();
     const query = useQuery({
         queryKey: ['projects'], 
         queryFn: () => apiClient.projects.getProjects()
     });
 
+    const onProjectPrivateKeysClick = (projectId: number) => router.replace(`/project/${projectId}/private-keys`);
+    const onOpenProjectClick = (projectId: number) => router.replace(`/project/${projectId}`);
+
     const projects = query.data?.items || [];
 
     return (
-        <div className='flex flex-1 w-full justify-center'>
+        <div className='flex w-full justify-center'>
             {!query.isFetching && !projects.length &&
-                <div className='flex items-center justify-center border-accent h-1/2 w-1/2 border-2 p-8 rounded-md bg-accent'>
+                <div className='flex items-center justify-center border-accent h-1/2 w-2/5border-2 p-8 rounded-md bg-accent rounded-b-2xl'>
                     <div className='flex flex-col items-center'>
                         <p className='text-center pb-2'>Oops, you don't have any projects yet.</p>
-                        <p className='text-center pb-2'>Create one now!</p>
+                        <p className='text-center pb-2'>Don't be shy. Add one now.</p>
                         <NewProjectDialog trigger={(
                             <Button variant='ghost' className='hover:bg-accent px-2 size-12'>
                                 <PlusCircledIcon className='size-8 cursor-pointer' />
@@ -57,21 +69,40 @@ export default function() {
                                 <TableRow key={project.project_id} className={i % 2 == 0 ? 'bg-accent' : 'bg-white'}>
                                     <TableCell>{project.project_id}</TableCell>
                                     <TableCell>{project.name}</TableCell>
-                                    <TableCell>{project.created_date}</TableCell>
+                                    <TableCell>{ getLocalTimeString(project.created_date) }</TableCell>
                                     <TableCell className='flex flex-row justify-center'>
-                                        <EyeOpenIcon className='cursor-pointer mr-4' />                               
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger>
+                                                    <EyeOpenIcon className='cursor-pointer mr-4' onClick={() => onOpenProjectClick(project.project_id)} />
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>Open project</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>       
                                         <EditProjectDialog 
                                             projectId={project.project_id} 
                                             initialName={project.name} 
                                             trigger={(
-                                                <Pencil1Icon className='cursor-pointer mr-4' />
+                                                <Pencil1Icon className='cursor-pointer mr-4 mt-1' />
                                             )} 
                                         />
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger>
+                                                    <GearIcon className='cursor-pointer mr-4' onClick={() => onProjectPrivateKeysClick(project.project_id)} />
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>Manage project private keys</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
                                         <DeleteProjectDialog 
                                             projectId={project.project_id} 
                                             name={project.name} 
                                             trigger={(
-                                                <TrashIcon className='cursor-pointer' />
+                                                <TrashIcon className='cursor-pointer mt-1' />
                                             )} 
                                         />
                                     </TableCell>
