@@ -9,37 +9,43 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { PersonIcon, QuestionMarkCircledIcon, RocketIcon } from '@radix-ui/react-icons'
-import { useState } from 'react'
+import { useGlobalStore, Page } from '@/stores'
 
 
 export default function() {
-    const [currPage, setCurrPage] = useState('projects');
+    const globalStore = useGlobalStore()
 
     return (
-        <header className='sticky top-0 z-50 w-full border-b'>
+        <header className='sticky top-0 z-50 w-full border-b bg-white'>
             <div className='container flex h-10 max-w-screen-2xl items-center'>
                 <div className='flex flex-1 items-center'>
-                    <RocketIcon />
-                    <h1 className='font-bold text-lg pl-2 pr-6 cursor-pointer'>Flagship</h1>
+                    <Button 
+                        variant='ghost' 
+                        className='focus-visible:bg-white hover:bg-white p-0 mr-6' 
+                        onClick={() => { window.location.replace('http://localhost:3000') }}
+                    >
+                        <RocketIcon />
+                        <h1 className='font-bold text-lg pl-2 cursor-pointer'>Flagship</h1>
+                    </Button>
                     <nav>
                         <Button 
                             variant='ghost' 
-                            className={`hover:bg-accent rounded-none ${currPage == 'projects' ? 'bg-accent' : ''}`} 
-                            onClick={() => setCurrPage('projects')}
+                            className={`hover:bg-accent rounded-none ${globalStore.currPage == Page.Projects ? 'bg-accent' : ''}`} 
+                            onClick={() => globalStore.setCurrPage(Page.Projects)}
                         >
                             Projects
                         </Button>
                         <Button 
                             variant='ghost'
-                            className={`hover:bg-accent rounded-none ${currPage == 'members' ? 'bg-accent' : ''}`}
-                            onClick={() => setCurrPage('members')}
+                            className={`hover:bg-accent rounded-none ${globalStore.currPage == Page.Members ? 'bg-accent' : ''}`}
+                            onClick={() => globalStore.setCurrPage(Page.Members)}
                         >
                             Members
                         </Button>
                         <Button 
                             variant='ghost'
-                            className={`hover:bg-accent rounded-none ${currPage == 'audit-logs' ? 'bg-accent' : ''}`}
-                            onClick={() => setCurrPage('audit-logs')}
+                            className={`hover:bg-accent rounded-none ${globalStore.currPage == Page.AuditLogs ? 'bg-accent' : ''}`}
+                            onClick={() => globalStore.setCurrPage(Page.AuditLogs)}
                         >
                             Audit Logs
                         </Button>

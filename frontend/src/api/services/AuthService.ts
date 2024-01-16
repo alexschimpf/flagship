@@ -49,7 +49,7 @@ export class AuthService {
      */
     public logout(): CancelablePromise<void> {
         return this.httpRequest.request({
-            method: 'POST',
+            method: 'GET',
             url: '/auth/logout',
             errors: {
                 307: `Successful Response`,

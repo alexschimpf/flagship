@@ -43,7 +43,7 @@ class ProjectsTable:
             ).where(
                 ProjectRow.project_id.in_(project_ids)
             ).order_by(
-                ProjectRow.name
+                ProjectRow.project_id
             ).offset(
                 page * page_size
             ).limit(
