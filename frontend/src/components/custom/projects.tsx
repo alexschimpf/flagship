@@ -1,14 +1,15 @@
 import NewProjectDialog from '@/components/custom/newProjectDialog'
 import SearchBar from '@/components/custom/searchBar'
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger
-} from '@/components/ui/tooltip'
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
 import { apiClient } from '@/utils/api'
 import { getLocalTimeString } from '@/utils/time'
-import { EyeOpenIcon, GearIcon, Pencil1Icon, PlusCircledIcon, TrashIcon } from '@radix-ui/react-icons'
-import { TooltipProvider } from '@radix-ui/react-tooltip'
+import { DropdownMenuSeparator } from '@radix-ui/react-dropdown-menu'
+import { DotsHorizontalIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -25,7 +26,8 @@ export default function() {
     });
 
     const onProjectPrivateKeysClick = (projectId: number) => router.replace(`/project/${projectId}/private-keys`);
-    const onOpenProjectClick = (projectId: number) => router.replace(`/project/${projectId}`);
+    const onFeatureFlagsClick = (projectId: number) => router.replace(`/project/${projectId}/feature-flags`);
+    const onContextFieldsClick = (projectId: number) => router.replace(`/project/${projectId}/context-fields`);
 
     const projects = query.data?.items || [];
 
@@ -62,6 +64,7 @@ export default function() {
                                 <TableCell>ID</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Created Date</TableCell>
+                                <TableCell>Actions</TableCell>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -70,41 +73,56 @@ export default function() {
                                     <TableCell>{project.project_id}</TableCell>
                                     <TableCell>{project.name}</TableCell>
                                     <TableCell>{ getLocalTimeString(project.created_date) }</TableCell>
-                                    <TableCell className='flex flex-row justify-center'>
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger>
-                                                    <EyeOpenIcon className='cursor-pointer mr-4 hover:scale-125' onClick={() => onOpenProjectClick(project.project_id)} />
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p>Open project</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>       
-                                        <EditProjectDialog 
-                                            projectId={project.project_id} 
-                                            initialName={project.name} 
-                                            trigger={(
-                                                <Pencil1Icon className='cursor-pointer mr-4 mt-1 hover:scale-125' />
-                                            )} 
-                                        />
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger>
-                                                    <GearIcon className='cursor-pointer mr-4 hover:scale-125' onClick={() => onProjectPrivateKeysClick(project.project_id)} />
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p>Manage project private keys</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                        <DeleteProjectDialog 
-                                            projectId={project.project_id} 
-                                            name={project.name} 
-                                            trigger={(
-                                                <TrashIcon className='cursor-pointer mt-1 hover:scale-125' />
-                                            )} 
-                                        />
+                                    <TableCell className='flex flex-row justify-start items-center'>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" className="size-8 p-0">
+                                                    <span className="sr-only">Open menu</span>
+                                                    <DotsHorizontalIcon className='hover:cursor-pointer hover:scale-125' />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuItem 
+                                                    className='hover:cursor-pointer'
+                                                    onClick={() => onFeatureFlagsClick(project.project_id)}
+                                                >
+                                                    Manage feature flags
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    className='hover:cursor-pointer'
+                                                    onClick={() => onContextFieldsClick(project.project_id)}
+                                                >
+                                                    Manage context fields
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    className='hover:cursor-pointer'
+                                                    onClick={() => onProjectPrivateKeysClick(project.project_id)}
+                                                >
+                                                    Manage private keys
+                                                </DropdownMenuItem>
+                                                <DropdownMenuSeparator
+                                                    className='border-y h-0.5 my-2' 
+                                                />      
+                                                <EditProjectDialog 
+                                                    projectId={project.project_id} 
+                                                    initialName={project.name} 
+                                                    trigger={(
+                                                        <DropdownMenuItem className='hover:cursor-pointer' onSelect={(e) => e.preventDefault()}>
+                                                            Edit project
+                                                        </DropdownMenuItem>
+                                                    )} 
+                                                />    
+                                                <DeleteProjectDialog 
+                                                    projectId={project.project_id} 
+                                                    name={project.name} 
+                                                    trigger={(
+                                                        <DropdownMenuItem className='hover:cursor-pointer' onSelect={(e) => e.preventDefault()}>
+                                                            Delete project
+                                                        </DropdownMenuItem>
+                                                    )} 
+                                                />  
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}

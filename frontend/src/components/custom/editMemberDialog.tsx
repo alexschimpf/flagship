@@ -14,12 +14,6 @@ import {
     ToggleGroup,
     ToggleGroupItem,
 } from '@/components/ui/toggle-group';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
 import { apiClient, getErrorMessage } from '@/utils/api';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -122,18 +116,9 @@ export default function(props: EditMemberDialogProps) {
 
 	return (
         <Dialog onOpenChange={onOpenChange}>
-            <TooltipProvider>
-                <Tooltip>
-                    <TooltipTrigger>
-                        <DialogTrigger asChild>
-                        { props.trigger }
-                        </DialogTrigger>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p>Update member</p>
-                    </TooltipContent>
-                </Tooltip>
-            </TooltipProvider>
+            <DialogTrigger asChild>
+            { props.trigger }
+            </DialogTrigger>
             <DialogContent className='sm:max-w-[425px]' onCloseAutoFocus={(e) => { e.preventDefault() }}>
                 <DialogHeader>
                     <DialogTitle>Update Member</DialogTitle>

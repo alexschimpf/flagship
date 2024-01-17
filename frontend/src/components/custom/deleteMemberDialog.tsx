@@ -8,12 +8,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
 import { apiClient, getErrorMessage } from '@/utils/api';
 import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
@@ -66,18 +60,9 @@ export default function(props: DeleteMemberDialogProps) {
 	return (
         <div>
             <Dialog>
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger>
-                            <DialogTrigger asChild>
-                            { props.trigger }
-                            </DialogTrigger>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>Delete user</p>
-                        </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
+                <DialogTrigger asChild>
+                { props.trigger }
+                </DialogTrigger>
                 <DialogContent className='sm:max-w-[425px]' onCloseAutoFocus={(e) => { e.preventDefault() }}>
                     <DialogHeader>
                         <DialogTitle>Delete User</DialogTitle>

@@ -1,13 +1,13 @@
 import SearchBar from '@/components/custom/searchBar'
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger
-} from '@/components/ui/tooltip'
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
 import { apiClient, getErrorMessage, userRoles, userStatuses } from '@/utils/api'
 import { getLocalTimeString } from '@/utils/time'
-import { CheckCircledIcon, EnvelopeClosedIcon, ExclamationTriangleIcon, Pencil1Icon, PlusCircledIcon, TrashIcon } from '@radix-ui/react-icons'
+import { CheckCircledIcon, DotsHorizontalIcon, ExclamationTriangleIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { Button } from '../ui/button'
@@ -80,6 +80,7 @@ export default function() {
                                 <TableCell>Status</TableCell>
                                 <TableCell>Created Date</TableCell>
                                 <TableCell>Last Updated</TableCell>
+                                <TableCell>Actions</TableCell>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -92,33 +93,40 @@ export default function() {
                                     <TableCell>{userStatuses[user.status]}</TableCell>
                                     <TableCell>{ getLocalTimeString(user.created_date) }</TableCell>
                                     <TableCell>{ getLocalTimeString(user.updated_date) }</TableCell>
-                                    <TableCell className='flex flex-row justify-center'>   
-                                        <EditMemberDialog 
-                                            userId={user.user_id} 
-                                            trigger={(
-                                                <Pencil1Icon className='cursor-pointer mt-1 mr-4 hover:scale-125' />
-                                            )} 
-                                        />
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger>
-                                                    <EnvelopeClosedIcon
-                                                        className='cursor-pointer mr-4 hover:scale-125'
-                                                        onClick={() => resetPasswordMutation.mutate(user.email)} 
-                                                    />
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p>Send reset password email</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                        <DeleteMemberDialog 
-                                            userId={user.user_id} 
-                                            email={user.email} 
-                                            trigger={(
-                                                <TrashIcon className='cursor-pointer mt-1 hover:scale-125' />
-                                            )} 
-                                        />
+                                    <TableCell className='flex flex-row justify-start items-center'>   
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" className="size-8 p-0">
+                                                    <span className="sr-only">Open menu</span>
+                                                    <DotsHorizontalIcon className='hover:cursor-pointer hover:scale-125' />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <EditMemberDialog 
+                                                    userId={user.user_id} 
+                                                    trigger={(
+                                                        <DropdownMenuItem className='hover:cursor-pointer' onSelect={(e) => e.preventDefault()}>
+                                                            Edit member
+                                                        </DropdownMenuItem>
+                                                    )} 
+                                                />
+                                                <DeleteMemberDialog 
+                                                    userId={user.user_id} 
+                                                    email={user.email}
+                                                    trigger={(
+                                                        <DropdownMenuItem className='hover:cursor-pointer' onSelect={(e) => e.preventDefault()}>
+                                                            Delete member
+                                                        </DropdownMenuItem>
+                                                    )} 
+                                                />
+                                                <DropdownMenuItem
+                                                    className='hover:cursor-pointer'
+                                                    onClick={() => resetPasswordMutation.mutate(user.email)}
+                                                >
+                                                    Resend set password email
+                                                </DropdownMenuItem>                                               
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}
