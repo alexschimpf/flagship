@@ -20,7 +20,7 @@ export default function() {
                 <div className='p-4 flex flex-col fade-in-0 w-full'>
                     <Table>
                         <TableHeader>
-                            <TableRow className='font-bold'>
+                            <TableRow className='font-bold hover:bg-white'>
                                 <TableCell>Actor</TableCell>
                                 <TableCell>Event Type</TableCell>
                                 <TableCell>Details</TableCell>

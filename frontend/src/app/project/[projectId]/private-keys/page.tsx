@@ -4,14 +4,10 @@ import ProjectPrivateKeys from '@/components/custom/projectPrivateKeys';
 import { queryClient } from '@/utils/api';
 import { QueryClientProvider } from '@tanstack/react-query';
 
-interface ProjectPrivateKeyPageProps {
-	projectId: string
-}
-
-export default function(params: ProjectPrivateKeyPageProps) {
+export default function() {
 	return (
 		<QueryClientProvider client={queryClient}>
-			< ProjectPrivateKeys/>
+			< ProjectPrivateKeys />
 		</QueryClientProvider>
   )
 }

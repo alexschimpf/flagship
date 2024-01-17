@@ -62,7 +62,7 @@ export default function() {
                     </div>
                     <Table>
                         <TableHeader>
-                            <TableRow className='font-bold'>
+                            <TableRow className='font-bold hover:bg-white'>
                                 <TableCell>ID</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Created Date</TableCell>
@@ -80,7 +80,7 @@ export default function() {
 											projectPrivateKeyId={privateKey.project_private_key_id}
                                             name={privateKey.name} 
                                             trigger={(
-                                                <TrashIcon className='cursor-pointer mt-1' />
+                                                <TrashIcon className='cursor-pointer mt-1 hover:scale-125' />
                                             )} 
                                         />
                                     </TableCell>

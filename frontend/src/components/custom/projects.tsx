@@ -58,7 +58,7 @@ export default function() {
                     </div>
                     <Table>
                         <TableHeader>
-                            <TableRow className='font-bold'>
+                            <TableRow className='font-bold hover:bg-white'>
                                 <TableCell>ID</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Created Date</TableCell>
@@ -74,7 +74,7 @@ export default function() {
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger>
-                                                    <EyeOpenIcon className='cursor-pointer mr-4' onClick={() => onOpenProjectClick(project.project_id)} />
+                                                    <EyeOpenIcon className='cursor-pointer mr-4 hover:scale-125' onClick={() => onOpenProjectClick(project.project_id)} />
                                                 </TooltipTrigger>
                                                 <TooltipContent>
                                                     <p>Open project</p>
@@ -85,13 +85,13 @@ export default function() {
                                             projectId={project.project_id} 
                                             initialName={project.name} 
                                             trigger={(
-                                                <Pencil1Icon className='cursor-pointer mr-4 mt-1' />
+                                                <Pencil1Icon className='cursor-pointer mr-4 mt-1 hover:scale-125' />
                                             )} 
                                         />
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger>
-                                                    <GearIcon className='cursor-pointer mr-4' onClick={() => onProjectPrivateKeysClick(project.project_id)} />
+                                                    <GearIcon className='cursor-pointer mr-4 hover:scale-125' onClick={() => onProjectPrivateKeysClick(project.project_id)} />
                                                 </TooltipTrigger>
                                                 <TooltipContent>
                                                     <p>Manage project private keys</p>
@@ -102,7 +102,7 @@ export default function() {
                                             projectId={project.project_id} 
                                             name={project.name} 
                                             trigger={(
-                                                <TrashIcon className='cursor-pointer mt-1' />
+                                                <TrashIcon className='cursor-pointer mt-1 hover:scale-125' />
                                             )} 
                                         />
                                     </TableCell>

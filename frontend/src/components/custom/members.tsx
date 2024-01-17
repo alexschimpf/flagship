@@ -72,7 +72,7 @@ export default function() {
                     </div>
                     <Table>
                         <TableHeader>
-                            <TableRow className='font-bold'>
+                            <TableRow className='font-bold hover:bg-white'>
                                 <TableCell>ID</TableCell>
                                 <TableCell>Email</TableCell>
                                 <TableCell>Name</TableCell>
@@ -96,14 +96,14 @@ export default function() {
                                         <EditMemberDialog 
                                             userId={user.user_id} 
                                             trigger={(
-                                                <Pencil1Icon className='cursor-pointer mt-1 mr-4' />
+                                                <Pencil1Icon className='cursor-pointer mt-1 mr-4 hover:scale-125' />
                                             )} 
                                         />
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger>
                                                     <EnvelopeClosedIcon
-                                                        className='cursor-pointer mr-4'
+                                                        className='cursor-pointer mr-4 hover:scale-125'
                                                         onClick={() => resetPasswordMutation.mutate(user.email)} 
                                                     />
                                                 </TooltipTrigger>
@@ -116,7 +116,7 @@ export default function() {
                                             userId={user.user_id} 
                                             email={user.email} 
                                             trigger={(
-                                                <TrashIcon className='cursor-pointer mt-1' />
+                                                <TrashIcon className='cursor-pointer mt-1 hover:scale-125' />
                                             )} 
                                         />
                                     </TableCell>
