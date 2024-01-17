@@ -29,3 +29,15 @@ export const userStatuses = {
     1: 'Invited',
     2: 'Activated',
 }
+
+export const contextFieldValueTypes = {
+    1: 'String',
+    2: 'Number',
+    3: 'Integer',
+    4: 'Boolean',
+    5: 'Enum',
+    6: 'Version',
+    7: 'String List',
+    8: 'Integer List',
+    9: 'Enum List'
+}
