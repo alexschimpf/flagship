@@ -17,3 +17,15 @@ export const getErrorMessage = (error: Error | string): string => {
     }
     return errorStr;
 }
+
+export const userRoles = {
+    1: 'Read only',
+    2: 'Standard',
+    3: 'Admin',
+    4: 'Owner'
+}
+
+export const userStatuses = {
+    1: 'Invited',
+    2: 'Activated',
+}

@@ -54,7 +54,7 @@ export default function() {
                         )} />
                     </div>
                     <div className='w-full flex justify-center mb-4'>
-                        <SearchBar className='w-1/2'/>
+                        <SearchBar placeholder='Search for projects...' className='w-1/2'/>
                     </div>
                     <Table>
                         <TableHeader>

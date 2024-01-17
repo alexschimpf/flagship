@@ -33,7 +33,7 @@ class ProjectPrivateKeysTable:
             ).where(
                 ProjectPrivateKeyRow.project_id == project_id
             ).order_by(
-                ProjectPrivateKeyRow.created_date.asc()
+                ProjectPrivateKeyRow.project_id
             ).offset(
                 page * page_size
             ).limit(

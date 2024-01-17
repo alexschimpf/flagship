@@ -57,7 +57,7 @@ class UsersTable:
             select(
                 UserRow
             ).order_by(
-                UserRow.email
+                UserRow.user_id
             ).offset(
                 page * page_size
             ).limit(
