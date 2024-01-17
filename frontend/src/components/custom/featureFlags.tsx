@@ -31,10 +31,31 @@ export default function() {
     const onBackClick = () => router.replace('/');
 
     return (
-        <div className='flex w-full justify-center'>
+        <div className='flex flex-col w-full justify-center'>
+             <div className='flex items-center justify-center mt-4 h-10'>
+                <div className='flex-1'>
+                    <Button variant='ghost' className='hover:bg-accent px-2 size-9' onClick={onBackClick}>
+                        <ArrowLeftIcon className='size-8 cursor-pointer' />
+                    </Button>
+                </div>
+                <div className='flex-1'>
+                    <h1 className='text-center text-lg font-bold'>Feature Flags</h1>
+                </div>
+                <div className='flex-1'>
+                    {!query.isFetching && featureFlags.length > 0 &&
+                    <NewProjectDialog 
+                        trigger={(
+                            <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
+                                <PlusCircledIcon className='size-8 cursor-pointer' />
+                            </Button>
+                        )} 
+                    />
+                    }
+                </div>
+            </div>
             {!query.isFetching && !featureFlags.length &&
-                <div className='flex items-center justify-center border-accent h-1/2 w-2/5border-2 p-8 rounded-md bg-accent rounded-b-2xl'>
-                    <div className='flex flex-col items-center'>
+                <div className='flex items-center justify-center w-full'>
+                    <div className='flex flex-col items-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
                         <p className='text-center pb-2'>Oops, you don't have any feature flags for this project yet.</p>
                         <p className='text-center pb-2'>Don't be shy. Add one now.</p>
                         <NewProjectDialog trigger={(
@@ -47,19 +68,6 @@ export default function() {
             }
             {featureFlags.length > 0 &&
                 <div className='p-4 flex flex-col fade-in-0 w-full'>
-                    <div className='flex items-center'>
-                        <Button variant='ghost' className='hover:bg-accent px-2 size-9' onClick={onBackClick}>
-                            <ArrowLeftIcon className='size-8 cursor-pointer' />
-                        </Button>
-                        <div className='flex-1' />
-                        <NewProjectDialog 
-                            trigger={(
-                                <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
-                                    <PlusCircledIcon className='size-8 cursor-pointer' />
-                                </Button>
-                            )} 
-                        />
-                    </div>
                     <div className='w-full flex justify-center mb-4'>
                         <SearchBar placeholder='Search for feature flags...' className='w-1/2'/>
                     </div>

@@ -1,5 +1,4 @@
 import NewProjectDialog from '@/components/custom/newProjectDialog'
-import SearchBar from '@/components/custom/searchBar'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -17,6 +16,7 @@ import { Button } from '../ui/button'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
 import DeleteProjectDialog from './deleteProjectDialog'
 import EditProjectDialog from './editProjectDialog'
+import SearchBar from './searchBar'
 
 export default function() {
     const router = useRouter();
@@ -32,9 +32,26 @@ export default function() {
     const projects = query.data?.items || [];
 
     return (
-        <div className='flex w-full justify-center'>
+        <div className='flex flex-col w-full justify-center'>
+            <div className='flex items-center justify-center h-10 mt-4'>
+                <div className='flex-1' />
+                <div className='flex-1'>
+                    <h1 className='text-center text-lg font-bold'>Projects</h1>
+                </div>
+                <div className='flex-1'>
+                    {!query.isFetching && projects.length > 0 &&
+                    <NewProjectDialog 
+                        trigger={(
+                            <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
+                                <PlusCircledIcon className='size-8 cursor-pointer' />
+                            </Button>
+                        )} 
+                    />
+                    }
+                </div>
+            </div>
             {!query.isFetching && !projects.length &&
-                <div className='flex items-center justify-center border-accent h-1/2 w-2/5border-2 p-8 rounded-md bg-accent rounded-b-2xl'>
+                <div className='flex items-center justify-center border-accent h-1/2 w-2/5border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
                     <div className='flex flex-col items-center'>
                         <p className='text-center pb-2'>Oops, you don't have any projects yet.</p>
                         <p className='text-center pb-2'>Don't be shy. Add one now.</p>
@@ -48,15 +65,8 @@ export default function() {
             }
             {projects.length > 0 &&
                 <div className='p-4 flex flex-col fade-in-0 w-full'>
-                    <div className='flex justify-end'>
-                        <NewProjectDialog trigger={(
-                            <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
-                                <PlusCircledIcon className='size-8 cursor-pointer' />
-                            </Button>
-                        )} />
-                    </div>
                     <div className='w-full flex justify-center mb-4'>
-                        <SearchBar placeholder='Search for projects...' className='w-1/2'/>
+                        <SearchBar placeholder='Search for projects..' className='w-1/2'/>
                     </div>
                     <Table>
                         <TableHeader>

@@ -57,16 +57,26 @@ export default function() {
     const users = query.data?.items || [];
 
     return (
-        <div className='flex w-full justify-center'>
-            {users.length > 0 &&
-                <div className='p-4 flex flex-col fade-in-0 w-full'>
-                    <div className='flex justify-end'>
-                        <InviteMemberDialog trigger={(
+        <div className='flex flex-col w-full justify-center'>
+            <div className='flex items-center justify-center mt-4 h-10'>
+                <div className='flex-1' />
+                <div className='flex-1'>
+                    <h1 className='text-center text-lg font-bold'>Members</h1>
+                </div>
+                <div className='flex-1'>
+                    {!query.isFetching && users.length > 0 &&
+                    <InviteMemberDialog 
+                        trigger={(
                             <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
                                 <PlusCircledIcon className='size-8 cursor-pointer' />
                             </Button>
-                        )} />
-                    </div>
+                        )} 
+                    />
+                    }
+                </div>
+            </div>
+            {users.length > 0 &&
+                <div className='p-4 flex flex-col fade-in-0 w-full'>
                     <div className='w-full flex justify-center mb-4'>
                         <SearchBar placeholder='Search for members...' className='w-1/2'/>
                     </div>

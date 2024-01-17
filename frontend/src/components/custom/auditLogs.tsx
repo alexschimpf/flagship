@@ -16,6 +16,7 @@ export default function() {
 
     return (
         <div className='flex flex-col w-full justify-center'>
+            <h1 className='text-center text-lg font-bold mt-5 pt-0.5'>Audit Logs</h1>
             {auditLogs.length > 0 &&
                 <div className='p-4 flex flex-col fade-in-0 w-full'>
                     <Table>
