@@ -51,8 +51,8 @@ export default function() {
                 </div>
             </div>
             {!query.isFetching && !projects.length &&
-                <div className='flex items-center justify-center border-accent h-1/2 w-2/5border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
-                    <div className='flex flex-col items-center'>
+                <div className='flex items-center justify-center w-full'>
+                    <div className='flex flex-col items-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
                         <p className='text-center pb-2'>Oops, you don't have any projects yet.</p>
                         <p className='text-center pb-2'>Don't be shy. Add one now.</p>
                         <NewProjectDialog trigger={(
