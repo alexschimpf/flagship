@@ -43,6 +43,10 @@ run-docker-compose-deps:
 	docker-compose -f docker-compose-deps.yml up
 
 # get lines of python code
-py-size:
+be-size:
 	git ls-files | grep '\.py' | xargs wc -l
+
+# get lines of ui code
+fe-size:
+	git ls-files | grep -e 'frontend/src/app' -e 'frontend/src/components/custom' -e 'frontend/src/stores' -e 'frontend/src/utils' | xargs wc -l
 

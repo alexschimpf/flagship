@@ -29,7 +29,8 @@ export default function() {
     const contextFields = query.data?.items || [];
 
     const onBackClick = () => router.replace('/');
-    const onEditClick = (contextFieldId: number) => router.replace(`/project/${projectId}/context-field/${contextFieldId}`)
+    const onNewClick = () => router.replace(`/project/${projectId}/context-fields/new`);
+    const onEditClick = (contextFieldId: number) => router.replace(`/project/${projectId}/context-field/${contextFieldId}`);
     const onAuditLogsClick = (contextFieldId: number) => router.replace(`/project/${projectId}/context-field/${contextFieldId}/audit-logs`);
 
     return (
@@ -45,13 +46,13 @@ export default function() {
                 </div>
                 <div className='flex-1'>
                     {!query.isFetching && contextFields.length > 0 &&
-                    <NewProjectDialog 
-                        trigger={(
-                            <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
-                                <PlusCircledIcon className='size-8 cursor-pointer' />
-                            </Button>
-                        )} 
-                    />
+                        <Button
+                            variant='ghost'
+                            className='hover:bg-accent px-2 size-9'
+                            onClick={onNewClick}
+                        >
+                            <PlusCircledIcon className='size-8 cursor-pointer' />
+                        </Button>
                     }
                 </div>
             </div>

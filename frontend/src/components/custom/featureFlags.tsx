@@ -30,6 +30,7 @@ export default function() {
     const featureFlags = query.data?.items || [];
 
     const onBackClick = () => router.replace('/');
+    const onNewClick = () => router.replace(`/project/${projectId}/feature-flags/new`);
     const onEditClick = (featureFlagId: number) => router.replace(`/project/${projectId}/feature-flag/${featureFlagId}`);
     const onAuditLogsClick = (featureFlagId: number) => router.replace(`/project/${projectId}/feature-flag/${featureFlagId}/audit-logs`);
 
@@ -46,13 +47,13 @@ export default function() {
                 </div>
                 <div className='flex-1'>
                     {!query.isFetching && featureFlags.length > 0 &&
-                    <NewProjectDialog 
-                        trigger={(
-                            <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
-                                <PlusCircledIcon className='size-8 cursor-pointer' />
-                            </Button>
-                        )} 
-                    />
+                        <Button 
+                            variant='ghost'
+                            className='hover:bg-accent px-2 size-9'
+                            onClick={onNewClick}
+                        >
+                            <PlusCircledIcon className='size-8 cursor-pointer' />
+                        </Button>
                     }
                 </div>
             </div>
