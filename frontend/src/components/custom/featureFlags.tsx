@@ -15,6 +15,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { Switch } from '../ui/switch'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
+import DeleteFeatureFlagDialog from './deleteFeatureFlagDialog'
 
 export default function() {
     const params = useParams<{ projectId: string }>();
@@ -29,6 +30,8 @@ export default function() {
     const featureFlags = query.data?.items || [];
 
     const onBackClick = () => router.replace('/');
+    const onEditClick = (featureFlagId: number) => router.replace(`/project/${projectId}/feature-flag/${featureFlagId}`);
+    const onAuditLogsClick = (featureFlagId: number) => router.replace(`/project/${projectId}/feature-flag/${featureFlagId}/audit-logs`);
 
     return (
         <div className='flex flex-col w-full justify-center'>
@@ -71,7 +74,7 @@ export default function() {
                     <div className='w-full flex justify-center mb-4'>
                         <SearchBar placeholder='Search for feature flags...' className='w-1/2'/>
                     </div>
-                    <Table>
+                    <Table className='w-full'>
                         <TableHeader>
                             <TableRow className='font-bold hover:bg-white'>
                                 <TableCell>ID</TableCell>
@@ -105,8 +108,25 @@ export default function() {
                                             <DropdownMenuContent>
                                                 <DropdownMenuItem 
                                                     className='hover:cursor-pointer'
+                                                    onClick={() => onEditClick(featureFlag.feature_flag_id)}
                                                 >
                                                     Edit feature flag
+                                                </DropdownMenuItem>
+                                                <DeleteFeatureFlagDialog 
+                                                    projectId={projectId}
+                                                    featureFlagId={featureFlag.feature_flag_id}
+                                                    name={featureFlag.name}
+                                                    trigger={(
+                                                        <DropdownMenuItem className='hover:cursor-pointer' onSelect={(e) => e.preventDefault()}>
+                                                            Delete feature flag
+                                                        </DropdownMenuItem>
+                                                    )} 
+                                                />
+                                                <DropdownMenuItem 
+                                                    className='hover:cursor-pointer'
+                                                    onClick={() => onAuditLogsClick(featureFlag.feature_flag_id)}
+                                                >
+                                                    View audit logs
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>

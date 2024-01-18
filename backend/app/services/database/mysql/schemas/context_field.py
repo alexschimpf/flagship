@@ -66,7 +66,7 @@ class ContextFieldsTable:
             ).where(
                 ContextFieldRow.project_id == project_id
             ).order_by(
-                ContextFieldRow.name
+                ContextFieldRow.context_field_id
             )
 
         if page is not None and page_size is not None:

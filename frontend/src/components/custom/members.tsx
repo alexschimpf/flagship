@@ -7,9 +7,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { apiClient, getErrorMessage, userRoles, userStatuses } from '@/utils/api'
 import { getLocalTimeString } from '@/utils/time'
-import { CheckCircledIcon, DotsHorizontalIcon, ExclamationTriangleIcon, PlusCircledIcon } from '@radix-ui/react-icons'
+import { ArrowLeftIcon, CheckCircledIcon, DotsHorizontalIcon, ExclamationTriangleIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
 import { toast } from '../ui/use-toast'
@@ -18,6 +19,7 @@ import EditMemberDialog from './editMemberDialog'
 import InviteMemberDialog from './inviteMemberDialog'
 
 export default function() {
+    const router = useRouter();
     const queryClient = useQueryClient(); 
     const query = useQuery({
         queryKey: ['users'], 
@@ -56,23 +58,29 @@ export default function() {
 
     const users = query.data?.items || [];
 
+    const onBackClick = () => router.replace('/');
+
     return (
         <div className='flex flex-col w-full justify-center'>
             <div className='flex items-center justify-center mt-4 h-10'>
-                <div className='flex-1' />
+                <div className='flex-1'>
+                    <Button variant='ghost' className='hover:bg-accent px-2 size-9' onClick={onBackClick}>
+                        <ArrowLeftIcon className='size-8 cursor-pointer' />
+                    </Button>
+                </div>
                 <div className='flex-1'>
                     <h1 className='text-center text-lg font-bold'>Members</h1>
                 </div>
                 <div className='flex-1'>
                     {!query.isFetching && users.length > 0 &&
-                    <InviteMemberDialog 
-                        trigger={(
-                            <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
-                                <PlusCircledIcon className='size-8 cursor-pointer' />
-                            </Button>
-                        )} 
-                    />
-                    }
+                        <InviteMemberDialog 
+                            trigger={(
+                                <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
+                                    <PlusCircledIcon className='size-8 cursor-pointer' />
+                                </Button>
+                            )} 
+                        />
+                }
                 </div>
             </div>
             {users.length > 0 &&
@@ -118,7 +126,7 @@ export default function() {
                                                         <DropdownMenuItem className='hover:cursor-pointer' onSelect={(e) => e.preventDefault()}>
                                                             Edit member
                                                         </DropdownMenuItem>
-                                                    )} 
+                                                    )}
                                                 />
                                                 <DeleteMemberDialog 
                                                     userId={user.user_id} 

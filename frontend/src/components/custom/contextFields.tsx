@@ -14,6 +14,7 @@ import { Loader2 } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
+import DeleteContextFieldDialog from './deleteContextFieldDialog'
 
 export default function() {
     const params = useParams<{ projectId: string }>();
@@ -28,6 +29,8 @@ export default function() {
     const contextFields = query.data?.items || [];
 
     const onBackClick = () => router.replace('/');
+    const onEditClick = (contextFieldId: number) => router.replace(`/project/${projectId}/context-field/${contextFieldId}`)
+    const onAuditLogsClick = (contextFieldId: number) => router.replace(`/project/${projectId}/context-field/${contextFieldId}/audit-logs`);
 
     return (
         <div className='flex flex-col w-full justify-center'>
@@ -104,8 +107,25 @@ export default function() {
                                             <DropdownMenuContent>
                                                 <DropdownMenuItem 
                                                     className='hover:cursor-pointer'
+                                                    onClick={() => onEditClick(contextField.context_field_id)}
                                                 >
                                                     Edit context field
+                                                </DropdownMenuItem>
+                                                <DeleteContextFieldDialog 
+                                                    projectId={projectId}
+                                                    contextFieldId={contextField.context_field_id}
+                                                    name={contextField.name}
+                                                    trigger={(
+                                                        <DropdownMenuItem className='hover:cursor-pointer' onSelect={(e) => e.preventDefault()}>
+                                                            Delete context field
+                                                        </DropdownMenuItem>
+                                                    )} 
+                                                />
+                                                <DropdownMenuItem 
+                                                    className='hover:cursor-pointer'
+                                                    onClick={() => onAuditLogsClick(contextField.context_field_id)}
+                                                >
+                                                    View audit logs
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>

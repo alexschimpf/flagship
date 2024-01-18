@@ -52,7 +52,7 @@ class FeatureFlagsTable:
             ).where(
                 FeatureFlagRow.project_id == project_id
             ).order_by(
-                FeatureFlagRow.name
+                FeatureFlagRow.feature_flag_id
             )
 
         if page is not None and page_size is not None:
