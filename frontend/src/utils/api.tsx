@@ -9,7 +9,7 @@ export const queryClient = new QueryClient()
 export const getErrorMessage = (error: Error | string): string => {
     let errorStr: string;
     if (error instanceof ApiError) {
-        errorStr = error.body.errors.map((e: any) => e.message).join('\n')
+        errorStr = error.body.errors.map((e: any) => e.message).join('<br><br>')
     } else if (typeof error === 'string') {
         errorStr = error;
     } else {

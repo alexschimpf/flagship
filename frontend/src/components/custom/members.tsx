@@ -9,6 +9,7 @@ import { apiClient, getErrorMessage, userRoles, userStatuses } from '@/utils/api
 import { getLocalTimeString } from '@/utils/time'
 import { ArrowLeftIcon, CheckCircledIcon, DotsHorizontalIcon, ExclamationTriangleIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import parseHTML from 'html-react-parser'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
@@ -38,7 +39,7 @@ export default function() {
                         <p className='text-white ml-2 font-bold'>Uh oh...</p>
                     </div>
                 ),
-                description: getErrorMessage(error),
+                description: <p>{parseHTML(getErrorMessage(error))}</p>,
             })
         },
         onSuccess: () => {

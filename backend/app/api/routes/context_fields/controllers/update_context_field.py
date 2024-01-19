@@ -45,6 +45,7 @@ class UpdateContextFieldController:
             ):
                 errors.append(NameTakenException(field='name'))
 
+        # TODO: Make sure non-enum value types can't have enum defs
         try:
             common.validate_enum_def(enum_def=self.request.enum_def)
         except AppException as e:

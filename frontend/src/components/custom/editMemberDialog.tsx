@@ -21,6 +21,7 @@ import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons
 import {
     useMutation, useQuery, useQueryClient
 } from '@tanstack/react-query';
+import parseHTML from 'html-react-parser';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -84,7 +85,7 @@ export default function(props: EditMemberDialogProps) {
                         <p className='text-white ml-2 font-bold'>Uh oh...</p>
                     </div>
                 ),
-                description: getErrorMessage(error),
+                description: <p>{parseHTML(getErrorMessage(error))}</p>,
             })
         },
         onSuccess: () => {
@@ -121,7 +122,7 @@ export default function(props: EditMemberDialogProps) {
             </DialogTrigger>
             <DialogContent className='sm:max-w-[425px]' onCloseAutoFocus={(e) => { e.preventDefault() }}>
                 <DialogHeader>
-                    <DialogTitle>Update Member</DialogTitle>
+                    <DialogTitle>Edit Member</DialogTitle>
                 </DialogHeader>
                 <div className='w-full'>
                     <Form {...form}>

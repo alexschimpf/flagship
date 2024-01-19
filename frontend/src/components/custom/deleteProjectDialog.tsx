@@ -14,6 +14,7 @@ import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons
 import {
     useMutation, useQueryClient
 } from '@tanstack/react-query';
+import parseHTML from 'html-react-parser';
  
 
 class DeleteProjectDialogProps {
@@ -39,7 +40,7 @@ export default function(props: DeleteProjectDialogProps) {
                         <p className='text-white ml-2 font-bold'>Uh oh...</p>
                     </div>
                 ),
-                description: getErrorMessage(error),
+                description: <p>{parseHTML(getErrorMessage(error))}</p>,
             })
         },
         onSuccess: () => {

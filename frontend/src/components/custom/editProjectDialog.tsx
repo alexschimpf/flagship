@@ -23,10 +23,10 @@ import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons
 import {
     useMutation, useQueryClient
 } from '@tanstack/react-query';
+import parseHTML from 'html-react-parser';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
- 
 
 const formSchema = z.object({
     name: z.string()
@@ -37,7 +37,6 @@ class EditProjectDialogProps {
     initialName!: string
     trigger: any
 }
-
   
 export default function(props: EditProjectDialogProps) {
     const { toast } = useToast();
@@ -66,7 +65,7 @@ export default function(props: EditProjectDialogProps) {
                         <p className='text-white ml-2 font-bold'>Uh oh...</p>
                     </div>
                 ),
-                description: getErrorMessage(error),
+                description: <p>{parseHTML(getErrorMessage(error))}</p>,
             })
         },
         onSuccess: () => {

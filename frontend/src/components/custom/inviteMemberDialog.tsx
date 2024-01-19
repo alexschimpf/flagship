@@ -27,6 +27,7 @@ import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons
 import {
     useMutation, useQuery, useQueryClient
 } from '@tanstack/react-query';
+import parseHTML from 'html-react-parser';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -45,7 +46,6 @@ class InviteMemberDialogProps {
     trigger: any
 }
 
-  
 export default function(props: InviteMemberDialogProps) {
     const { toast } = useToast();
 
@@ -69,12 +69,7 @@ export default function(props: InviteMemberDialogProps) {
 
     const mutation = useMutation({
         mutationFn: (user: InviteUser) => {
-            return apiClient.users.inviteUser({
-                email: user.email,
-                name: user.name,
-                role: user.role,
-                projects: user.projects
-            });
+            return apiClient.users.inviteUser(user);
         },
         onError: (error) => {
             toast({
@@ -85,7 +80,7 @@ export default function(props: InviteMemberDialogProps) {
                         <p className='text-white ml-2 font-bold'>Uh oh...</p>
                     </div>
                 ),
-                description: getErrorMessage(error),
+                description: <p>{parseHTML(getErrorMessage(error))}</p>,
             })
         },
         onSuccess: () => {

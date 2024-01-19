@@ -30,6 +30,7 @@ import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons
 import {
     useMutation, useQueryClient
 } from '@tanstack/react-query';
+import parseHTML from 'html-react-parser';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
  
@@ -65,7 +66,7 @@ export default function(props: NewProjectDialogProps) {
                         <p className='text-white ml-2 font-bold'>Uh oh...</p>
                     </div>
                 ),
-                description: getErrorMessage(error),
+                description: <p>{parseHTML(getErrorMessage(error))}</p>,
             })
         },
         onSuccess: () => {
