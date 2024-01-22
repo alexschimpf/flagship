@@ -1,5 +1,5 @@
 import { CreateOrUpdateFeatureFlag } from "@/api";
-import { apiClient, contextFieldValueTypeOperators, getErrorMessage } from "@/utils/api";
+import { apiClient, getErrorMessage } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -24,6 +24,7 @@ const formSchema = z.object({
     enabled: z.boolean()
 });
 
+// TODO: Show spinner while context fields are loading
 export default function() {
     const params = useParams<{ projectId: string }>();
     const router = useRouter();
@@ -32,34 +33,19 @@ export default function() {
     const projectId = parseInt(params.projectId);
     const contextFieldsQuery = useQuery({
         queryKey: [`/projects/${projectId}/context-fields`], 
-        queryFn: () => {
-            const promise = apiClient.contextFields.getContextFields(projectId)
-            promise.then((data) => {
-                // Add a default condition to start
-                const contextFields = data?.items || [];
-                setConditions([{
-                    id: Math.random(),
-                    conditions: [{
-                        id: Math.random(),
-                        context_key: contextFields[0].field_key,
-                        operator: contextFieldValueTypeOperators[contextFields[0].value_type][0],
-                        value: ''
-                    }]
-                }]);
-            })
-            return promise;
-        }
+        queryFn: () =>  apiClient.contextFields.getContextFields(projectId)
 
     });
     const contextFields = contextFieldsQuery?.data?.items || [];
-    const [conditions, setConditions] = useState<ConditionGroup[] | null>(null);
+    const [conditions, setConditions] = useState<ConditionGroup[]>([]);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: '',
             description: '',
             enabled: false
-        }
+        },
+        shouldFocusError: false  // TODO: FInd better solution
     });
 
     const mutation = useMutation({
@@ -112,7 +98,7 @@ export default function() {
             name: values.name,
             description: values.description,
             enabled: values.enabled,
-            conditions: getProperConditions(conditions || [])
+            conditions: getProperConditions(conditions)
         });
     }
     const onBackClick = () => router.replace(`/project/${projectId}/feature-flags`);
@@ -176,7 +162,7 @@ export default function() {
                                 </FormItem>
                             )}
                         />
-                        {contextFields?.length > 0 && conditions !== null &&
+                        {contextFields?.length > 0 &&
                             <div className='w-full'>
                                 <FeatureFlagConditions contextFields={contextFields} conditions={conditions} onChange={onConditionsChange} />
                             </div>
