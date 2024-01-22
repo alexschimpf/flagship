@@ -2,7 +2,7 @@ import { CreateOrUpdateFeatureFlag } from "@/api";
 import { apiClient, getErrorMessage } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import parseHTML from 'html-react-parser';
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -27,7 +27,11 @@ export default function() {
     const router = useRouter();
     const queryClient = useQueryClient();
     const { toast } = useToast();
-
+    const projectId = parseInt(params.projectId);
+    const contextFieldsQuery = useQuery({
+        queryKey: [`/projects/${projectId}/context-fields`], 
+        queryFn: () => apiClient.contextFields.getContextFields(projectId)
+    });
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -38,7 +42,6 @@ export default function() {
         }
     });
 
-    const projectId = parseInt(params.projectId);
 
     const mutation = useMutation({
         mutationFn: (featureFlag: CreateOrUpdateFeatureFlag) => {
@@ -79,6 +82,8 @@ export default function() {
         conditions: values.conditions
     });
     const onBackClick = () => router.replace(`/project/${projectId}/feature-flags`);
+
+    const contextFields = contextFieldsQuery?.data?.items || [];
 
     return (
         <div className='flex flex-col w-full justify-center'>
