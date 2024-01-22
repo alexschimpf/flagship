@@ -5,54 +5,77 @@ import { useState } from "react"
 import { Button } from "../ui/button"
 import FeatureFlagCondition, { Condition } from "./featureFlagCondition"
 
-interface FeatureFlagConditionGroupProps {
+export interface ConditionGroup {
     id: number
+    conditions: Condition[]
+}
+
+interface FeatureFlagConditionGroupProps {
     contextFields: ContextField[]
-    group: Condition[]
-    onChange: (id: number, group: Condition[]) => void
+    group: ConditionGroup
+    onChange: (group: ConditionGroup) => void
 }
 
 export default (props: FeatureFlagConditionGroupProps) => {
+    const [group, setGroup] = useState(props.group);
+    
+    const id = props.group.id;
+
     const getDefaultCondition = (): Condition => {
         return {
+            id: Math.random(),
             context_key: props.contextFields[0].field_key,
             operator: contextFieldValueTypeOperators[props.contextFields[0].value_type][0],
             value: ''
         }
     }
 
-    const [group, setGroup] = useState(props.group);
-
-    const onConditionChange = (id: number, condition: Condition) => {
-        const newGroup = group.slice(0, id).concat([condition]).concat(group.slice(id+1));
+    const onConditionChange = (condition: Condition) => {
+        const newConditions = group.conditions.map((c) => {
+            if (c.id === condition.id) {
+                return condition;
+            }
+            return c;
+        })
+        const newGroup = {
+            id: id,
+            conditions: newConditions
+        };
         setGroup(newGroup);
-        props.onChange(props.id, newGroup);
+        props.onChange(newGroup);
     };
     const onAdd = () => {
-        const newGroup = group.concat([getDefaultCondition()]);
+        const newConditions = group.conditions.concat([getDefaultCondition()]);
+        const newGroup = {
+            id: id,
+            conditions: newConditions
+        };
         setGroup(newGroup);
-        props.onChange(props.id, newGroup);
+        props.onChange(newGroup);
     };
-    const onRemove = (id: number) => {
-        const newGroup = group.slice(0, id).concat(group.slice(id+1));
+    const onRemove = (conditionId: number) => {
+        const newConditions = group.conditions.filter((c) => c.id !== conditionId)
+        const newGroup = {
+            id: id,
+            conditions: newConditions
+        };
         setGroup(newGroup);
-        props.onChange(props.id, newGroup);
+        props.onChange(newGroup);
     }
 
     return (
         <div className='flex flex-col w-full'>
-            {group.map((condition, i) => (
-                <div key={i} className='flex'>
+            {group.conditions.map((condition, i) => (
+                <div key={condition.id} className='flex'>
                     <FeatureFlagCondition
-                        id={i}
                         contextFields={props.contextFields}
                         onChange={onConditionChange}
                         condition={condition}
                     />
                     {
-                        i < group.length - 1 ? <p>And</p> : null
+                        i < group.conditions.length - 1 ? <p>And</p> : null
                     }
-                    <Button variant='ghost' className='p-4 w-12' onClick={() => onRemove(i)}>
+                    <Button variant='ghost' className='p-4 w-12' onClick={() => onRemove(condition.id)}>
                         <Cross1Icon />
                     </Button>
                 </div>

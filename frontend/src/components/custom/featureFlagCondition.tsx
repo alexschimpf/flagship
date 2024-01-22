@@ -7,22 +7,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import Pill from "./pill";
 
 export interface Condition {
+    id: number;
     context_key: string;
     operator: number;
     value: any;
 } 
 
 interface FeatureFlagConditionProps {
-    id: number
     contextFields: ContextField[]
     condition: Condition,
-    onChange: (id: number, condition: Condition) => void
+    onChange: (condition: Condition) => void
 }
 
 export default (props: FeatureFlagConditionProps) => {
     const getContextFieldFromKey = (key: string): ContextField => {
         return props.contextFields.find((x) => x.field_key === key) as ContextField;
     }
+
+    const id = props.condition.id;
 
     const [contextField, setContextField] = useState(getContextFieldFromKey(props.condition.context_key));
     const [operator, setOperator] = useState(props.condition.operator);
@@ -39,13 +41,19 @@ export default (props: FeatureFlagConditionProps) => {
         setValue('');
         setStagedValue('');
 
-        props.onChange(props.id, {
+        props.onChange({
+            id: id,
             context_key: contextKey,
             operator: newOperator,
             value: ''
         });
     }
     const onOperatorChange = (operator_: string) => {
+        // Idk why this is needed...
+        if (!operator_) {
+            return;
+        }
+
         const newOperator = parseInt(operator_);
         setOperator(newOperator);
 
@@ -53,7 +61,8 @@ export default (props: FeatureFlagConditionProps) => {
         setValue('');
         setStagedValue('');
 
-        props.onChange(props.id, {
+        props.onChange({
+            id: id,
             context_key: contextField.field_key,
             operator: newOperator,
             value: ''
@@ -89,7 +98,8 @@ export default (props: FeatureFlagConditionProps) => {
         setStagedValue('');
         setValue(valueList);
 
-        props.onChange(props.id, {
+        props.onChange({
+            id: id,
             context_key: contextField.field_key,
             operator: operator,
             value: valueList
@@ -99,7 +109,8 @@ export default (props: FeatureFlagConditionProps) => {
         const valueList = value.filter((x: string | number) => x !== v);
         setValue(valueList);
 
-        props.onChange(props.id, {
+        props.onChange({
+            id: id,
             context_key: contextField.field_key,
             operator: operator,
             value: valueList.length ? valueList : ''
@@ -108,7 +119,8 @@ export default (props: FeatureFlagConditionProps) => {
 
     const onBooleanValueChange = (v: string) => {
         setValue(v);
-        props.onChange(props.id, {
+        props.onChange({
+            id: id,
             context_key: contextField.field_key,
             operator: operator,
             value: v === '1'
@@ -116,7 +128,8 @@ export default (props: FeatureFlagConditionProps) => {
     }
     const onStringValueChange = (v: string) => {
         setValue(v);
-        props.onChange(props.id, {
+        props.onChange({
+            id: id,
             context_key: contextField.field_key,
             operator: operator,
             value: v
@@ -125,7 +138,8 @@ export default (props: FeatureFlagConditionProps) => {
     const onNumberValueChange = (v: string) => {
         // TODO: Show error if value is not a number
         setValue(v);
-        props.onChange(props.id, {
+        props.onChange({
+            id: id,
             context_key: contextField.field_key,
             operator: operator,
             value: parseFloat(v)
@@ -134,7 +148,8 @@ export default (props: FeatureFlagConditionProps) => {
     const onIntegerValueChange = (v: string) => {
         // TODO: Show error if value is not an integer
         setValue(v);
-        props.onChange(props.id, {
+        props.onChange({
+            id: id,
             context_key: contextField.field_key,
             operator: operator,
             value: parseInt(v)
@@ -150,7 +165,8 @@ export default (props: FeatureFlagConditionProps) => {
         if (typeof Object.values(enumDef)[0] === 'number') {
             castValue = parseInt(v);
         }
-        props.onChange(props.id, {
+        props.onChange({
+            id: id,
             context_key: contextField.field_key,
             operator: operator,
             value: castValue
@@ -244,7 +260,7 @@ export default (props: FeatureFlagConditionProps) => {
             }
         } else if (contextField.value_type === 4) {  // boolean
             return (
-                <Select value={value ? '1' : '0'} onValueChange={onBooleanValueChange}>
+                <Select value={!value ? undefined : value ? '1' : '0'} onValueChange={onBooleanValueChange}>
                     <SelectTrigger>
                         <SelectValue placeholder='Select a value' />
                     </SelectTrigger>

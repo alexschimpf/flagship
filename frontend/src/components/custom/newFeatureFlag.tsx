@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { Switch } from '../ui/switch';
 import { useToast } from "../ui/use-toast";
-import { Condition } from "./featureFlagCondition";
+import { ConditionGroup } from "./featureFlagConditionGroup";
 import FeatureFlagConditions from "./featureFlagConditions";
 
 
@@ -35,19 +35,24 @@ export default function() {
         queryFn: () => {
             const promise = apiClient.contextFields.getContextFields(projectId)
             promise.then((data) => {
+                // Add a default condition to start
                 const contextFields = data?.items || [];
-                setConditions([[{
-                    context_key: contextFields[0].field_key,
-                    operator: contextFieldValueTypeOperators[contextFields[0].value_type][0],
-                    value: ''
-                }]]);
+                setConditions([{
+                    id: Math.random(),
+                    conditions: [{
+                        id: Math.random(),
+                        context_key: contextFields[0].field_key,
+                        operator: contextFieldValueTypeOperators[contextFields[0].value_type][0],
+                        value: ''
+                    }]
+                }]);
             })
             return promise;
         }
 
     });
     const contextFields = contextFieldsQuery?.data?.items || [];
-    const [conditions, setConditions] = useState<Condition[][]>([]);
+    const [conditions, setConditions] = useState<ConditionGroup[] | null>(null);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -85,19 +90,34 @@ export default function() {
                 ),
                 description: 'Feature flag was successfully created.',
             })
-            router.replace(`/project/${projectId}/feature-flagss`);
+            router.replace(`/project/${projectId}/feature-flags`);
         }
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => mutation.mutate({
-        name: values.name,
-        description: values.description,
-        enabled: values.enabled,
-        conditions: conditions
-    });
+    const getProperConditions = (c: ConditionGroup[]) => {
+        // Basically just stripping out ids
+        const properConditions: any[] = [];
+        for (const group of c) {
+            properConditions.push(group.conditions.map((condition) => ({
+                context_key: condition.context_key,
+                operator: condition.operator,
+                value: condition.value
+            })));
+        }
+        return properConditions;
+    }
+
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
+        mutation.mutate({
+            name: values.name,
+            description: values.description,
+            enabled: values.enabled,
+            conditions: getProperConditions(conditions || [])
+        });
+    }
     const onBackClick = () => router.replace(`/project/${projectId}/feature-flags`);
-    const onConditionsChange = (c: Condition[][]) => {
-        console.log(JSON.stringify(c));
+    const onConditionsChange = (c: ConditionGroup[]) => {
+        console.log(JSON.stringify(getProperConditions(c)));
         setConditions(c);
     }
 
@@ -156,7 +176,7 @@ export default function() {
                                 </FormItem>
                             )}
                         />
-                        {contextFields?.length > 0 &&
+                        {contextFields?.length > 0 && conditions !== null &&
                             <div className='w-full'>
                                 <FeatureFlagConditions contextFields={contextFields} conditions={conditions} onChange={onConditionsChange} />
                             </div>
