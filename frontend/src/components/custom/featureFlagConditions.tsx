@@ -47,7 +47,7 @@ export default (props: FeatureFlagConditionsProps) => {
     return (
         <div className='flex flex-col w-full'>
             {conditions.map((group, i) => (
-                <div key={crypto.randomUUID()} className='flex flex-col'>
+                <div key={i} className='flex flex-col'>
                     <div className='flex justify-end'>
                         <Button variant='ghost' className='p-4 w-12' onClick={() => onRemove(i)}>
                             <Cross1Icon />

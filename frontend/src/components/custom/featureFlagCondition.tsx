@@ -60,7 +60,7 @@ export default (props: FeatureFlagConditionProps) => {
         });
     }
     const onStagedValueAdd = () => {
-        let valueList: any[] = value?.length ? value.splice(0) : [];
+        let valueList: any[] = value?.length ? value.slice(0) : [];
 
         let castStagedValue: any = stagedValue;
         if (contextField.value_type === 2) {  // number
@@ -244,7 +244,7 @@ export default (props: FeatureFlagConditionProps) => {
             }
         } else if (contextField.value_type === 4) {  // boolean
             return (
-                <Select value={value} onValueChange={onBooleanValueChange}>
+                <Select value={value ? '1' : '0'} onValueChange={onBooleanValueChange}>
                     <SelectTrigger>
                         <SelectValue placeholder='Select a value' />
                     </SelectTrigger>
@@ -276,7 +276,7 @@ export default (props: FeatureFlagConditionProps) => {
                 )
             } else {
                 return (
-                    <Select value={value} onValueChange={onEnumValueChange}>
+                    <Select value={value.toString()} onValueChange={onEnumValueChange}>
                         <SelectTrigger>
                             <SelectValue placeholder='Select a value' />
                         </SelectTrigger>
@@ -364,7 +364,7 @@ export default (props: FeatureFlagConditionProps) => {
     }
 
     return (
-        <div className='w-1/2 flex justify-center items-center'>
+        <div className='w-full flex justify-center items-center'>
             <div className='mr-4 flex-1'>
                 {contextKeySelect}
             </div>

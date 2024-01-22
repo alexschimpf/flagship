@@ -1,10 +1,11 @@
 import { CreateOrUpdateFeatureFlag } from "@/api";
-import { apiClient, getErrorMessage } from "@/utils/api";
+import { apiClient, contextFieldValueTypeOperators, getErrorMessage } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import parseHTML from 'html-react-parser';
 import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -12,14 +13,15 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { Switch } from '../ui/switch';
 import { useToast } from "../ui/use-toast";
+import { Condition } from "./featureFlagCondition";
+import FeatureFlagConditions from "./featureFlagConditions";
 
 
 
 const formSchema = z.object({
     name: z.string().min(1).max(128),
     description: z.string().max(256),
-    enabled: z.boolean(),
-    conditions: z.any()
+    enabled: z.boolean()
 });
 
 export default function() {
@@ -30,18 +32,30 @@ export default function() {
     const projectId = parseInt(params.projectId);
     const contextFieldsQuery = useQuery({
         queryKey: [`/projects/${projectId}/context-fields`], 
-        queryFn: () => apiClient.contextFields.getContextFields(projectId)
+        queryFn: () => {
+            const promise = apiClient.contextFields.getContextFields(projectId)
+            promise.then((data) => {
+                const contextFields = data?.items || [];
+                setConditions([[{
+                    context_key: contextFields[0].field_key,
+                    operator: contextFieldValueTypeOperators[contextFields[0].value_type][0],
+                    value: ''
+                }]]);
+            })
+            return promise;
+        }
+
     });
+    const contextFields = contextFieldsQuery?.data?.items || [];
+    const [conditions, setConditions] = useState<Condition[][]>([]);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: '',
             description: '',
-            enabled: false,
-            conditions: []
+            enabled: false
         }
     });
-
 
     const mutation = useMutation({
         mutationFn: (featureFlag: CreateOrUpdateFeatureFlag) => {
@@ -79,11 +93,13 @@ export default function() {
         name: values.name,
         description: values.description,
         enabled: values.enabled,
-        conditions: values.conditions
+        conditions: conditions
     });
     const onBackClick = () => router.replace(`/project/${projectId}/feature-flags`);
-
-    const contextFields = contextFieldsQuery?.data?.items || [];
+    const onConditionsChange = (c: Condition[][]) => {
+        console.log(JSON.stringify(c));
+        setConditions(c);
+    }
 
     return (
         <div className='flex flex-col w-full justify-center'>
@@ -140,6 +156,11 @@ export default function() {
                                 </FormItem>
                             )}
                         />
+                        {contextFields?.length > 0 &&
+                            <div className='w-full'>
+                                <FeatureFlagConditions contextFields={contextFields} conditions={conditions} onChange={onConditionsChange} />
+                            </div>
+                        }
                         <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Create</Button>
                     </form>
                 </Form>
