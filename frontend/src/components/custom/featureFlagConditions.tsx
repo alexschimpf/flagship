@@ -55,27 +55,35 @@ export default (props: FeatureFlagConditionsProps) => {
     };
 
     return (
-        <div className='flex flex-col w-full'>
+        <div className='flex flex-col w-full outline-accent border rounded-md p-2'>
             {conditions.map((group, i) => (
                 <div key={group.id} className='flex flex-col'>
-                    <div className='flex justify-end'>
-                        <Button variant='ghost' className='p-4 w-12' onClick={() => onRemove(group.id)}>
-                            <Cross1Icon />
-                        </Button>
+                    <div className='outline-accent border-2 rounded-md p-4 bg-accent'>
+                        <div className='flex justify-end'>
+                            <Button variant='ghost' className='h-auto p-2 translate-x-3 -translate-y-3' onClick={() => onRemove(group.id)}>
+                                <Cross1Icon className='size-3' />
+                            </Button>
+                        </div>
+                        <div>
+                            <FeatureFlagConditionGroup
+                                contextFields={props.contextFields}
+                                onChange={onGroupChange}
+                                group={group}
+                            />
+                        </div>
                     </div>
-                    <FeatureFlagConditionGroup
-                        contextFields={props.contextFields}
-                        onChange={onGroupChange}
-                        group={group}
-                    />
-                    {
-                        i < conditions.length - 1 ? <p>Or</p> : null
+                    {i < conditions.length - 1 ? 
+                        <div className='flex justify-center'>
+                            <p className='font-bold m-2'>OR</p>
+                        </div> : null
                     }
                 </div>
             ))}
-            <Button variant='ghost' className='p-4 w-12' onClick={onAdd}>
-                <PlusCircledIcon />
-            </Button>
+            <div className='flex justify-center'>
+                <Button variant='ghost' className='p-3 mt-1' onClick={onAdd}>
+                    <PlusCircledIcon className='size-5' />
+                </Button>
+            </div>
         </div>
     )
 }

@@ -66,23 +66,30 @@ export default (props: FeatureFlagConditionGroupProps) => {
     return (
         <div className='flex flex-col w-full'>
             {group.conditions.map((condition, i) => (
-                <div key={condition.id} className='flex'>
-                    <FeatureFlagCondition
-                        contextFields={props.contextFields}
-                        onChange={onConditionChange}
-                        condition={condition}
-                    />
+                <div key={condition.id}>
+                    <div className='flex items-center'>
+                        <FeatureFlagCondition
+                            contextFields={props.contextFields}
+                            onChange={onConditionChange}
+                            condition={condition}
+                        />
+                         <Button variant='ghost' className='h-fit p-2 ml-2' onClick={() => onRemove(condition.id)}>
+                            <Cross1Icon className='size-3' />
+                        </Button>
+                    </div>
                     {
-                        i < group.conditions.length - 1 ? <p>And</p> : null
+                        i < group.conditions.length - 1 ? 
+                            <div className='flex justify-center'>
+                                <p className='font-bold m-2'>AND</p>
+                            </div> : null
                     }
-                    <Button variant='ghost' className='p-4 w-12' onClick={() => onRemove(condition.id)}>
-                        <Cross1Icon />
-                    </Button>
                 </div>
             ))}
-            <Button variant='ghost' className='p-4 w-12' onClick={onAdd}>
-                <PlusCircledIcon />
-            </Button>
+            <div className='flex justify-center'>
+                <Button variant='ghost' className='p-3 mt-3' onClick={onAdd}>
+                    <PlusCircledIcon className='size-5' />
+                </Button>
+            </div>
         </div>
     )
 }

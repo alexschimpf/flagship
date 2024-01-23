@@ -164,6 +164,7 @@ export default function() {
                         />
                         {contextFields?.length > 0 &&
                             <div className='w-full'>
+                                <FormLabel>Conditions</FormLabel>
                                 <FeatureFlagConditions contextFields={contextFields} conditions={conditions} onChange={onConditionsChange} />
                             </div>
                         }
