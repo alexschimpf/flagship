@@ -60,7 +60,11 @@ export default (props: FeatureFlagConditionsProps) => {
                 <div key={group.id} className='flex flex-col'>
                     <div className='outline-accent border-2 rounded-md p-4 bg-accent'>
                         <div className='flex justify-end'>
-                            <Button variant='ghost' className='h-auto p-2 translate-x-3 -translate-y-3' onClick={() => onRemove(group.id)}>
+                            <Button 
+                                variant='ghost'
+                                className='h-auto p-2 translate-x-3 -translate-y-3 hover:scale-125'
+                                onClick={() => onRemove(group.id)}
+                            >
                                 <Cross1Icon className='size-3' />
                             </Button>
                         </div>

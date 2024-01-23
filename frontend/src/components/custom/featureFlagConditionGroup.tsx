@@ -67,15 +67,19 @@ export default (props: FeatureFlagConditionGroupProps) => {
         <div className='flex flex-col w-full'>
             {group.conditions.map((condition, i) => (
                 <div key={condition.id}>
-                    <div className='flex items-center'>
+                    <div className='flex items-start'>
+                        <div className='flex-auto'>
                         <FeatureFlagCondition
                             contextFields={props.contextFields}
                             onChange={onConditionChange}
                             condition={condition}
                         />
-                         <Button variant='ghost' className='h-fit p-2 ml-2' onClick={() => onRemove(condition.id)}>
+                        </div>
+                        <div className='flex-none'>
+                         <Button variant='ghost' className='h-fit p-2 ml-2 hover:scale-125 translate-y-1.5' onClick={() => onRemove(condition.id)}>
                             <Cross1Icon className='size-3' />
                         </Button>
+                        </div>
                     </div>
                     {
                         i < group.conditions.length - 1 ? 
@@ -85,8 +89,8 @@ export default (props: FeatureFlagConditionGroupProps) => {
                     }
                 </div>
             ))}
-            <div className='flex justify-center'>
-                <Button variant='ghost' className='p-3 mt-3' onClick={onAdd}>
+            <div className='flex justify-center items-start'>
+                <Button variant='ghost' className='p-3 mt-3 hover:scale-110' onClick={onAdd}>
                     <PlusCircledIcon className='size-5' />
                 </Button>
             </div>

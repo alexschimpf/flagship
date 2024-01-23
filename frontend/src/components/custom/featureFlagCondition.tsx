@@ -209,16 +209,12 @@ export default (props: FeatureFlagConditionProps) => {
     // TODO: Refactor this!
     const getInputSelect = () => {
         const enumDef = contextField.enum_def || {};
-        const enumDefReversed = Object.fromEntries(Object.entries(enumDef).map(([k, v]) => [v, k]));
         if (contextField.value_type === 1) {  // string
             if ([8, 9].includes(operator)) {  // multi-value
                 return (
                     <div className='flex items-center'>
                         <Input value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
                         <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
-                        {(value || []).map((v: string) => (
-                            <Pill key={v} label={v} onRemove={() => {onListValueRemove(v)}} />
-                        ))}
                     </div>
                 )
             } else {
@@ -232,9 +228,6 @@ export default (props: FeatureFlagConditionProps) => {
                     <div className='flex items-center'>
                         <Input type='number' value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
                         <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
-                        {(value || []).map((v: number) => (
-                            <Pill key={v} label={v} onRemove={() => {onListValueRemove(v)}} />
-                        ))}
                     </div>
                 )
             } else {
@@ -248,9 +241,6 @@ export default (props: FeatureFlagConditionProps) => {
                     <div className='flex items-center'>
                         <Input type='number' step={1} value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
                         <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
-                        {(value || []).map((v: number) => (
-                            <Pill key={v} label={v} onRemove={() => {onListValueRemove(v)}} />
-                        ))}
                     </div>
                 )
             } else {
@@ -285,9 +275,6 @@ export default (props: FeatureFlagConditionProps) => {
                             </SelectContent>
                         </Select>
                         <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
-                        {(value || []).map((enumValue: string | number) => (
-                            <Pill key={enumValue} label={enumDefReversed[enumValue]} onRemove={() => {onListValueRemove(enumValue)}} />
-                        ))}
                     </div>
                 )
             } else {
@@ -314,9 +301,6 @@ export default (props: FeatureFlagConditionProps) => {
                     <div className='flex items-center'>
                         <Input value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
                         <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
-                        {(value || []).map((v: string) => (
-                            <Pill key={v} label={v} onRemove={() => {onListValueRemove(v)}} />
-                        ))}
                     </div>
                 )
             } else {
@@ -330,9 +314,6 @@ export default (props: FeatureFlagConditionProps) => {
                     <div className='flex items-center'>
                         <Input type='number' step={1} value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
                         <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
-                        {(value || []).map((v: number) => (
-                            <Pill key={v} label={v} onRemove={() => {onListValueRemove(v)}} />
-                        ))}
                     </div>
                 )
             } else {
@@ -355,9 +336,6 @@ export default (props: FeatureFlagConditionProps) => {
                             </SelectContent>
                         </Select>
                         <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
-                        {(value || []).map((enumValue: string | number) => (
-                            <Pill key={enumValue} label={enumDefReversed[enumValue]} onRemove={() => {onListValueRemove(enumValue)}} />
-                        ))}
                     </div>
                 )
             } else {
@@ -379,17 +357,47 @@ export default (props: FeatureFlagConditionProps) => {
         return null;
     }
 
+    const getPills = () => {
+        if (!Array.isArray(value)) {
+            return null;
+        }
+
+        const enumDef = contextField.enum_def || {};
+        const enumDefReversed = Object.fromEntries(Object.entries(enumDef).map(([k, v]) => [v, k]));
+
+        let pills: any;
+
+        if (([5, 9].includes(contextField.value_type))) {
+            pills = (value || []).map((enumValue: string | number) => (
+                <Pill key={enumValue} label={enumDefReversed[enumValue]} onRemove={() => {onListValueRemove(enumValue)}} />
+            ));
+        } else {
+            pills = (value || []).map((v: string | number) => (
+                <Pill key={v} label={v.toString()} onRemove={() => {onListValueRemove(v)}} />
+            ))
+        }
+
+        return (
+            <div className='mt-2 w-full flex flex-wrap justify-center items-center'>
+                {pills}
+            </div>
+        )
+    }
+
     return (
-        <div className='w-full flex justify-center items-center'>
-            <div className='mr-4 flex-1'>
-                {contextKeySelect}
-            </div>
-            <div className='mr-4 flex-1'>
-                {operatorSelect}
-            </div>
-            <div className='flex-2'>
-                {getInputSelect()}
-            </div>
+        <div className='w-full flex flex-col justify-center items-center'>
+            <div className='w-full flex'>
+                <div className='mr-4 flex-auto'>
+                    {contextKeySelect}
+                </div>
+                <div className='mr-4 flex-auto'>
+                    {operatorSelect}
+                </div>
+                <div className='flex-auto'>
+                    {getInputSelect()}
+                </div>
+            </div>    
+            {getPills()}  
         </div>
     )
 }

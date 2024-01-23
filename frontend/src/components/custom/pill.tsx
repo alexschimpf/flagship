@@ -9,10 +9,10 @@ interface PillProps {
 
 export default (props: PillProps) => {
     return (
-        <div className='flex justify-center items-center bg-accent rounded-3xl px-4'>
-            <Label>{props.label}</Label>
-            <Button variant='ghost' className='ml-1.5 rounded-3xl p-0 bg-accent'>
-                <Cross1Icon className='cursor-pointer scale-75' onClick={props.onRemove} />
+        <div className='flex justify-center items-center bg-white rounded-3xl p-2 w-fit m-1'>
+            <Label className='text-[12px]'>{props.label}</Label>
+            <Button variant='ghost' className='ml-1 rounded-3xl p-1 bg-accent translate-y-[1px] h-fit'>
+                <Cross1Icon className='cursor-pointer scale-75 hover:scale-90' onClick={props.onRemove} />
             </Button>
         </div>
     )

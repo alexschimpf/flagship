@@ -123,52 +123,60 @@ export default function() {
             </div>
             <div className='w-full flex items-center justify-center'>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 flex flex-col w-1/2'>
-                        <FormField
-                            control={form.control}
-                            name='name'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='description'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Description</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='enabled'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <div className='flex flex-col'>
-                                        <FormLabel className='mb-3'>Enabled</FormLabel>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 flex flex-col w-full items-center'>
+                        <div className='w-1/2'>
+                            <FormField
+                                control={form.control}
+                                name='name'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Name</FormLabel>
                                         <FormControl>
-                                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                                            <Input {...field} />
                                         </FormControl>
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='description'
+                                render={({ field }) => (
+                                    <FormItem className='mt-4'>
+                                        <FormLabel>Description</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='enabled'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <div className='flex flex-col mt-4'>
+                                            <FormLabel className='mb-3'>Enabled</FormLabel>
+                                            <FormControl>
+                                                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                                            </FormControl>
+                                        </div>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                         {contextFields?.length > 0 &&
-                            <div className='w-full'>
-                                <FormLabel>Conditions</FormLabel>
-                                <FeatureFlagConditions contextFields={contextFields} conditions={conditions} onChange={onConditionsChange} />
+                            <div className='w-3/5'>
+                                <div className='w-full flex justify-center'>
+                                    <FormLabel className='text-center'>Conditions</FormLabel>
+                                </div>
+                                <div className='mt-2'>
+                                    <FeatureFlagConditions contextFields={contextFields} conditions={conditions} onChange={onConditionsChange} />
+                                </div>
                             </div>
                         }
-                        <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Create</Button>
+                        <div className='w-1/2 flex justify-end'>
+                            <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Create</Button>
+                        </div>
                     </form>
                 </Form>
             </div>
