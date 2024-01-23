@@ -385,7 +385,7 @@ export default (props: FeatureFlagConditionProps) => {
     }
 
     return (
-        <div className='w-full flex flex-col justify-center items-center'>
+        <div className='w-full flex flex-col justify-center items-center border-4 rounded-md p-4'>
             <div className='w-full flex'>
                 <div className='mr-4 flex-auto'>
                     {contextKeySelect}
