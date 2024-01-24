@@ -31,6 +31,7 @@ import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import CustomTooltip from './customTooltip';
 
 const formSchema = z.object({
     name: z.string().min(1).max(128),
@@ -150,6 +151,12 @@ export default function(props: EditMemberDialogProps) {
                                 render={({ field }) => (
                                     <FormItem className='w-full'>
                                         <FormLabel>Role</FormLabel>
+                                        <CustomTooltip text={[
+                                            'Read only: Can view feature flags.',
+                                            'Standard: Can manage feature flags.',
+                                            'Admin: Can manage feature flags, manage context fields, and view audit logs.',
+                                            'Owner: Can do anything, including user management.'
+                                        ]} />
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger>

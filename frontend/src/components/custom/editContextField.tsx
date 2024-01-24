@@ -10,14 +10,13 @@ import { useParams, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import CustomTooltip from '../custom/customTooltip';
 import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { useToast } from "../ui/use-toast";
-
-
 
 const formSchema = z.object({
     name: z.string().min(1).max(128),
@@ -155,6 +154,12 @@ export default function() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Enum Definition</FormLabel>
+                                    <CustomTooltip text={[
+                                        'For context fields with an enum value type, you must define the enum with JSON.',
+                                        'The JSON must have string keys and either integer or string values.',
+                                        'The keys will be used as display names in feature flag conditions.',
+                                        'The values should match what your actual context values will look like for this field.'
+                                    ]} />
                                     <FormControl>
                                         <Textarea {...field} />
                                     </FormControl>

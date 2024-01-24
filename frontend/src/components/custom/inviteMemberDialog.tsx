@@ -21,7 +21,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
-import { apiClient, getErrorMessage } from '@/utils/api';
+import { apiClient, getErrorMessage, userRoles } from '@/utils/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import {
@@ -34,6 +34,7 @@ import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import CustomTooltip from './customTooltip';
 
 const formSchema = z.object({
     email: z.string().min(1).max(320),
@@ -161,6 +162,12 @@ export default function(props: InviteMemberDialogProps) {
                                 render={({ field }) => (
                                     <FormItem className='w-full'>
                                         <FormLabel>Role</FormLabel>
+                                        <CustomTooltip text={[
+                                            'Read only users can view feature flags.',
+                                            'Standard users can manage feature flags.',
+                                            'Admins can manage feature flags, manage context fields, and view audit logs.',
+                                            'Owners can do anything, including user management.'
+                                        ]} />
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger>
@@ -168,10 +175,9 @@ export default function(props: InviteMemberDialogProps) {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                <SelectItem value='1'>Read only</SelectItem>
-                                                <SelectItem value='2'>Standard</SelectItem>
-                                                <SelectItem value='3'>Admin</SelectItem>
-                                                <SelectItem value='4'>Owner</SelectItem>
+                                            {Object.entries(userRoles).map(([roleId, roleName]) => (
+                                                <SelectItem value={roleId.toString()}>{roleName}</SelectItem>
+                                            ))}
                                             </SelectContent>
                                         </Select>
                                     </FormItem>

@@ -52,7 +52,7 @@ export default function() {
             }
             {privateKeys.length > 0 &&
                 <div className='p-4 flex flex-col fade-in-0 w-full'>
-                    <div className='flex items-center justify-center mt-4 h-10'>
+                    <div className='flex items-center justify-center mt-4 h-10 mb-4'>
                         <div className='flex-1'>
                             <Button variant='ghost' className='hover:bg-accent px-2 size-9' onClick={onBackClick}>
                                 <ArrowLeftIcon className='size-8 cursor-pointer' />
@@ -62,14 +62,16 @@ export default function() {
                             <h1 className='text-center text-lg font-bold'>Private Keys</h1>
                         </div>
                         {hasPermission(currentUser, Permission.CREATE_PROJECT_PRIVATE_KEY) &&
-                        <NewProjectPrivateKeyDialog 
-                            projectId={projectId}
-                            trigger={(
-                                <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
-                                    <PlusCircledIcon className='size-8 cursor-pointer' />
-                                </Button>
-                            )} 
-                        />
+                        <div className='flex-1'>
+                            <NewProjectPrivateKeyDialog 
+                                projectId={projectId}
+                                trigger={(
+                                    <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
+                                        <PlusCircledIcon className='size-8 cursor-pointer' />
+                                    </Button>
+                                )} 
+                            />
+                        </div>
                         }
                     </div>
                     <Table>

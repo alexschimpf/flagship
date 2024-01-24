@@ -14,6 +14,7 @@ import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { useToast } from "../ui/use-toast";
+import CustomTooltip from "./customTooltip";
 
 
 
@@ -129,6 +130,10 @@ export default function() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Field Key</FormLabel>
+                                    <CustomTooltip text={[
+                                        'This is the exact key which will be supplied in your context.',
+                                        'This cannot be changed after the context field is created.'
+                                    ]} />
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -185,6 +190,12 @@ export default function() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Enum Definition</FormLabel>
+                                    <CustomTooltip text={[
+                                        'For context fields with an enum value type, you must define the enum with JSON.',
+                                        'The JSON must have string keys and either integer or string values.',
+                                        'The keys will be used as display names in feature flag conditions.',
+                                        'The values should match what your actual context values will look like for this field.'
+                                    ]} />
                                     <FormControl>
                                         <Textarea {...field} />
                                     </FormControl>
