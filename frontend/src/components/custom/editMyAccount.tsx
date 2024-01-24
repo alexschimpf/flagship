@@ -207,6 +207,7 @@ export default function() {
                             <Button 
                                 type='button'
                                 className='w-1/5 mr-2'
+                                variant='destructive'
                                 disabled={resetPasswordMutation.isPending}
                                 onClick={() => onResetPasswordClick()}
                             >

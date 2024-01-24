@@ -1,17 +1,21 @@
 'use client';
 
+import { UserContext } from '@/app/userContext';
 import { apiClient } from '@/utils/api';
+import { Permission, hasPermission } from '@/utils/permissions';
 import { getLocalTimeString } from '@/utils/time';
 import { ArrowLeftIcon, PlusCircledIcon, TrashIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
+import { useContext } from 'react';
 import { Button } from '../ui/button';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table';
 import DeleteProjectPrivateKeyDialog from './deleteProjectPrivateKeyDialog';
 import NewProjectPrivateKeyDialog from './newProjectPrivateKeyDialog';
 
 export default function() {
+    const currentUser = useContext(UserContext);
     const router = useRouter();
 	const params = useParams<{ projectId: string }>();
 
@@ -33,6 +37,7 @@ export default function() {
                     <div className='flex flex-col items-center'>
                         <p className='text-center pb-2'>Oops, you don't have any private keys for this project yet.</p>
                         <p className='text-center pb-2'>Don't be shy. Add one now.</p>
+                        {hasPermission(currentUser, Permission.CREATE_PROJECT_PRIVATE_KEY) &&
                         <NewProjectPrivateKeyDialog 
                             projectId={projectId}
                             trigger={(
@@ -41,6 +46,7 @@ export default function() {
                                 </Button>
                             )} 
                         />
+                        }
                     </div>
                 </div>
             }
@@ -55,6 +61,7 @@ export default function() {
                         <div className='flex-1'>
                             <h1 className='text-center text-lg font-bold'>Private Keys</h1>
                         </div>
+                        {hasPermission(currentUser, Permission.CREATE_PROJECT_PRIVATE_KEY) &&
                         <NewProjectPrivateKeyDialog 
                             projectId={projectId}
                             trigger={(
@@ -63,6 +70,7 @@ export default function() {
                                 </Button>
                             )} 
                         />
+                        }
                     </div>
                     <Table>
                         <TableHeader>
@@ -78,7 +86,8 @@ export default function() {
                                     <TableCell>{privateKey.project_private_key_id}</TableCell>
                                     <TableCell>{privateKey.name}</TableCell>
                                     <TableCell>{ getLocalTimeString(privateKey.created_date) }</TableCell>
-                                    <TableCell className='flex flex-row justify-center'>   
+                                    <TableCell className='flex flex-row justify-center'>
+                                        {hasPermission(currentUser, Permission.DELETE_PROJECT_PRIVATE_KEY) &&
 										<DeleteProjectPrivateKeyDialog 
                                             projectId={projectId}
 											projectPrivateKeyId={privateKey.project_private_key_id}
@@ -87,6 +96,7 @@ export default function() {
                                                 <TrashIcon className='cursor-pointer mt-1 hover:scale-125' />
                                             )} 
                                         />
+                                        }
                                     </TableCell>
                                 </TableRow>
                             ))}

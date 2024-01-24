@@ -1,11 +1,13 @@
 import { CreateOrUpdateFeatureFlag, FeatureFlag } from "@/api";
+import { UserContext } from "@/app/userContext";
 import { apiClient, getErrorMessage } from "@/utils/api";
+import { Permission, hasPermission } from "@/utils/permissions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import parseHTML from 'html-react-parser';
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -27,6 +29,7 @@ const formSchema = z.object({
 // TODO: Show spinner while context fields are loading
 export default function() {
     const params = useParams<{ projectId: string, featureFlagId: string }>();
+    const currentUser = useContext(UserContext);
     const router = useRouter();
     const queryClient = useQueryClient();
     const { toast } = useToast();
@@ -125,7 +128,7 @@ export default function() {
             name: values.name,
             description: values.description,
             enabled: values.enabled,
-            conditions: getProperConditions(conditions)
+            conditions: getProperConditions(conditions as any)
         });
     }
     const onBackClick = () => router.replace(`/project/${projectId}/feature-flags`);
@@ -201,9 +204,11 @@ export default function() {
                                 </div>
                             </div>
                         }
+                        {hasPermission(currentUser, Permission.UPDATE_FEATURE_FLAG) &&
                         <div className='w-1/2 flex justify-end'>
                             <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Save</Button>
                         </div>
+                        }
                     </form>
                 </Form>
             </div>

@@ -1,3 +1,4 @@
+import { UserContext } from '@/app/userContext'
 import NewProjectDialog from '@/components/custom/newProjectDialog'
 import {
     DropdownMenu,
@@ -6,12 +7,14 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { apiClient } from '@/utils/api'
+import { Permission, hasPermission } from '@/utils/permissions'
 import { getLocalTimeString } from '@/utils/time'
 import { DropdownMenuSeparator } from '@radix-ui/react-dropdown-menu'
 import { DotsHorizontalIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useContext } from 'react'
 import { Button } from '../ui/button'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
 import DeleteProjectDialog from './deleteProjectDialog'
@@ -19,6 +22,7 @@ import EditProjectDialog from './editProjectDialog'
 import SearchBar from './searchBar'
 
 export default function() {
+    const currentUser = useContext(UserContext);
     const router = useRouter();
     const query = useQuery({
         queryKey: ['projects'], 
@@ -39,7 +43,7 @@ export default function() {
                     <h1 className='text-center text-lg font-bold'>Projects</h1>
                 </div>
                 <div className='flex-1'>
-                    {!query.isFetching && projects.length > 0 &&
+                    {!query.isFetching && projects.length > 0 && hasPermission(currentUser, Permission.CREATE_PROJECT) &&
                     <NewProjectDialog 
                         trigger={(
                             <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
@@ -55,11 +59,13 @@ export default function() {
                     <div className='flex flex-col items-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
                         <p className='text-center pb-2'>Oops, you don't have any projects yet.</p>
                         <p className='text-center pb-2'>Don't be shy. Add one now.</p>
+                        {hasPermission(currentUser, Permission.CREATE_PROJECT) &&
                         <NewProjectDialog trigger={(
                             <Button variant='ghost' className='hover:bg-accent px-2 size-12'>
                                 <PlusCircledIcon className='size-8 cursor-pointer' />
                             </Button>
                         )} />
+                        }
                     </div>
                 </div>
             }
@@ -98,21 +104,31 @@ export default function() {
                                                 >
                                                     Manage feature flags
                                                 </DropdownMenuItem>
+                                                {hasPermission(currentUser, Permission.UPDATE_CONTEXT_FIELD) &&
                                                 <DropdownMenuItem
                                                     className='hover:cursor-pointer'
                                                     onClick={() => onContextFieldsClick(project.project_id)}
                                                 >
                                                     Manage context fields
                                                 </DropdownMenuItem>
+                                                }
+                                                {hasPermission(currentUser, Permission.READ_PROJECT_PRIVATE_KEYS) &&
                                                 <DropdownMenuItem
                                                     className='hover:cursor-pointer'
                                                     onClick={() => onProjectPrivateKeysClick(project.project_id)}
                                                 >
                                                     Manage private keys
                                                 </DropdownMenuItem>
+                                                }
+                                                {(
+                                                    hasPermission(currentUser, Permission.UPDATE_PROJECT) || 
+                                                    hasPermission(currentUser, Permission.DELETE_PROJECT)
+                                                ) &&
                                                 <DropdownMenuSeparator
                                                     className='border-y h-0.5 my-2' 
-                                                />      
+                                                />
+                                                }               
+                                                {hasPermission(currentUser, Permission.UPDATE_PROJECT) &&
                                                 <EditProjectDialog 
                                                     projectId={project.project_id} 
                                                     initialName={project.name} 
@@ -121,7 +137,9 @@ export default function() {
                                                             Edit project
                                                         </DropdownMenuItem>
                                                     )} 
-                                                />    
+                                                />   
+                                                } 
+                                                {hasPermission(currentUser, Permission.DELETE_PROJECT) &&
                                                 <DeleteProjectDialog 
                                                     projectId={project.project_id} 
                                                     name={project.name} 
@@ -130,7 +148,8 @@ export default function() {
                                                             Delete project
                                                         </DropdownMenuItem>
                                                     )} 
-                                                />  
+                                                />
+                                                }
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>

@@ -1,3 +1,4 @@
+import { UserContext } from '@/app/userContext'
 import SearchBar from '@/components/custom/searchBar'
 import {
     DropdownMenu,
@@ -6,12 +7,14 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { apiClient, getErrorMessage, userRoles, userStatuses } from '@/utils/api'
+import { Permission, hasPermission } from '@/utils/permissions'
 import { getLocalTimeString } from '@/utils/time'
 import { ArrowLeftIcon, CheckCircledIcon, DotsHorizontalIcon, ExclamationTriangleIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import parseHTML from 'html-react-parser'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useContext } from 'react'
 import { Button } from '../ui/button'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
 import { toast } from '../ui/use-toast'
@@ -20,6 +23,7 @@ import EditMemberDialog from './editMemberDialog'
 import InviteMemberDialog from './inviteMemberDialog'
 
 export default function() {
+    const currentUser = useContext(UserContext);
     const router = useRouter();
     const queryClient = useQueryClient(); 
     const query = useQuery({
@@ -129,6 +133,7 @@ export default function() {
                                                         </DropdownMenuItem>
                                                     )}
                                                 />
+                                                {hasPermission(currentUser, Permission.DELETE_USER) &&
                                                 <DeleteMemberDialog 
                                                     userId={user.user_id} 
                                                     email={user.email}
@@ -138,12 +143,18 @@ export default function() {
                                                         </DropdownMenuItem>
                                                     )} 
                                                 />
+                                                }
+                                                {(
+                                                    hasPermission(currentUser, Permission.UPDATE_USER) ||
+                                                    currentUser?.user_id === user.user_id
+                                                ) &&
                                                 <DropdownMenuItem
                                                     className='hover:cursor-pointer'
                                                     onClick={() => resetPasswordMutation.mutate(user.email)}
                                                 >
                                                     Resend set password email
-                                                </DropdownMenuItem>                                               
+                                                </DropdownMenuItem>    
+                                                }                                           
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>

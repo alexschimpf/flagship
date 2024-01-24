@@ -1,10 +1,13 @@
 import { ContextField, UpdateContextField } from "@/api";
+import { UserContext } from "@/app/userContext";
 import { apiClient, contextFieldValueTypes, getErrorMessage } from "@/utils/api";
+import { Permission, hasPermission } from "@/utils/permissions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import parseHTML from 'html-react-parser';
 import { useParams, useRouter } from "next/navigation";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -31,6 +34,7 @@ const formSchema = z.object({
 });
 
 export default function() {
+    const currentUser = useContext(UserContext);
     const params = useParams<{ projectId: string, contextFieldId: string }>();
     const router = useRouter();
     const queryClient = useQueryClient();
@@ -158,7 +162,11 @@ export default function() {
                             )}
                         />
                         }
-                        <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Save</Button>
+                        {hasPermission(currentUser, Permission.UPDATE_CONTEXT_FIELD) &&
+                        <div className='flex justify-end'>
+                            <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Save</Button>
+                        </div>
+                        }
                     </form>
                 </Form>
             </div>

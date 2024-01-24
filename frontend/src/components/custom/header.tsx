@@ -1,5 +1,7 @@
 'use client';
 
+import { UserContext } from '@/app/userContext';
+import { UserProvider } from '@/app/userProvider';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -8,11 +10,23 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Permission, hasPermission } from '@/utils/permissions';
 import { PersonIcon, QuestionMarkCircledIcon, RocketIcon } from '@radix-ui/react-icons';
 import { usePathname, useRouter } from 'next/navigation';
+import { useContext } from 'react';
 
 
 export default function() {
+    return (
+        <UserProvider>
+            <Header />
+        </UserProvider>
+    )
+}
+
+
+const Header = () => {
+    const currentUser = useContext(UserContext);
     const router = useRouter()
     const pathName = usePathname();
 
@@ -36,6 +50,7 @@ export default function() {
                         >
                             Projects
                         </Button>
+                        {hasPermission(currentUser, Permission.READ_USERS) &&
                         <Button 
                             variant='ghost'
                             className={`hover:bg-accent rounded-none ${pathName === '/members' ? 'bg-accent' : ''}`}
@@ -43,6 +58,8 @@ export default function() {
                         >
                             Members
                         </Button>
+                        }
+                        {hasPermission(currentUser, Permission.READ_SYSTEM_AUDIT_LOGS) &&
                         <Button 
                             variant='ghost'
                             className={`hover:bg-accent rounded-none ${pathName === '/audit-logs' ? 'bg-accent' : ''}`}
@@ -50,6 +67,7 @@ export default function() {
                         >
                             Audit Logs
                         </Button>
+                        }
                     </nav>
                 </div>
                 <div className='flex items-center cursor-pointer'>

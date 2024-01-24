@@ -1,6 +1,7 @@
 'use client';
 
 import { UpdateUser } from '@/api';
+import { UserContext } from '@/app/userContext';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -16,6 +17,7 @@ import {
 } from '@/components/ui/toggle-group';
 import { useToast } from '@/components/ui/use-toast';
 import { apiClient, getErrorMessage, userRoles } from '@/utils/api';
+import { Permission, hasPermission } from '@/utils/permissions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import {
@@ -23,6 +25,7 @@ import {
 } from '@tanstack/react-query';
 import parseHTML from 'html-react-parser';
 import { Loader2 } from 'lucide-react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
@@ -43,6 +46,8 @@ class EditMemberDialogProps {
   
 export default function(props: EditMemberDialogProps) {
     const { toast } = useToast();
+
+    const currentUser = useContext(UserContext);
 
     const userQuery = useQuery({
         queryKey: [`users/${props.userId}`], 
@@ -176,7 +181,10 @@ export default function(props: EditMemberDialogProps) {
                                                     }
                                                     {projectsQuery.isSuccess && !projectsQuery.isFetching &&
                                                         projects.map((project) => (
-                                                            <ToggleGroupItem className='m-0.5' value={project.project_id.toString()}>
+                                                            <ToggleGroupItem
+                                                                className='m-0.5'
+                                                                value={project.project_id.toString()
+                                                            }>
                                                                 <p>{project.name}</p>
                                                             </ToggleGroupItem>
                                                         ))
@@ -187,7 +195,12 @@ export default function(props: EditMemberDialogProps) {
                                     </FormItem>
                                 )}
                             />
+                            {(
+                                hasPermission(currentUser, Permission.UPDATE_USER) ||
+                                currentUser?.user_id === user.user_id
+                            ) &&
                             <Button type='submit' className='w-1/4' disabled={mutation.isPending}>Save</Button>
+                            }
                         </form>
                     </Form>
                 </div>

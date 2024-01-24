@@ -1,3 +1,4 @@
+import { UserContext } from '@/app/userContext'
 import NewProjectDialog from '@/components/custom/newProjectDialog'
 import SearchBar from '@/components/custom/searchBar'
 import {
@@ -7,16 +8,19 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { apiClient, contextFieldValueTypes } from '@/utils/api'
+import { Permission, hasPermission } from '@/utils/permissions'
 import { getLocalTimeString } from '@/utils/time'
 import { ArrowLeftIcon, DotsHorizontalIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
+import { useContext } from 'react'
 import { Button } from '../ui/button'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
 import DeleteContextFieldDialog from './deleteContextFieldDialog'
 
 export default function() {
+    const currentUser = useContext(UserContext);
     const params = useParams<{ projectId: string }>();
     const projectId = parseInt(params.projectId);
 
@@ -45,7 +49,7 @@ export default function() {
                     <h1 className='text-center text-lg font-bold'>Context Fields</h1>
                 </div>
                 <div className='flex-1'>
-                    {!query.isFetching && contextFields.length > 0 &&
+                    {!query.isFetching && contextFields.length > 0 && hasPermission(currentUser, Permission.CREATE_CONTEXT_FIELD) &&
                         <Button
                             variant='ghost'
                             className='hover:bg-accent px-2 size-9'
@@ -61,11 +65,13 @@ export default function() {
                     <div className='flex flex-col items-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
                         <p className='text-center pb-2'>Oops, you don't have any context fields for this project yet.</p>
                         <p className='text-center pb-2'>Don't be shy. Add one now.</p>
+                        {hasPermission(currentUser, Permission.CREATE_CONTEXT_FIELD) &&
                         <NewProjectDialog trigger={(
                             <Button variant='ghost' className='hover:bg-accent px-2 size-12'>
                                 <PlusCircledIcon className='size-8 cursor-pointer' />
                             </Button>
                         )} />
+                        }
                     </div>
                 </div>
             }
@@ -112,6 +118,7 @@ export default function() {
                                                 >
                                                     Edit context field
                                                 </DropdownMenuItem>
+                                                {hasPermission(currentUser, Permission.DELETE_CONTEXT_FIELD) &&
                                                 <DeleteContextFieldDialog 
                                                     projectId={projectId}
                                                     contextFieldId={contextField.context_field_id}
@@ -122,12 +129,15 @@ export default function() {
                                                         </DropdownMenuItem>
                                                     )} 
                                                 />
+                                                }
+                                                {hasPermission(currentUser, Permission.READ_CONTEXT_FIELD_AUDIT_LOGS) &&
                                                 <DropdownMenuItem 
                                                     className='hover:cursor-pointer'
                                                     onClick={() => onAuditLogsClick(contextField.context_field_id)}
                                                 >
                                                     View audit logs
                                                 </DropdownMenuItem>
+                                                }
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>

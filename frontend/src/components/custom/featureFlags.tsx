@@ -1,3 +1,4 @@
+import { UserContext } from '@/app/userContext'
 import NewProjectDialog from '@/components/custom/newProjectDialog'
 import SearchBar from '@/components/custom/searchBar'
 import {
@@ -6,12 +7,15 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { cn } from '@/lib/utils'
 import { apiClient } from '@/utils/api'
+import { Permission, hasPermission } from '@/utils/permissions'
 import { getLocalTimeString } from '@/utils/time'
 import { ArrowLeftIcon, DotsHorizontalIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
+import { useContext } from 'react'
 import { Button } from '../ui/button'
 import { Switch } from '../ui/switch'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
@@ -20,6 +24,7 @@ import DeleteFeatureFlagDialog from './deleteFeatureFlagDialog'
 export default function() {
     const params = useParams<{ projectId: string }>();
     const projectId = parseInt(params.projectId);
+    const currentUser = useContext(UserContext);
 
     const router = useRouter();
     const query = useQuery({
@@ -46,7 +51,7 @@ export default function() {
                     <h1 className='text-center text-lg font-bold'>Feature Flags</h1>
                 </div>
                 <div className='flex-1'>
-                    {!query.isFetching && featureFlags.length > 0 &&
+                    {!query.isFetching && featureFlags.length > 0 && hasPermission(currentUser, Permission.CREATE_FEATURE_FLAG) &&
                         <Button 
                             variant='ghost'
                             className='hover:bg-accent px-2 size-9'
@@ -62,11 +67,13 @@ export default function() {
                     <div className='flex flex-col items-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
                         <p className='text-center pb-2'>Oops, you don't have any feature flags for this project yet.</p>
                         <p className='text-center pb-2'>Don't be shy. Add one now.</p>
+                        {hasPermission(currentUser, Permission.CREATE_FEATURE_FLAG) &&
                         <NewProjectDialog trigger={(
                             <Button variant='ghost' className='hover:bg-accent px-2 size-12'>
                                 <PlusCircledIcon className='size-8 cursor-pointer' />
                             </Button>
                         )} />
+                        }
                     </div>
                 </div>
             }
@@ -96,7 +103,14 @@ export default function() {
                                     <TableCell>{ getLocalTimeString(featureFlag.created_date) }</TableCell>
                                     <TableCell>{ getLocalTimeString(featureFlag.updated_date) }</TableCell>
                                     <TableCell>
-                                        <Switch className='scale-75' checked={featureFlag.enabled} />
+                                        <Switch 
+                                            className={cn(
+                                                'scale-75', 
+                                                !hasPermission(currentUser, Permission.UPDATE_FEATURE_FLAG) ? 'cursor-not-allowed' : ''
+                                            )} 
+                                            checked={featureFlag.enabled}
+                                            disabled={hasPermission(currentUser, Permission.UPDATE_FEATURE_FLAG)} 
+                                        />
                                     </TableCell>
                                     <TableCell className='flex flex-row justify-start items-center'>
                                         <DropdownMenu>
@@ -113,6 +127,7 @@ export default function() {
                                                 >
                                                     Edit feature flag
                                                 </DropdownMenuItem>
+                                                {hasPermission(currentUser, Permission.DELETE_FEATURE_FLAG) &&
                                                 <DeleteFeatureFlagDialog 
                                                     projectId={projectId}
                                                     featureFlagId={featureFlag.feature_flag_id}
@@ -123,12 +138,15 @@ export default function() {
                                                         </DropdownMenuItem>
                                                     )} 
                                                 />
+                                                }
+                                                {hasPermission(currentUser, Permission.READ_FEATURE_FLAG_AUDIT_LOGS) &&
                                                 <DropdownMenuItem 
                                                     className='hover:cursor-pointer'
                                                     onClick={() => onAuditLogsClick(featureFlag.feature_flag_id)}
                                                 >
                                                     View audit logs
                                                 </DropdownMenuItem>
+                                                }          
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>
