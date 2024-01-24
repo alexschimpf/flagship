@@ -78,7 +78,7 @@ export default (props: FeatureFlagConditionsProps) => {
                     </div>
                     {i < conditions.length - 1 ? 
                         <div className='flex justify-center'>
-                            <p className='font-bold m-2'>OR</p>
+                            <p className='font-bold m-2 text-sm'>OR</p>
                         </div> : null
                     }
                 </div>

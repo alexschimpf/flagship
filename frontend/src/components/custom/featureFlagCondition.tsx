@@ -358,7 +358,7 @@ export default (props: FeatureFlagConditionProps) => {
     }
 
     const getPills = () => {
-        if (!Array.isArray(value)) {
+        if (![8, 9, 10, 11].includes(operator)) {
             return null;
         }
 
@@ -379,7 +379,7 @@ export default (props: FeatureFlagConditionProps) => {
 
         return (
             <div className='mt-2 w-full flex flex-wrap justify-center items-center'>
-                {pills}
+                {pills?.length > 0 ? pills : <p className='text-sm p-2 m-1'>Please add a value...</p>}
             </div>
         )
     }

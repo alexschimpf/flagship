@@ -35,7 +35,7 @@ export default function() {
         queryFn: () => apiClient.contextFields.getContextField(contextFieldId, projectId)
     });
 
-    const contextField: ContextField | null = query?.data || {} as any;
+    const contextField: ContextField = query?.data || {} as any;
     const valueType = contextField?.value_type ? contextFieldValueTypes[contextField.value_type] : '';
 
     const form = useForm<z.infer<typeof formSchema>>({

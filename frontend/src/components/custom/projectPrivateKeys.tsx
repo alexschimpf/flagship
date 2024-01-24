@@ -53,7 +53,7 @@ export default function() {
                             </Button>
                         </div>
                         <div className='flex-1'>
-                            <h1 className='text-center text-lg font-bold'>Audit Logs</h1>
+                            <h1 className='text-center text-lg font-bold'>Private Keys</h1>
                         </div>
                         <NewProjectPrivateKeyDialog 
                             projectId={projectId}

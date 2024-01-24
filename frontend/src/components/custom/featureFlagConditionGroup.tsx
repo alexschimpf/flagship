@@ -84,7 +84,7 @@ export default (props: FeatureFlagConditionGroupProps) => {
                     {
                         i < group.conditions.length - 1 ? 
                             <div className='flex justify-center'>
-                                <p className='font-bold m-2'>AND</p>
+                                <p className='font-bold m-2 text-sm'>AND</p>
                             </div> : null
                     }
                 </div>
