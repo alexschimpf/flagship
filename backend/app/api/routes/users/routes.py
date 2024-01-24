@@ -56,6 +56,11 @@ def invite_user(request: InviteUser, me: User = Depends(auth.get_user)) -> User:
     ).handle_request()
 
 
+@router.get('/me', response_model=User)
+def get_me(me: User = Depends(auth.get_user)) -> User:
+    return me
+
+
 @router.get('/{user_id}', response_model=User)
 def get_user(user_id: int, me: User = Depends(auth.get_user)) -> User:
     return GetUserController(
