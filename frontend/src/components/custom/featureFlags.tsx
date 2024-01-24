@@ -20,6 +20,7 @@ import { Button } from '../ui/button'
 import { Switch } from '../ui/switch'
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../ui/table'
 import DeleteFeatureFlagDialog from './deleteFeatureFlagDialog'
+import FlipFeatureFlagDialog from './flipFeatureFlagDialog'
 
 export default function() {
     const params = useParams<{ projectId: string }>();
@@ -103,13 +104,21 @@ export default function() {
                                     <TableCell>{ getLocalTimeString(featureFlag.created_date) }</TableCell>
                                     <TableCell>{ getLocalTimeString(featureFlag.updated_date) }</TableCell>
                                     <TableCell>
-                                        <Switch 
-                                            className={cn(
-                                                'scale-75', 
-                                                !hasPermission(currentUser, Permission.UPDATE_FEATURE_FLAG) ? 'cursor-not-allowed' : ''
-                                            )} 
-                                            checked={featureFlag.enabled}
-                                            disabled={hasPermission(currentUser, Permission.UPDATE_FEATURE_FLAG)} 
+                                        <FlipFeatureFlagDialog
+                                            name={featureFlag.name}
+                                            featureFlagId={featureFlag.feature_flag_id}
+                                            projectId={projectId}
+                                            enabled={!featureFlag.enabled}
+                                            trigger={(
+                                                <Switch 
+                                                    className={cn(
+                                                        'scale-75 bg-black', 
+                                                        !hasPermission(currentUser, Permission.UPDATE_FEATURE_FLAG) ? 'cursor-not-allowed' : ''
+                                                    )} 
+                                                    checked={featureFlag.enabled}
+                                                    disabled={!hasPermission(currentUser, Permission.UPDATE_FEATURE_FLAG)} 
+                                                />
+                                            )}
                                         />
                                     </TableCell>
                                     <TableCell className='flex flex-row justify-start items-center'>
