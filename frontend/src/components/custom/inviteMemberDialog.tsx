@@ -193,7 +193,7 @@ export default function(props: InviteMemberDialogProps) {
                                                     }
                                                     {projectsQuery.isSuccess && !projectsQuery.isFetching &&
                                                         projects.map((project) => (
-                                                            <ToggleGroupItem value={project.project_id.toString()}>
+                                                            <ToggleGroupItem className='m-0.5' value={project.project_id.toString()}>
                                                                 <p>{project.name}</p>
                                                             </ToggleGroupItem>
                                                         ))

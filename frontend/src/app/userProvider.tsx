@@ -1,7 +1,7 @@
 import { User } from "@/api";
 import { apiClient } from "@/utils/api";
 import { useEffect, useState } from "react";
-import { userContext } from "./userContext";
+import { UserContext } from "./userContext";
 
 export const UserProvider = ({children}: any) => {
     const [user, setUser] = useState<User | undefined>(undefined);
@@ -18,10 +18,9 @@ export const UserProvider = ({children}: any) => {
         }
     }, [])
 
-   const { Provider } = userContext;
    return(
-       <Provider value={user}>
+       <UserContext.Provider value={user}>
            {children}
-       </Provider>
+       </UserContext.Provider>
    )
 }

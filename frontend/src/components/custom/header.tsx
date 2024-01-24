@@ -64,7 +64,7 @@ export default function() {
                             <DropdownMenuItem 
                                 className='cursor-pointer'
                             >
-                                My Account
+                                <a href='//localhost:3000/account'>My Account</a>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem

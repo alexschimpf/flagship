@@ -52,7 +52,7 @@ export default function() {
         values: {
             name: contextField?.name || '',
             description: contextField?.description || '',
-            enumDef: contextField?.enum_def ? JSON.stringify(contextField.enum_def) : undefined
+            enumDef: contextField?.enum_def ? JSON.stringify(contextField.enum_def, null, 2) : undefined
         }
     });
 

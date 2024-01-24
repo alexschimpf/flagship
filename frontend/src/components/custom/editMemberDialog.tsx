@@ -15,7 +15,7 @@ import {
     ToggleGroupItem,
 } from '@/components/ui/toggle-group';
 import { useToast } from '@/components/ui/use-toast';
-import { apiClient, getErrorMessage } from '@/utils/api';
+import { apiClient, getErrorMessage, userRoles } from '@/utils/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import {
@@ -152,10 +152,9 @@ export default function(props: EditMemberDialogProps) {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                <SelectItem value='1'>Read only</SelectItem>
-                                                <SelectItem value='2'>Standard</SelectItem>
-                                                <SelectItem value='3'>Admin</SelectItem>
-                                                <SelectItem value='4'>Owner</SelectItem>
+                                            {Object.entries(userRoles).map(([roleId, roleName]) => (
+                                                <SelectItem value={roleId.toString()}>{roleName}</SelectItem>
+                                            ))}
                                             </SelectContent>
                                         </Select>
                                     </FormItem>
@@ -177,7 +176,7 @@ export default function(props: EditMemberDialogProps) {
                                                     }
                                                     {projectsQuery.isSuccess && !projectsQuery.isFetching &&
                                                         projects.map((project) => (
-                                                            <ToggleGroupItem value={project.project_id.toString()}>
+                                                            <ToggleGroupItem className='m-0.5' value={project.project_id.toString()}>
                                                                 <p>{project.name}</p>
                                                             </ToggleGroupItem>
                                                         ))
