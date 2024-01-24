@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
 import { useToast } from "../ui/use-toast";
 
 
@@ -18,7 +19,15 @@ import { useToast } from "../ui/use-toast";
 const formSchema = z.object({
     name: z.string().min(1).max(128),
     description: z.string().max(256),
-    enumDef: z.string().optional()
+    enumDef: z.string().refine((def: any) => {
+        try {
+            JSON.parse(def);
+        } catch(e) {
+            return false;
+        }
+
+        return true;
+    }, { message: 'Invalid JSON' }).optional()
 });
 
 export default function() {
@@ -135,6 +144,7 @@ export default function() {
                             <Label>Value Type</Label>
                             <Input className='mt-2' value={valueType} disabled />
                         </div>
+                        {[5, 9].includes(contextField?.value_type) &&
                         <FormField
                             control={form.control}
                             name='enumDef'
@@ -142,11 +152,12 @@ export default function() {
                                 <FormItem>
                                     <FormLabel>Enum Definition</FormLabel>
                                     <FormControl>
-                                        <Input {...field} />
+                                        <Textarea {...field} />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
+                        }
                         <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Save</Button>
                     </form>
                 </Form>

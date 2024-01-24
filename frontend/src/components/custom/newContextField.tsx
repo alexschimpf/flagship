@@ -5,12 +5,14 @@ import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import parseHTML from 'html-react-parser';
 import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Textarea } from "../ui/textarea";
 import { useToast } from "../ui/use-toast";
 
 
@@ -20,7 +22,15 @@ const formSchema = z.object({
     fieldKey: z.string().min(1).max(64),
     valueType: z.string(),
     description: z.string().max(256),
-    enumDef: z.string().optional()
+    enumDef: z.string().refine((def: any) => {
+        try {
+            JSON.parse(def);
+        } catch(e) {
+            return false;
+        }
+
+        return true;
+    }, { message: 'Invalid JSON' }).optional()
 });
 
 export default function() {
@@ -28,6 +38,9 @@ export default function() {
     const router = useRouter();
     const queryClient = useQueryClient();
     const { toast } = useToast();
+
+    // TODO: Figure out hwo to do with with the form
+    const [valueType, setValueType] = useState(1);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -140,23 +153,32 @@ export default function() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Value Type</FormLabel>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder='Select a value type' />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                            {Object.entries(contextFieldValueTypes).map(([value, label]) => (
-                                                <SelectItem value={value}>{label}</SelectItem>
-                                            ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
+                                    <Select 
+                                        onValueChange={(v) => {
+                                            // Clear enumDef if value type is non-enum
+                                            if (![5, 9].includes(parseInt(v))) {
+                                                form.resetField('enumDef');
+                                            }
+                                            setValueType(parseInt(v));
+                                            field.onChange(v);
+                                        }} 
+                                        defaultValue={field.value}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder='Select a value type' />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                        {Object.entries(contextFieldValueTypes).map(([value, label]) => (
+                                            <SelectItem value={value}>{label}</SelectItem>
+                                        ))}
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
                             )}
                         />
+                        {[5, 9].includes(valueType) &&
                         <FormField
                             control={form.control}
                             name='enumDef'
@@ -164,11 +186,12 @@ export default function() {
                                 <FormItem>
                                     <FormLabel>Enum Definition</FormLabel>
                                     <FormControl>
-                                        <Input {...field} />
+                                        <Textarea {...field} />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
+                        }
                         <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Create</Button>
                     </form>
                 </Form>
