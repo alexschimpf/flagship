@@ -158,4 +158,18 @@ export class UsersService {
             },
         });
     }
+    /**
+     * Get Me
+     * @returns User Successful Response
+     * @throws ApiError
+     */
+    public getMe(): CancelablePromise<User> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/users/me',
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
 }
