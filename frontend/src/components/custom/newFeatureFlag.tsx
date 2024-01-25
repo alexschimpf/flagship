@@ -103,7 +103,6 @@ export default function() {
     }
     const onBackClick = () => router.replace(`/project/${projectId}/feature-flags`);
     const onConditionsChange = (c: ConditionGroup[]) => {
-        console.log(JSON.stringify(getProperConditions(c)));
         setConditions(c);
     }
 

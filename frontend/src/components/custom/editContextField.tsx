@@ -107,7 +107,7 @@ export default function() {
                     </Button>
                 </div>
                 <div className='flex-1'>
-                    <h1 className='text-center text-lg font-bold'>Edit Context Field</h1>
+                    <h1 className='text-center text-lg font-bold'>Context Field - {contextField?.name}</h1>
                 </div>
                 <div className='flex-1'>
                 </div>

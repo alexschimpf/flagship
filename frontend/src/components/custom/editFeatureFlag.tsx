@@ -18,8 +18,6 @@ import { useToast } from "../ui/use-toast";
 import { ConditionGroup } from "./featureFlagConditionGroup";
 import FeatureFlagConditions from "./featureFlagConditions";
 
-
-
 const formSchema = z.object({
     name: z.string().min(1).max(128),
     description: z.string().max(256),
@@ -133,7 +131,6 @@ export default function() {
     }
     const onBackClick = () => router.replace(`/project/${projectId}/feature-flags`);
     const onConditionsChange = (c: ConditionGroup[]) => {
-        console.log(JSON.stringify(getProperConditions(c)));
         setConditions(c);
     }
 
@@ -145,8 +142,8 @@ export default function() {
                         <ArrowLeftIcon className='size-8 cursor-pointer' />
                     </Button>
                 </div>
-                <div className='flex-1'>
-                    <h1 className='text-center text-lg font-bold'>Edit Feature Flag</h1>
+                <div className='flex'>
+                    <h1 className='text-center text-lg font-bold mt-2'>Feature Flag - {featureFlag?.name}</h1>
                 </div>
                 <div className='flex-1'>
                 </div>
