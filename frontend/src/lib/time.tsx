@@ -1,5 +1,5 @@
 export const getLocalTimeString = (dateTimeStr: string): string => {
-   return new Date(dateTimeStr).toLocaleString('en-US', {
+    return new Date(dateTimeStr).toLocaleString('en-US', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',

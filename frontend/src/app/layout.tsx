@@ -17,7 +17,7 @@ export default function RootLayout({
                 <link rel="icon" href="/favicon.svg" sizes="any" />
             </head>
             <body>
-                <div className='min-h-screen bg-background font-sans flex flex-col'>
+                <div className='min-h-screen bg-background font-sans flex flex-col min-w-[1000px]'>
                     {children}
                 </div>
             </body>

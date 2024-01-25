@@ -8,6 +8,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/primitives/dropdown-menu';
+import { ProjectContext } from '@/context/projectContext';
 import { UserContext } from '@/context/userContext';
 import { UserProvider } from '@/context/userProvider';
 import { Permission, hasPermission } from '@/lib/permissions';
@@ -27,13 +28,14 @@ export default function () {
 
 const Header = () => {
     const currentUser = useContext(UserContext);
+    const currentProject = useContext(ProjectContext);
     const router = useRouter();
     const pathName = usePathname();
 
     return (
         <header className='sticky top-0 z-50 w-full border-b bg-white'>
             <div className='container flex h-10 max-w-screen-2xl items-center'>
-                <div className='flex flex-1 items-center'>
+                <div className='flex flex-1 items-center flex-shrink'>
                     <Button
                         variant='ghost'
                         className='focus-visible:bg-white hover:bg-white p-0 mr-6'
@@ -45,7 +47,7 @@ const Header = () => {
                     <nav>
                         <Button
                             variant='ghost'
-                            className={`hover:bg-accent rounded-none ${pathName === '/' ? 'bg-accent' : ''}`}
+                            className={`p-3 hover:bg-accent rounded-none ${pathName === '/' ? 'bg-accent' : ''}`}
                             onClick={() => router.replace('/')}
                         >
                             Projects
@@ -53,7 +55,7 @@ const Header = () => {
                         {hasPermission(currentUser, Permission.READ_USERS) &&
                             <Button
                                 variant='ghost'
-                                className={`hover:bg-accent rounded-none ${pathName === '/members' ? 'bg-accent' : ''}`}
+                                className={`p-3 hover:bg-accent rounded-none ${pathName === '/members' ? 'bg-accent' : ''}`}
                                 onClick={() => router.replace('/members')}
                             >
                                 Members
@@ -62,7 +64,7 @@ const Header = () => {
                         {hasPermission(currentUser, Permission.READ_SYSTEM_AUDIT_LOGS) &&
                             <Button
                                 variant='ghost'
-                                className={`hover:bg-accent rounded-none ${pathName === '/audit-logs' ? 'bg-accent' : ''}`}
+                                className={`p-3 hover:bg-accent rounded-none ${pathName === '/audit-logs' ? 'bg-accent' : ''}`}
                                 onClick={() => router.replace('/audit-logs')}
                             >
                                 Audit Logs
@@ -70,7 +72,10 @@ const Header = () => {
                         }
                     </nav>
                 </div>
-                <div className='flex items-center cursor-pointer'>
+                <div className='flex justify-end items-center mr-6 underline underline-offset-2 px-2'>
+                    <p className='font-bold'>{currentProject?.name}</p>
+                </div>
+                <div className='flex justify-end items-center cursor-pointer'>
                     <Button variant='ghost' className='hover:bg-accent hover:rounded-none px-2 size-10'>
                         <QuestionMarkCircledIcon className='size-5' />
                     </Button>

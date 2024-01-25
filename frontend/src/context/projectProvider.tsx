@@ -1,17 +1,24 @@
 import { Project } from "@/api";
-import { useReducer } from "react";
+import { apiClient } from "@/lib/api";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ProjectContext } from "./projectContext";
 
-export const ProjectProvider = ({children}: any) => {
-    const [state, dispatch] = useReducer((state_: any, project: Project): any => {
-        return {
-            ...project
-        }
-    }, {});
+export const ProjectProvider = ({ children }: any) => {
+    const params = useParams<{ projectId: string; }>();
+    const [project, setProject] = useState<Project | undefined>(undefined);
 
-   return(
-       <ProjectContext.Provider value={{ state, dispatch }}>
-           {children}
-       </ProjectContext.Provider>
-   )
-}
+    useEffect(() => {
+        if (params.projectId && project?.project_id !== parseInt(params.projectId)) {
+            apiClient.projects.getProject(parseInt(params.projectId)).then((data: Project) => {
+                setProject(data);
+            });
+        }
+    }, [params.projectId]);
+
+    return (
+        <ProjectContext.Provider value={project}>
+            {children}
+        </ProjectContext.Provider>
+    );
+};

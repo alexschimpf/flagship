@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+      "*.css": "tailwindcss"
+    },
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "[typescriptreact]": {
+      "editor.formatOnSave": true
+    },
+    "files.trimTrailingWhitespace": true
+}
