@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import parseHTML from 'html-react-parser';
+import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -134,6 +135,8 @@ export default function() {
         setConditions(c);
     }
 
+    const isFetching = featureFlagQuery.isFetching || contextFieldsQuery.isFetching;
+
     return (
         <div className='flex flex-col w-full justify-center'>
             <div className='flex items-center justify-center mt-4 mb-8 h-10'>
@@ -143,11 +146,12 @@ export default function() {
                     </Button>
                 </div>
                 <div className='flex'>
-                    <h1 className='text-center text-lg font-bold mt-2'>Feature Flag - {featureFlag?.name}</h1>
+                    <h1 className='text-center text-lg font-bold mt-2'>{isFetching ? '' : `Feature Flag - ${featureFlag?.name}`}</h1>
                 </div>
                 <div className='flex-1'>
                 </div>
             </div>
+            {!isFetching &&
             <div className='w-full flex items-center justify-center'>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 flex flex-col w-full items-center'>
@@ -209,6 +213,12 @@ export default function() {
                     </form>
                 </Form>
             </div>
+            }
+            {isFetching &&
+                <div className='absolute top-[calc(50%-41px)] left-1/2'>
+                    <Loader2 className='animate-spin' size={48} />
+                </div>
+            }
         </div>
     )
 }

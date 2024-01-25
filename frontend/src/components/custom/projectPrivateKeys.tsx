@@ -50,30 +50,30 @@ export default function() {
                     </div>
                 </div>
             }
-            {privateKeys.length > 0 &&
-                <div className='p-4 flex flex-col fade-in-0 w-full'>
-                    <div className='flex items-center justify-center mt-4 h-10 mb-4'>
-                        <div className='flex-1'>
-                            <Button variant='ghost' className='hover:bg-accent px-2 size-9' onClick={onBackClick}>
-                                <ArrowLeftIcon className='size-8 cursor-pointer' />
-                            </Button>
-                        </div>
-                        <div className='flex-1'>
-                            <h1 className='text-center text-lg font-bold'>Private Keys</h1>
-                        </div>
-                        {hasPermission(currentUser, Permission.CREATE_PROJECT_PRIVATE_KEY) &&
-                        <div className='flex-1'>
-                            <NewProjectPrivateKeyDialog 
-                                projectId={projectId}
-                                trigger={(
-                                    <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
-                                        <PlusCircledIcon className='size-8 cursor-pointer' />
-                                    </Button>
-                                )} 
-                            />
-                        </div>
-                        }
+            <div className='p-4 flex flex-col fade-in-0 w-full'>
+                <div className='flex items-center justify-center mt-4 h-10 mb-4'>
+                    <div className='flex-1'>
+                        <Button variant='ghost' className='hover:bg-accent px-2 size-9' onClick={onBackClick}>
+                            <ArrowLeftIcon className='size-8 cursor-pointer' />
+                        </Button>
                     </div>
+                    <div className='flex-1'>
+                        <h1 className='text-center text-lg font-bold'>Private Keys</h1>
+                    </div>
+                    {hasPermission(currentUser, Permission.CREATE_PROJECT_PRIVATE_KEY) ?
+                    <div className='flex-1'>
+                        <NewProjectPrivateKeyDialog 
+                            projectId={projectId}
+                            trigger={(
+                                <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
+                                    <PlusCircledIcon className='size-8 cursor-pointer' />
+                                </Button>
+                            )} 
+                        />
+                    </div> :
+                    <div className='flex-1' />                    }
+                </div>
+                {privateKeys.length > 0 &&
                     <Table>
                         <TableHeader>
                             <TableRow className='font-bold hover:bg-white'>
@@ -104,10 +104,10 @@ export default function() {
                             ))}
                         </TableBody>
                     </Table>
+                    }
                 </div>
-            }
             {query.isFetching &&
-                <div className='absolute top-1/2 left-1/2'>
+                <div className='absolute top-[calc(50%-41px)] left-1/2'>
                     <Loader2 className='animate-spin' size={48} />
                 </div>
             }

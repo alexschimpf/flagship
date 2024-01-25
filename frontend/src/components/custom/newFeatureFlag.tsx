@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import parseHTML from 'html-react-parser';
+import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -120,6 +121,7 @@ export default function() {
                 <div className='flex-1'>
                 </div>
             </div>
+            {contextFields?.length > 0 &&
             <div className='w-full flex items-center justify-center'>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 flex flex-col w-full items-center'>
@@ -163,22 +165,26 @@ export default function() {
                                 )}
                             />
                         </div>
-                        {contextFields?.length > 0 &&
-                            <div className='w-3/5'>
-                                <div className='w-full flex justify-center'>
-                                    <FormLabel className='text-center'>Conditions</FormLabel>
-                                </div>
-                                <div className='mt-2'>
-                                    <FeatureFlagConditions contextFields={contextFields} conditions={conditions} onChange={onConditionsChange} />
-                                </div>
+                        <div className='w-3/5'>
+                            <div className='w-full flex justify-center'>
+                                <FormLabel className='text-center'>Conditions</FormLabel>
                             </div>
-                        }
+                            <div className='mt-2'>
+                                <FeatureFlagConditions contextFields={contextFields} conditions={conditions} onChange={onConditionsChange} />
+                            </div>
+                        </div>
                         <div className='w-1/2 flex justify-end'>
                             <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Create</Button>
                         </div>
                     </form>
                 </Form>
             </div>
+            }
+            {!contextFields?.length &&
+                <div className='absolute top-[calc(50%-41px)] left-1/2'>
+                    <Loader2 className='animate-spin' size={48} />
+                </div>
+            }
         </div>
     )
 }

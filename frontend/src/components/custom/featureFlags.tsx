@@ -166,7 +166,7 @@ export default function() {
                 </div>
             }
             {query.isFetching &&
-                <div className='absolute top-1/2 left-1/2'>
+                <div className='absolute top-[calc(50%-41px)] left-1/2'>
                     <Loader2 className='animate-spin' size={48} />
                 </div>
             }
