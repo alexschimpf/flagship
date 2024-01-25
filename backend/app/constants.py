@@ -33,6 +33,24 @@ class Operator(IntEnum):
     NOT_CONTAINS = 13
 
 
+OPERATOR_DISPLAY_NAMES: Final[dict[Operator, str]] = {
+    Operator.EQUALS: 'is',
+    Operator.NOT_EQUALS: 'is not',
+    Operator.LESS_THAN: '<',
+    Operator.LESS_THAN_OR_EQUAL_TO: '<=',
+    Operator.GREATER_THAN: '>',
+    Operator.GREATER_THAN_OR_EQUAL_TO: '>=',
+    Operator.MATCHES_REGEX: 'matches',
+    Operator.IN_LIST: 'is one of',
+    Operator.NOT_IN_LIST: 'is not one of',
+    Operator.INTERSECTS: 'has one of',
+    Operator.NOT_INTERSECTS: 'does not have any of',
+    Operator.CONTAINS: 'has',
+    Operator.NOT_CONTAINS: 'does not have'
+}
+
+
+
 class Permission(IntEnum):
     # Projects
     CREATE_PROJECT = auto()

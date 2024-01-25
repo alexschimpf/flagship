@@ -1,7 +1,11 @@
+import ujson
+from typing import Any
+
 from app.api.exceptions.exceptions import UnauthorizedException
-from app.api.routes.feature_flags.schemas import FeatureFlagAuditLogs, FeatureFlagAuditLog, FeatureFlagChange
+from app.api.routes.feature_flags.schemas import FeatureFlagAuditLogs, FeatureFlagAuditLog, FeatureFlagChange, \
+    FeatureFlagCondition
 from app.api.schemas import User
-from app.constants import Permission
+from app.constants import Permission, OPERATOR_DISPLAY_NAMES
 from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogsTable, \
     FeatureFlagAuditLogRow
 from app.services.database.mysql.service import MySQLService
@@ -40,8 +44,9 @@ class GetFeatureFlagAuditLogsController:
         result.reverse()
         return FeatureFlagAuditLogs(items=result, total=total_count)
 
-    @staticmethod
+    @classmethod
     def _get_changes(
+        cls,
         old: FeatureFlagAuditLogRow | None,
         new_: FeatureFlagAuditLogRow
     ) -> list[FeatureFlagChange]:
@@ -60,6 +65,10 @@ class GetFeatureFlagAuditLogsController:
                         old_val = str(old_val).lower()
                     new_val = str(new_val).lower()
 
+                if field == 'conditions':
+                    old_val = cls._humanize_conditions(conditions=old_val)
+                    new_val = cls._humanize_conditions(conditions=new_val)
+
                 changes.append(FeatureFlagChange(
                     field=display_name,
                     old=old_val,
@@ -67,3 +76,51 @@ class GetFeatureFlagAuditLogsController:
                 ))
 
         return changes
+
+    @classmethod
+    def _humanize_conditions(cls, conditions: str) -> str:
+        if not conditions:
+            return conditions
+
+        human_friendly_conditions: list[list[str]] = []
+        conditions_list = ujson.loads(conditions)
+        for condition_group in conditions_list:
+            human_friendly_group: list[str] = []
+            for condition in condition_group:
+                human_friendly_condition = cls._humanize_condition(
+                    condition=FeatureFlagCondition(**condition))
+                human_friendly_group.append(human_friendly_condition)
+            human_friendly_conditions.append(human_friendly_group)
+
+        result: list[str] = []
+        for group in human_friendly_conditions:
+            result.append(f'({" OR ".join(group)})')
+
+        if len(result) == 1:
+            result[0] = result[0][1:-1]
+
+        return ' AND '.join(result)
+
+    @classmethod
+    def _humanize_condition(cls, condition: FeatureFlagCondition) -> str:
+        # TODO: Handle showing enum names instead of values
+        operator_name = OPERATOR_DISPLAY_NAMES[condition.operator]
+        value: Any = condition.value
+        if isinstance(condition.value, list):
+            value = ', '.join((
+                cls._humanize_condition_value(value=x)
+                for x in value
+            ))
+            value = f'[{value}]'
+        else:
+            value = cls._humanize_condition_value(value=value)
+        return f'`{condition.context_key}` {operator_name} {value}'
+
+    @staticmethod
+    def _humanize_condition_value(value: Any) -> str:
+        if isinstance(value, str):
+            return f'"{value}"'
+        elif isinstance(value, bool):
+            return 'true' if value else 'false'
+        else:
+            return str(value)
