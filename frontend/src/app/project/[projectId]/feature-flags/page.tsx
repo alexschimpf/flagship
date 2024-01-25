@@ -1,16 +1,12 @@
 'use client';
 
-import { UserProvider } from "@/app/userProvider";
-import FeatureFlags from "@/components/custom/featureFlags";
-import { queryClient } from "@/utils/api";
-import { QueryClientProvider } from "@tanstack/react-query";
+import App from '@/components/app';
+import FeatureFlags from '@/components/featureFlag/featureFlags';
 
-export default function() {
-    return (
-		<QueryClientProvider client={queryClient}>
-			<UserProvider>
-				<FeatureFlags />
-			</UserProvider>
-		</QueryClientProvider>
-    )
+export default function () {
+	return (
+		<App>
+			<FeatureFlags />
+		</App>
+	);
 }

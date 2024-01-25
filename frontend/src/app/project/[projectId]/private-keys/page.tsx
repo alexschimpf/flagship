@@ -1,16 +1,12 @@
 'use client';
 
-import { UserProvider } from '@/app/userProvider';
-import ProjectPrivateKeys from '@/components/custom/projectPrivateKeys';
-import { queryClient } from '@/utils/api';
-import { QueryClientProvider } from '@tanstack/react-query';
+import App from '@/components/app';
+import ProjectPrivateKeys from '@/components/projectPrivateKeys/projectPrivateKeys';
 
-export default function() {
+export default function () {
 	return (
-		<QueryClientProvider client={queryClient}>
-			<UserProvider>
-				< ProjectPrivateKeys />
-			</UserProvider>
-		</QueryClientProvider>
-  )
+		<App>
+			<ProjectPrivateKeys />
+		</App>
+	);
 }

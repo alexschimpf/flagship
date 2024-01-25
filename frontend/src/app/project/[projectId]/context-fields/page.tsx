@@ -1,16 +1,12 @@
 'use client';
 
-import { UserProvider } from "@/app/userProvider";
-import ContextFields from "@/components/custom/contextFields";
-import { queryClient } from "@/utils/api";
-import { QueryClientProvider } from "@tanstack/react-query";
+import App from '@/components/app';
+import ContextFields from '@/components/contextField/contextFields';
 
-export default function() {
-    return (
-		<QueryClientProvider client={queryClient}>
-			<UserProvider>
-				<ContextFields />
-			</UserProvider>
-		</QueryClientProvider>
-    )
+export default function () {
+	return (
+		<App>
+			<ContextFields />
+		</App>
+	);
 }

@@ -1,0 +1,99 @@
+'use client';
+
+import { Button } from '@/components/primitives/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/primitives/dropdown-menu';
+import { UserContext } from '@/context/userContext';
+import { UserProvider } from '@/context/userProvider';
+import { Permission, hasPermission } from '@/lib/permissions';
+import { PersonIcon, QuestionMarkCircledIcon, RocketIcon } from '@radix-ui/react-icons';
+import { usePathname, useRouter } from 'next/navigation';
+import { useContext } from 'react';
+
+
+export default function () {
+    return (
+        <UserProvider>
+            <Header />
+        </UserProvider>
+    );
+}
+
+
+const Header = () => {
+    const currentUser = useContext(UserContext);
+    const router = useRouter();
+    const pathName = usePathname();
+
+    return (
+        <header className='sticky top-0 z-50 w-full border-b bg-white'>
+            <div className='container flex h-10 max-w-screen-2xl items-center'>
+                <div className='flex flex-1 items-center'>
+                    <Button
+                        variant='ghost'
+                        className='focus-visible:bg-white hover:bg-white p-0 mr-6'
+                        onClick={() => { window.location.replace('http://localhost:3000'); }}
+                    >
+                        <RocketIcon />
+                        <h1 className='font-bold text-lg pl-2 cursor-pointer'>Flagship</h1>
+                    </Button>
+                    <nav>
+                        <Button
+                            variant='ghost'
+                            className={`hover:bg-accent rounded-none ${pathName === '/' ? 'bg-accent' : ''}`}
+                            onClick={() => router.replace('/')}
+                        >
+                            Projects
+                        </Button>
+                        {hasPermission(currentUser, Permission.READ_USERS) &&
+                            <Button
+                                variant='ghost'
+                                className={`hover:bg-accent rounded-none ${pathName === '/members' ? 'bg-accent' : ''}`}
+                                onClick={() => router.replace('/members')}
+                            >
+                                Members
+                            </Button>
+                        }
+                        {hasPermission(currentUser, Permission.READ_SYSTEM_AUDIT_LOGS) &&
+                            <Button
+                                variant='ghost'
+                                className={`hover:bg-accent rounded-none ${pathName === '/audit-logs' ? 'bg-accent' : ''}`}
+                                onClick={() => router.replace('/audit-logs')}
+                            >
+                                Audit Logs
+                            </Button>
+                        }
+                    </nav>
+                </div>
+                <div className='flex items-center cursor-pointer'>
+                    <Button variant='ghost' className='hover:bg-accent hover:rounded-none px-2 size-10'>
+                        <QuestionMarkCircledIcon className='size-5' />
+                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger className='focus-visible:outline-none hover:bg-accent size-10 flex items-center justify-center'>
+                            <PersonIcon className='size-5' />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem
+                                className='cursor-pointer'
+                            >
+                                <a href='//localhost:3000/account'>My Account</a>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                                className='cursor-pointer'
+                            >
+                                <a href='//localhost:8000/auth/logout'>Logout</a>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            </div>
+        </header>
+    );
+};

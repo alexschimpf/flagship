@@ -1,16 +1,12 @@
 'use client';
 
-import { queryClient } from '@/utils/api';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { UserProvider } from '../userProvider';
-import EditMyAccount from '@/components/custom/editMyAccount';
+import App from '@/components/app';
+import EditMyAccount from '@/components/members/editMyAccount';
 
-export default function() {
+export default function () {
 	return (
-		<QueryClientProvider client={queryClient}>
-			<UserProvider>
-				<EditMyAccount />
-			</UserProvider>
-		</QueryClientProvider>
-  )
+		<App>
+			<EditMyAccount />
+		</App>
+	);
 }

@@ -1,16 +1,12 @@
 'use client';
 
-import { UserProvider } from "@/app/userProvider";
-import EditContextField from "@/components/custom/editContextField";
-import { queryClient } from "@/utils/api";
-import { QueryClientProvider } from "@tanstack/react-query";
+import App from '@/components/app';
+import EditContextField from '@/components/contextField/editContextField';
 
-export default function() {
+export default function () {
     return (
-        <QueryClientProvider client={queryClient}>
-            <UserProvider>
-                <EditContextField />
-            </UserProvider>
-        </QueryClientProvider>
-    )
+        <App>
+            <EditContextField />
+        </App>
+    );
 }
