@@ -49,7 +49,7 @@ export default function () {
                 <div className='p-4 flex flex-col fade-in-0 w-full'>
                     <Table>
                         <TableHeader>
-                            <TableRow className='font-bold hover:bg-white'>
+                            <TableRow className='font-bold hover:bg-background'>
                                 <TableCell>Actor</TableCell>
                                 <TableCell>Event Type</TableCell>
                                 <TableCell>Details</TableCell>
@@ -61,7 +61,7 @@ export default function () {
                                 <TableRow
                                     key={i}
                                     className={
-                                        i % 2 == 0 ? 'bg-accent' : 'bg-white'
+                                        i % 2 == 0 ? 'bg-accent' : 'bg-muted/50'
                                     }
                                 >
                                     <TableCell>{auditLog.actor}</TableCell>

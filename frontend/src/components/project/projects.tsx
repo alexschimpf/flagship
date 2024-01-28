@@ -84,17 +84,17 @@ export default function () {
                             currentUser,
                             Permission.CREATE_PROJECT
                         ) && (
-                            <NewProjectDialog
-                                trigger={
-                                    <Button
-                                        variant='ghost'
-                                        className='hover:bg-accent px-2 size-12'
-                                    >
-                                        <PlusCircledIcon className='size-8 cursor-pointer' />
-                                    </Button>
-                                }
-                            />
-                        )}
+                                <NewProjectDialog
+                                    trigger={
+                                        <Button
+                                            variant='ghost'
+                                            className='hover:bg-background px-2 size-12'
+                                        >
+                                            <PlusCircledIcon className='size-8 cursor-pointer' />
+                                        </Button>
+                                    }
+                                />
+                            )}
                     </div>
                 </div>
             )}
@@ -108,7 +108,7 @@ export default function () {
                     </div>
                     <Table>
                         <TableHeader>
-                            <TableRow className='font-bold hover:bg-white'>
+                            <TableRow className='font-bold hover:bg-background'>
                                 <TableCell>ID</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Created Date</TableCell>
@@ -120,7 +120,7 @@ export default function () {
                                 <TableRow
                                     key={project.project_id}
                                     className={
-                                        i % 2 == 0 ? 'bg-accent' : 'bg-white'
+                                        i % 2 == 0 ? 'bg-accent' : 'bg-muted/50'
                                     }
                                 >
                                     <TableCell>{project.project_id}</TableCell>
@@ -158,32 +158,32 @@ export default function () {
                                                     currentUser,
                                                     Permission.UPDATE_CONTEXT_FIELD
                                                 ) && (
-                                                    <DropdownMenuItem
-                                                        className='hover:cursor-pointer'
-                                                        onClick={() =>
-                                                            onContextFieldsClick(
-                                                                project.project_id
-                                                            )
-                                                        }
-                                                    >
-                                                        Manage context fields
-                                                    </DropdownMenuItem>
-                                                )}
+                                                        <DropdownMenuItem
+                                                            className='hover:cursor-pointer'
+                                                            onClick={() =>
+                                                                onContextFieldsClick(
+                                                                    project.project_id
+                                                                )
+                                                            }
+                                                        >
+                                                            Manage context fields
+                                                        </DropdownMenuItem>
+                                                    )}
                                                 {hasPermission(
                                                     currentUser,
                                                     Permission.READ_PROJECT_PRIVATE_KEYS
                                                 ) && (
-                                                    <DropdownMenuItem
-                                                        className='hover:cursor-pointer'
-                                                        onClick={() =>
-                                                            onProjectPrivateKeysClick(
-                                                                project.project_id
-                                                            )
-                                                        }
-                                                    >
-                                                        Manage private keys
-                                                    </DropdownMenuItem>
-                                                )}
+                                                        <DropdownMenuItem
+                                                            className='hover:cursor-pointer'
+                                                            onClick={() =>
+                                                                onProjectPrivateKeysClick(
+                                                                    project.project_id
+                                                                )
+                                                            }
+                                                        >
+                                                            Manage private keys
+                                                        </DropdownMenuItem>
+                                                    )}
                                                 {(hasPermission(
                                                     currentUser,
                                                     Permission.UPDATE_PROJECT
@@ -192,52 +192,52 @@ export default function () {
                                                         currentUser,
                                                         Permission.DELETE_PROJECT
                                                     )) && (
-                                                    <DropdownMenuSeparator className='border-y h-0.5 my-2' />
-                                                )}
+                                                        <DropdownMenuSeparator className='border-y h-0.5 my-2' />
+                                                    )}
                                                 {hasPermission(
                                                     currentUser,
                                                     Permission.UPDATE_PROJECT
                                                 ) && (
-                                                    <EditProjectDialog
-                                                        projectId={
-                                                            project.project_id
-                                                        }
-                                                        initialName={
-                                                            project.name
-                                                        }
-                                                        trigger={
-                                                            <DropdownMenuItem
-                                                                className='hover:cursor-pointer'
-                                                                onSelect={e =>
-                                                                    e.preventDefault()
-                                                                }
-                                                            >
-                                                                Edit project
-                                                            </DropdownMenuItem>
-                                                        }
-                                                    />
-                                                )}
+                                                        <EditProjectDialog
+                                                            projectId={
+                                                                project.project_id
+                                                            }
+                                                            initialName={
+                                                                project.name
+                                                            }
+                                                            trigger={
+                                                                <DropdownMenuItem
+                                                                    className='hover:cursor-pointer'
+                                                                    onSelect={e =>
+                                                                        e.preventDefault()
+                                                                    }
+                                                                >
+                                                                    Edit project
+                                                                </DropdownMenuItem>
+                                                            }
+                                                        />
+                                                    )}
                                                 {hasPermission(
                                                     currentUser,
                                                     Permission.DELETE_PROJECT
                                                 ) && (
-                                                    <DeleteProjectDialog
-                                                        projectId={
-                                                            project.project_id
-                                                        }
-                                                        name={project.name}
-                                                        trigger={
-                                                            <DropdownMenuItem
-                                                                className='hover:cursor-pointer'
-                                                                onSelect={e =>
-                                                                    e.preventDefault()
-                                                                }
-                                                            >
-                                                                Delete project
-                                                            </DropdownMenuItem>
-                                                        }
-                                                    />
-                                                )}
+                                                        <DeleteProjectDialog
+                                                            projectId={
+                                                                project.project_id
+                                                            }
+                                                            name={project.name}
+                                                            trigger={
+                                                                <DropdownMenuItem
+                                                                    className='hover:cursor-pointer'
+                                                                    onSelect={e =>
+                                                                        e.preventDefault()
+                                                                    }
+                                                                >
+                                                                    Delete project
+                                                                </DropdownMenuItem>
+                                                            }
+                                                        />
+                                                    )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>

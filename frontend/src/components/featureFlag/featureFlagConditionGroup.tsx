@@ -27,7 +27,7 @@ export default (props: FeatureFlagConditionGroupProps) => {
             context_key: props.contextFields[0].field_key,
             operator:
                 contextFieldValueTypeOperators[
-                    props.contextFields[0].value_type
+                props.contextFields[0].value_type
                 ][0],
             value: ''
         };

@@ -99,7 +99,7 @@ export default function () {
                     </div>
                     <Table>
                         <TableHeader>
-                            <TableRow className='font-bold hover:bg-white'>
+                            <TableRow className='font-bold hover:bg-background'>
                                 <TableCell>ID</TableCell>
                                 <TableCell>Email</TableCell>
                                 <TableCell>Name</TableCell>
@@ -115,7 +115,7 @@ export default function () {
                                 <TableRow
                                     key={user.user_id}
                                     className={
-                                        i % 2 == 0 ? 'bg-accent' : 'bg-white'
+                                        i % 2 == 0 ? 'bg-accent' : 'bg-muted/50'
                                     }
                                 >
                                     <TableCell>{user.user_id}</TableCell>
@@ -164,39 +164,39 @@ export default function () {
                                                     currentUser,
                                                     Permission.DELETE_USER
                                                 ) && (
-                                                    <DeleteMemberDialog
-                                                        userId={user.user_id}
-                                                        email={user.email}
-                                                        trigger={
-                                                            <DropdownMenuItem
-                                                                className='hover:cursor-pointer'
-                                                                onSelect={e =>
-                                                                    e.preventDefault()
-                                                                }
-                                                            >
-                                                                Delete member
-                                                            </DropdownMenuItem>
-                                                        }
-                                                    />
-                                                )}
+                                                        <DeleteMemberDialog
+                                                            userId={user.user_id}
+                                                            email={user.email}
+                                                            trigger={
+                                                                <DropdownMenuItem
+                                                                    className='hover:cursor-pointer'
+                                                                    onSelect={e =>
+                                                                        e.preventDefault()
+                                                                    }
+                                                                >
+                                                                    Delete member
+                                                                </DropdownMenuItem>
+                                                            }
+                                                        />
+                                                    )}
                                                 {(hasPermission(
                                                     currentUser,
                                                     Permission.UPDATE_USER
                                                 ) ||
                                                     currentUser?.user_id ===
-                                                        user.user_id) && (
-                                                    <DropdownMenuItem
-                                                        className='hover:cursor-pointer'
-                                                        onClick={() =>
-                                                            resetPasswordMutation.mutate(
-                                                                user.email
-                                                            )
-                                                        }
-                                                    >
-                                                        Resend set password
-                                                        email
-                                                    </DropdownMenuItem>
-                                                )}
+                                                    user.user_id) && (
+                                                        <DropdownMenuItem
+                                                            className='hover:cursor-pointer'
+                                                            onClick={() =>
+                                                                resetPasswordMutation.mutate(
+                                                                    user.email
+                                                                )
+                                                            }
+                                                        >
+                                                            Resend set password
+                                                            email
+                                                        </DropdownMenuItem>
+                                                    )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>

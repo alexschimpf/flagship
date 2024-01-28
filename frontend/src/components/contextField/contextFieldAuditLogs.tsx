@@ -16,7 +16,7 @@ import {
 } from '../primitives/table';
 
 export default function () {
-    const params = useParams<{ projectId: string; contextFieldId: string }>();
+    const params = useParams<{ projectId: string; contextFieldId: string; }>();
     const router = useRouter();
 
     const contextFieldId = parseInt(params.contextFieldId);
@@ -44,7 +44,7 @@ export default function () {
                 rows.push(
                     <TableRow
                         key={rowNum}
-                        className={rowNum % 2 == 0 ? 'bg-accent' : 'bg-white'}
+                        className={rowNum % 2 == 0 ? 'bg-accent' : 'bg-muted/50'}
                     >
                         <TableCell>{auditLog.actor}</TableCell>
                         <TableCell>{change.field}</TableCell>
@@ -89,7 +89,7 @@ export default function () {
                 <div className='p-4 flex flex-col fade-in-0 w-full'>
                     <Table>
                         <TableHeader>
-                            <TableRow className='font-bold hover:bg-white'>
+                            <TableRow className='font-bold hover:bg-background'>
                                 <TableCell>Actor</TableCell>
                                 <TableCell>Field</TableCell>
                                 <TableCell>Old Value</TableCell>

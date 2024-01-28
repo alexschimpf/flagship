@@ -27,7 +27,7 @@ import NewProjectPrivateKeyDialog from './newProjectPrivateKeyDialog';
 export default function () {
     const currentUser = useContext(UserContext);
     const router = useRouter();
-    const params = useParams<{ projectId: string }>();
+    const params = useParams<{ projectId: string; }>();
 
     const projectId = parseInt(params.projectId);
 
@@ -56,18 +56,18 @@ export default function () {
                             currentUser,
                             Permission.CREATE_PROJECT_PRIVATE_KEY
                         ) && (
-                            <NewProjectPrivateKeyDialog
-                                projectId={projectId}
-                                trigger={
-                                    <Button
-                                        variant='ghost'
-                                        className='hover:bg-accent px-2 size-12'
-                                    >
-                                        <PlusCircledIcon className='size-8 cursor-pointer' />
-                                    </Button>
-                                }
-                            />
-                        )}
+                                <NewProjectPrivateKeyDialog
+                                    projectId={projectId}
+                                    trigger={
+                                        <Button
+                                            variant='ghost'
+                                            className='hover:bg-background px-2 size-12'
+                                        >
+                                            <PlusCircledIcon className='size-8 cursor-pointer' />
+                                        </Button>
+                                    }
+                                />
+                            )}
                     </div>
                 </div>
             )}
@@ -111,7 +111,7 @@ export default function () {
                 {privateKeys.length > 0 && (
                     <Table>
                         <TableHeader>
-                            <TableRow className='font-bold hover:bg-white'>
+                            <TableRow className='font-bold hover:bg-background'>
                                 <TableCell>ID</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Created Date</TableCell>
@@ -122,7 +122,7 @@ export default function () {
                                 <TableRow
                                     key={privateKey.project_private_key_id}
                                     className={
-                                        i % 2 == 0 ? 'bg-accent' : 'bg-white'
+                                        i % 2 == 0 ? 'bg-accent' : 'bg-muted/50'
                                     }
                                 >
                                     <TableCell>
@@ -139,17 +139,17 @@ export default function () {
                                             currentUser,
                                             Permission.DELETE_PROJECT_PRIVATE_KEY
                                         ) && (
-                                            <DeleteProjectPrivateKeyDialog
-                                                projectId={projectId}
-                                                projectPrivateKeyId={
-                                                    privateKey.project_private_key_id
-                                                }
-                                                name={privateKey.name}
-                                                trigger={
-                                                    <TrashIcon className='cursor-pointer mt-1 hover:scale-125' />
-                                                }
-                                            />
-                                        )}
+                                                <DeleteProjectPrivateKeyDialog
+                                                    projectId={projectId}
+                                                    projectPrivateKeyId={
+                                                        privateKey.project_private_key_id
+                                                    }
+                                                    name={privateKey.name}
+                                                    trigger={
+                                                        <TrashIcon className='cursor-pointer mt-1 hover:scale-125' />
+                                                    }
+                                                />
+                                            )}
                                     </TableCell>
                                 </TableRow>
                             ))}

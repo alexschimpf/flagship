@@ -35,12 +35,12 @@ const Header = () => {
     const pathName = usePathname();
 
     return (
-        <header className='sticky top-0 z-50 w-full border-b bg-white'>
+        <header className='sticky top-0 z-50 w-full bg-accent rounded-b-sm'>
             <div className='container flex h-10 max-w-screen-2xl items-center'>
                 <div className='flex flex-1 items-center flex-shrink'>
                     <Button
                         variant='ghost'
-                        className='focus-visible:bg-white hover:bg-white p-0 mr-6'
+                        className='focus-visible:bg-white p-0 mr-6'
                         onClick={() => {
                             window.location.replace('http://localhost:3000');
                         }}
@@ -53,7 +53,7 @@ const Header = () => {
                     <nav>
                         <Button
                             variant='ghost'
-                            className={`p-3 hover:bg-accent rounded-none ${pathName === '/' ? 'bg-accent' : ''}`}
+                            className={`h-full p-3 hover:bg-background rounded-none ${pathName === '/' ? 'bg-background' : ''}`}
                             onClick={() => router.replace('/')}
                         >
                             Projects
@@ -61,7 +61,7 @@ const Header = () => {
                         {hasPermission(currentUser, Permission.READ_USERS) && (
                             <Button
                                 variant='ghost'
-                                className={`p-3 hover:bg-accent rounded-none ${pathName === '/members' ? 'bg-accent' : ''}`}
+                                className={`h-full p-3 hover:bg-background rounded-none ${pathName === '/members' ? 'bg-background' : ''}`}
                                 onClick={() => router.replace('/members')}
                             >
                                 Members
@@ -71,18 +71,18 @@ const Header = () => {
                             currentUser,
                             Permission.READ_SYSTEM_AUDIT_LOGS
                         ) && (
-                            <Button
-                                variant='ghost'
-                                className={`p-3 hover:bg-accent rounded-none ${pathName === '/audit-logs' ? 'bg-accent' : ''}`}
-                                onClick={() => router.replace('/audit-logs')}
-                            >
-                                Audit Logs
-                            </Button>
-                        )}
+                                <Button
+                                    variant='ghost'
+                                    className={`h-full p-3 hover:bg-background rounded-none ${pathName === '/audit-logs' ? 'bg-background' : ''}`}
+                                    onClick={() => router.replace('/audit-logs')}
+                                >
+                                    Audit Logs
+                                </Button>
+                            )}
                     </nav>
                 </div>
                 {currentProject?.name?.length && (
-                    <div className='flex justify-end items-center mr-6 px-4 bg-accent h-full'>
+                    <div className='flex justify-end items-center h-full mr-6 px-4 bg-background'>
                         <p className='font-bold text-sm'>
                             {currentProject?.name}
                         </p>

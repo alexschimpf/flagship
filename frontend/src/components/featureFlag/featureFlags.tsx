@@ -32,7 +32,7 @@ import DeleteFeatureFlagDialog from './deleteFeatureFlagDialog';
 import FlipFeatureFlagDialog from './flipFeatureFlagDialog';
 
 export default function () {
-    const params = useParams<{ projectId: string }>();
+    const params = useParams<{ projectId: string; }>();
     const projectId = parseInt(params.projectId);
     const currentUser = useContext(UserContext);
 
@@ -102,17 +102,17 @@ export default function () {
                             currentUser,
                             Permission.CREATE_FEATURE_FLAG
                         ) && (
-                            <NewProjectDialog
-                                trigger={
-                                    <Button
-                                        variant='ghost'
-                                        className='hover:bg-accent px-2 size-12'
-                                    >
-                                        <PlusCircledIcon className='size-8 cursor-pointer' />
-                                    </Button>
-                                }
-                            />
-                        )}
+                                <NewProjectDialog
+                                    trigger={
+                                        <Button
+                                            variant='ghost'
+                                            className='hover:bg-background px-2 size-12'
+                                        >
+                                            <PlusCircledIcon className='size-8 cursor-pointer' />
+                                        </Button>
+                                    }
+                                />
+                            )}
                     </div>
                 </div>
             )}
@@ -126,7 +126,7 @@ export default function () {
                     </div>
                     <Table className='w-full'>
                         <TableHeader>
-                            <TableRow className='font-bold hover:bg-white'>
+                            <TableRow className='font-bold hover:bg-background'>
                                 <TableCell>ID</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Description</TableCell>
@@ -141,7 +141,7 @@ export default function () {
                                 <TableRow
                                     key={featureFlag.feature_flag_id}
                                     className={
-                                        i % 2 == 0 ? 'bg-accent' : 'bg-white'
+                                        i % 2 == 0 ? 'bg-accent' : 'bg-muted/50'
                                     }
                                 >
                                     <TableCell>
@@ -170,26 +170,28 @@ export default function () {
                                             projectId={projectId}
                                             enabled={!featureFlag.enabled}
                                             trigger={
-                                                <Switch
-                                                    className={cn(
-                                                        'scale-75 bg-black',
-                                                        !hasPermission(
-                                                            currentUser,
-                                                            Permission.UPDATE_FEATURE_FLAG
-                                                        )
-                                                            ? 'cursor-not-allowed'
-                                                            : ''
-                                                    )}
-                                                    checked={
-                                                        featureFlag.enabled
-                                                    }
-                                                    disabled={
-                                                        !hasPermission(
-                                                            currentUser,
-                                                            Permission.UPDATE_FEATURE_FLAG
-                                                        )
-                                                    }
-                                                />
+                                                <div>
+                                                    <Switch
+                                                        className={cn(
+                                                            'scale-75',
+                                                            !hasPermission(
+                                                                currentUser,
+                                                                Permission.UPDATE_FEATURE_FLAG
+                                                            )
+                                                                ? 'cursor-not-allowed'
+                                                                : ''
+                                                        )}
+                                                        checked={
+                                                            featureFlag.enabled
+                                                        }
+                                                        disabled={
+                                                            !hasPermission(
+                                                                currentUser,
+                                                                Permission.UPDATE_FEATURE_FLAG
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
                                             }
                                         />
                                     </TableCell>
@@ -221,40 +223,40 @@ export default function () {
                                                     currentUser,
                                                     Permission.DELETE_FEATURE_FLAG
                                                 ) && (
-                                                    <DeleteFeatureFlagDialog
-                                                        projectId={projectId}
-                                                        featureFlagId={
-                                                            featureFlag.feature_flag_id
-                                                        }
-                                                        name={featureFlag.name}
-                                                        trigger={
-                                                            <DropdownMenuItem
-                                                                className='hover:cursor-pointer'
-                                                                onSelect={e =>
-                                                                    e.preventDefault()
-                                                                }
-                                                            >
-                                                                Delete feature
-                                                                flag
-                                                            </DropdownMenuItem>
-                                                        }
-                                                    />
-                                                )}
+                                                        <DeleteFeatureFlagDialog
+                                                            projectId={projectId}
+                                                            featureFlagId={
+                                                                featureFlag.feature_flag_id
+                                                            }
+                                                            name={featureFlag.name}
+                                                            trigger={
+                                                                <DropdownMenuItem
+                                                                    className='hover:cursor-pointer'
+                                                                    onSelect={e =>
+                                                                        e.preventDefault()
+                                                                    }
+                                                                >
+                                                                    Delete feature
+                                                                    flag
+                                                                </DropdownMenuItem>
+                                                            }
+                                                        />
+                                                    )}
                                                 {hasPermission(
                                                     currentUser,
                                                     Permission.READ_FEATURE_FLAG_AUDIT_LOGS
                                                 ) && (
-                                                    <DropdownMenuItem
-                                                        className='hover:cursor-pointer'
-                                                        onClick={() =>
-                                                            onAuditLogsClick(
-                                                                featureFlag.feature_flag_id
-                                                            )
-                                                        }
-                                                    >
-                                                        View audit logs
-                                                    </DropdownMenuItem>
-                                                )}
+                                                        <DropdownMenuItem
+                                                            className='hover:cursor-pointer'
+                                                            onClick={() =>
+                                                                onAuditLogsClick(
+                                                                    featureFlag.feature_flag_id
+                                                                )
+                                                            }
+                                                        >
+                                                            View audit logs
+                                                        </DropdownMenuItem>
+                                                    )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>

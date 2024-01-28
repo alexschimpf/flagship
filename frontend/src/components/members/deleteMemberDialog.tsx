@@ -53,7 +53,7 @@ export default function (props: DeleteMemberDialogProps) {
                             <b>{props.email}</b>? This cannot be undone.
                         </p>
                         <Button
-                            className='w-1/4 mt-4 bg-destructive'
+                            className='w-1/4 mt-4 bg-destructive text-destructive-foreground'
                             disabled={mutation.isPending || mutation.isSuccess}
                             onClick={() => mutation.mutate()}
                         >

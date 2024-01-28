@@ -32,7 +32,7 @@ import DeleteContextFieldDialog from './deleteContextFieldDialog';
 
 export default function () {
     const currentUser = useContext(UserContext);
-    const params = useParams<{ projectId: string }>();
+    const params = useParams<{ projectId: string; }>();
     const projectId = parseInt(params.projectId);
 
     const router = useRouter();
@@ -101,17 +101,17 @@ export default function () {
                             currentUser,
                             Permission.CREATE_CONTEXT_FIELD
                         ) && (
-                            <NewProjectDialog
-                                trigger={
-                                    <Button
-                                        variant='ghost'
-                                        className='hover:bg-accent px-2 size-12'
-                                    >
-                                        <PlusCircledIcon className='size-8 cursor-pointer' />
-                                    </Button>
-                                }
-                            />
-                        )}
+                                <NewProjectDialog
+                                    trigger={
+                                        <Button
+                                            variant='ghost'
+                                            className='hover:bg-background px-2 size-12'
+                                        >
+                                            <PlusCircledIcon className='size-8 cursor-pointer' />
+                                        </Button>
+                                    }
+                                />
+                            )}
                     </div>
                 </div>
             )}
@@ -125,7 +125,7 @@ export default function () {
                     </div>
                     <Table>
                         <TableHeader>
-                            <TableRow className='font-bold hover:bg-white'>
+                            <TableRow className='font-bold hover:bg-background'>
                                 <TableCell>ID</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Field Key</TableCell>
@@ -141,7 +141,7 @@ export default function () {
                                 <TableRow
                                     key={contextField.context_field_id}
                                     className={
-                                        i % 2 == 0 ? 'bg-accent' : 'bg-white'
+                                        i % 2 == 0 ? 'bg-accent' : 'bg-muted/50'
                                     }
                                 >
                                     <TableCell>
@@ -154,7 +154,7 @@ export default function () {
                                     <TableCell>
                                         {
                                             contextFieldValueTypes[
-                                                contextField.value_type
+                                            contextField.value_type
                                             ]
                                         }
                                     </TableCell>
@@ -199,40 +199,40 @@ export default function () {
                                                     currentUser,
                                                     Permission.DELETE_CONTEXT_FIELD
                                                 ) && (
-                                                    <DeleteContextFieldDialog
-                                                        projectId={projectId}
-                                                        contextFieldId={
-                                                            contextField.context_field_id
-                                                        }
-                                                        name={contextField.name}
-                                                        trigger={
-                                                            <DropdownMenuItem
-                                                                className='hover:cursor-pointer'
-                                                                onSelect={e =>
-                                                                    e.preventDefault()
-                                                                }
-                                                            >
-                                                                Delete context
-                                                                field
-                                                            </DropdownMenuItem>
-                                                        }
-                                                    />
-                                                )}
+                                                        <DeleteContextFieldDialog
+                                                            projectId={projectId}
+                                                            contextFieldId={
+                                                                contextField.context_field_id
+                                                            }
+                                                            name={contextField.name}
+                                                            trigger={
+                                                                <DropdownMenuItem
+                                                                    className='hover:cursor-pointer'
+                                                                    onSelect={e =>
+                                                                        e.preventDefault()
+                                                                    }
+                                                                >
+                                                                    Delete context
+                                                                    field
+                                                                </DropdownMenuItem>
+                                                            }
+                                                        />
+                                                    )}
                                                 {hasPermission(
                                                     currentUser,
                                                     Permission.READ_CONTEXT_FIELD_AUDIT_LOGS
                                                 ) && (
-                                                    <DropdownMenuItem
-                                                        className='hover:cursor-pointer'
-                                                        onClick={() =>
-                                                            onAuditLogsClick(
-                                                                contextField.context_field_id
-                                                            )
-                                                        }
-                                                    >
-                                                        View audit logs
-                                                    </DropdownMenuItem>
-                                                )}
+                                                        <DropdownMenuItem
+                                                            className='hover:cursor-pointer'
+                                                            onClick={() =>
+                                                                onAuditLogsClick(
+                                                                    contextField.context_field_id
+                                                                )
+                                                            }
+                                                        >
+                                                            View audit logs
+                                                        </DropdownMenuItem>
+                                                    )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>
