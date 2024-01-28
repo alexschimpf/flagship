@@ -1,6 +1,7 @@
 import { CreateContextField } from "@/api";
 import { apiClient, getErrorMessage } from "@/lib/api";
 import { contextFieldValueTypes } from "@/lib/constants";
+import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -22,8 +23,10 @@ import { useToast } from "../primitives/use-toast";
 const formSchema = z.object({
     name: z.string().min(1).max(128),
     fieldKey: z.string().min(1).max(64),
-    valueType: z.string(),
-    description: z.string().max(256),
+    valueType: z.string().min(1, {
+        message: 'Please select a value type'
+    }),
+    description: z.string().max(256).optional(),
     enumDef: z.string().refine((def: any) => {
         try {
             JSON.parse(def);
@@ -118,19 +121,20 @@ export default function () {
                             name='name'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Name</FormLabel>
+                                    <FormLabel>Name*</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
+                        <ErrorMessage errors={form.formState.errors} name='name' />
                         <FormField
                             control={form.control}
                             name='fieldKey'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Field Key</FormLabel>
+                                    <FormLabel>Field Key*</FormLabel>
                                     <CustomTooltip text={[
                                         'This is the exact key which will be supplied in your context.',
                                         'This cannot be changed after the context field is created.'
@@ -141,6 +145,7 @@ export default function () {
                                 </FormItem>
                             )}
                         />
+                        <ErrorMessage errors={form.formState.errors} name='fieldKey' />
                         <FormField
                             control={form.control}
                             name='description'
@@ -153,12 +158,13 @@ export default function () {
                                 </FormItem>
                             )}
                         />
+                        <ErrorMessage errors={form.formState.errors} name='description' />
                         <FormField
                             control={form.control}
                             name='valueType'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Value Type</FormLabel>
+                                    <FormLabel>Value Type*</FormLabel>
                                     <Select
                                         onValueChange={(v) => {
                                             // Clear enumDef if value type is non-enum
@@ -184,13 +190,14 @@ export default function () {
                                 </FormItem>
                             )}
                         />
+                        <ErrorMessage errors={form.formState.errors} name='valueType' />
                         {[5, 9].includes(valueType) &&
                             <FormField
                                 control={form.control}
                                 name='enumDef'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Enum Definition</FormLabel>
+                                        <FormLabel>Enum Definition*</FormLabel>
                                         <CustomTooltip text={[
                                             'For context fields with an enum value type, you must define the enum with JSON.',
                                             'The JSON must have string keys and either integer or string values.',
@@ -204,7 +211,10 @@ export default function () {
                                 )}
                             />
                         }
-                        <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Create</Button>
+                        <ErrorMessage errors={form.formState.errors} name='enumDef' />
+                        <div className='flex justify-end'>
+                            <Button type='submit' className='w-1/5 mt-8' disabled={mutation.isPending}>Create</Button>
+                        </div>
                     </form>
                 </Form>
             </div>

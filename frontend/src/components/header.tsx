@@ -72,9 +72,11 @@ const Header = () => {
                         }
                     </nav>
                 </div>
-                <div className='flex justify-end items-center mr-6 underline underline-offset-2 px-2'>
-                    <p className='font-bold'>{currentProject?.name}</p>
-                </div>
+                {currentProject?.name?.length &&
+                    <div className='flex justify-end items-center mr-6 px-4 bg-accent h-full'>
+                        <p className='font-bold text-sm'>{currentProject?.name}</p>
+                    </div>
+                }
                 <div className='flex justify-end items-center cursor-pointer'>
                     <Button variant='ghost' className='hover:bg-accent hover:rounded-none px-2 size-10'>
                         <QuestionMarkCircledIcon className='size-5' />

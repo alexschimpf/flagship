@@ -19,6 +19,7 @@ import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorMessage } from '@/lib/api';
 import { userRoles } from "@/lib/constants";
 import { Permission, hasPermission } from '@/lib/permissions';
+import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import {
@@ -36,15 +37,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 
 const formSchema = z.object({
     name: z.string().min(1).max(128),
-    role: z.string().min(1),
-    projects: z.array(z.string()).min(1)
+    role: z.string().min(1, {
+        message: 'User must be assigned a role'
+    }),
+    projects: z.array(z.string()).min(1, {
+        message: 'User must be assigned to at least one project'
+    })
 });
 
 class EditMemberDialogProps {
     userId!: number;
     trigger: any;
 }
-
 
 export default function (props: EditMemberDialogProps) {
     const { toast } = useToast();
@@ -139,19 +143,20 @@ export default function (props: EditMemberDialogProps) {
                                 name='name'
                                 render={({ field }) => (
                                     <FormItem className='w-full'>
-                                        <FormLabel>Name</FormLabel>
+                                        <FormLabel>Name*</FormLabel>
                                         <FormControl>
                                             <Input {...field} />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
+                            <ErrorMessage errors={form.formState.errors} name='name' />
                             <FormField
                                 control={form.control}
                                 name='role'
                                 render={({ field }) => (
                                     <FormItem className='w-full'>
-                                        <FormLabel>Role</FormLabel>
+                                        <FormLabel>Role*</FormLabel>
                                         <CustomTooltip text={[
                                             'Read only: Can view feature flags.',
                                             'Standard: Can manage feature flags.',
@@ -173,12 +178,13 @@ export default function (props: EditMemberDialogProps) {
                                     </FormItem>
                                 )}
                             />
+                            <ErrorMessage errors={form.formState.errors} name='role' />
                             <FormField
                                 control={form.control}
                                 name='projects'
                                 render={({ field }) => (
                                     <FormItem className='w-full'>
-                                        <FormLabel>Projects</FormLabel>
+                                        <FormLabel>Projects*</FormLabel>
                                         <FormControl className='flex flex-col items-center justify-center'>
                                             <ToggleGroup type='multiple' onValueChange={field.onChange} value={field.value}>
                                                 <ScrollArea className='w-full rounded-md border min-h-20 max-h-40 p-2'>
@@ -190,9 +196,10 @@ export default function (props: EditMemberDialogProps) {
                                                     {projectsQuery.isSuccess && !projectsQuery.isFetching &&
                                                         projects.map((project) => (
                                                             <ToggleGroupItem
+                                                                key={project.project_id}
                                                                 className='m-0.5'
-                                                                value={project.project_id.toString()
-                                                                }>
+                                                                value={project.project_id.toString()}
+                                                            >
                                                                 <p>{project.name}</p>
                                                             </ToggleGroupItem>
                                                         ))
@@ -203,6 +210,7 @@ export default function (props: EditMemberDialogProps) {
                                     </FormItem>
                                 )}
                             />
+                            <ErrorMessage errors={form.formState.errors} name='projects' />
                             {(
                                 hasPermission(currentUser, Permission.UPDATE_USER) ||
                                 currentUser?.user_id === user.user_id

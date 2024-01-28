@@ -25,6 +25,7 @@ import {
 } from '@/components/primitives/tooltip';
 import { useToast } from '@/components/primitives/use-toast';
 import { apiClient, getErrorMessage } from '@/lib/api';
+import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import {
@@ -35,7 +36,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 const formSchema = z.object({
-    name: z.string()
+    name: z.string().min(1).max(256)
 });
 
 class NewProjectPrivateKeyDialogProps {
@@ -120,13 +121,14 @@ export default function (props: NewProjectPrivateKeyDialogProps) {
                                     name='name'
                                     render={({ field }) => (
                                         <FormItem className='w-full'>
-                                            <FormLabel>Name</FormLabel>
+                                            <FormLabel>Name*</FormLabel>
                                             <FormControl>
                                                 <Input disabled={mutation.isSuccess} className='disabled:cursor-default' placeholder='' {...field} />
                                             </FormControl>
                                         </FormItem>
                                     )}
                                 />
+                                <ErrorMessage errors={form.formState.errors} name='name' />
                                 {!mutation.isSuccess &&
                                     <Button type='submit' className='w-1/4' disabled={mutation.isPending}>Create</Button>
                                 }

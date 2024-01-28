@@ -10,7 +10,7 @@ export default (props: TooltipProps) => {
     return (
         <TooltipProvider>
             <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger type='button'>
                     {props.trigger ||
                         <InfoCircledIcon className='ml-1' />
                     }

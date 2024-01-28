@@ -23,6 +23,7 @@ import {
 import { useToast } from '@/components/primitives/use-toast';
 import { apiClient, getErrorMessage } from '@/lib/api';
 import { userRoles } from "@/lib/constants";
+import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import {
@@ -38,10 +39,14 @@ import { Input } from '../primitives/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../primitives/select';
 
 const formSchema = z.object({
-    email: z.string().min(1).max(320),
+    email: z.string().email(),
     name: z.string().min(1).max(128),
-    role: z.string().min(1),
-    projects: z.array(z.string()).min(1)
+    role: z.string().min(1, {
+        message: 'User must be assigned a role'
+    }),
+    projects: z.array(z.string()).min(1, {
+        message: 'User must be assigned to at least one project'
+    })
 });
 
 class InviteMemberDialogProps {
@@ -138,31 +143,33 @@ export default function (props: InviteMemberDialogProps) {
                                 name='email'
                                 render={({ field }) => (
                                     <FormItem className='w-full'>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>Email*</FormLabel>
                                         <FormControl>
                                             <Input {...field} />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
+                            <ErrorMessage errors={form.formState.errors} name='email' />
                             <FormField
                                 control={form.control}
                                 name='name'
                                 render={({ field }) => (
                                     <FormItem className='w-full'>
-                                        <FormLabel>Name</FormLabel>
+                                        <FormLabel>Name*</FormLabel>
                                         <FormControl>
                                             <Input {...field} />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
+                            <ErrorMessage errors={form.formState.errors} name='name' />
                             <FormField
                                 control={form.control}
                                 name='role'
                                 render={({ field }) => (
                                     <FormItem className='w-full'>
-                                        <FormLabel>Role</FormLabel>
+                                        <FormLabel>Role*</FormLabel>
                                         <CustomTooltip text={[
                                             'Read only users can view feature flags.',
                                             'Standard users can manage feature flags.',
@@ -184,12 +191,13 @@ export default function (props: InviteMemberDialogProps) {
                                     </FormItem>
                                 )}
                             />
+                            <ErrorMessage errors={form.formState.errors} name='role' />
                             <FormField
                                 control={form.control}
                                 name='projects'
                                 render={({ field }) => (
                                     <FormItem className='w-full'>
-                                        <FormLabel>Projects</FormLabel>
+                                        <FormLabel>Projects*</FormLabel>
                                         <FormControl className='flex flex-col items-center justify-center'>
                                             <ToggleGroup type='multiple' onValueChange={field.onChange}>
                                                 <ScrollArea className='w-full rounded-md border min-h-20 max-h-40 p-2'>
@@ -200,7 +208,11 @@ export default function (props: InviteMemberDialogProps) {
                                                     }
                                                     {projectsQuery.isSuccess && !projectsQuery.isFetching &&
                                                         projects.map((project) => (
-                                                            <ToggleGroupItem className='m-0.5' value={project.project_id.toString()}>
+                                                            <ToggleGroupItem
+                                                                key={project.project_id}
+                                                                className='m-0.5'
+                                                                value={project.project_id.toString()}
+                                                            >
                                                                 <p>{project.name}</p>
                                                             </ToggleGroupItem>
                                                         ))
@@ -211,6 +223,7 @@ export default function (props: InviteMemberDialogProps) {
                                     </FormItem>
                                 )}
                             />
+                            <ErrorMessage errors={form.formState.errors} name='projects' />
                             {!mutation.isSuccess &&
                                 <Button type='submit' className='w-1/4' disabled={mutation.isPending}>Invite</Button>
                             }

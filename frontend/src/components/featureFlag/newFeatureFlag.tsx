@@ -1,5 +1,6 @@
 import { CreateOrUpdateFeatureFlag } from "@/api";
 import { apiClient, getErrorMessage } from "@/lib/api";
+import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -19,11 +20,10 @@ import FeatureFlagConditions from "./featureFlagConditions";
 
 const formSchema = z.object({
     name: z.string().min(1).max(128),
-    description: z.string().max(256),
+    description: z.string().max(256).optional(),
     enabled: z.boolean()
 });
 
-// TODO: Show spinner while context fields are loading
 export default function () {
     const params = useParams<{ projectId: string; }>();
     const router = useRouter();
@@ -129,13 +129,14 @@ export default function () {
                                     name='name'
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Name</FormLabel>
+                                            <FormLabel>Name*</FormLabel>
                                             <FormControl>
                                                 <Input {...field} />
                                             </FormControl>
                                         </FormItem>
                                     )}
                                 />
+                                <ErrorMessage errors={form.formState.errors} name='name' />
                                 <FormField
                                     control={form.control}
                                     name='description'
@@ -148,6 +149,7 @@ export default function () {
                                         </FormItem>
                                     )}
                                 />
+                                <ErrorMessage errors={form.formState.errors} name='description' />
                                 <FormField
                                     control={form.control}
                                     name='enabled'
@@ -172,7 +174,7 @@ export default function () {
                                 </div>
                             </div>
                             <div className='w-1/2 flex justify-end'>
-                                <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Create</Button>
+                                <Button type='submit' className='w-1/5 mt-8' disabled={mutation.isPending}>Create</Button>
                             </div>
                         </form>
                     </Form>

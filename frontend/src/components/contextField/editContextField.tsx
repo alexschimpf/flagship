@@ -3,6 +3,7 @@ import { UserContext } from "@/context/userContext";
 import { apiClient, getErrorMessage } from "@/lib/api";
 import { contextFieldValueTypes } from "@/lib/constants";
 import { Permission, hasPermission } from "@/lib/permissions";
+import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -22,7 +23,7 @@ import { useToast } from "../primitives/use-toast";
 
 const formSchema = z.object({
     name: z.string().min(1).max(128),
-    description: z.string().max(256),
+    description: z.string().max(256).optional(),
     enumDef: z.string().refine((def: any) => {
         try {
             JSON.parse(def);
@@ -123,13 +124,14 @@ export default function () {
                                 name='name'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Name</FormLabel>
+                                        <FormLabel>Name*</FormLabel>
                                         <FormControl>
                                             <Input {...field} />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
+                            <ErrorMessage errors={form.formState.errors} name='name' />
                             <div>
                                 <Label>Field Key</Label>
                                 <Input className='mt-2' value={contextField?.field_key || ''} disabled />
@@ -146,6 +148,7 @@ export default function () {
                                     </FormItem>
                                 )}
                             />
+                            <ErrorMessage errors={form.formState.errors} name='description' />
                             <div>
                                 <Label>Value Type</Label>
                                 <Input className='mt-2' value={valueType} disabled />
@@ -156,7 +159,7 @@ export default function () {
                                     name='enumDef'
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Enum Definition</FormLabel>
+                                            <FormLabel>Enum Definition*</FormLabel>
                                             <CustomTooltip text={[
                                                 'For context fields with an enum value type, you must define the enum with JSON.',
                                                 'The JSON must have string keys and either integer or string values.',
@@ -170,9 +173,10 @@ export default function () {
                                     )}
                                 />
                             }
+                            <ErrorMessage errors={form.formState.errors} name='enumDef' />
                             {hasPermission(currentUser, Permission.UPDATE_CONTEXT_FIELD) &&
                                 <div className='flex justify-end'>
-                                    <Button type='submit' className='w-1/5' disabled={mutation.isPending}>Save</Button>
+                                    <Button type='submit' className='w-1/5 mt-8' disabled={mutation.isPending}>Save</Button>
                                 </div>
                             }
                         </form>
