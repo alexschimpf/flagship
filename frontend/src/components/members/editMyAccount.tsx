@@ -239,7 +239,7 @@ export default function () {
                         <div className='flex justify-end'>
                             <Button
                                 type='button'
-                                className='w-1/5 mr-2'
+                                className='w-1/5 mr-2 my-8'
                                 variant='destructive'
                                 disabled={resetPasswordMutation.isPending}
                                 onClick={() => onResetPasswordClick()}
@@ -248,7 +248,7 @@ export default function () {
                             </Button>
                             <Button
                                 type='submit'
-                                className='w-1/5'
+                                className='w-1/5 my-8'
                                 disabled={mutation.isPending}
                             >
                                 Save

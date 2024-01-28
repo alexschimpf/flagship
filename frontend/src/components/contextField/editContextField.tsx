@@ -48,7 +48,7 @@ const formSchema = z.object({
 
 export default function () {
     const currentUser = useContext(UserContext);
-    const params = useParams<{ projectId: string; contextFieldId: string }>();
+    const params = useParams<{ projectId: string; contextFieldId: string; }>();
     const router = useRouter();
     const queryClient = useQueryClient();
     const { toast } = useToast();
@@ -219,16 +219,16 @@ export default function () {
                                 currentUser,
                                 Permission.UPDATE_CONTEXT_FIELD
                             ) && (
-                                <div className='flex justify-end'>
-                                    <Button
-                                        type='submit'
-                                        className='w-1/5 mt-8'
-                                        disabled={mutation.isPending}
-                                    >
-                                        Save
-                                    </Button>
-                                </div>
-                            )}
+                                    <div className='flex justify-end'>
+                                        <Button
+                                            type='submit'
+                                            className='w-1/5 m-8'
+                                            disabled={mutation.isPending}
+                                        >
+                                            Save
+                                        </Button>
+                                    </div>
+                                )}
                         </form>
                     </Form>
                 </div>

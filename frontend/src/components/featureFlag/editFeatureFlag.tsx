@@ -33,7 +33,7 @@ const formSchema = z.object({
 
 // TODO: Show spinner while context fields are loading
 export default function () {
-    const params = useParams<{ projectId: string; featureFlagId: string }>();
+    const params = useParams<{ projectId: string; featureFlagId: string; }>();
     const currentUser = useContext(UserContext);
     const router = useRouter();
     const queryClient = useQueryClient();
@@ -243,16 +243,16 @@ export default function () {
                                 currentUser,
                                 Permission.UPDATE_FEATURE_FLAG
                             ) && (
-                                <div className='w-1/2 flex justify-end'>
-                                    <Button
-                                        type='submit'
-                                        className='w-1/5 mt-8'
-                                        disabled={mutation.isPending}
-                                    >
-                                        Save
-                                    </Button>
-                                </div>
-                            )}
+                                    <div className='w-1/2 flex justify-end'>
+                                        <Button
+                                            type='submit'
+                                            className='w-1/5 m-8'
+                                            disabled={mutation.isPending}
+                                        >
+                                            Save
+                                        </Button>
+                                    </div>
+                                )}
                         </form>
                     </Form>
                 </div>

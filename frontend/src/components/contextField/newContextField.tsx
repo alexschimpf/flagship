@@ -54,7 +54,7 @@ const formSchema = z.object({
 });
 
 export default function () {
-    const params = useParams<{ projectId: string }>();
+    const params = useParams<{ projectId: string; }>();
     const router = useRouter();
     const queryClient = useQueryClient();
     const { toast } = useToast();
@@ -250,7 +250,7 @@ export default function () {
                         <div className='flex justify-end'>
                             <Button
                                 type='submit'
-                                className='w-1/5 mt-8'
+                                className='w-1/5 m-8'
                                 disabled={mutation.isPending}
                             >
                                 Create
