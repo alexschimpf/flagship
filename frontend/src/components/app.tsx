@@ -10,12 +10,13 @@ import Header from './header';
 import { Toaster } from './primitives/toaster';
 
 export default function ({ children }: any) {
+    const theme = localStorage.getItem('theme') || 'dark';
     return (
         <div className='flex-1 flex flex-col container items-center w-3/4'>
             <QueryClientProvider client={queryClient}>
                 <ThemeProvider
                     attribute='class'
-                    defaultTheme='dark'
+                    defaultTheme={theme}
                     enableSystem
                 >
                     <UserProvider>

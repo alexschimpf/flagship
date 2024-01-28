@@ -37,7 +37,9 @@ const Header = () => {
     const pathName = usePathname();
 
     const onToggleLightDarkModeClick = () => {
-        setTheme(theme === 'dark' ? 'light' : 'dark');
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+        setTheme(newTheme);
     };
 
     return (
