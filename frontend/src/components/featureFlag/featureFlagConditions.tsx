@@ -61,6 +61,7 @@ export default (props: FeatureFlagConditionsProps) => {
                     <div className='outline-accent border-4 rounded-md p-4 bg-accent'>
                         <div className='flex justify-end'>
                             <Button
+                                type='button'
                                 variant='ghost'
                                 className='h-auto p-2 translate-x-3 -translate-y-3 hover:scale-125'
                                 onClick={() => onRemove(group.id)}
@@ -84,7 +85,7 @@ export default (props: FeatureFlagConditionsProps) => {
                 </div>
             ))}
             <div className='flex justify-center'>
-                <Button variant='ghost' className='p-3 mt-1' onClick={onAdd}>
+                <Button type='button' variant='ghost' className='p-3 mt-1' onClick={onAdd}>
                     <PlusCircledIcon className='size-5' />
                 </Button>
             </div>

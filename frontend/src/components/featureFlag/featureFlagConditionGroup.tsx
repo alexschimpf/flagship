@@ -76,7 +76,7 @@ export default (props: FeatureFlagConditionGroupProps) => {
                             />
                         </div>
                         <div className='flex-none'>
-                            <Button variant='ghost' className='h-fit p-2 ml-2 hover:scale-125' onClick={() => onRemove(condition.id)}>
+                            <Button type='button' variant='ghost' className='h-fit p-2 ml-2 hover:scale-125' onClick={() => onRemove(condition.id)}>
                                 <Cross1Icon className='size-3' />
                             </Button>
                         </div>
@@ -90,7 +90,7 @@ export default (props: FeatureFlagConditionGroupProps) => {
                 </div>
             ))}
             <div className='flex justify-center items-start'>
-                <Button variant='ghost' className='p-3 mt-3 hover:scale-110' onClick={onAdd}>
+                <Button type='button' variant='ghost' className='p-3 mt-3 hover:scale-110' onClick={onAdd}>
                     <PlusCircledIcon className='size-5' />
                 </Button>
             </div>

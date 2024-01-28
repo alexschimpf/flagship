@@ -57,7 +57,7 @@ export default (props: FeatureFlagConditionProps) => {
         const newOperator = parseInt(operator_);
         setOperator(newOperator);
 
-        // Reset other fields 
+        // Reset other fields
         setValue('');
         setStagedValue('');
 
@@ -214,7 +214,7 @@ export default (props: FeatureFlagConditionProps) => {
                 return (
                     <div className='flex items-center'>
                         <Input value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
-                        <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
                     </div>
                 );
             } else {
@@ -227,7 +227,7 @@ export default (props: FeatureFlagConditionProps) => {
                 return (
                     <div className='flex items-center'>
                         <Input type='number' value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
-                        <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
                     </div>
                 );
             } else {
@@ -240,7 +240,7 @@ export default (props: FeatureFlagConditionProps) => {
                 return (
                     <div className='flex items-center'>
                         <Input type='number' step={1} value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
-                        <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
                     </div>
                 );
             } else {
@@ -274,7 +274,7 @@ export default (props: FeatureFlagConditionProps) => {
                                 ))}
                             </SelectContent>
                         </Select>
-                        <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
                     </div>
                 );
             } else {
@@ -300,7 +300,7 @@ export default (props: FeatureFlagConditionProps) => {
                 return (
                     <div className='flex items-center'>
                         <Input value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
-                        <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
                     </div>
                 );
             } else {
@@ -313,7 +313,7 @@ export default (props: FeatureFlagConditionProps) => {
                 return (
                     <div className='flex items-center'>
                         <Input type='number' step={1} value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
-                        <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
                     </div>
                 );
             } else {
@@ -335,7 +335,7 @@ export default (props: FeatureFlagConditionProps) => {
                                 ))}
                             </SelectContent>
                         </Select>
-                        <Button className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
                     </div>
                 );
             } else {
