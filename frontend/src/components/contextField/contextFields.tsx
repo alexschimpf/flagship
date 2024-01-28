@@ -10,7 +10,7 @@ import { UserContext } from '@/context/userContext';
 import { apiClient } from '@/lib/api';
 import { contextFieldValueTypes } from "@/lib/constants";
 import { Permission, hasPermission } from '@/lib/permissions';
-import { getLocalTimeString } from '@/lib/time';
+import { getLocalTimeString } from "@/lib/utils";
 import { ArrowLeftIcon, DotsHorizontalIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';

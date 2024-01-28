@@ -2,9 +2,10 @@ import datetime
 from typing import Any, cast
 
 import ujson
-from sqlalchemy import String, DateTime, Integer, Boolean, ForeignKey, Text, select, delete, update
+from sqlalchemy import String, Integer, Boolean, ForeignKey, Text, select, delete, update
 from sqlalchemy.orm import Mapped, mapped_column, validates, Session
 from sqlalchemy.sql import func, text
+from sqlalchemy_utc import UtcDateTime
 
 from app.services.database.mysql.schemas.base import BaseRow
 
@@ -19,9 +20,9 @@ class FeatureFlagRow(BaseRow):
     description: Mapped[str] = mapped_column(String(256))
     conditions: Mapped[str] = mapped_column(Text)
     enabled: Mapped[bool] = mapped_column(Boolean, default=False)
-    created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
+    created_date: Mapped[datetime.datetime] = mapped_column(UtcDateTime, server_default=func.current_timestamp())
     updated_date: Mapped[datetime.datetime] = mapped_column(
-        DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
+        UtcDateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 
     @validates('conditions')
     def validate_conditions(self, _: str, value: str) -> str:

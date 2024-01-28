@@ -1,8 +1,9 @@
 import datetime
 
-from sqlalchemy import String, DateTime, Integer, delete, select, update
+from sqlalchemy import String, Integer, delete, select, update
 from sqlalchemy.orm import Mapped, mapped_column, Session
 from sqlalchemy.sql import func, text
+from sqlalchemy_utc import UtcDateTime
 
 from app.services.database.mysql.schemas.base import BaseRow
 
@@ -13,9 +14,9 @@ class ProjectRow(BaseRow):
 
     project_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(128), unique=True)
-    created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
+    created_date: Mapped[datetime.datetime] = mapped_column(UtcDateTime, server_default=func.current_timestamp())
     updated_date: Mapped[datetime.datetime] = mapped_column(
-        DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
+        UtcDateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 
 
 class ProjectsTable:

@@ -8,7 +8,7 @@ import NewProjectDialog from '@/components/project/newProjectDialog';
 import { UserContext } from '@/context/userContext';
 import { apiClient } from '@/lib/api';
 import { Permission, hasPermission } from '@/lib/permissions';
-import { getLocalTimeString } from '@/lib/time';
+import { getLocalTimeString } from "@/lib/utils";
 import { DropdownMenuSeparator } from '@radix-ui/react-dropdown-menu';
 import { DotsHorizontalIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';

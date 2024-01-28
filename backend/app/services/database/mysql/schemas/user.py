@@ -2,9 +2,10 @@ import datetime
 from typing import cast
 
 import pydantic
-from sqlalchemy import String, DateTime, Integer, delete, select, update, Text
+from sqlalchemy import String, Integer, delete, select, update, Text
 from sqlalchemy.orm import Mapped, mapped_column, validates, Session
 from sqlalchemy.sql import func, text
+from sqlalchemy_utc import UtcDateTime
 
 from app.constants import UserRole, UserStatus
 from app.services.database.mysql.schemas.base import BaseRow
@@ -21,9 +22,9 @@ class UserRow(BaseRow):
     status: Mapped[int] = mapped_column(Integer)
     password: Mapped[str] = mapped_column(String, nullable=True)
     set_password_token: Mapped[str | None] = mapped_column(Text, nullable=True)
-    created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
+    created_date: Mapped[datetime.datetime] = mapped_column(UtcDateTime, server_default=func.current_timestamp())
     updated_date: Mapped[datetime.datetime] = mapped_column(
-        DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
+        UtcDateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 
     @validates('email')
     def validate_email(self, _: str, value: str) -> str:

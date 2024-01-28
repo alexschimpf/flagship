@@ -1,8 +1,9 @@
 import datetime
 from typing import cast
 
-from sqlalchemy import String, Integer, ForeignKey, delete, select, text, DateTime, func, update
+from sqlalchemy import String, Integer, ForeignKey, delete, select, text, func, update
 from sqlalchemy.orm import Mapped, mapped_column, Session
+from sqlalchemy_utc import UtcDateTime
 
 from app.services.database.mysql.schemas.base import BaseRow
 
@@ -15,7 +16,7 @@ class ProjectPrivateKeyRow(BaseRow):
     project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.project_id'))
     private_key: Mapped[str] = mapped_column(String(184))
     name: Mapped[str] = mapped_column(String(128))
-    created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
+    created_date: Mapped[datetime.datetime] = mapped_column(UtcDateTime, server_default=func.current_timestamp())
 
 
 class ProjectPrivateKeysTable:

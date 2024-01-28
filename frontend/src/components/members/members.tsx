@@ -9,7 +9,7 @@ import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorMessage } from '@/lib/api';
 import { userRoles, userStatuses } from "@/lib/constants";
 import { Permission, hasPermission } from '@/lib/permissions';
-import { getLocalTimeString } from '@/lib/time';
+import { getLocalTimeString } from "@/lib/utils";
 import { ArrowLeftIcon, CheckCircledIcon, DotsHorizontalIcon, ExclamationTriangleIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import parseHTML from 'html-react-parser';

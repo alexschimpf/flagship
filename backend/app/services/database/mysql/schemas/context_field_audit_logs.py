@@ -1,9 +1,10 @@
 import datetime
 from typing import cast
 
-from sqlalchemy import String, DateTime, Integer, ForeignKey, Text, select
+from sqlalchemy import String, Integer, ForeignKey, Text, select
 from sqlalchemy.orm import Mapped, mapped_column, Session
 from sqlalchemy.sql import func
+from sqlalchemy_utc import UtcDateTime
 
 from app.services.database.mysql.schemas.base import BaseRow
 
@@ -19,7 +20,7 @@ class ContextFieldAuditLogRow(BaseRow):
     name: Mapped[str] = mapped_column(String(128))
     description: Mapped[str] = mapped_column(String(256))
     enum_def: Mapped[str | None] = mapped_column(Text, nullable=True)
-    created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
+    created_date: Mapped[datetime.datetime] = mapped_column(UtcDateTime, server_default=func.current_timestamp())
 
 
 class ContextFieldAuditLogsTable:

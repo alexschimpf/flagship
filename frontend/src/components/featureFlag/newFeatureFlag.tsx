@@ -17,8 +17,6 @@ import { useToast } from "../primitives/use-toast";
 import { ConditionGroup } from "./featureFlagConditionGroup";
 import FeatureFlagConditions from "./featureFlagConditions";
 
-
-
 const formSchema = z.object({
     name: z.string().min(1).max(128),
     description: z.string().max(256),

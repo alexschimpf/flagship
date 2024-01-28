@@ -2,9 +2,10 @@ import datetime
 from typing import Any, cast
 
 import ujson
-from sqlalchemy import String, DateTime, Integer, ForeignKey, Text, select, update, delete
+from sqlalchemy import String, Integer, ForeignKey, Text, select, update, delete
 from sqlalchemy.orm import Mapped, mapped_column, validates, Session
 from sqlalchemy.sql import func, text
+from sqlalchemy_utc import UtcDateTime
 
 from app.constants import ContextValueType
 from app.services.database.mysql.schemas.base import BaseRow
@@ -21,9 +22,9 @@ class ContextFieldRow(BaseRow):
     field_key: Mapped[str] = mapped_column(String(64))
     value_type: Mapped[int] = mapped_column(Integer, default=False)
     enum_def: Mapped[str | None] = mapped_column(Text, nullable=True)
-    created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
+    created_date: Mapped[datetime.datetime] = mapped_column(UtcDateTime, server_default=func.current_timestamp())
     updated_date: Mapped[datetime.datetime] = mapped_column(
-        DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
+        UtcDateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 
     @validates('value_type')
     def validate_value_type(self, _: str, value: int) -> int:

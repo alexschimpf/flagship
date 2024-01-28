@@ -25,6 +25,7 @@ import {
 } from '@/components/primitives/tooltip';
 import { useToast } from '@/components/primitives/use-toast';
 import { apiClient, getErrorMessage } from '@/lib/api';
+import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import {
@@ -34,15 +35,13 @@ import parseHTML from 'html-react-parser';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-
 const formSchema = z.object({
-    name: z.string()
+    name: z.string().min(1).max(256)
 });
 
 class NewProjectDialogProps {
     trigger: any;
 }
-
 
 export default function (props: NewProjectDialogProps) {
     const { toast } = useToast();
@@ -93,6 +92,9 @@ export default function (props: NewProjectDialogProps) {
             queryClient.invalidateQueries({ queryKey: ['projects'] });
         }
     };
+    const onPrivateKeyClick = (e: any) => {
+        e.currentTarget.select();
+    };
 
     return (
         <div>
@@ -121,13 +123,14 @@ export default function (props: NewProjectDialogProps) {
                                     name='name'
                                     render={({ field }) => (
                                         <FormItem className='w-full'>
-                                            <FormLabel>Name</FormLabel>
+                                            <FormLabel>Name*</FormLabel>
                                             <FormControl>
-                                                <Input disabled={mutation.isSuccess} className='disabled:cursor-default' placeholder='' {...field} />
+                                                <Input disabled={mutation.isSuccess} className='disabled:cursor-default' {...field} />
                                             </FormControl>
                                         </FormItem>
                                     )}
                                 />
+                                <ErrorMessage errors={form.formState.errors} name='name' />
                                 {!mutation.isSuccess &&
                                     <Button type='submit' className='w-1/4' disabled={mutation.isPending}>Create</Button>
                                 }
@@ -136,7 +139,11 @@ export default function (props: NewProjectDialogProps) {
                         {mutation.isSuccess &&
                             <div className='mt-4'>
                                 <p className='mb-4 text-red-500 text-sm text-center'>Your project's <b>secret key</b> is below. Please save it somewhere safe and accessible. It is needed to authenticate your client's requests. You <b>will not</b> see it again after this dialog closes.</p>
-                                <Textarea className='bg-accent cursor-pointer resize-none text-center' value={mutation.data.private_key}></Textarea>
+                                <Textarea
+                                    className='bg-accent cursor-pointer resize-none text-center'
+                                    value={mutation.data.private_key}
+                                    onClick={onPrivateKeyClick}
+                                />
                             </div>
                         }
                     </div>

@@ -10,6 +10,7 @@
     "openapi-codegen": "openapi --input http://localhost:8000/openapi.json --output ./src/api --name APIClient"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",

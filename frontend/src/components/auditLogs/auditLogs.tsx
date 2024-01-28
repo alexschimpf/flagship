@@ -1,7 +1,7 @@
 'use client';
 
 import { apiClient } from '@/lib/api';
-import { getLocalTimeString } from '@/lib/time';
+import { getLocalTimeString } from "@/lib/utils";
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';

@@ -1,10 +1,11 @@
 import datetime
 from typing import cast
 
-from sqlalchemy import String, DateTime, Integer, ForeignKey, Text, Boolean
+from sqlalchemy import String, Integer, ForeignKey, Text, Boolean
 from sqlalchemy import select
 from sqlalchemy.orm import Mapped, mapped_column, Session
 from sqlalchemy.sql import func
+from sqlalchemy_utc import UtcDateTime
 
 from app.services.database.mysql.schemas.base import BaseRow
 
@@ -21,7 +22,7 @@ class FeatureFlagAuditLogRow(BaseRow):
     description: Mapped[str] = mapped_column(String(256))
     conditions: Mapped[str] = mapped_column(Text)
     enabled: Mapped[bool] = mapped_column(Boolean, default=False)
-    created_date: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.current_timestamp())
+    created_date: Mapped[datetime.datetime] = mapped_column(UtcDateTime, server_default=func.current_timestamp())
 
 
 class FeatureFlagAuditLogsTable:
