@@ -6,16 +6,19 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
-    DropdownMenuTrigger,
+    DropdownMenuTrigger
 } from '@/components/primitives/dropdown-menu';
 import { ProjectContext } from '@/context/projectContext';
 import { UserContext } from '@/context/userContext';
 import { UserProvider } from '@/context/userProvider';
 import { Permission, hasPermission } from '@/lib/permissions';
-import { PersonIcon, QuestionMarkCircledIcon, RocketIcon } from '@radix-ui/react-icons';
+import {
+    PersonIcon,
+    QuestionMarkCircledIcon,
+    RocketIcon
+} from '@radix-ui/react-icons';
 import { usePathname, useRouter } from 'next/navigation';
 import { useContext } from 'react';
-
 
 export default function () {
     return (
@@ -24,7 +27,6 @@ export default function () {
         </UserProvider>
     );
 }
-
 
 const Header = () => {
     const currentUser = useContext(UserContext);
@@ -39,10 +41,14 @@ const Header = () => {
                     <Button
                         variant='ghost'
                         className='focus-visible:bg-white hover:bg-white p-0 mr-6'
-                        onClick={() => { window.location.replace('http://localhost:3000'); }}
+                        onClick={() => {
+                            window.location.replace('http://localhost:3000');
+                        }}
                     >
                         <RocketIcon />
-                        <h1 className='font-bold text-lg pl-2 cursor-pointer'>Flagship</h1>
+                        <h1 className='font-bold text-lg pl-2 cursor-pointer'>
+                            Flagship
+                        </h1>
                     </Button>
                     <nav>
                         <Button
@@ -52,7 +58,7 @@ const Header = () => {
                         >
                             Projects
                         </Button>
-                        {hasPermission(currentUser, Permission.READ_USERS) &&
+                        {hasPermission(currentUser, Permission.READ_USERS) && (
                             <Button
                                 variant='ghost'
                                 className={`p-3 hover:bg-accent rounded-none ${pathName === '/members' ? 'bg-accent' : ''}`}
@@ -60,8 +66,11 @@ const Header = () => {
                             >
                                 Members
                             </Button>
-                        }
-                        {hasPermission(currentUser, Permission.READ_SYSTEM_AUDIT_LOGS) &&
+                        )}
+                        {hasPermission(
+                            currentUser,
+                            Permission.READ_SYSTEM_AUDIT_LOGS
+                        ) && (
                             <Button
                                 variant='ghost'
                                 className={`p-3 hover:bg-accent rounded-none ${pathName === '/audit-logs' ? 'bg-accent' : ''}`}
@@ -69,16 +78,21 @@ const Header = () => {
                             >
                                 Audit Logs
                             </Button>
-                        }
+                        )}
                     </nav>
                 </div>
-                {currentProject?.name?.length &&
+                {currentProject?.name?.length && (
                     <div className='flex justify-end items-center mr-6 px-4 bg-accent h-full'>
-                        <p className='font-bold text-sm'>{currentProject?.name}</p>
+                        <p className='font-bold text-sm'>
+                            {currentProject?.name}
+                        </p>
                     </div>
-                }
+                )}
                 <div className='flex justify-end items-center cursor-pointer'>
-                    <Button variant='ghost' className='hover:bg-accent hover:rounded-none px-2 size-10'>
+                    <Button
+                        variant='ghost'
+                        className='hover:bg-accent hover:rounded-none px-2 size-10'
+                    >
                         <QuestionMarkCircledIcon className='size-5' />
                     </Button>
                     <DropdownMenu>
@@ -86,16 +100,16 @@ const Header = () => {
                             <PersonIcon className='size-5' />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuItem
-                                className='cursor-pointer'
-                            >
-                                <a href='//localhost:3000/account'>My Account</a>
+                            <DropdownMenuItem className='cursor-pointer'>
+                                <a href='//localhost:3000/account'>
+                                    My Account
+                                </a>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                                className='cursor-pointer'
-                            >
-                                <a href='//localhost:8000/auth/logout'>Logout</a>
+                            <DropdownMenuItem className='cursor-pointer'>
+                                <a href='//localhost:8000/auth/logout'>
+                                    Logout
+                                </a>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

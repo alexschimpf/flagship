@@ -6,23 +6,21 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
+    DialogTrigger
 } from '@/components/primitives/dialog';
 import {
     Form,
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
+    FormLabel
 } from '@/components/primitives/form';
 import { Input } from '@/components/primitives/input';
 import { useToast } from '@/components/primitives/use-toast';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-    useMutation, useQueryClient
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -50,12 +48,11 @@ export default function (props: EditProjectDialogProps) {
     const [lastSavedName, setLastSavedName] = useState(props.initialName);
     const mutation = useMutation({
         mutationFn: (name: string) => {
-            return apiClient.projects.updateProject(
-                props.projectId,
-                { name: name }
-            );
+            return apiClient.projects.updateProject(props.projectId, {
+                name: name
+            });
         },
-        onError: (error) => {
+        onError: error => {
             toast(getErrorToast(error));
         },
         onSuccess: () => {
@@ -79,16 +76,22 @@ export default function (props: EditProjectDialogProps) {
     return (
         <div>
             <Dialog onOpenChange={onOpenChange} open={open}>
-                <DialogTrigger asChild>
-                    {props.trigger}
-                </DialogTrigger>
-                <DialogContent className='sm:max-w-[425px]' onCloseAutoFocus={(e) => { e.preventDefault(); }}>
+                <DialogTrigger asChild>{props.trigger}</DialogTrigger>
+                <DialogContent
+                    className='sm:max-w-[425px]'
+                    onCloseAutoFocus={e => {
+                        e.preventDefault();
+                    }}
+                >
                     <DialogHeader>
                         <DialogTitle>Edit Project</DialogTitle>
                     </DialogHeader>
                     <div className='w-full'>
                         <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 flex flex-col items-end'>
+                            <form
+                                onSubmit={form.handleSubmit(onSubmit)}
+                                className='space-y-4 flex flex-col items-end'
+                            >
                                 <FormField
                                     control={form.control}
                                     name='name'
@@ -96,13 +99,28 @@ export default function (props: EditProjectDialogProps) {
                                         <FormItem className='w-full'>
                                             <FormLabel>Name*</FormLabel>
                                             <FormControl>
-                                                <Input className='disabled:cursor-default' placeholder='' {...field} />
+                                                <Input
+                                                    className='disabled:cursor-default'
+                                                    placeholder=''
+                                                    {...field}
+                                                />
                                             </FormControl>
                                         </FormItem>
                                     )}
                                 />
-                                <ErrorMessage errors={form.formState.errors} name='name' />
-                                <Button type='submit' className='w-1/4' disabled={mutation.isPending || mutation.isSuccess}>Save</Button>
+                                <ErrorMessage
+                                    errors={form.formState.errors}
+                                    name='name'
+                                />
+                                <Button
+                                    type='submit'
+                                    className='w-1/4'
+                                    disabled={
+                                        mutation.isPending || mutation.isSuccess
+                                    }
+                                >
+                                    Save
+                                </Button>
                             </form>
                         </Form>
                     </div>

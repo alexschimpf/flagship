@@ -1,21 +1,33 @@
-import { UpdateUser, User } from "@/api";
-import { apiClient, getErrorToast, getSuccessToast } from "@/lib/api";
-import { userRoles } from "@/lib/constants";
-import { ErrorMessage } from "@hookform/error-message";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "../primitives/button";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../primitives/form";
-import { Input } from "../primitives/input";
-import { ScrollArea } from "../primitives/scroll-area";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../primitives/select";
-import { ToggleGroup, ToggleGroupItem } from "../primitives/toggle-group";
-import { useToast } from "../primitives/use-toast";
+import { UpdateUser, User } from '@/api';
+import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
+import { userRoles } from '@/lib/constants';
+import { ErrorMessage } from '@hookform/error-message';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowLeftIcon } from '@radix-ui/react-icons';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '../primitives/button';
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel
+} from '../primitives/form';
+import { Input } from '../primitives/input';
+import { ScrollArea } from '../primitives/scroll-area';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '../primitives/select';
+import { ToggleGroup, ToggleGroupItem } from '../primitives/toggle-group';
+import { useToast } from '../primitives/use-toast';
 
 const formSchema = z.object({
     name: z.string().min(1).max(128),
@@ -49,7 +61,8 @@ export default function () {
         values: {
             name: user?.name || '',
             role: user?.role?.toString() || '',
-            projects: user?.projects.map((projectId) => projectId.toString()) || []
+            projects:
+                user?.projects.map(projectId => projectId.toString()) || []
         }
     });
 
@@ -59,7 +72,7 @@ export default function () {
                 email: user?.email as string
             });
         },
-        onError: (error) => {
+        onError: error => {
             toast(getErrorToast(error));
         },
         onSuccess: () => {
@@ -70,11 +83,18 @@ export default function () {
     const mutation = useMutation({
         mutationFn: (userRequest: UpdateUser) => {
             // TODO: Probably don't need this after testing
-            const availableProjectIds = projects.map((project) => project.project_id);
-            userRequest.projects = userRequest.projects.filter((projectId) => availableProjectIds.includes(projectId));
-            return apiClient.users.updateUser(user?.user_id as number, userRequest);
+            const availableProjectIds = projects.map(
+                project => project.project_id
+            );
+            userRequest.projects = userRequest.projects.filter(projectId =>
+                availableProjectIds.includes(projectId)
+            );
+            return apiClient.users.updateUser(
+                user?.user_id as number,
+                userRequest
+            );
         },
-        onError: (error) => {
+        onError: error => {
             toast(getErrorToast(error));
         },
         onSuccess: (data: User) => {
@@ -87,11 +107,12 @@ export default function () {
         }
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => mutation.mutate({
-        name: values.name,
-        role: parseInt(values.role),
-        projects: values.projects.map((projectId) => parseInt(projectId))
-    });
+    const onSubmit = (values: z.infer<typeof formSchema>) =>
+        mutation.mutate({
+            name: values.name,
+            role: parseInt(values.role),
+            projects: values.projects.map(projectId => parseInt(projectId))
+        });
     const onResetPasswordClick = () => resetPasswordMutation.mutate();
     const onBackClick = () => router.replace('/');
 
@@ -99,19 +120,27 @@ export default function () {
         <div className='flex flex-col w-full justify-center'>
             <div className='flex items-center justify-center mt-4 mb-8 h-10'>
                 <div className='flex-1'>
-                    <Button variant='ghost' className='hover:bg-accent px-2 size-9' onClick={onBackClick}>
+                    <Button
+                        variant='ghost'
+                        className='hover:bg-accent px-2 size-9'
+                        onClick={onBackClick}
+                    >
                         <ArrowLeftIcon className='size-8 cursor-pointer' />
                     </Button>
                 </div>
                 <div className='flex-1'>
-                    <h1 className='text-center text-lg font-bold'>My Account</h1>
+                    <h1 className='text-center text-lg font-bold'>
+                        My Account
+                    </h1>
                 </div>
-                <div className='flex-1'>
-                </div>
+                <div className='flex-1'></div>
             </div>
             <div className='w-full flex items-center justify-center'>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 flex flex-col w-1/2'>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className='space-y-4 flex flex-col w-1/2'
+                    >
                         <FormField
                             control={form.control}
                             name='name'
@@ -124,29 +153,43 @@ export default function () {
                                 </FormItem>
                             )}
                         />
-                        <ErrorMessage errors={form.formState.errors} name='name' />
+                        <ErrorMessage
+                            errors={form.formState.errors}
+                            name='name'
+                        />
                         <FormField
                             control={form.control}
                             name='role'
                             render={({ field }) => (
                                 <FormItem className='w-full'>
                                     <FormLabel>Role*</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                        value={field.value}
+                                    >
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder='Select a role' />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {Object.entries(userRoles).map(([roleId, roleName]) => (
-                                                <SelectItem value={roleId}>{roleName}</SelectItem>
-                                            ))}
+                                            {Object.entries(userRoles).map(
+                                                ([roleId, roleName]) => (
+                                                    <SelectItem value={roleId}>
+                                                        {roleName}
+                                                    </SelectItem>
+                                                )
+                                            )}
                                         </SelectContent>
                                     </Select>
                                 </FormItem>
                             )}
                         />
-                        <ErrorMessage errors={form.formState.errors} name='role' />
+                        <ErrorMessage
+                            errors={form.formState.errors}
+                            name='role'
+                        />
                         <FormField
                             control={form.control}
                             name='projects'
@@ -154,31 +197,45 @@ export default function () {
                                 <FormItem className='w-full'>
                                     <FormLabel>Projects*</FormLabel>
                                     <FormControl className='flex flex-col items-center justify-center'>
-                                        <ToggleGroup type='multiple' onValueChange={field.onChange} value={field.value}>
+                                        <ToggleGroup
+                                            type='multiple'
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                        >
                                             <ScrollArea className='w-full rounded-md border min-h-20 max-h-40 p-2'>
-                                                {projectsQuery.isFetching &&
+                                                {projectsQuery.isFetching && (
                                                     <div className='flex items-center justify-center size-full'>
-                                                        <Loader2 className='animate-spin text-center' size={48} />
+                                                        <Loader2
+                                                            className='animate-spin text-center'
+                                                            size={48}
+                                                        />
                                                     </div>
-                                                }
-                                                {projectsQuery.isSuccess && !projectsQuery.isFetching &&
-                                                    projects.map((project) => (
+                                                )}
+                                                {projectsQuery.isSuccess &&
+                                                    !projectsQuery.isFetching &&
+                                                    projects.map(project => (
                                                         <ToggleGroupItem
-                                                            key={project.project_id}
+                                                            key={
+                                                                project.project_id
+                                                            }
                                                             className='m-0.5'
                                                             value={project.project_id.toString()}
                                                         >
-                                                            <p>{project.name}</p>
+                                                            <p>
+                                                                {project.name}
+                                                            </p>
                                                         </ToggleGroupItem>
-                                                    ))
-                                                }
+                                                    ))}
                                             </ScrollArea>
                                         </ToggleGroup>
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
-                        <ErrorMessage errors={form.formState.errors} name='projects' />
+                        <ErrorMessage
+                            errors={form.formState.errors}
+                            name='projects'
+                        />
                         <div className='flex justify-end'>
                             <Button
                                 type='button'
@@ -189,7 +246,11 @@ export default function () {
                             >
                                 Reset Password
                             </Button>
-                            <Button type='submit' className='w-1/5' disabled={mutation.isPending}>
+                            <Button
+                                type='submit'
+                                className='w-1/5'
+                                disabled={mutation.isPending}
+                            >
                                 Save
                             </Button>
                         </div>

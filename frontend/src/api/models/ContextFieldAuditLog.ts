@@ -8,4 +8,3 @@ export type ContextFieldAuditLog = {
     event_time: string;
     changes: Array<ContextFieldChange>;
 };
-

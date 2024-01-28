@@ -4,7 +4,6 @@
 /* eslint-disable */
 export type ContextFieldChange = {
     field: string;
-    old: (string | null);
-    new: (string | null);
+    old: string | null;
+    new: string | null;
 };
-

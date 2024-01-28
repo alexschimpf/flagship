@@ -6,4 +6,3 @@ import type { ErrorModel } from './ErrorModel';
 export type ErrorResponseModel = {
     errors: Array<ErrorModel>;
 };
-

@@ -1,10 +1,16 @@
-import { ContextField } from "@/api";
-import { contextFieldValueTypeOperators, operators } from "@/lib/constants";
-import { useState } from "react";
-import { Button } from "../primitives/button";
-import { Input } from "../primitives/input";
-import Pill from "../primitives/pill";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../primitives/select";
+import { ContextField } from '@/api';
+import { contextFieldValueTypeOperators, operators } from '@/lib/constants';
+import { useState } from 'react';
+import { Button } from '../primitives/button';
+import { Input } from '../primitives/input';
+import Pill from '../primitives/pill';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '../primitives/select';
 
 export interface Condition {
     id: number;
@@ -15,18 +21,22 @@ export interface Condition {
 
 interface FeatureFlagConditionProps {
     contextFields: ContextField[];
-    condition: Condition,
+    condition: Condition;
     onChange: (condition: Condition) => void;
 }
 
 export default (props: FeatureFlagConditionProps) => {
     const getContextFieldFromKey = (key: string): ContextField => {
-        return props.contextFields.find((x) => x.field_key === key) as ContextField;
+        return props.contextFields.find(
+            x => x.field_key === key
+        ) as ContextField;
     };
 
     const id = props.condition.id;
 
-    const [contextField, setContextField] = useState(getContextFieldFromKey(props.condition.context_key));
+    const [contextField, setContextField] = useState(
+        getContextFieldFromKey(props.condition.context_key)
+    );
     const [operator, setOperator] = useState(props.condition.operator);
     const [value, setValue] = useState(props.condition.value);
     const [stagedValue, setStagedValue] = useState('');
@@ -36,7 +46,8 @@ export default (props: FeatureFlagConditionProps) => {
         setContextField(newContextField);
 
         // Reset other fields
-        const newOperator = contextFieldValueTypeOperators[newContextField.value_type][0];
+        const newOperator =
+            contextFieldValueTypeOperators[newContextField.value_type][0];
         setOperator(newOperator);
         setValue('');
         setStagedValue('');
@@ -72,13 +83,16 @@ export default (props: FeatureFlagConditionProps) => {
         let valueList: any[] = value?.length ? value.slice(0) : [];
 
         let castStagedValue: any = stagedValue;
-        if (contextField.value_type === 2) {  // number
+        if (contextField.value_type === 2) {
+            // number
             // TODO: Show error if value is not a number
             castStagedValue = parseFloat(castStagedValue);
-        } else if ([3, 8].includes(contextField.value_type)) {  // integer
+        } else if ([3, 8].includes(contextField.value_type)) {
+            // integer
             // TODO: Show error if value is not an integer
             castStagedValue = parseInt(castStagedValue);
-        } else if ([5, 9].includes(contextField.value_type)) {  // enum
+        } else if ([5, 9].includes(contextField.value_type)) {
+            // enum
             // Enum values can either be strings or integers
             // Inspect the enum def to determine how to cast the value
             const enumDef = contextField.enum_def || {};
@@ -174,12 +188,16 @@ export default (props: FeatureFlagConditionProps) => {
     };
 
     const contextKeySelect = (
-        <Select defaultValue={contextField.field_key} value={contextField.field_key} onValueChange={onContextKeyChange}>
+        <Select
+            defaultValue={contextField.field_key}
+            value={contextField.field_key}
+            onValueChange={onContextKeyChange}
+        >
             <SelectTrigger>
                 <SelectValue placeholder='Select a context field' />
             </SelectTrigger>
             <SelectContent>
-                {props.contextFields.map((availableContextField) => (
+                {props.contextFields.map(availableContextField => (
                     <SelectItem
                         key={availableContextField.field_key}
                         value={availableContextField.field_key}
@@ -192,14 +210,22 @@ export default (props: FeatureFlagConditionProps) => {
     );
 
     const operatorSelect = (
-        <Select defaultValue={operator.toString()} value={operator.toString()} onValueChange={onOperatorChange}>
+        <Select
+            defaultValue={operator.toString()}
+            value={operator.toString()}
+            onValueChange={onOperatorChange}
+        >
             <SelectTrigger>
                 <SelectValue placeholder='Select an operator' />
             </SelectTrigger>
             <SelectContent>
                 <div>
-                    {contextFieldValueTypeOperators[contextField.value_type].map((operator) => (
-                        <SelectItem key={operator} value={operator.toString()}>{operators[operator]}</SelectItem>
+                    {contextFieldValueTypeOperators[
+                        contextField.value_type
+                    ].map(operator => (
+                        <SelectItem key={operator} value={operator.toString()}>
+                            {operators[operator]}
+                        </SelectItem>
                     ))}
                 </div>
             </SelectContent>
@@ -209,48 +235,103 @@ export default (props: FeatureFlagConditionProps) => {
     // TODO: Refactor this!
     const getInputSelect = () => {
         const enumDef = contextField.enum_def || {};
-        if (contextField.value_type === 1) {  // string
-            if ([8, 9].includes(operator)) {  // multi-value
+        if (contextField.value_type === 1) {
+            // string
+            if ([8, 9].includes(operator)) {
+                // multi-value
                 return (
                     <div className='flex items-center'>
-                        <Input value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
-                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Input
+                            value={stagedValue}
+                            onChange={e => setStagedValue(e.target.value)}
+                        />
+                        <Button
+                            type='button'
+                            className='ml-2'
+                            onClick={onStagedValueAdd}
+                            disabled={!stagedValue?.length}
+                        >
+                            Add
+                        </Button>
                     </div>
                 );
             } else {
                 return (
-                    <Input value={value} onChange={(e) => onStringValueChange(e.target.value)} />
+                    <Input
+                        value={value}
+                        onChange={e => onStringValueChange(e.target.value)}
+                    />
                 );
             }
-        } else if (contextField.value_type === 2) {  // number
-            if ([8, 9].includes(operator)) {  // multi-value
+        } else if (contextField.value_type === 2) {
+            // number
+            if ([8, 9].includes(operator)) {
+                // multi-value
                 return (
                     <div className='flex items-center'>
-                        <Input type='number' value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
-                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Input
+                            type='number'
+                            value={stagedValue}
+                            onChange={e => setStagedValue(e.target.value)}
+                        />
+                        <Button
+                            type='button'
+                            className='ml-2'
+                            onClick={onStagedValueAdd}
+                            disabled={!stagedValue?.length}
+                        >
+                            Add
+                        </Button>
                     </div>
                 );
             } else {
                 return (
-                    <Input type='number' value={value} onChange={(e) => onNumberValueChange(e.target.value)} />
+                    <Input
+                        type='number'
+                        value={value}
+                        onChange={e => onNumberValueChange(e.target.value)}
+                    />
                 );
             }
-        } else if (contextField.value_type === 3) {  // integer
-            if ([8, 9].includes(operator)) {  // multi-value
+        } else if (contextField.value_type === 3) {
+            // integer
+            if ([8, 9].includes(operator)) {
+                // multi-value
                 return (
                     <div className='flex items-center'>
-                        <Input type='number' step={1} value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
-                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Input
+                            type='number'
+                            step={1}
+                            value={stagedValue}
+                            onChange={e => setStagedValue(e.target.value)}
+                        />
+                        <Button
+                            type='button'
+                            className='ml-2'
+                            onClick={onStagedValueAdd}
+                            disabled={!stagedValue?.length}
+                        >
+                            Add
+                        </Button>
                     </div>
                 );
             } else {
                 return (
-                    <Input type='number' step={1} value={value} onChange={(e) => onIntegerValueChange(e.target.value)} />
+                    <Input
+                        type='number'
+                        step={1}
+                        value={value}
+                        onChange={e => onIntegerValueChange(e.target.value)}
+                    />
                 );
             }
-        } else if (contextField.value_type === 4) {  // boolean
+        } else if (contextField.value_type === 4) {
+            // boolean
             return (
-                <Select value={!value ? undefined : value ? '1' : '0'} onValueChange={onBooleanValueChange}>
+                <Select
+                    value={!value ? undefined : value ? '1' : '0'}
+                    onValueChange={onBooleanValueChange}
+                >
                     <SelectTrigger>
                         <SelectValue placeholder='Select a value' />
                     </SelectTrigger>
@@ -260,82 +341,168 @@ export default (props: FeatureFlagConditionProps) => {
                     </SelectContent>
                 </Select>
             );
-        } else if (contextField.value_type === 5) {  // enum
-            if ([8, 9].includes(operator)) {  // multi-value
+        } else if (contextField.value_type === 5) {
+            // enum
+            if ([8, 9].includes(operator)) {
+                // multi-value
                 return (
                     <div className='flex items-center'>
-                        <Select value={stagedValue} onValueChange={setStagedValue}>
+                        <Select
+                            value={stagedValue}
+                            onValueChange={setStagedValue}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder='Select a value' />
                             </SelectTrigger>
                             <SelectContent>
-                                {Object.entries(enumDef).map(([enumKey, enumValue]) => (
-                                    <SelectItem key={enumKey} value={enumValue.toString()}>{enumKey}</SelectItem>
-                                ))}
+                                {Object.entries(enumDef).map(
+                                    ([enumKey, enumValue]) => (
+                                        <SelectItem
+                                            key={enumKey}
+                                            value={enumValue.toString()}
+                                        >
+                                            {enumKey}
+                                        </SelectItem>
+                                    )
+                                )}
                             </SelectContent>
                         </Select>
-                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Button
+                            type='button'
+                            className='ml-2'
+                            onClick={onStagedValueAdd}
+                            disabled={!stagedValue?.length}
+                        >
+                            Add
+                        </Button>
                     </div>
                 );
             } else {
                 return (
-                    <Select value={value.toString()} onValueChange={onEnumValueChange}>
+                    <Select
+                        value={value.toString()}
+                        onValueChange={onEnumValueChange}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder='Select a value' />
                         </SelectTrigger>
                         <SelectContent>
-                            {Object.entries(enumDef).map(([enumKey, enumValue]) => (
-                                <SelectItem key={enumKey} value={enumValue.toString()}>{enumKey}</SelectItem>
-                            ))}
+                            {Object.entries(enumDef).map(
+                                ([enumKey, enumValue]) => (
+                                    <SelectItem
+                                        key={enumKey}
+                                        value={enumValue.toString()}
+                                    >
+                                        {enumKey}
+                                    </SelectItem>
+                                )
+                            )}
                         </SelectContent>
                     </Select>
                 );
             }
-        } else if (contextField.value_type === 6) {  // version
+        } else if (contextField.value_type === 6) {
+            // version
             return (
-                <Input value={value} onChange={(e) => onStringValueChange(e.target.value)} />
+                <Input
+                    value={value}
+                    onChange={e => onStringValueChange(e.target.value)}
+                />
             );
-        } else if (contextField.value_type === 7) {  // string list
-            if ([10, 11].includes(operator)) {  // multi-value
+        } else if (contextField.value_type === 7) {
+            // string list
+            if ([10, 11].includes(operator)) {
+                // multi-value
                 return (
                     <div className='flex items-center'>
-                        <Input value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
-                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Input
+                            value={stagedValue}
+                            onChange={e => setStagedValue(e.target.value)}
+                        />
+                        <Button
+                            type='button'
+                            className='ml-2'
+                            onClick={onStagedValueAdd}
+                            disabled={!stagedValue?.length}
+                        >
+                            Add
+                        </Button>
                     </div>
                 );
             } else {
                 return (
-                    <Input value={value} onChange={(e) => onStringValueChange(e.target.value)} />
+                    <Input
+                        value={value}
+                        onChange={e => onStringValueChange(e.target.value)}
+                    />
                 );
             }
-        } else if (contextField.value_type === 8) {  // integer list
-            if ([10, 11].includes(operator)) {  // multi-value
+        } else if (contextField.value_type === 8) {
+            // integer list
+            if ([10, 11].includes(operator)) {
+                // multi-value
                 return (
                     <div className='flex items-center'>
-                        <Input type='number' step={1} value={stagedValue} onChange={(e) => setStagedValue(e.target.value)} />
-                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Input
+                            type='number'
+                            step={1}
+                            value={stagedValue}
+                            onChange={e => setStagedValue(e.target.value)}
+                        />
+                        <Button
+                            type='button'
+                            className='ml-2'
+                            onClick={onStagedValueAdd}
+                            disabled={!stagedValue?.length}
+                        >
+                            Add
+                        </Button>
                     </div>
                 );
             } else {
                 return (
-                    <Input type='number' step={1} value={value} onChange={(e) => onIntegerValueChange(e.target.value)} />
+                    <Input
+                        type='number'
+                        step={1}
+                        value={value}
+                        onChange={e => onIntegerValueChange(e.target.value)}
+                    />
                 );
             }
-        } else if (contextField.value_type === 9) {  // enum list
-            if ([10, 11].includes(operator)) {  // multi-value
+        } else if (contextField.value_type === 9) {
+            // enum list
+            if ([10, 11].includes(operator)) {
+                // multi-value
                 return (
                     <div className='flex items-center'>
-                        <Select value={stagedValue} onValueChange={setStagedValue}>
+                        <Select
+                            value={stagedValue}
+                            onValueChange={setStagedValue}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder='Select a value' />
                             </SelectTrigger>
                             <SelectContent>
-                                {Object.entries(enumDef).map(([enumKey, enumValue]) => (
-                                    <SelectItem key={enumKey} value={enumValue.toString()}>{enumKey}</SelectItem>
-                                ))}
+                                {Object.entries(enumDef).map(
+                                    ([enumKey, enumValue]) => (
+                                        <SelectItem
+                                            key={enumKey}
+                                            value={enumValue.toString()}
+                                        >
+                                            {enumKey}
+                                        </SelectItem>
+                                    )
+                                )}
                             </SelectContent>
                         </Select>
-                        <Button type='button' className='ml-2' onClick={onStagedValueAdd} disabled={!stagedValue?.length}>Add</Button>
+                        <Button
+                            type='button'
+                            className='ml-2'
+                            onClick={onStagedValueAdd}
+                            disabled={!stagedValue?.length}
+                        >
+                            Add
+                        </Button>
                     </div>
                 );
             } else {
@@ -345,9 +512,16 @@ export default (props: FeatureFlagConditionProps) => {
                             <SelectValue placeholder='Select a value' />
                         </SelectTrigger>
                         <SelectContent>
-                            {Object.entries(enumDef).map(([enumKey, enumValue]) => (
-                                <SelectItem key={enumKey} value={enumValue.toString()}>{enumKey}</SelectItem>
-                            ))}
+                            {Object.entries(enumDef).map(
+                                ([enumKey, enumValue]) => (
+                                    <SelectItem
+                                        key={enumKey}
+                                        value={enumValue.toString()}
+                                    >
+                                        {enumKey}
+                                    </SelectItem>
+                                )
+                            )}
                         </SelectContent>
                     </Select>
                 );
@@ -363,23 +537,41 @@ export default (props: FeatureFlagConditionProps) => {
         }
 
         const enumDef = contextField.enum_def || {};
-        const enumDefReversed = Object.fromEntries(Object.entries(enumDef).map(([k, v]) => [v, k]));
+        const enumDefReversed = Object.fromEntries(
+            Object.entries(enumDef).map(([k, v]) => [v, k])
+        );
 
         let pills: any;
 
-        if (([5, 9].includes(contextField.value_type))) {
+        if ([5, 9].includes(contextField.value_type)) {
             pills = (value || []).map((enumValue: string | number) => (
-                <Pill key={enumValue} label={enumDefReversed[enumValue]} onRemove={() => { onListValueRemove(enumValue); }} />
+                <Pill
+                    key={enumValue}
+                    label={enumDefReversed[enumValue]}
+                    onRemove={() => {
+                        onListValueRemove(enumValue);
+                    }}
+                />
             ));
         } else {
             pills = (value || []).map((v: string | number) => (
-                <Pill key={v} label={v.toString()} onRemove={() => { onListValueRemove(v); }} />
+                <Pill
+                    key={v}
+                    label={v.toString()}
+                    onRemove={() => {
+                        onListValueRemove(v);
+                    }}
+                />
             ));
         }
 
         return (
             <div className='mt-2 w-full flex flex-wrap justify-center items-center'>
-                {pills?.length > 0 ? pills : <p className='text-sm p-2 m-1'>Please add a value...</p>}
+                {pills?.length > 0 ? (
+                    pills
+                ) : (
+                    <p className='text-sm p-2 m-1'>Please add a value...</p>
+                )}
             </div>
         );
     };
@@ -387,15 +579,9 @@ export default (props: FeatureFlagConditionProps) => {
     return (
         <div className='w-full flex flex-col justify-center items-center border-4 rounded-md p-4'>
             <div className='w-full flex'>
-                <div className='mr-4 flex-auto'>
-                    {contextKeySelect}
-                </div>
-                <div className='mr-4 flex-auto'>
-                    {operatorSelect}
-                </div>
-                <div className='flex-auto'>
-                    {getInputSelect()}
-                </div>
+                <div className='mr-4 flex-auto'>{contextKeySelect}</div>
+                <div className='mr-4 flex-auto'>{operatorSelect}</div>
+                <div className='flex-auto'>{getInputSelect()}</div>
             </div>
             {getPills()}
         </div>

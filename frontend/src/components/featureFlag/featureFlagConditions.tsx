@@ -1,10 +1,12 @@
-import { ContextField } from "@/api";
-import { contextFieldValueTypeOperators } from "@/lib/constants";
-import { Cross1Icon, PlusCircledIcon } from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
-import { Button } from "../primitives/button";
-import { Condition } from "./featureFlagCondition";
-import FeatureFlagConditionGroup, { ConditionGroup } from "./featureFlagConditionGroup";
+import { ContextField } from '@/api';
+import { contextFieldValueTypeOperators } from '@/lib/constants';
+import { Cross1Icon, PlusCircledIcon } from '@radix-ui/react-icons';
+import { useEffect, useState } from 'react';
+import { Button } from '../primitives/button';
+import { Condition } from './featureFlagCondition';
+import FeatureFlagConditionGroup, {
+    ConditionGroup
+} from './featureFlagConditionGroup';
 
 interface FeatureFlagConditionsProps {
     contextFields: ContextField[];
@@ -17,7 +19,10 @@ export default (props: FeatureFlagConditionsProps) => {
         return {
             id: Math.random(),
             context_key: props.contextFields[0].field_key,
-            operator: contextFieldValueTypeOperators[props.contextFields[0].value_type][0],
+            operator:
+                contextFieldValueTypeOperators[
+                    props.contextFields[0].value_type
+                ][0],
             value: ''
         };
     };
@@ -30,12 +35,14 @@ export default (props: FeatureFlagConditionsProps) => {
     }, []);
 
     const onGroupChange = (group: ConditionGroup) => {
-        const newConditions = conditions.map((g) => {
-            if (g.id === group.id) {
-                return group;
-            }
-            return g;
-        }).filter((x) => x?.conditions.length);
+        const newConditions = conditions
+            .map(g => {
+                if (g.id === group.id) {
+                    return group;
+                }
+                return g;
+            })
+            .filter(x => x?.conditions.length);
         setConditions(newConditions);
         props.onChange(newConditions);
     };
@@ -49,7 +56,7 @@ export default (props: FeatureFlagConditionsProps) => {
         props.onChange(newConditions);
     };
     const onRemove = (id: number) => {
-        const newConditions = conditions.filter((group) => group.id !== id);
+        const newConditions = conditions.filter(group => group.id !== id);
         setConditions(newConditions);
         props.onChange(newConditions);
     };
@@ -77,15 +84,20 @@ export default (props: FeatureFlagConditionsProps) => {
                             />
                         </div>
                     </div>
-                    {i < conditions.length - 1 ?
+                    {i < conditions.length - 1 ? (
                         <div className='flex justify-center'>
                             <p className='font-bold m-2 text-sm'>OR</p>
-                        </div> : null
-                    }
+                        </div>
+                    ) : null}
                 </div>
             ))}
             <div className='flex justify-center'>
-                <Button type='button' variant='ghost' className='p-3 mt-1' onClick={onAdd}>
+                <Button
+                    type='button'
+                    variant='ghost'
+                    className='p-3 mt-1'
+                    onClick={onAdd}
+                >
                     <PlusCircledIcon className='size-5' />
                 </Button>
             </div>

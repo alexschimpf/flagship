@@ -3,20 +3,30 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger
-} from "@/components/primitives/dropdown-menu";
+} from '@/components/primitives/dropdown-menu';
 import SearchBar from '@/components/primitives/searchBar';
 import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
-import { userRoles, userStatuses } from "@/lib/constants";
+import { userRoles, userStatuses } from '@/lib/constants';
 import { Permission, hasPermission } from '@/lib/permissions';
-import { getLocalTimeString } from "@/lib/utils";
-import { ArrowLeftIcon, DotsHorizontalIcon, PlusCircledIcon } from '@radix-ui/react-icons';
+import { getLocalTimeString } from '@/lib/utils';
+import {
+    ArrowLeftIcon,
+    DotsHorizontalIcon,
+    PlusCircledIcon
+} from '@radix-ui/react-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
 import { Button } from '../primitives/button';
-import { Table, TableBody, TableCell, TableHeader, TableRow } from '../primitives/table';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHeader,
+    TableRow
+} from '../primitives/table';
 import { toast } from '../primitives/use-toast';
 import DeleteMemberDialog from './deleteMemberDialog';
 import EditMemberDialog from './editMemberDialog';
@@ -34,12 +44,14 @@ export default function () {
         mutationFn: (email: string) => {
             return apiClient.users.resetPassword({ email });
         },
-        onError: (error) => {
+        onError: error => {
             toast(getErrorToast(error));
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['users'] });
-            toast(getSuccessToast('Reset password email was successfully sent.'));
+            toast(
+                getSuccessToast('Reset password email was successfully sent.')
+            );
         }
     });
 
@@ -51,7 +63,11 @@ export default function () {
         <div className='flex flex-col w-full justify-center'>
             <div className='flex items-center justify-center mt-4 h-10'>
                 <div className='flex-1'>
-                    <Button variant='ghost' className='hover:bg-accent px-2 size-9' onClick={onBackClick}>
+                    <Button
+                        variant='ghost'
+                        className='hover:bg-accent px-2 size-9'
+                        onClick={onBackClick}
+                    >
                         <ArrowLeftIcon className='size-8 cursor-pointer' />
                     </Button>
                 </div>
@@ -59,21 +75,27 @@ export default function () {
                     <h1 className='text-center text-lg font-bold'>Members</h1>
                 </div>
                 <div className='flex-1'>
-                    {!query.isFetching && users.length > 0 &&
+                    {!query.isFetching && users.length > 0 && (
                         <InviteMemberDialog
-                            trigger={(
-                                <Button variant='ghost' className='hover:bg-accent px-2 size-9'>
+                            trigger={
+                                <Button
+                                    variant='ghost'
+                                    className='hover:bg-accent px-2 size-9'
+                                >
                                     <PlusCircledIcon className='size-8 cursor-pointer' />
                                 </Button>
-                            )}
+                            }
                         />
-                    }
+                    )}
                 </div>
             </div>
-            {users.length > 0 &&
+            {users.length > 0 && (
                 <div className='p-4 flex flex-col fade-in-0 w-full'>
                     <div className='w-full flex justify-center mb-4'>
-                        <SearchBar placeholder='Search for members...' className='w-1/2' />
+                        <SearchBar
+                            placeholder='Search for members...'
+                            className='w-1/2'
+                        />
                     </div>
                     <Table>
                         <TableHeader>
@@ -90,53 +112,91 @@ export default function () {
                         </TableHeader>
                         <TableBody>
                             {users.map((user, i) => (
-                                <TableRow key={user.user_id} className={i % 2 == 0 ? 'bg-accent' : 'bg-white'}>
+                                <TableRow
+                                    key={user.user_id}
+                                    className={
+                                        i % 2 == 0 ? 'bg-accent' : 'bg-white'
+                                    }
+                                >
                                     <TableCell>{user.user_id}</TableCell>
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{user.name}</TableCell>
-                                    <TableCell>{userRoles[user.role]}</TableCell>
-                                    <TableCell>{userStatuses[user.status]}</TableCell>
-                                    <TableCell>{getLocalTimeString(user.created_date)}</TableCell>
-                                    <TableCell>{getLocalTimeString(user.updated_date)}</TableCell>
+                                    <TableCell>
+                                        {userRoles[user.role]}
+                                    </TableCell>
+                                    <TableCell>
+                                        {userStatuses[user.status]}
+                                    </TableCell>
+                                    <TableCell>
+                                        {getLocalTimeString(user.created_date)}
+                                    </TableCell>
+                                    <TableCell>
+                                        {getLocalTimeString(user.updated_date)}
+                                    </TableCell>
                                     <TableCell className='flex flex-row justify-start items-center'>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" className="size-8 p-0">
-                                                    <span className="sr-only">Open menu</span>
+                                                <Button
+                                                    variant='ghost'
+                                                    className='size-8 p-0'
+                                                >
+                                                    <span className='sr-only'>
+                                                        Open menu
+                                                    </span>
                                                     <DotsHorizontalIcon className='hover:cursor-pointer hover:scale-125' />
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent>
                                                 <EditMemberDialog
                                                     userId={user.user_id}
-                                                    trigger={(
-                                                        <DropdownMenuItem className='hover:cursor-pointer' onSelect={(e) => e.preventDefault()}>
+                                                    trigger={
+                                                        <DropdownMenuItem
+                                                            className='hover:cursor-pointer'
+                                                            onSelect={e =>
+                                                                e.preventDefault()
+                                                            }
+                                                        >
                                                             Edit member
                                                         </DropdownMenuItem>
-                                                    )}
+                                                    }
                                                 />
-                                                {hasPermission(currentUser, Permission.DELETE_USER) &&
+                                                {hasPermission(
+                                                    currentUser,
+                                                    Permission.DELETE_USER
+                                                ) && (
                                                     <DeleteMemberDialog
                                                         userId={user.user_id}
                                                         email={user.email}
-                                                        trigger={(
-                                                            <DropdownMenuItem className='hover:cursor-pointer' onSelect={(e) => e.preventDefault()}>
+                                                        trigger={
+                                                            <DropdownMenuItem
+                                                                className='hover:cursor-pointer'
+                                                                onSelect={e =>
+                                                                    e.preventDefault()
+                                                                }
+                                                            >
                                                                 Delete member
                                                             </DropdownMenuItem>
-                                                        )}
+                                                        }
                                                     />
-                                                }
-                                                {(
-                                                    hasPermission(currentUser, Permission.UPDATE_USER) ||
-                                                    currentUser?.user_id === user.user_id
-                                                ) &&
+                                                )}
+                                                {(hasPermission(
+                                                    currentUser,
+                                                    Permission.UPDATE_USER
+                                                ) ||
+                                                    currentUser?.user_id ===
+                                                        user.user_id) && (
                                                     <DropdownMenuItem
                                                         className='hover:cursor-pointer'
-                                                        onClick={() => resetPasswordMutation.mutate(user.email)}
+                                                        onClick={() =>
+                                                            resetPasswordMutation.mutate(
+                                                                user.email
+                                                            )
+                                                        }
                                                     >
-                                                        Resend set password email
+                                                        Resend set password
+                                                        email
                                                     </DropdownMenuItem>
-                                                }
+                                                )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>
@@ -145,12 +205,12 @@ export default function () {
                         </TableBody>
                     </Table>
                 </div>
-            }
-            {query.isFetching &&
+            )}
+            {query.isFetching && (
                 <div className='absolute top-[calc(50%-41px)] left-1/2'>
                     <Loader2 className='animate-spin' size={48} />
                 </div>
-            }
+            )}
         </div>
     );
 }

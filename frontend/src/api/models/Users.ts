@@ -7,4 +7,3 @@ export type Users = {
     items: Array<User>;
     total: number;
 };
-

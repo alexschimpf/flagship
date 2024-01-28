@@ -6,35 +6,31 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
+    DialogTrigger
 } from '@/components/primitives/dialog';
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
-    TooltipTrigger,
+    TooltipTrigger
 } from '@/components/primitives/tooltip';
 import { useToast } from '@/components/primitives/use-toast';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
-import {
-    useMutation, useQueryClient
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import * as z from 'zod';
-
 
 const formSchema = z.object({
     name: z.string()
 });
 
 interface FlipFeatureFlagDialogProps {
-    name: string,
-    projectId: number,
-    featureFlagId: number,
-    enabled: boolean,
+    name: string;
+    projectId: number;
+    featureFlagId: number;
+    enabled: boolean;
     trigger: any;
 }
-
 
 export default function (props: FlipFeatureFlagDialogProps) {
     const { toast } = useToast();
@@ -42,17 +38,31 @@ export default function (props: FlipFeatureFlagDialogProps) {
     const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: () => {
-            return apiClient.featureFlags.updateFeatureFlagStatus(props.featureFlagId, props.projectId, {
-                enabled: props.enabled
-            });
+            return apiClient.featureFlags.updateFeatureFlagStatus(
+                props.featureFlagId,
+                props.projectId,
+                {
+                    enabled: props.enabled
+                }
+            );
         },
-        onError: (error) => {
+        onError: error => {
             toast(getErrorToast(error));
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [`projects/${props.projectId}/feature-flags`] });
-            queryClient.invalidateQueries({ queryKey: [`projects/${props.projectId}/feature-flags/${props.featureFlagId}`] });
-            toast(getSuccessToast(`Feature flag was ${props.enabled ? 'enabled' : 'disabled'}.`));
+            queryClient.invalidateQueries({
+                queryKey: [`projects/${props.projectId}/feature-flags`]
+            });
+            queryClient.invalidateQueries({
+                queryKey: [
+                    `projects/${props.projectId}/feature-flags/${props.featureFlagId}`
+                ]
+            });
+            toast(
+                getSuccessToast(
+                    `Feature flag was ${props.enabled ? 'enabled' : 'disabled'}.`
+                )
+            );
             setOpen(false);
         }
     });
@@ -76,12 +86,21 @@ export default function (props: FlipFeatureFlagDialogProps) {
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
-                <DialogContent className='sm:max-w-[425px]' onCloseAutoFocus={(e) => { e.preventDefault(); }}>
+                <DialogContent
+                    className='sm:max-w-[425px]'
+                    onCloseAutoFocus={e => {
+                        e.preventDefault();
+                    }}
+                >
                     <DialogHeader>
                         <DialogTitle>{`${props.enabled ? 'Enable' : 'Disable'} Feature Flag`}</DialogTitle>
                     </DialogHeader>
                     <div className='w-full'>
-                        <p className='m-4'>Are you sure you want to {props.enabled ? 'enable' : 'disable'} feature flag <b>{props.name}?</b></p>
+                        <p className='m-4'>
+                            Are you sure you want to{' '}
+                            {props.enabled ? 'enable' : 'disable'} feature flag{' '}
+                            <b>{props.name}?</b>
+                        </p>
                         <div className='flex justify-end'>
                             <Button
                                 className='w-1/4'

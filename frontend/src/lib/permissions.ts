@@ -1,4 +1,4 @@
-import { User } from "@/api";
+import { User } from '@/api';
 
 export enum Permission {
     // Projects
@@ -32,7 +32,10 @@ export enum Permission {
     READ_SYSTEM_AUDIT_LOGS
 }
 
-export const hasPermission = (user: User | undefined, permission: Permission): boolean => {
+export const hasPermission = (
+    user: User | undefined,
+    permission: Permission
+): boolean => {
     if (!user) {
         return false;
     }
@@ -56,8 +59,7 @@ export const hasPermission = (user: User | undefined, permission: Permission): b
             Permission.READ_CONTEXT_FIELD_AUDIT_LOGS,
             Permission.READ_SYSTEM_AUDIT_LOGS
         ].includes(permission);
-    }
-    else if (user.role === 4) {
+    } else if (user.role === 4) {
         return true;
     }
 

@@ -6,13 +6,11 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
+    DialogTrigger
 } from '@/components/primitives/dialog';
 import { useToast } from '@/components/primitives/use-toast';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
-import {
-    useMutation, useQueryClient
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 class DeleteFeatureFlagDialogProps {
     projectId!: number;
@@ -26,13 +24,18 @@ export default function (props: DeleteFeatureFlagDialogProps) {
     const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: () => {
-            return apiClient.featureFlags.deleteFeatureFlag(props.featureFlagId, props.projectId);
+            return apiClient.featureFlags.deleteFeatureFlag(
+                props.featureFlagId,
+                props.projectId
+            );
         },
-        onError: (error) => {
+        onError: error => {
             toast(getErrorToast(error));
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [`projects/${props.projectId}/feature-flags`] });
+            queryClient.invalidateQueries({
+                queryKey: [`projects/${props.projectId}/feature-flags`]
+            });
             toast(getSuccessToast('Feature flag was sucessfully deleted.'));
         }
     });
@@ -40,15 +43,21 @@ export default function (props: DeleteFeatureFlagDialogProps) {
     return (
         <div>
             <Dialog>
-                <DialogTrigger asChild>
-                    {props.trigger}
-                </DialogTrigger>
-                <DialogContent className='sm:max-w-[425px]' onCloseAutoFocus={(e) => { e.preventDefault(); }}>
+                <DialogTrigger asChild>{props.trigger}</DialogTrigger>
+                <DialogContent
+                    className='sm:max-w-[425px]'
+                    onCloseAutoFocus={e => {
+                        e.preventDefault();
+                    }}
+                >
                     <DialogHeader>
                         <DialogTitle>Delete Feature Flag</DialogTitle>
                     </DialogHeader>
                     <div className='w-full flex flex-col items-end'>
-                        <p className='w-full'>Are you sure you want delete feature flag <b>{props.name}</b>? This cannot be undone.</p>
+                        <p className='w-full'>
+                            Are you sure you want delete feature flag{' '}
+                            <b>{props.name}</b>? This cannot be undone.
+                        </p>
                         <Button
                             className='w-1/4 mt-4 bg-destructive'
                             disabled={mutation.isPending || mutation.isSuccess}

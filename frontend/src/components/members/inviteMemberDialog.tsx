@@ -7,34 +7,44 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
+    DialogTrigger
 } from '@/components/primitives/dialog';
 import { ScrollArea } from '@/components/primitives/scroll-area';
 import {
     ToggleGroup,
-    ToggleGroupItem,
+    ToggleGroupItem
 } from '@/components/primitives/toggle-group';
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
-    TooltipTrigger,
+    TooltipTrigger
 } from '@/components/primitives/tooltip';
 import { useToast } from '@/components/primitives/use-toast';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
-import { userRoles } from "@/lib/constants";
+import { userRoles } from '@/lib/constants';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-    useMutation, useQuery, useQueryClient
-} from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import CustomTooltip from '../primitives/customTooltip';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '../primitives/form';
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel
+} from '../primitives/form';
 import { Input } from '../primitives/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../primitives/select';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '../primitives/select';
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -76,7 +86,7 @@ export default function (props: InviteMemberDialogProps) {
         mutationFn: (user: InviteUser) => {
             return apiClient.users.inviteUser(user);
         },
-        onError: (error) => {
+        onError: error => {
             toast(getErrorToast(error));
         },
         onSuccess: () => {
@@ -85,12 +95,13 @@ export default function (props: InviteMemberDialogProps) {
         }
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => mutation.mutate({
-        email: values.email,
-        name: values.name,
-        role: parseInt(values.role),
-        projects: values.projects.map((value) => parseInt(value))
-    });
+    const onSubmit = (values: z.infer<typeof formSchema>) =>
+        mutation.mutate({
+            email: values.email,
+            name: values.name,
+            role: parseInt(values.role),
+            projects: values.projects.map(value => parseInt(value))
+        });
 
     const onOpenChange = () => {
         form.reset();
@@ -102,22 +113,28 @@ export default function (props: InviteMemberDialogProps) {
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger>
-                        <DialogTrigger asChild>
-                            {props.trigger}
-                        </DialogTrigger>
+                        <DialogTrigger asChild>{props.trigger}</DialogTrigger>
                     </TooltipTrigger>
                     <TooltipContent>
                         <p>Invite member</p>
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
-            <DialogContent className='sm:max-w-[425px]' onCloseAutoFocus={(e) => { e.preventDefault(); }}>
+            <DialogContent
+                className='sm:max-w-[425px]'
+                onCloseAutoFocus={e => {
+                    e.preventDefault();
+                }}
+            >
                 <DialogHeader>
                     <DialogTitle>Invite Member</DialogTitle>
                 </DialogHeader>
                 <div className='w-full'>
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 flex flex-col items-end'>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className='space-y-4 flex flex-col items-end'
+                        >
                             <FormField
                                 control={form.control}
                                 name='email'
@@ -130,7 +147,10 @@ export default function (props: InviteMemberDialogProps) {
                                     </FormItem>
                                 )}
                             />
-                            <ErrorMessage errors={form.formState.errors} name='email' />
+                            <ErrorMessage
+                                errors={form.formState.errors}
+                                name='email'
+                            />
                             <FormField
                                 control={form.control}
                                 name='name'
@@ -143,35 +163,52 @@ export default function (props: InviteMemberDialogProps) {
                                     </FormItem>
                                 )}
                             />
-                            <ErrorMessage errors={form.formState.errors} name='name' />
+                            <ErrorMessage
+                                errors={form.formState.errors}
+                                name='name'
+                            />
                             <FormField
                                 control={form.control}
                                 name='role'
                                 render={({ field }) => (
                                     <FormItem className='w-full'>
                                         <FormLabel>Role*</FormLabel>
-                                        <CustomTooltip text={[
-                                            'Read only users can view feature flags.',
-                                            'Standard users can manage feature flags.',
-                                            'Admins can manage feature flags, manage context fields, and view audit logs.',
-                                            'Owners can do anything, including user management.'
-                                        ]} />
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <CustomTooltip
+                                            text={[
+                                                'Read only users can view feature flags.',
+                                                'Standard users can manage feature flags.',
+                                                'Admins can manage feature flags, manage context fields, and view audit logs.',
+                                                'Owners can do anything, including user management.'
+                                            ]}
+                                        />
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
                                             <FormControl>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder='Select a role' />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {Object.entries(userRoles).map(([roleId, roleName]) => (
-                                                    <SelectItem value={roleId.toString()}>{roleName}</SelectItem>
-                                                ))}
+                                                {Object.entries(userRoles).map(
+                                                    ([roleId, roleName]) => (
+                                                        <SelectItem
+                                                            value={roleId.toString()}
+                                                        >
+                                                            {roleName}
+                                                        </SelectItem>
+                                                    )
+                                                )}
                                             </SelectContent>
                                         </Select>
                                     </FormItem>
                                 )}
                             />
-                            <ErrorMessage errors={form.formState.errors} name='role' />
+                            <ErrorMessage
+                                errors={form.formState.errors}
+                                name='role'
+                            />
                             <FormField
                                 control={form.control}
                                 name='projects'
@@ -179,34 +216,57 @@ export default function (props: InviteMemberDialogProps) {
                                     <FormItem className='w-full'>
                                         <FormLabel>Projects*</FormLabel>
                                         <FormControl className='flex flex-col items-center justify-center'>
-                                            <ToggleGroup type='multiple' onValueChange={field.onChange}>
+                                            <ToggleGroup
+                                                type='multiple'
+                                                onValueChange={field.onChange}
+                                            >
                                                 <ScrollArea className='w-full rounded-md border min-h-20 max-h-40 p-2'>
-                                                    {projectsQuery.isFetching &&
+                                                    {projectsQuery.isFetching && (
                                                         <div className='flex items-center justify-center size-full'>
-                                                            <Loader2 className='animate-spin text-center' size={48} />
+                                                            <Loader2
+                                                                className='animate-spin text-center'
+                                                                size={48}
+                                                            />
                                                         </div>
-                                                    }
-                                                    {projectsQuery.isSuccess && !projectsQuery.isFetching &&
-                                                        projects.map((project) => (
-                                                            <ToggleGroupItem
-                                                                key={project.project_id}
-                                                                className='m-0.5'
-                                                                value={project.project_id.toString()}
-                                                            >
-                                                                <p>{project.name}</p>
-                                                            </ToggleGroupItem>
-                                                        ))
-                                                    }
+                                                    )}
+                                                    {projectsQuery.isSuccess &&
+                                                        !projectsQuery.isFetching &&
+                                                        projects.map(
+                                                            project => (
+                                                                <ToggleGroupItem
+                                                                    key={
+                                                                        project.project_id
+                                                                    }
+                                                                    className='m-0.5'
+                                                                    value={project.project_id.toString()}
+                                                                >
+                                                                    <p>
+                                                                        {
+                                                                            project.name
+                                                                        }
+                                                                    </p>
+                                                                </ToggleGroupItem>
+                                                            )
+                                                        )}
                                                 </ScrollArea>
                                             </ToggleGroup>
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
-                            <ErrorMessage errors={form.formState.errors} name='projects' />
-                            {!mutation.isSuccess &&
-                                <Button type='submit' className='w-1/4' disabled={mutation.isPending}>Invite</Button>
-                            }
+                            <ErrorMessage
+                                errors={form.formState.errors}
+                                name='projects'
+                            />
+                            {!mutation.isSuccess && (
+                                <Button
+                                    type='submit'
+                                    className='w-1/4'
+                                    disabled={mutation.isPending}
+                                >
+                                    Invite
+                                </Button>
+                            )}
                         </form>
                     </Form>
                 </div>

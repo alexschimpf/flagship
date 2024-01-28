@@ -7,4 +7,3 @@ export type FeatureFlagAuditLogs = {
     items: Array<FeatureFlagAuditLog>;
     total: number;
 };
-

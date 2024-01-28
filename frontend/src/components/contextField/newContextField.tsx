@@ -1,21 +1,33 @@
-import { CreateContextField } from "@/api";
-import { apiClient, getErrorToast, getSuccessToast } from "@/lib/api";
-import { contextFieldValueTypes } from "@/lib/constants";
-import { ErrorMessage } from "@hookform/error-message";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "../primitives/button";
-import CustomTooltip from "../primitives/customTooltip";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../primitives/form";
-import { Input } from "../primitives/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../primitives/select";
-import { Textarea } from "../primitives/textarea";
-import { useToast } from "../primitives/use-toast";
+import { CreateContextField } from '@/api';
+import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
+import { contextFieldValueTypes } from '@/lib/constants';
+import { ErrorMessage } from '@hookform/error-message';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowLeftIcon } from '@radix-ui/react-icons';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '../primitives/button';
+import CustomTooltip from '../primitives/customTooltip';
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel
+} from '../primitives/form';
+import { Input } from '../primitives/input';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '../primitives/select';
+import { Textarea } from '../primitives/textarea';
+import { useToast } from '../primitives/use-toast';
 
 const formSchema = z.object({
     name: z.string().min(1).max(128),
@@ -24,19 +36,25 @@ const formSchema = z.object({
         message: 'Please select a value type'
     }),
     description: z.string().max(256).optional(),
-    enumDef: z.string().refine((def: any) => {
-        try {
-            JSON.parse(def);
-        } catch (e) {
-            return false;
-        }
+    enumDef: z
+        .string()
+        .refine(
+            (def: any) => {
+                try {
+                    JSON.parse(def);
+                } catch (e) {
+                    return false;
+                }
 
-        return true;
-    }, { message: 'Invalid JSON' }).optional()
+                return true;
+            },
+            { message: 'Invalid JSON' }
+        )
+        .optional()
 });
 
 export default function () {
-    const params = useParams<{ projectId: string; }>();
+    const params = useParams<{ projectId: string }>();
     const router = useRouter();
     const queryClient = useQueryClient();
     const { toast } = useToast();
@@ -57,44 +75,59 @@ export default function () {
 
     const mutation = useMutation({
         mutationFn: (contextField: CreateContextField) => {
-            return apiClient.contextFields.createContextField(projectId, contextField);
+            return apiClient.contextFields.createContextField(
+                projectId,
+                contextField
+            );
         },
-        onError: (error) => {
+        onError: error => {
             toast(getErrorToast(error));
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [`projects/${projectId}/context-fields`] });
+            queryClient.invalidateQueries({
+                queryKey: [`projects/${projectId}/context-fields`]
+            });
             toast(getSuccessToast('Context field was successfully created.'));
             router.replace(`/project/${projectId}/context-fields`);
         }
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => mutation.mutate({
-        name: values.name,
-        field_key: values.fieldKey,
-        value_type: parseInt(values.valueType),
-        description: values.description,
-        enum_def: values.enumDef ? JSON.parse(values.enumDef) : null
-    });
-    const onBackClick = () => router.replace(`/project/${projectId}/context-fields`);
+    const onSubmit = (values: z.infer<typeof formSchema>) =>
+        mutation.mutate({
+            name: values.name,
+            field_key: values.fieldKey,
+            value_type: parseInt(values.valueType),
+            description: values.description,
+            enum_def: values.enumDef ? JSON.parse(values.enumDef) : null
+        });
+    const onBackClick = () =>
+        router.replace(`/project/${projectId}/context-fields`);
 
     return (
         <div className='flex flex-col w-full justify-center'>
             <div className='flex items-center justify-center mt-4 mb-8 h-10'>
                 <div className='flex-1'>
-                    <Button variant='ghost' className='hover:bg-accent px-2 size-9' onClick={onBackClick}>
+                    <Button
+                        variant='ghost'
+                        className='hover:bg-accent px-2 size-9'
+                        onClick={onBackClick}
+                    >
                         <ArrowLeftIcon className='size-8 cursor-pointer' />
                     </Button>
                 </div>
                 <div className='flex-1'>
-                    <h1 className='text-center text-lg font-bold'>New Context Field</h1>
+                    <h1 className='text-center text-lg font-bold'>
+                        New Context Field
+                    </h1>
                 </div>
-                <div className='flex-1'>
-                </div>
+                <div className='flex-1'></div>
             </div>
             <div className='w-full flex items-center justify-center'>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 flex flex-col w-1/2'>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className='space-y-4 flex flex-col w-1/2'
+                    >
                         <FormField
                             control={form.control}
                             name='name'
@@ -107,24 +140,32 @@ export default function () {
                                 </FormItem>
                             )}
                         />
-                        <ErrorMessage errors={form.formState.errors} name='name' />
+                        <ErrorMessage
+                            errors={form.formState.errors}
+                            name='name'
+                        />
                         <FormField
                             control={form.control}
                             name='fieldKey'
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Field Key*</FormLabel>
-                                    <CustomTooltip text={[
-                                        'This is the exact key which will be supplied in your context.',
-                                        'This cannot be changed after the context field is created.'
-                                    ]} />
+                                    <CustomTooltip
+                                        text={[
+                                            'This is the exact key which will be supplied in your context.',
+                                            'This cannot be changed after the context field is created.'
+                                        ]}
+                                    />
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
-                        <ErrorMessage errors={form.formState.errors} name='fieldKey' />
+                        <ErrorMessage
+                            errors={form.formState.errors}
+                            name='fieldKey'
+                        />
                         <FormField
                             control={form.control}
                             name='description'
@@ -137,7 +178,10 @@ export default function () {
                                 </FormItem>
                             )}
                         />
-                        <ErrorMessage errors={form.formState.errors} name='description' />
+                        <ErrorMessage
+                            errors={form.formState.errors}
+                            name='description'
+                        />
                         <FormField
                             control={form.control}
                             name='valueType'
@@ -145,7 +189,7 @@ export default function () {
                                 <FormItem>
                                     <FormLabel>Value Type*</FormLabel>
                                     <Select
-                                        onValueChange={(v) => {
+                                        onValueChange={v => {
                                             // Clear enumDef if value type is non-enum
                                             if (![5, 9].includes(parseInt(v))) {
                                                 form.resetField('enumDef');
@@ -161,38 +205,56 @@ export default function () {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {Object.entries(contextFieldValueTypes).map(([value, label]) => (
-                                                <SelectItem value={value}>{label}</SelectItem>
+                                            {Object.entries(
+                                                contextFieldValueTypes
+                                            ).map(([value, label]) => (
+                                                <SelectItem value={value}>
+                                                    {label}
+                                                </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
                                 </FormItem>
                             )}
                         />
-                        <ErrorMessage errors={form.formState.errors} name='valueType' />
-                        {[5, 9].includes(valueType) &&
+                        <ErrorMessage
+                            errors={form.formState.errors}
+                            name='valueType'
+                        />
+                        {[5, 9].includes(valueType) && (
                             <FormField
                                 control={form.control}
                                 name='enumDef'
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Enum Definition*</FormLabel>
-                                        <CustomTooltip text={[
-                                            'For context fields with an enum value type, you must define the enum with JSON.',
-                                            'The JSON must have string keys and either integer or string values.',
-                                            'The keys will be used as display names in feature flag conditions.',
-                                            'The values should match what your actual context values will look like for this field.'
-                                        ]} />
+                                        <CustomTooltip
+                                            text={[
+                                                'For context fields with an enum value type, you must define the enum with JSON.',
+                                                'The JSON must have string keys and either integer or string values.',
+                                                'The keys will be used as display names in feature flag conditions.',
+                                                'The values should match what your actual context values will look like for this field.'
+                                            ]}
+                                        />
                                         <FormControl>
                                             <Textarea {...field} />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
-                        }
-                        <ErrorMessage errors={form.formState.errors} name='enumDef' />
+                        )}
+                        <ErrorMessage
+                            errors={form.formState.errors}
+                            name='enumDef'
+                        />
                         <div className='flex justify-end'>
-                            <Button type='submit' className='w-1/5 mt-8' disabled={mutation.isPending}>Create</Button>
+                            <Button
+                                type='submit'
+                                className='w-1/5 mt-8'
+                                disabled={mutation.isPending}
+                            >
+                                Create
+                            </Button>
                         </div>
                     </form>
                 </Form>

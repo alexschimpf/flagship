@@ -7,4 +7,3 @@ export type SetPassword = {
     password: string;
     token: string;
 };
-

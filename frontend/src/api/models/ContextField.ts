@@ -12,8 +12,7 @@ export type ContextField = {
      */
     value_type: ContextValueType;
     description: string;
-    enum_def: (Record<string, any> | null);
+    enum_def: Record<string, any> | null;
     created_date: string;
     updated_date: string;
 };
-

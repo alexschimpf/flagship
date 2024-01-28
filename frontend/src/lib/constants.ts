@@ -1,12 +1,12 @@
-
 export const userRoles: Record<number, string> = {
     1: 'Read only',
     2: 'Standard',
     3: 'Admin',
     4: 'Owner'
-}; export const userStatuses: Record<number, string> = {
+};
+export const userStatuses: Record<number, string> = {
     1: 'Invited',
-    2: 'Activated',
+    2: 'Activated'
 };
 export const contextFieldValueTypes: Record<number, string> = {
     1: 'String',
@@ -45,4 +45,3 @@ export const contextFieldValueTypeOperators: Record<number, number[]> = {
     8: [10, 11, 12, 13],
     9: [10, 11, 12, 13]
 };
-

@@ -6,13 +6,11 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
+    DialogTrigger
 } from '@/components/primitives/dialog';
 import { useToast } from '@/components/primitives/use-toast';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
-import {
-    useMutation, useQueryClient
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 class DeleteMemberDialogProps {
     userId!: number;
@@ -27,7 +25,7 @@ export default function (props: DeleteMemberDialogProps) {
         mutationFn: () => {
             return apiClient.users.deleteUser(props.userId);
         },
-        onError: (error) => {
+        onError: error => {
             toast(getErrorToast(error));
         },
         onSuccess: () => {
@@ -39,15 +37,21 @@ export default function (props: DeleteMemberDialogProps) {
     return (
         <div>
             <Dialog>
-                <DialogTrigger asChild>
-                    {props.trigger}
-                </DialogTrigger>
-                <DialogContent className='sm:max-w-[425px]' onCloseAutoFocus={(e) => { e.preventDefault(); }}>
+                <DialogTrigger asChild>{props.trigger}</DialogTrigger>
+                <DialogContent
+                    className='sm:max-w-[425px]'
+                    onCloseAutoFocus={e => {
+                        e.preventDefault();
+                    }}
+                >
                     <DialogHeader>
                         <DialogTitle>Delete User</DialogTitle>
                     </DialogHeader>
                     <div className='w-full flex flex-col items-end'>
-                        <p className='w-full'>Are you sure you want delete user <b>{props.email}</b>? This cannot be undone.</p>
+                        <p className='w-full'>
+                            Are you sure you want delete user{' '}
+                            <b>{props.email}</b>? This cannot be undone.
+                        </p>
                         <Button
                             className='w-1/4 mt-4 bg-destructive'
                             disabled={mutation.isPending || mutation.isSuccess}

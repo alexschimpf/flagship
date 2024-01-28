@@ -6,7 +6,6 @@ export interface SearchBarProps {
     className?: string;
 }
 
-
 export default function (props: SearchBarProps) {
     return (
         <div
@@ -15,7 +14,9 @@ export default function (props: SearchBarProps) {
                 marginLeft: '-7px'
             }}
         >
-            <MagnifyingGlassIcon className={'relative left-7 top-2 transform -translate-y-1/2'} />
+            <MagnifyingGlassIcon
+                className={'relative left-7 top-2 transform -translate-y-1/2'}
+            />
             <Input className='pl-10' placeholder={props.placeholder} />
         </div>
     );

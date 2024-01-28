@@ -23,19 +23,19 @@ export class FeatureFlagsService {
     public getFeatureFlags(
         projectId: number,
         page?: number,
-        pageSize: number = 50,
+        pageSize: number = 50
     ): CancelablePromise<FeatureFlags> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/feature_flags',
             query: {
-                'project_id': projectId,
-                'page': page,
-                'page_size': pageSize,
+                project_id: projectId,
+                page: page,
+                page_size: pageSize
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -47,19 +47,19 @@ export class FeatureFlagsService {
      */
     public createFeatureFlag(
         projectId: number,
-        requestBody: CreateOrUpdateFeatureFlag,
+        requestBody: CreateOrUpdateFeatureFlag
     ): CancelablePromise<FeatureFlag> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/feature_flags',
             query: {
-                'project_id': projectId,
+                project_id: projectId
             },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -71,20 +71,20 @@ export class FeatureFlagsService {
      */
     public getFeatureFlag(
         featureFlagId: number,
-        projectId: number,
+        projectId: number
     ): CancelablePromise<FeatureFlag> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/feature_flags/{feature_flag_id}',
             path: {
-                'feature_flag_id': featureFlagId,
+                feature_flag_id: featureFlagId
             },
             query: {
-                'project_id': projectId,
+                project_id: projectId
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -98,22 +98,22 @@ export class FeatureFlagsService {
     public updateFeatureFlag(
         featureFlagId: number,
         projectId: number,
-        requestBody: CreateOrUpdateFeatureFlag,
+        requestBody: CreateOrUpdateFeatureFlag
     ): CancelablePromise<FeatureFlag> {
         return this.httpRequest.request({
             method: 'PUT',
             url: '/feature_flags/{feature_flag_id}',
             path: {
-                'feature_flag_id': featureFlagId,
+                feature_flag_id: featureFlagId
             },
             query: {
-                'project_id': projectId,
+                project_id: projectId
             },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -125,20 +125,20 @@ export class FeatureFlagsService {
      */
     public deleteFeatureFlag(
         featureFlagId: number,
-        projectId: number,
+        projectId: number
     ): CancelablePromise<SuccessResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/feature_flags/{feature_flag_id}',
             path: {
-                'feature_flag_id': featureFlagId,
+                feature_flag_id: featureFlagId
             },
             query: {
-                'project_id': projectId,
+                project_id: projectId
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -154,22 +154,22 @@ export class FeatureFlagsService {
         featureFlagId: number,
         projectId: number,
         page?: number,
-        pageSize: number = 50,
+        pageSize: number = 50
     ): CancelablePromise<FeatureFlagAuditLogs> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/feature_flags/{feature_flag_id}/audit_logs',
             path: {
-                'feature_flag_id': featureFlagId,
+                feature_flag_id: featureFlagId
             },
             query: {
-                'project_id': projectId,
-                'page': page,
-                'page_size': pageSize,
+                project_id: projectId,
+                page: page,
+                page_size: pageSize
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -183,22 +183,22 @@ export class FeatureFlagsService {
     public updateFeatureFlagStatus(
         featureFlagId: number,
         projectId: number,
-        requestBody: UpdateFeatureFlagStatus,
+        requestBody: UpdateFeatureFlagStatus
     ): CancelablePromise<SuccessResponse> {
         return this.httpRequest.request({
             method: 'PUT',
             url: '/feature_flags/{feature_flag_id}/status',
             path: {
-                'feature_flag_id': featureFlagId,
+                feature_flag_id: featureFlagId
             },
             query: {
-                'project_id': projectId,
+                project_id: projectId
             },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
 }

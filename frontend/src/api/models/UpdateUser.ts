@@ -11,4 +11,3 @@ export type UpdateUser = {
     role: UserRole;
     projects: Array<number>;
 };
-

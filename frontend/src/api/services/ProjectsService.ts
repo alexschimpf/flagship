@@ -23,18 +23,18 @@ export class ProjectsService {
      */
     public getProjects(
         page?: number,
-        pageSize: number = 50,
+        pageSize: number = 50
     ): CancelablePromise<Projects> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/projects',
             query: {
-                'page': page,
-                'page_size': pageSize,
+                page: page,
+                page_size: pageSize
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -44,7 +44,7 @@ export class ProjectsService {
      * @throws ApiError
      */
     public createProject(
-        requestBody: CreateOrUpdateProject,
+        requestBody: CreateOrUpdateProject
     ): CancelablePromise<ProjectWithPrivateKey> {
         return this.httpRequest.request({
             method: 'POST',
@@ -52,8 +52,8 @@ export class ProjectsService {
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -62,18 +62,16 @@ export class ProjectsService {
      * @returns Project Successful Response
      * @throws ApiError
      */
-    public getProject(
-        projectId: number,
-    ): CancelablePromise<Project> {
+    public getProject(projectId: number): CancelablePromise<Project> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/projects/{project_id}',
             path: {
-                'project_id': projectId,
+                project_id: projectId
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -85,19 +83,19 @@ export class ProjectsService {
      */
     public updateProject(
         projectId: number,
-        requestBody: CreateOrUpdateProject,
+        requestBody: CreateOrUpdateProject
     ): CancelablePromise<Project> {
         return this.httpRequest.request({
             method: 'PUT',
             url: '/projects/{project_id}',
             path: {
-                'project_id': projectId,
+                project_id: projectId
             },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -107,17 +105,17 @@ export class ProjectsService {
      * @throws ApiError
      */
     public deleteProject(
-        projectId: number,
+        projectId: number
     ): CancelablePromise<SuccessResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/projects/{project_id}',
             path: {
-                'project_id': projectId,
+                project_id: projectId
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -129,19 +127,19 @@ export class ProjectsService {
      */
     public createProjectPrivateKey(
         projectId: number,
-        requestBody: ProjectPrivateKeyName,
+        requestBody: ProjectPrivateKeyName
     ): CancelablePromise<ProjectPrivateKey> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/projects/{project_id}/private_keys',
             path: {
-                'project_id': projectId,
+                project_id: projectId
             },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -155,21 +153,21 @@ export class ProjectsService {
     public getProjectPrivateKeys(
         projectId: number,
         page?: number,
-        pageSize: number = 50,
+        pageSize: number = 50
     ): CancelablePromise<ProjectPrivateKeys> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/projects/{project_id}/private_keys',
             path: {
-                'project_id': projectId,
+                project_id: projectId
             },
             query: {
-                'page': page,
-                'page_size': pageSize,
+                page: page,
+                page_size: pageSize
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -183,20 +181,20 @@ export class ProjectsService {
     public updateProjectPrivateKey(
         projectId: number,
         projectPrivateKeyId: number,
-        requestBody: ProjectPrivateKeyName,
+        requestBody: ProjectPrivateKeyName
     ): CancelablePromise<SuccessResponse> {
         return this.httpRequest.request({
             method: 'PUT',
             url: '/projects/{project_id}/private_keys/{project_private_key_id}',
             path: {
-                'project_id': projectId,
-                'project_private_key_id': projectPrivateKeyId,
+                project_id: projectId,
+                project_private_key_id: projectPrivateKeyId
             },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -208,18 +206,18 @@ export class ProjectsService {
      */
     public deleteProjectPrivateKey(
         projectId: number,
-        projectPrivateKeyId: number,
+        projectPrivateKeyId: number
     ): CancelablePromise<SuccessResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/projects/{project_id}/private_keys/{project_private_key_id}',
             path: {
-                'project_id': projectId,
-                'project_private_key_id': projectPrivateKeyId,
+                project_id: projectId,
+                project_private_key_id: projectPrivateKeyId
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
 }

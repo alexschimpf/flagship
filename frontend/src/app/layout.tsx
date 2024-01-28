@@ -7,14 +7,14 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-    children,
+    children
 }: {
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
+        <html lang='en'>
             <head>
-                <link rel="icon" href="/favicon.svg" sizes="any" />
+                <link rel='icon' href='/favicon.svg' sizes='any' />
             </head>
             <body>
                 <div className='min-h-screen bg-background font-sans flex flex-col min-w-[1000px]'>
