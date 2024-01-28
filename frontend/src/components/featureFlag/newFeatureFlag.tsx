@@ -1,10 +1,9 @@
 import { CreateOrUpdateFeatureFlag } from "@/api";
-import { apiClient, getErrorMessage } from "@/lib/api";
+import { apiClient, getErrorToast, getSuccessToast } from "@/lib/api";
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import parseHTML from 'html-react-parser';
 import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -52,29 +51,11 @@ export default function () {
             return apiClient.featureFlags.createFeatureFlag(projectId, featureFlag);
         },
         onError: (error) => {
-            toast({
-                variant: 'destructive',
-                title: (
-                    <div className='flex flex-row items-center'>
-                        <ExclamationTriangleIcon />
-                        <p className='text-white ml-2 font-bold'>Uh oh...</p>
-                    </div>
-                ),
-                description: <p>{parseHTML(getErrorMessage(error))}</p>,
-            });
+            toast(getErrorToast(error));
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [`projects/${projectId}/feature-flags`] });
-            toast({
-                variant: 'success',
-                title: (
-                    <div className='flex flex-row items-center'>
-                        <CheckCircledIcon />
-                        <p className='text-black ml-2 font-bold'>Success!</p>
-                    </div>
-                ),
-                description: 'Feature flag was successfully created.',
-            });
+            toast(getSuccessToast('Feature flag was successfully created.'));
             router.replace(`/project/${projectId}/feature-flags`);
         }
     });

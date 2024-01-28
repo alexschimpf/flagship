@@ -1,11 +1,10 @@
 import { CreateContextField } from "@/api";
-import { apiClient, getErrorMessage } from "@/lib/api";
+import { apiClient, getErrorToast, getSuccessToast } from "@/lib/api";
 import { contextFieldValueTypes } from "@/lib/constants";
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import parseHTML from 'html-react-parser';
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,8 +16,6 @@ import { Input } from "../primitives/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../primitives/select";
 import { Textarea } from "../primitives/textarea";
 import { useToast } from "../primitives/use-toast";
-
-
 
 const formSchema = z.object({
     name: z.string().min(1).max(128),
@@ -63,29 +60,11 @@ export default function () {
             return apiClient.contextFields.createContextField(projectId, contextField);
         },
         onError: (error) => {
-            toast({
-                variant: 'destructive',
-                title: (
-                    <div className='flex flex-row items-center'>
-                        <ExclamationTriangleIcon />
-                        <p className='text-white ml-2 font-bold'>Uh oh...</p>
-                    </div>
-                ),
-                description: <p>{parseHTML(getErrorMessage(error))}</p>,
-            });
+            toast(getErrorToast(error));
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [`projects/${projectId}/context-fields`] });
-            toast({
-                variant: 'success',
-                title: (
-                    <div className='flex flex-row items-center'>
-                        <CheckCircledIcon />
-                        <p className='text-black ml-2 font-bold'>Success!</p>
-                    </div>
-                ),
-                description: 'Context field was successfully created.',
-            });
+            toast(getSuccessToast('Context field was successfully created.'));
             router.replace(`/project/${projectId}/context-fields`);
         }
     });

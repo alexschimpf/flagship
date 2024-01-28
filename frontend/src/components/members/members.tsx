@@ -6,13 +6,12 @@ import {
 } from "@/components/primitives/dropdown-menu";
 import SearchBar from '@/components/primitives/searchBar';
 import { UserContext } from '@/context/userContext';
-import { apiClient, getErrorMessage } from '@/lib/api';
+import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
 import { userRoles, userStatuses } from "@/lib/constants";
 import { Permission, hasPermission } from '@/lib/permissions';
 import { getLocalTimeString } from "@/lib/utils";
-import { ArrowLeftIcon, CheckCircledIcon, DotsHorizontalIcon, ExclamationTriangleIcon, PlusCircledIcon } from '@radix-ui/react-icons';
+import { ArrowLeftIcon, DotsHorizontalIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import parseHTML from 'html-react-parser';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
@@ -36,29 +35,11 @@ export default function () {
             return apiClient.users.resetPassword({ email });
         },
         onError: (error) => {
-            toast({
-                variant: 'destructive',
-                title: (
-                    <div className='flex flex-row items-center'>
-                        <ExclamationTriangleIcon />
-                        <p className='text-white ml-2 font-bold'>Uh oh...</p>
-                    </div>
-                ),
-                description: <p>{parseHTML(getErrorMessage(error))}</p>,
-            });
+            toast(getErrorToast(error));
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['users'] });
-            toast({
-                variant: 'success',
-                title: (
-                    <div className='flex flex-row items-center'>
-                        <CheckCircledIcon />
-                        <p className='text-black ml-2 font-bold'>Success!</p>
-                    </div>
-                ),
-                description: 'Reset password email was successfully sent.',
-            });
+            toast(getSuccessToast('Reset password email was successfully sent.'));
         }
     });
 

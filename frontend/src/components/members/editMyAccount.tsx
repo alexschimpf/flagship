@@ -1,11 +1,10 @@
 import { UpdateUser, User } from "@/api";
-import { apiClient, getErrorMessage } from "@/lib/api";
+import { apiClient, getErrorToast, getSuccessToast } from "@/lib/api";
 import { userRoles } from "@/lib/constants";
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import parseHTML from 'html-react-parser';
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -61,28 +60,10 @@ export default function () {
             });
         },
         onError: (error) => {
-            toast({
-                variant: 'destructive',
-                title: (
-                    <div className='flex flex-row items-center'>
-                        <ExclamationTriangleIcon />
-                        <p className='text-white ml-2 font-bold'>Uh oh...</p>
-                    </div>
-                ),
-                description: <p>{parseHTML(getErrorMessage(error))}</p>,
-            });
+            toast(getErrorToast(error));
         },
         onSuccess: () => {
-            toast({
-                variant: 'success',
-                title: (
-                    <div className='flex flex-row items-center'>
-                        <CheckCircledIcon />
-                        <p className='text-black ml-2 font-bold'>Success!</p>
-                    </div>
-                ),
-                description: 'Password reset email was sent.',
-            });
+            toast(getSuccessToast('Password reset email was sent.'));
         }
     });
 
@@ -94,16 +75,7 @@ export default function () {
             return apiClient.users.updateUser(user?.user_id as number, userRequest);
         },
         onError: (error) => {
-            toast({
-                variant: 'destructive',
-                title: (
-                    <div className='flex flex-row items-center'>
-                        <ExclamationTriangleIcon />
-                        <p className='text-white ml-2 font-bold'>Uh oh...</p>
-                    </div>
-                ),
-                description: <p>{parseHTML(getErrorMessage(error))}</p>,
-            });
+            toast(getErrorToast(error));
         },
         onSuccess: (data: User) => {
             queryClient.invalidateQueries({ queryKey: ['me'] });
@@ -111,16 +83,7 @@ export default function () {
 
             sessionStorage.setItem('current-user', JSON.stringify(data));
 
-            toast({
-                variant: 'success',
-                title: (
-                    <div className='flex flex-row items-center'>
-                        <CheckCircledIcon />
-                        <p className='text-black ml-2 font-bold'>Success!</p>
-                    </div>
-                ),
-                description: 'Your account was successfully updated.',
-            });
+            toast(getSuccessToast('Your account was successfully updated.'));
         }
     });
 
