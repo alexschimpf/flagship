@@ -17,6 +17,7 @@ import {
     QuestionMarkCircledIcon,
     RocketIcon
 } from '@radix-ui/react-icons';
+import { useTheme } from 'next-themes';
 import { usePathname, useRouter } from 'next/navigation';
 import { useContext } from 'react';
 
@@ -29,10 +30,15 @@ export default function () {
 }
 
 const Header = () => {
+    const { theme, setTheme } = useTheme();
     const currentUser = useContext(UserContext);
     const currentProject = useContext(ProjectContext);
     const router = useRouter();
     const pathName = usePathname();
+
+    const onToggleLightDarkModeClick = () => {
+        setTheme(theme === 'dark' ? 'light' : 'dark');
+    };
 
     return (
         <header className='sticky top-0 z-50 w-full bg-accent rounded-b-sm'>
@@ -104,6 +110,9 @@ const Header = () => {
                                 <a href='//localhost:3000/account'>
                                     My Account
                                 </a>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className='cursor-pointer' onClick={onToggleLightDarkModeClick}>
+                                Toggle light/dark mode
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className='cursor-pointer'>
