@@ -9,6 +9,7 @@ import type { OpenAPIConfig } from './OpenAPI';
 import { request as __request } from './request';
 
 export class FetchHttpRequest extends BaseHttpRequest {
+
     constructor(config: OpenAPIConfig) {
         super(config);
     }
@@ -19,9 +20,7 @@ export class FetchHttpRequest extends BaseHttpRequest {
      * @returns CancelablePromise<T>
      * @throws ApiError
      */
-    public override request<T>(
-        options: ApiRequestOptions
-    ): CancelablePromise<T> {
+    public override request<T>(options: ApiRequestOptions): CancelablePromise<T> {
         return __request(this.config, options);
     }
 }

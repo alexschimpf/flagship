@@ -4,6 +4,7 @@
 /* eslint-disable */
 export type FeatureFlagChange = {
     field: string;
-    old: string | null;
+    old: (string | null);
     new: string;
 };
+

@@ -11,5 +11,5 @@ export enum ContextValueType {
     '_6' = 6,
     '_7' = 7,
     '_8' = 8,
-    '_9' = 9
+    '_9' = 9,
 }

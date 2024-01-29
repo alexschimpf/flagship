@@ -9,3 +9,4 @@ export type ProjectWithPrivateKey = {
     updated_date: string;
     private_key: string;
 };
+

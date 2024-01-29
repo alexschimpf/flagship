@@ -19,7 +19,9 @@ export class UsersService {
      * @returns void
      * @throws ApiError
      */
-    public setPassword(requestBody: SetPassword): CancelablePromise<void> {
+    public setPassword(
+        requestBody: SetPassword,
+    ): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'PUT',
             url: '/users/password',
@@ -27,8 +29,8 @@ export class UsersService {
             mediaType: 'application/json',
             errors: {
                 307: `Successful Response`,
-                400: `Bad Request`
-            }
+                400: `Bad Request`,
+            },
         });
     }
     /**
@@ -38,7 +40,7 @@ export class UsersService {
      * @throws ApiError
      */
     public resetPassword(
-        requestBody: ResetPassword
+        requestBody: ResetPassword,
     ): CancelablePromise<SuccessResponse> {
         return this.httpRequest.request({
             method: 'POST',
@@ -46,8 +48,8 @@ export class UsersService {
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`
-            }
+                400: `Bad Request`,
+            },
         });
     }
     /**
@@ -59,18 +61,18 @@ export class UsersService {
      */
     public getUsers(
         page?: number,
-        pageSize: number = 50
+        pageSize: number = 9223372036854776000,
     ): CancelablePromise<Users> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/users',
             query: {
-                page: page,
-                page_size: pageSize
+                'page': page,
+                'page_size': pageSize,
             },
             errors: {
-                400: `Bad Request`
-            }
+                400: `Bad Request`,
+            },
         });
     }
     /**
@@ -79,75 +81,17 @@ export class UsersService {
      * @returns User Successful Response
      * @throws ApiError
      */
-    public inviteUser(requestBody: InviteUser): CancelablePromise<User> {
+    public inviteUser(
+        requestBody: InviteUser,
+    ): CancelablePromise<User> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/users',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`
-            }
-        });
-    }
-    /**
-     * Get User
-     * @param userId
-     * @returns User Successful Response
-     * @throws ApiError
-     */
-    public getUser(userId: number): CancelablePromise<User> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/users/{user_id}',
-            path: {
-                user_id: userId
+                400: `Bad Request`,
             },
-            errors: {
-                400: `Bad Request`
-            }
-        });
-    }
-    /**
-     * Update User
-     * @param userId
-     * @param requestBody
-     * @returns User Successful Response
-     * @throws ApiError
-     */
-    public updateUser(
-        userId: number,
-        requestBody: UpdateUser
-    ): CancelablePromise<User> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/users/{user_id}',
-            path: {
-                user_id: userId
-            },
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                400: `Bad Request`
-            }
-        });
-    }
-    /**
-     * Delete User
-     * @param userId
-     * @returns SuccessResponse Successful Response
-     * @throws ApiError
-     */
-    public deleteUser(userId: number): CancelablePromise<SuccessResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/users/{user_id}',
-            path: {
-                user_id: userId
-            },
-            errors: {
-                400: `Bad Request`
-            }
         });
     }
     /**
@@ -160,8 +104,72 @@ export class UsersService {
             method: 'GET',
             url: '/users/me',
             errors: {
-                400: `Bad Request`
-            }
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
+     * Get User
+     * @param userId
+     * @returns User Successful Response
+     * @throws ApiError
+     */
+    public getUser(
+        userId: number,
+    ): CancelablePromise<User> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/users/{user_id}',
+            path: {
+                'user_id': userId,
+            },
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
+     * Update User
+     * @param userId
+     * @param requestBody
+     * @returns User Successful Response
+     * @throws ApiError
+     */
+    public updateUser(
+        userId: number,
+        requestBody: UpdateUser,
+    ): CancelablePromise<User> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/users/{user_id}',
+            path: {
+                'user_id': userId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
+     * Delete User
+     * @param userId
+     * @returns SuccessResponse Successful Response
+     * @throws ApiError
+     */
+    public deleteUser(
+        userId: number,
+    ): CancelablePromise<SuccessResponse> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/users/{user_id}',
+            path: {
+                'user_id': userId,
+            },
+            errors: {
+                400: `Bad Request`,
+            },
         });
     }
 }

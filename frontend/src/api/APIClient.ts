@@ -20,10 +20,7 @@ export class APIClient {
     public readonly projects: ProjectsService;
     public readonly users: UsersService;
     public readonly request: BaseHttpRequest;
-    constructor(
-        config?: Partial<OpenAPIConfig>,
-        HttpRequest: HttpRequestConstructor = FetchHttpRequest
-    ) {
+    constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = FetchHttpRequest) {
         this.request = new HttpRequest({
             BASE: config?.BASE ?? '',
             VERSION: config?.VERSION ?? '1.0',
@@ -33,7 +30,7 @@ export class APIClient {
             USERNAME: config?.USERNAME,
             PASSWORD: config?.PASSWORD,
             HEADERS: config?.HEADERS,
-            ENCODE_PATH: config?.ENCODE_PATH
+            ENCODE_PATH: config?.ENCODE_PATH,
         });
         this.admin = new AdminService(this.request);
         this.auth = new AuthService(this.request);
@@ -43,3 +40,4 @@ export class APIClient {
         this.users = new UsersService(this.request);
     }
 }
+

@@ -6,3 +6,4 @@ export type Body_login_auth_login_post = {
     email: string;
     password: string;
 };
+

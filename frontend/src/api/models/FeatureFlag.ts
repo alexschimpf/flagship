@@ -12,3 +12,4 @@ export type FeatureFlag = {
     created_date: string;
     updated_date: string;
 };
+

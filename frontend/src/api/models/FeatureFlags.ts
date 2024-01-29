@@ -7,3 +7,4 @@ export type FeatureFlags = {
     items: Array<FeatureFlag>;
     total: number;
 };
+

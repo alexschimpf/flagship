@@ -5,5 +5,6 @@
 export type ErrorModel = {
     code: string;
     message: string;
-    field: string | null;
+    field: (string | null);
 };
+

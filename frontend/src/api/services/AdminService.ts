@@ -16,18 +16,18 @@ export class AdminService {
      */
     public getAuditLogs(
         page?: number,
-        pageSize: number = 50
+        pageSize: number = 100,
     ): CancelablePromise<SystemAuditLogs> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/admin/audit_logs',
             query: {
-                page: page,
-                page_size: pageSize
+                'page': page,
+                'page_size': pageSize,
             },
             errors: {
-                400: `Bad Request`
-            }
+                400: `Bad Request`,
+            },
         });
     }
 }

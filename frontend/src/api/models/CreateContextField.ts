@@ -11,5 +11,6 @@ export type CreateContextField = {
      */
     value_type: ContextValueType;
     description?: string;
-    enum_def?: Record<string, any> | null;
+    enum_def?: (Record<string, any> | null);
 };
+

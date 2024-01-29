@@ -6,5 +6,6 @@ export type SystemAuditLog = {
     actor: string;
     event_time: string;
     event_type: string;
-    details: string | null;
+    details: (string | null);
 };
+

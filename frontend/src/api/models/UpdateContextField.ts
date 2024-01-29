@@ -5,5 +5,6 @@
 export type UpdateContextField = {
     name: string;
     description?: string;
-    enum_def?: Record<string, any> | null;
+    enum_def?: (Record<string, any> | null);
 };
+

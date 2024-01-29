@@ -9,3 +9,4 @@ export type CreateOrUpdateFeatureFlag = {
     enabled: boolean;
     conditions?: Array<Array<FeatureFlagCondition>>;
 };
+
