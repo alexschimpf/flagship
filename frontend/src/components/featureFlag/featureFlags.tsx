@@ -5,7 +5,6 @@ import {
     DropdownMenuTrigger
 } from '@/components/primitives/dropdown-menu';
 import SearchBar from '@/components/primitives/searchBar';
-import NewProjectDialog from '@/components/project/newProjectDialog';
 import { UserContext } from '@/context/userContext';
 import { apiClient } from '@/lib/api';
 import { Permission, hasPermission } from '@/lib/permissions';
@@ -76,20 +75,14 @@ export default function () {
                         Feature Flags
                     </h1>
                 </div>
-                <div className='flex-1'>
+                <div className='flex-1 h-full'>
                     {!query.isFetching &&
                         featureFlags.length > 0 &&
                         hasPermission(
                             currentUser,
                             Permission.CREATE_FEATURE_FLAG
                         ) && (
-                            <Button
-                                variant='ghost'
-                                className='hover:bg-accent px-2 size-9'
-                                onClick={onNewClick}
-                            >
-                                <PlusCircledIcon className='size-8 cursor-pointer' />
-                            </Button>
+                            <PlusCircledIcon className='size-9 cursor-pointer hover:bg-accent px-2' onClick={onNewClick} />
                         )}
                 </div>
             </div>
@@ -107,16 +100,7 @@ export default function () {
                             currentUser,
                             Permission.CREATE_FEATURE_FLAG
                         ) && (
-                                <NewProjectDialog
-                                    trigger={
-                                        <Button
-                                            variant='ghost'
-                                            className='hover:bg-background px-2 size-12'
-                                        >
-                                            <PlusCircledIcon className='size-8 cursor-pointer' />
-                                        </Button>
-                                    }
-                                />
+                                <PlusCircledIcon className='size-9 cursor-pointer hover:bg-accent px-2' onClick={onNewClick} />
                             )}
                     </div>
                 </div>

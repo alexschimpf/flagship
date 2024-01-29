@@ -58,7 +58,7 @@ export default function () {
                 <div className='flex-1'>
                     <h1 className='text-center text-lg font-bold'>Projects</h1>
                 </div>
-                <div className='flex-1'>
+                <div className='flex-1 items-center h-full'>
                     {!query.isFetching &&
                         projects.length > 0 &&
                         hasPermission(
@@ -67,12 +67,7 @@ export default function () {
                         ) && (
                             <NewProjectDialog
                                 trigger={
-                                    <Button
-                                        variant='ghost'
-                                        className='hover:bg-accent px-2 size-9'
-                                    >
-
-                                    </Button>
+                                    <PlusCircledIcon className='size-9 cursor-pointer hover:bg-accent px-2' />
                                 }
                             />
                         )}
@@ -93,12 +88,7 @@ export default function () {
                         ) && (
                                 <NewProjectDialog
                                     trigger={
-                                        <Button
-                                            variant='ghost'
-                                            className='hover:bg-background px-2 size-12'
-                                        >
-                                            <PlusCircledIcon className='size-8 cursor-pointer' />
-                                        </Button>
+                                        <PlusCircledIcon className='size-9 cursor-pointer hover:bg-accent px-2' />
                                     }
                                 />
                             )}

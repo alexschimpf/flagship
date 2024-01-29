@@ -81,16 +81,11 @@ export default function () {
                 <div className='flex-1'>
                     <h1 className='text-center text-lg font-bold'>Members</h1>
                 </div>
-                <div className='flex-1'>
+                <div className='flex-1 h-full'>
                     {!query.isFetching && users.length > 0 && (
                         <InviteMemberDialog
                             trigger={
-                                <Button
-                                    variant='ghost'
-                                    className='hover:bg-accent px-2 size-9'
-                                >
-                                    <PlusCircledIcon className='size-8 cursor-pointer' />
-                                </Button>
+                                <PlusCircledIcon className='size-9 cursor-pointer hover:bg-accent px-2' />
                             }
                         />
                     )}
