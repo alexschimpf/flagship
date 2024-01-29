@@ -86,7 +86,7 @@ def get_feature_flag_audit_logs(
     project_id: int,
     feature_flag_id: int,
     page: int = 0,
-    page_size: int = DEFAULT_PAGE_SIZE,
+    page_size: int = 100,
     me: User = Depends(auth.get_user)
 ) -> FeatureFlagAuditLogs:
     return GetFeatureFlagAuditLogsController(

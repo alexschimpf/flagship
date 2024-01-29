@@ -85,7 +85,7 @@ def get_context_field_audit_logs(
     project_id: int,
     context_field_id: int,
     page: int = 0,
-    page_size: int = DEFAULT_PAGE_SIZE,
+    page_size: int = 100,
     me: User = Depends(auth.get_user)
 ) -> ContextFieldAuditLogs:
     return GetContextFieldAuditLogsController(
