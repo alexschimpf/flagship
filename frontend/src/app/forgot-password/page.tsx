@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from "next-themes";
 
-import Login from '@/components/login/login';
+import ForgotPassword from "@/components/login/forgotPassword";
 
 export default function () {
     const theme = localStorage.getItem('theme') || 'dark';
@@ -12,7 +12,7 @@ export default function () {
             defaultTheme={theme}
             enableSystem
         >
-            <Login />
+            <ForgotPassword />
         </ThemeProvider>
     );
 }

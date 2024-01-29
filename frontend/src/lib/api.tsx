@@ -6,7 +6,7 @@ import {
 import { QueryClient } from '@tanstack/react-query';
 import parseHTML from 'html-react-parser';
 
-export const apiClient = new APIClient({ BASE: 'http://localhost:8000' });
+export const apiClient = new APIClient({ BASE: 'http://localhost:8000', WITH_CREDENTIALS: true });
 export const queryClient = new QueryClient();
 
 export const getErrorMessage = (error: Error | string): string => {
@@ -42,7 +42,7 @@ export const getSuccessToast = (message: string): any => {
         title: (
             <div className='flex flex-row items-center'>
                 <CheckCircledIcon />
-                <p className='text-black ml-2 font-bold'>Success!</p>
+                <p className='text-foreground ml-2 font-bold'>Success!</p>
             </div>
         ),
         description: message

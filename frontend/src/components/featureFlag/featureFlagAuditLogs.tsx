@@ -38,7 +38,7 @@ export default function () {
     const pages = query?.data?.pages || [];
 
     const onBackClick = () =>
-        router.replace(`/project/${projectId}/feature-flags`);
+        router.push(`/project/${projectId}/feature-flags`);
 
     const getAuditLogRows = () => {
         let rowNum = 0;

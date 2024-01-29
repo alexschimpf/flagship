@@ -23,7 +23,7 @@ def login(email: str = Form(), password: str = Form(), authorize: AuthJWT = Depe
     ).handle_request()
 
 
-@router.post('/login/test', response_class=RedirectResponse)
+@router.post('/login/test', response_model=SuccessResponse)
 def login_test(authorize: AuthJWT = Depends()) -> Any:
     authorize.jwt_required()
     return SuccessResponse(success=True)

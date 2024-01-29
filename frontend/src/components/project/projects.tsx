@@ -38,11 +38,11 @@ export default function () {
     });
 
     const onProjectPrivateKeysClick = (projectId: number) =>
-        router.replace(`/project/${projectId}/private-keys`);
+        router.push(`/project/${projectId}/private-keys`);
     const onFeatureFlagsClick = (projectId: number) =>
-        router.replace(`/project/${projectId}/feature-flags`);
+        router.push(`/project/${projectId}/feature-flags`);
     const onContextFieldsClick = (projectId: number) =>
-        router.replace(`/project/${projectId}/context-fields`);
+        router.push(`/project/${projectId}/context-fields`);
 
     const projectMatchesSearchText = (project: Project) => {
         return !searchText || project.name.toLowerCase().includes(searchText.toLowerCase());
@@ -71,7 +71,7 @@ export default function () {
                                         variant='ghost'
                                         className='hover:bg-accent px-2 size-9'
                                     >
-                                        <PlusCircledIcon className='size-8 cursor-pointer' />
+
                                     </Button>
                                 }
                             />

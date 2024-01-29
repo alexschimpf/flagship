@@ -11,6 +11,7 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Body_login_auth_login_post } from './models/Body_login_auth_login_post';
+export type { Body_set_password_users_password_set_post } from './models/Body_set_password_users_password_set_post';
 export type { ContextField } from './models/ContextField';
 export type { ContextFieldAuditLog } from './models/ContextFieldAuditLog';
 export type { ContextFieldAuditLogs } from './models/ContextFieldAuditLogs';
@@ -39,7 +40,6 @@ export type { ProjectPrivateKeys } from './models/ProjectPrivateKeys';
 export type { Projects } from './models/Projects';
 export type { ProjectWithPrivateKey } from './models/ProjectWithPrivateKey';
 export type { ResetPassword } from './models/ResetPassword';
-export type { SetPassword } from './models/SetPassword';
 export type { SuccessResponse } from './models/SuccessResponse';
 export type { SystemAuditLog } from './models/SystemAuditLog';
 export type { SystemAuditLogs } from './models/SystemAuditLogs';

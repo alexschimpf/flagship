@@ -55,5 +55,8 @@
     },
     "USER_NOT_ACTIVATED": {
         "en-us": "User is not activated."
+    },
+    "PASSWORDS_DONT_MATCH": {
+        "en-us": "Passwords don't match."
     }
 }

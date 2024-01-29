@@ -82,6 +82,10 @@ class InvalidSetPasswordTokenException(BadRequestException):
     CODE: str = 'INVALID_SET_PASSWORD_TOKEN'
 
 
+class PasswordsDontMatchException(BadRequestException):
+    CODE: str = 'PASSWORDS_DONT_MATCH'
+
+
 class InvalidLoginCredentialsException(BadRequestException):
     CODE: str = 'INVALID_LOGIN_CREDENTIALS'
 

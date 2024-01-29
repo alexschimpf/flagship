@@ -109,7 +109,7 @@ export default function () {
             enum_def: values.enumDef ? JSON.parse(values.enumDef) : null
         });
     const onBackClick = () =>
-        router.replace(`/project/${projectId}/context-fields`);
+        router.push(`/project/${projectId}/context-fields`);
 
     return (
         <div className='flex flex-col w-full justify-center'>

@@ -49,13 +49,13 @@ export default function () {
     const contextFields = query.data?.items || [];
     const filteredContextFields = contextFields.filter(contextFieldMatchesSearchText);
 
-    const onBackClick = () => router.replace('/');
+    const onBackClick = () => router.push('/');
     const onNewClick = () =>
-        router.replace(`/project/${projectId}/context-fields/new`);
+        router.push(`/project/${projectId}/context-fields/new`);
     const onEditClick = (contextFieldId: number) =>
-        router.replace(`/project/${projectId}/context-field/${contextFieldId}`);
+        router.push(`/project/${projectId}/context-field/${contextFieldId}`);
     const onAuditLogsClick = (contextFieldId: number) =>
-        router.replace(
+        router.push(
             `/project/${projectId}/context-field/${contextFieldId}/audit-logs`
         );
 

@@ -62,7 +62,7 @@ const Header = () => {
                         <Button
                             variant='ghost'
                             className={`h-full p-3 hover:bg-background rounded-none ${pathName === '/' ? 'bg-background' : ''}`}
-                            onClick={() => router.replace('/')}
+                            onClick={() => router.push('/')}
                         >
                             Projects
                         </Button>
@@ -70,7 +70,7 @@ const Header = () => {
                             <Button
                                 variant='ghost'
                                 className={`h-full p-3 hover:bg-background rounded-none ${pathName === '/members' ? 'bg-background' : ''}`}
-                                onClick={() => router.replace('/members')}
+                                onClick={() => router.push('/members')}
                             >
                                 Members
                             </Button>
@@ -82,7 +82,7 @@ const Header = () => {
                                 <Button
                                     variant='ghost'
                                     className={`h-full p-3 hover:bg-background rounded-none ${pathName === '/audit-logs' ? 'bg-background' : ''}`}
-                                    onClick={() => router.replace('/audit-logs')}
+                                    onClick={() => router.push('/audit-logs')}
                                 >
                                     Audit Logs
                                 </Button>

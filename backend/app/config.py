@@ -44,7 +44,7 @@ class Config:
         cls.SESSION_COOKIE_MAX_AGE = cls._get_value(
             env_var='COOKIE_MAX_AGE', default=86400)
         cls.SESSION_COOKIE_DOMAIN = cls._get_value(
-            env_var='SESSION_COOKIE_DOMAIN', default='localhost:3000', warn_if_missing=True)
+            env_var='SESSION_COOKIE_DOMAIN', default='localhost', warn_if_missing=True)
         cls.CORS_ALLOW_ORIGINS = cls._get_value(
             env_var='CORS_ALLOW_ORIGINS', default='*', warn_if_missing=True, type_cast=cls._to_str_list)
         cls.SET_PASSWORD_TOKEN_TTL = cls._get_value(

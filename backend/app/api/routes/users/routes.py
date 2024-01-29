@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, Form
 from fastapi.responses import RedirectResponse
 from fastapi_another_jwt_auth import AuthJWT
 
@@ -18,21 +18,6 @@ router = APIRouter(
     prefix='/users',
     tags=['Users']
 )
-
-
-@router.put('/password', response_class=RedirectResponse)
-def set_password(request: SetPassword, authorize: AuthJWT = Depends()) -> RedirectResponse:
-    return SetPasswordController(
-        request=request,
-        authorize=authorize
-    ).handle_request()
-
-
-@router.post('/password/reset', response_model=SuccessResponse)
-def reset_password(request: ResetPassword) -> SuccessResponse:
-    return ResetPasswordController(
-        request=request
-    ).handle_request()
 
 
 @router.get('', response_model=Users)
@@ -88,3 +73,27 @@ def delete_user(
         user_id=user_id,
         me=me
     ).handle_request(response=response)
+
+
+@router.post('/password/set', response_class=RedirectResponse)
+def set_password(
+    email: str = Form(),
+    password: str = Form(),
+    password_repeat: str = Form(),
+    token: str = Form(),
+    authorize: AuthJWT = Depends()
+) -> RedirectResponse:
+    return SetPasswordController(
+        email=email,
+        password=password,
+        password_repeat=password_repeat,
+        token=token,
+        authorize=authorize
+    ).handle_request()
+
+
+@router.post('/password/reset', response_model=SuccessResponse)
+def reset_password(request: ResetPassword) -> SuccessResponse:
+    return ResetPasswordController(
+        request=request
+    ).handle_request()

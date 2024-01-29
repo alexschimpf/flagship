@@ -114,7 +114,7 @@ export default function () {
             projects: values.projects.map(projectId => parseInt(projectId))
         });
     const onResetPasswordClick = () => resetPasswordMutation.mutate();
-    const onBackClick = () => router.replace('/');
+    const onBackClick = () => router.push('/');
 
     return (
         <div className='flex flex-col w-full justify-center'>

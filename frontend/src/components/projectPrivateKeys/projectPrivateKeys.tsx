@@ -38,7 +38,7 @@ export default function () {
 
     const privateKeys = query?.data?.items || [];
 
-    const onBackClick = () => router.replace('/');
+    const onBackClick = () => router.push('/');
 
     return (
         <div className='flex flex-col w-full justify-center items-center'>

@@ -38,7 +38,7 @@ export default function () {
     const pages = query?.data?.pages || [];
 
     const onBackClick = () =>
-        router.replace(`/project/${projectId}/context-fields`);
+        router.push(`/project/${projectId}/context-fields`);
 
     const getAuditLogRows = () => {
         let rowNum = 0;

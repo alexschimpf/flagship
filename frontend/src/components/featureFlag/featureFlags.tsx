@@ -49,13 +49,13 @@ export default function () {
     const featureFlags = query.data?.items || [];
     const filteredFeatureFlags = featureFlags.filter(featureFlagMatchesSearchText);
 
-    const onBackClick = () => router.replace('/');
+    const onBackClick = () => router.push('/');
     const onNewClick = () =>
-        router.replace(`/project/${projectId}/feature-flags/new`);
+        router.push(`/project/${projectId}/feature-flags/new`);
     const onEditClick = (featureFlagId: number) =>
-        router.replace(`/project/${projectId}/feature-flag/${featureFlagId}`);
+        router.push(`/project/${projectId}/feature-flag/${featureFlagId}`);
     const onAuditLogsClick = (featureFlagId: number) =>
-        router.replace(
+        router.push(
             `/project/${projectId}/feature-flag/${featureFlagId}/audit-logs`
         );
 

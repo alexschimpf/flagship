@@ -1,8 +1,8 @@
 'use client';
 
+import SetPassword from "@/components/login/setPassword";
 import { ThemeProvider } from "next-themes";
 
-import Login from '@/components/login/login';
 
 export default function () {
     const theme = localStorage.getItem('theme') || 'dark';
@@ -12,7 +12,7 @@ export default function () {
             defaultTheme={theme}
             enableSystem
         >
-            <Login />
+            <SetPassword />
         </ThemeProvider>
     );
 }

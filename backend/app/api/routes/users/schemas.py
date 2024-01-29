@@ -29,6 +29,7 @@ class UpdateUser(BaseModel):
 class SetPassword(BaseModel):
     email: EmailStr
     password: str
+    password_repeat: str
     token: str
 
 

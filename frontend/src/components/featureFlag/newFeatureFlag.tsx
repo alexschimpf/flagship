@@ -66,7 +66,7 @@ export default function () {
                 queryKey: [`projects/${projectId}/feature-flags`]
             });
             toast(getSuccessToast('Feature flag was successfully created.'));
-            router.replace(`/project/${projectId}/feature-flags`);
+            router.push(`/project/${projectId}/feature-flags`);
         }
     });
 
@@ -94,7 +94,7 @@ export default function () {
         });
     };
     const onBackClick = () =>
-        router.replace(`/project/${projectId}/feature-flags`);
+        router.push(`/project/${projectId}/feature-flags`);
     const onConditionsChange = (c: ConditionGroup[]) => {
         setConditions(c);
     };

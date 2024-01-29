@@ -7,7 +7,8 @@ from fastapi import status
 from fastapi.responses import RedirectResponse
 from fastapi_another_jwt_auth import AuthJWT
 
-from app.api.exceptions.exceptions import InvalidPasswordException, InvalidSetPasswordTokenException, AppException
+from app.api.exceptions.exceptions import InvalidPasswordException, InvalidSetPasswordTokenException, AppException, \
+    PasswordsDontMatchException
 from app.api.routes.users.schemas import SetPassword
 from app.config import Config
 from app.constants import AuditLogEventType
@@ -19,13 +20,16 @@ from app.services.strings.service import StringsService
 
 class SetPasswordController:
 
-    def __init__(self, request: SetPassword, authorize: AuthJWT):
-        self.request = request
+    def __init__(self, email: str, password: str, password_repeat: str, token: str, authorize: AuthJWT):
+        self.email = email
+        self.password = password
+        self.password_repeat = password_repeat
+        self.token = token
         self.authorize = authorize
 
     def handle_request(self) -> RedirectResponse:
         try:
-            user = self._get_user_by_email(email=self.request.email)
+            user = self._get_user_by_email(email=self.email)
             self._validate(user=user)
             if user:
                 self._update_password(user=user)
@@ -34,7 +38,7 @@ class SetPasswordController:
                 str(e) if isinstance(e, AppException) else StringsService.get(key=AppException.CODE)
             )
             return RedirectResponse(
-                url=f'{Config.UI_BASE_URL}/set-password?error={error}',
+                url=f'{Config.UI_BASE_URL}/set-password?error={error}&token={self.token}',
                 status_code=status.HTTP_302_FOUND
             )
         else:
@@ -54,11 +58,14 @@ class SetPasswordController:
             return response
 
     def _validate(self, user: UserRow | None) -> None:
+        if self.password != self.password_repeat:
+            raise PasswordsDontMatchException
+
         if not user or not user.set_password_token:
             raise InvalidSetPasswordTokenException
 
         hashed_token, expire_time = user.set_password_token.split('|')
-        if not bcrypt.checkpw(self.request.token.encode(), hashed_token.encode()):
+        if not bcrypt.checkpw(self.token.encode(), hashed_token.encode()):
             raise InvalidSetPasswordTokenException
         if time.time() > float(expire_time):
             raise InvalidSetPasswordTokenException
@@ -67,7 +74,7 @@ class SetPasswordController:
             raise InvalidPasswordException(field='password')
 
     def is_password_valid(self) -> bool:
-        password = self.request.password
+        password = self.password
 
         if len(password) < 8:
             return False
@@ -97,7 +104,7 @@ class SetPasswordController:
 
     def _update_password(self, user: UserRow) -> None:
         hashed_password = bcrypt.hashpw(
-            self.request.password.encode(),
+            self.password.encode(),
             bcrypt.gensalt(prefix=b'2a')
         ).decode()
         with MySQLService.get_session() as session:
@@ -107,7 +114,7 @@ class SetPasswordController:
                 session=session
             )
             session.add(SystemAuditLogRow(
-                actor=self.request.email,
+                actor=self.email,
                 event_type=AuditLogEventType.SET_PASSWORD
             ))
             session.commit()

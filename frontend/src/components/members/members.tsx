@@ -64,7 +64,7 @@ export default function () {
     const users = query.data?.items || [];
     const filteredUsers = users.filter(userMatchesSearchText);
 
-    const onBackClick = () => router.replace('/');
+    const onBackClick = () => router.push('/');
 
     return (
         <div className='flex flex-col w-full justify-center'>

@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Body_set_password_users_password_set_post } from '../models/Body_set_password_users_password_set_post';
 import type { InviteUser } from '../models/InviteUser';
 import type { ResetPassword } from '../models/ResetPassword';
-import type { SetPassword } from '../models/SetPassword';
 import type { SuccessResponse } from '../models/SuccessResponse';
 import type { UpdateUser } from '../models/UpdateUser';
 import type { User } from '../models/User';
@@ -13,45 +13,6 @@ import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class UsersService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
-    /**
-     * Set Password
-     * @param requestBody
-     * @returns void
-     * @throws ApiError
-     */
-    public setPassword(
-        requestBody: SetPassword,
-    ): CancelablePromise<void> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/users/password',
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                307: `Successful Response`,
-                400: `Bad Request`,
-            },
-        });
-    }
-    /**
-     * Reset Password
-     * @param requestBody
-     * @returns SuccessResponse Successful Response
-     * @throws ApiError
-     */
-    public resetPassword(
-        requestBody: ResetPassword,
-    ): CancelablePromise<SuccessResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/users/password/reset',
-            body: requestBody,
-            mediaType: 'application/json',
-            errors: {
-                400: `Bad Request`,
-            },
-        });
-    }
     /**
      * Get Users
      * @param page
@@ -167,6 +128,45 @@ export class UsersService {
             path: {
                 'user_id': userId,
             },
+            errors: {
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
+     * Set Password
+     * @param formData
+     * @returns void
+     * @throws ApiError
+     */
+    public setPassword(
+        formData: Body_set_password_users_password_set_post,
+    ): CancelablePromise<void> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/password/set',
+            formData: formData,
+            mediaType: 'application/x-www-form-urlencoded',
+            errors: {
+                307: `Successful Response`,
+                400: `Bad Request`,
+            },
+        });
+    }
+    /**
+     * Reset Password
+     * @param requestBody
+     * @returns SuccessResponse Successful Response
+     * @throws ApiError
+     */
+    public resetPassword(
+        requestBody: ResetPassword,
+    ): CancelablePromise<SuccessResponse> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/users/password/reset',
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 400: `Bad Request`,
             },
