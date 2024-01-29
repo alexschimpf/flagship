@@ -1,3 +1,4 @@
+import { User } from '@/api';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -18,7 +19,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Button } from '../primitives/button';
 import {
     Table,
@@ -36,6 +37,7 @@ export default function () {
     const currentUser = useContext(UserContext);
     const router = useRouter();
     const queryClient = useQueryClient();
+    const [searchText, setSearchText] = useState('');
     const query = useQuery({
         queryKey: ['users'],
         queryFn: () => apiClient.users.getUsers()
@@ -55,7 +57,12 @@ export default function () {
         }
     });
 
+    const userMatchesSearchText = (user: User) => {
+        return !searchText || user.email.toLowerCase().includes(searchText.toLowerCase()) || user.name.toLowerCase().includes(searchText.toLowerCase());
+    };
+
     const users = query.data?.items || [];
+    const filteredUsers = users.filter(userMatchesSearchText);
 
     const onBackClick = () => router.replace('/');
 
@@ -95,6 +102,7 @@ export default function () {
                         <SearchBar
                             placeholder='Search for members...'
                             className='w-1/2'
+                            onChange={e => setSearchText(e.currentTarget.value)}
                         />
                     </div>
                     <Table>
@@ -111,7 +119,7 @@ export default function () {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {users.map((user, i) => (
+                            {filteredUsers.map((user, i) => (
                                 <TableRow
                                     key={user.user_id}
                                     className={
@@ -204,6 +212,11 @@ export default function () {
                             ))}
                         </TableBody>
                     </Table>
+                    {!filteredUsers.length &&
+                        <div className='flex justify-center w-full m-4'>
+                            <p>No results</p>
+                        </div>
+                    }
                 </div>
             )}
             {query.isFetching && (

@@ -1,3 +1,4 @@
+import { ContextField } from '@/api';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -19,7 +20,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Button } from '../primitives/button';
 import {
     Table,
@@ -34,14 +35,19 @@ export default function () {
     const currentUser = useContext(UserContext);
     const params = useParams<{ projectId: string; }>();
     const projectId = parseInt(params.projectId);
-
+    const [searchText, setSearchText] = useState('');
     const router = useRouter();
     const query = useQuery({
         queryKey: [`projects/${projectId}/context-fields`],
         queryFn: () => apiClient.contextFields.getContextFields(projectId)
     });
 
+    const contextFieldMatchesSearchText = (contextField: ContextField) => {
+        return !searchText || contextField.name.toLowerCase().includes(searchText.toLowerCase());
+    };
+
     const contextFields = query.data?.items || [];
+    const filteredContextFields = contextFields.filter(contextFieldMatchesSearchText);
 
     const onBackClick = () => router.replace('/');
     const onNewClick = () =>
@@ -121,6 +127,7 @@ export default function () {
                         <SearchBar
                             placeholder='Search for context fields...'
                             className='w-1/2'
+                            onChange={e => setSearchText(e.currentTarget.value)}
                         />
                     </div>
                     <Table>
@@ -137,7 +144,7 @@ export default function () {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {contextFields.map((contextField, i) => (
+                            {filteredContextFields.map((contextField, i) => (
                                 <TableRow
                                     key={contextField.context_field_id}
                                     className={
@@ -240,6 +247,11 @@ export default function () {
                             ))}
                         </TableBody>
                     </Table>
+                    {!filteredContextFields.length &&
+                        <div className='flex justify-center w-full m-4'>
+                            <p>No results</p>
+                        </div>
+                    }
                 </div>
             )}
             {query.isFetching && (

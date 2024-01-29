@@ -1,8 +1,9 @@
+import sys
 from enum import IntEnum, auto
 from typing import Final
 
 
-DEFAULT_PAGE_SIZE = 50
+DEFAULT_PAGE_SIZE = sys.maxsize
 
 
 class ContextValueType(IntEnum):

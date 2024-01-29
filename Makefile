@@ -48,5 +48,4 @@ be-size:
 
 # get lines of ui code
 fe-size:
-	git ls-files | grep -e 'frontend/src/app' -e 'frontend/src/components/custom' -e 'frontend/src/stores' -e 'frontend/src/utils' | xargs wc -l
-
+	git ls-files | grep -e 'frontend/src/app' -e 'frontend/src/components' -e 'frontend/src/context' -e 'frontend/src/lib' | xargs wc -l

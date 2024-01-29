@@ -18,7 +18,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Button } from '../primitives/button';
 import { Switch } from '../primitives/switch';
 import {
@@ -35,14 +35,19 @@ export default function () {
     const params = useParams<{ projectId: string; }>();
     const projectId = parseInt(params.projectId);
     const currentUser = useContext(UserContext);
-
+    const [searchText, setSearchText] = useState('');
     const router = useRouter();
     const query = useQuery({
         queryKey: [`projects/${projectId}/feature-flags`],
         queryFn: () => apiClient.featureFlags.getFeatureFlags(projectId)
     });
 
+    const featureFlagMatchesSearchText = (featureFlag: FeatureFlag) => {
+        return !searchText || featureFlag.name.toLowerCase().includes(searchText.toLowerCase());
+    };
+
     const featureFlags = query.data?.items || [];
+    const filteredFeatureFlags = featureFlags.filter(featureFlagMatchesSearchText);
 
     const onBackClick = () => router.replace('/');
     const onNewClick = () =>
@@ -122,6 +127,7 @@ export default function () {
                         <SearchBar
                             placeholder='Search for feature flags...'
                             className='w-1/2'
+                            onChange={e => setSearchText(e.currentTarget.value)}
                         />
                     </div>
                     <Table className='w-full'>
@@ -137,7 +143,7 @@ export default function () {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {featureFlags.map((featureFlag, i) => (
+                            {filteredFeatureFlags.map((featureFlag, i) => (
                                 <TableRow
                                     key={featureFlag.feature_flag_id}
                                     className={
@@ -264,6 +270,11 @@ export default function () {
                             ))}
                         </TableBody>
                     </Table>
+                    {!filteredFeatureFlags.length &&
+                        <div className='flex justify-center w-full m-4'>
+                            <p>No results</p>
+                        </div>
+                    }
                 </div>
             )}
             {query.isFetching && (

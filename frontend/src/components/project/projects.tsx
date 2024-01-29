@@ -1,3 +1,4 @@
+import { Project } from '@/api';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,7 +15,7 @@ import { DotsHorizontalIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Button } from '../primitives/button';
 import SearchBar from '../primitives/searchBar';
 import {
@@ -30,6 +31,7 @@ import EditProjectDialog from './editProjectDialog';
 export default function () {
     const currentUser = useContext(UserContext);
     const router = useRouter();
+    const [searchText, setSearchText] = useState('');
     const query = useQuery({
         queryKey: ['projects'],
         queryFn: () => apiClient.projects.getProjects()
@@ -42,7 +44,12 @@ export default function () {
     const onContextFieldsClick = (projectId: number) =>
         router.replace(`/project/${projectId}/context-fields`);
 
+    const projectMatchesSearchText = (project: Project) => {
+        return !searchText || project.name.toLowerCase().includes(searchText.toLowerCase());
+    };
+
     const projects = query.data?.items || [];
+    const filteredProjects = projects.filter(projectMatchesSearchText);
 
     return (
         <div className='flex flex-col w-full justify-center'>
@@ -104,6 +111,7 @@ export default function () {
                         <SearchBar
                             placeholder='Search for projects..'
                             className='w-1/2'
+                            onChange={(e) => setSearchText(e.currentTarget.value)}
                         />
                     </div>
                     <Table>
@@ -116,7 +124,7 @@ export default function () {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {projects.map((project, i) => (
+                            {filteredProjects.map((project, i) => (
                                 <TableRow
                                     key={project.project_id}
                                     className={
@@ -245,6 +253,11 @@ export default function () {
                             ))}
                         </TableBody>
                     </Table>
+                    {!filteredProjects.length &&
+                        <div className='flex justify-center w-full m-4'>
+                            <p>No results</p>
+                        </div>
+                    }
                 </div>
             )}
             {query.isFetching && (
