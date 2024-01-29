@@ -114,7 +114,7 @@ const Header = () => {
                                 </a>
                             </DropdownMenuItem>
                             <DropdownMenuItem className='cursor-pointer' onClick={onToggleLightDarkModeClick}>
-                                Toggle light/dark mode
+                                {theme === 'dark' ? 'Enable light mode' : 'Enable dark mode'}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className='cursor-pointer'>
