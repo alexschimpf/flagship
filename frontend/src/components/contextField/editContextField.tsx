@@ -125,9 +125,7 @@ export default function () {
                 </div>
                 <div className='flex-1'>
                     <h1 className='text-center text-lg font-bold'>
-                        {query.isFetching
-                            ? ''
-                            : `Context Field - ${contextField?.name}`}
+                        Edit Context Field
                     </h1>
                 </div>
                 <div className='flex-1'></div>

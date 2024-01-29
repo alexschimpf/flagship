@@ -122,7 +122,7 @@ export default function () {
                                     }
                                 >
                                     <TableCell>{project.project_id}</TableCell>
-                                    <TableCell>{project.name}</TableCell>
+                                    <TableCell className='max-w-[400px] break-words'>{project.name}</TableCell>
                                     <TableCell>
                                         {getLocalTimeString(
                                             project.created_date

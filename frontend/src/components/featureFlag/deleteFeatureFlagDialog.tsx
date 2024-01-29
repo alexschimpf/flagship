@@ -54,7 +54,7 @@ export default function (props: DeleteFeatureFlagDialogProps) {
                         <DialogTitle>Delete Feature Flag</DialogTitle>
                     </DialogHeader>
                     <div className='w-full flex flex-col items-end'>
-                        <p className='w-full'>
+                        <p className='w-full max-w-[375px] break-words'>
                             Are you sure you want delete feature flag{' '}
                             <b>{props.name}</b>? This cannot be undone.
                         </p>

@@ -48,7 +48,7 @@ export default function (props: DeleteMemberDialogProps) {
                         <DialogTitle>Delete User</DialogTitle>
                     </DialogHeader>
                     <div className='w-full flex flex-col items-end'>
-                        <p className='w-full'>
+                        <p className='w-full max-w-[375px] break-words'>
                             Are you sure you want delete user{' '}
                             <b>{props.email}</b>? This cannot be undone.
                         </p>

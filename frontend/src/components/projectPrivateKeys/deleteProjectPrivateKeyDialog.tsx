@@ -73,7 +73,7 @@ export default function (props: DeleteProjectPrivateKeyDialogProps) {
                         <DialogTitle>Delete Project Private Key</DialogTitle>
                     </DialogHeader>
                     <div className='w-full flex flex-col items-end'>
-                        <p className='w-full'>
+                        <p className='w-full max-w-[375px] break-words'>
                             Are you sure you want delete project private key{' '}
                             <b>{props.name}</b>? This cannot be undone.
                         </p>

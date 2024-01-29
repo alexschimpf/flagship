@@ -153,9 +153,7 @@ export default function () {
                 </div>
                 <div className='flex'>
                     <h1 className='text-center text-lg font-bold mt-2'>
-                        {isFetching
-                            ? ''
-                            : `Feature Flag - ${featureFlag?.name}`}
+                        Edit Feature Flag
                     </h1>
                 </div>
                 <div className='flex-1'></div>

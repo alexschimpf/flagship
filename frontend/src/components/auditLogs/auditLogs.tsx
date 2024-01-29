@@ -73,9 +73,9 @@ export default function () {
                                             i % 2 == 0 ? 'bg-accent' : 'bg-muted/50'
                                         }
                                     >
-                                        <TableCell>{auditLog.actor}</TableCell>
+                                        <TableCell className='max-w-[200px] break-words'>{auditLog.actor}</TableCell>
                                         <TableCell>{auditLog.event_type}</TableCell>
-                                        <TableCell>{auditLog.details}</TableCell>
+                                        <TableCell className='max-w-[400px] break-words'>{auditLog.details}</TableCell>
                                         <TableCell>
                                             {getLocalTimeString(
                                                 auditLog.event_time

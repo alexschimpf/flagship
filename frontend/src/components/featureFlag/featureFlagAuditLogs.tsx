@@ -51,12 +51,12 @@ export default function () {
                             key={rowNum}
                             className={rowNum % 2 == 0 ? 'bg-accent' : 'bg-muted/50'}
                         >
-                            <TableCell>{auditLog.actor}</TableCell>
+                            <TableCell className='max-w-[200px] break-words'>{auditLog.actor}</TableCell>
                             <TableCell>{change.field}</TableCell>
-                            <TableCell className='break-normal'>
+                            <TableCell className='break-normal max-w-[200px] break-words'>
                                 {change.old || '--'}
                             </TableCell>
-                            <TableCell className='break-normal'>
+                            <TableCell className='break-normal max-w-[200px] break-words'>
                                 {change.new || '--'}
                             </TableCell>
                             <TableCell>

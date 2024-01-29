@@ -122,8 +122,8 @@ export default function () {
                                     }
                                 >
                                     <TableCell>{user.user_id}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.name}</TableCell>
+                                    <TableCell className='max-w-[200px] break-words'>{user.email}</TableCell>
+                                    <TableCell className='max-w-[200px] break-words'>{user.name}</TableCell>
                                     <TableCell>
                                         {userRoles[user.role]}
                                     </TableCell>

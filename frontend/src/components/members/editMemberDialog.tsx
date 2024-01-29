@@ -122,148 +122,150 @@ export default function (props: EditMemberDialogProps) {
     };
 
     return (
-        <Dialog onOpenChange={onOpenChange}>
-            <DialogTrigger asChild>{props.trigger}</DialogTrigger>
-            <DialogContent
-                className='sm:max-w-[425px]'
-                onCloseAutoFocus={e => {
-                    e.preventDefault();
-                }}
-            >
-                <DialogHeader>
-                    <DialogTitle>Edit Member</DialogTitle>
-                </DialogHeader>
-                <div className='w-full'>
-                    <Form {...form}>
-                        <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className='space-y-4 flex flex-col items-end'
-                        >
-                            <FormField
-                                control={form.control}
-                                name='name'
-                                render={({ field }) => (
-                                    <FormItem className='w-full'>
-                                        <FormLabel>Name*</FormLabel>
-                                        <FormControl>
-                                            <Input {...field} />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <ErrorMessage
-                                errors={form.formState.errors}
-                                name='name'
-                            />
-                            <FormField
-                                control={form.control}
-                                name='role'
-                                render={({ field }) => (
-                                    <FormItem className='w-full'>
-                                        <FormLabel>Role*</FormLabel>
-                                        <CustomTooltip
-                                            text={[
-                                                'Read only: Can view feature flags.',
-                                                'Standard: Can manage feature flags.',
-                                                'Admin: Can manage feature flags, manage context fields, and view audit logs.',
-                                                'Owner: Can do anything, including user management.'
-                                            ]}
-                                        />
-                                        <Select
-                                            onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
+        <div>
+            <Dialog onOpenChange={onOpenChange}>
+                <DialogTrigger asChild>{props.trigger}</DialogTrigger>
+                <DialogContent
+                    className='sm:max-w-[425px]'
+                    onCloseAutoFocus={e => {
+                        e.preventDefault();
+                    }}
+                >
+                    <DialogHeader>
+                        <DialogTitle>Edit Member</DialogTitle>
+                    </DialogHeader>
+                    <div className='w-full'>
+                        <Form {...form}>
+                            <form
+                                onSubmit={form.handleSubmit(onSubmit)}
+                                className='space-y-4 flex flex-col items-end'
+                            >
+                                <FormField
+                                    control={form.control}
+                                    name='name'
+                                    render={({ field }) => (
+                                        <FormItem className='w-full'>
+                                            <FormLabel>Name*</FormLabel>
                                             <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder='Select a role' />
-                                                </SelectTrigger>
+                                                <Input {...field} />
                                             </FormControl>
-                                            <SelectContent>
-                                                {Object.entries(userRoles).map(
-                                                    ([roleId, roleName]) => (
-                                                        <SelectItem
-                                                            value={roleId.toString()}
-                                                        >
-                                                            {roleName}
-                                                        </SelectItem>
-                                                    )
-                                                )}
-                                            </SelectContent>
-                                        </Select>
-                                    </FormItem>
-                                )}
-                            />
-                            <ErrorMessage
-                                errors={form.formState.errors}
-                                name='role'
-                            />
-                            <FormField
-                                control={form.control}
-                                name='projects'
-                                render={({ field }) => (
-                                    <FormItem className='w-full'>
-                                        <FormLabel>Projects*</FormLabel>
-                                        <FormControl className='flex flex-col items-center justify-center'>
-                                            <ToggleGroup
-                                                type='multiple'
+                                        </FormItem>
+                                    )}
+                                />
+                                <ErrorMessage
+                                    errors={form.formState.errors}
+                                    name='name'
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name='role'
+                                    render={({ field }) => (
+                                        <FormItem className='w-full'>
+                                            <FormLabel>Role*</FormLabel>
+                                            <CustomTooltip
+                                                text={[
+                                                    'Read only: Can view feature flags.',
+                                                    'Standard: Can manage feature flags.',
+                                                    'Admin: Can manage feature flags, manage context fields, and view audit logs.',
+                                                    'Owner: Can do anything, including user management.'
+                                                ]}
+                                            />
+                                            <Select
                                                 onValueChange={field.onChange}
-                                                value={field.value}
+                                                defaultValue={field.value}
                                             >
-                                                <ScrollArea className='w-full rounded-md border min-h-20 max-h-40 p-2'>
-                                                    {projectsQuery.isFetching && (
-                                                        <div className='flex items-center justify-center size-full'>
-                                                            <Loader2
-                                                                className='animate-spin text-center'
-                                                                size={48}
-                                                            />
-                                                        </div>
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder='Select a role' />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {Object.entries(userRoles).map(
+                                                        ([roleId, roleName]) => (
+                                                            <SelectItem
+                                                                value={roleId.toString()}
+                                                            >
+                                                                {roleName}
+                                                            </SelectItem>
+                                                        )
                                                     )}
-                                                    {projectsQuery.isSuccess &&
-                                                        !projectsQuery.isFetching &&
-                                                        projects.map(
-                                                            project => (
-                                                                <ToggleGroupItem
-                                                                    key={
-                                                                        project.project_id
-                                                                    }
-                                                                    className='m-0.5'
-                                                                    value={project.project_id.toString()}
-                                                                >
-                                                                    <p>
-                                                                        {
-                                                                            project.name
-                                                                        }
-                                                                    </p>
-                                                                </ToggleGroupItem>
-                                                            )
+                                                </SelectContent>
+                                            </Select>
+                                        </FormItem>
+                                    )}
+                                />
+                                <ErrorMessage
+                                    errors={form.formState.errors}
+                                    name='role'
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name='projects'
+                                    render={({ field }) => (
+                                        <FormItem className='w-full'>
+                                            <FormLabel>Projects*</FormLabel>
+                                            <FormControl className='flex flex-col items-center justify-center'>
+                                                <ToggleGroup
+                                                    type='multiple'
+                                                    onValueChange={field.onChange}
+                                                    value={field.value}
+                                                >
+                                                    <ScrollArea className='w-full rounded-md border min-h-20 max-h-40 p-2'>
+                                                        {projectsQuery.isFetching && (
+                                                            <div className='flex items-center justify-center size-full'>
+                                                                <Loader2
+                                                                    className='animate-spin text-center'
+                                                                    size={48}
+                                                                />
+                                                            </div>
                                                         )}
-                                                </ScrollArea>
-                                            </ToggleGroup>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <ErrorMessage
-                                errors={form.formState.errors}
-                                name='projects'
-                            />
-                            {(hasPermission(
-                                currentUser,
-                                Permission.UPDATE_USER
-                            ) ||
-                                currentUser?.user_id === user.user_id) && (
-                                <Button
-                                    type='submit'
-                                    className='w-1/4'
-                                    disabled={mutation.isPending}
-                                >
-                                    Save
-                                </Button>
-                            )}
-                        </form>
-                    </Form>
-                </div>
-            </DialogContent>
-        </Dialog>
+                                                        {projectsQuery.isSuccess &&
+                                                            !projectsQuery.isFetching &&
+                                                            projects.map(
+                                                                project => (
+                                                                    <ToggleGroupItem
+                                                                        key={
+                                                                            project.project_id
+                                                                        }
+                                                                        className='m-0.5'
+                                                                        value={project.project_id.toString()}
+                                                                    >
+                                                                        <p className='max-w-[300px] overflow-hidden text-ellipsis'>
+                                                                            {
+                                                                                project.name
+                                                                            }
+                                                                        </p>
+                                                                    </ToggleGroupItem>
+                                                                )
+                                                            )}
+                                                    </ScrollArea>
+                                                </ToggleGroup>
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                                <ErrorMessage
+                                    errors={form.formState.errors}
+                                    name='projects'
+                                />
+                                {(hasPermission(
+                                    currentUser,
+                                    Permission.UPDATE_USER
+                                ) ||
+                                    currentUser?.user_id === user.user_id) && (
+                                        <Button
+                                            type='submit'
+                                            className='w-1/4'
+                                            disabled={mutation.isPending}
+                                        >
+                                            Save
+                                        </Button>
+                                    )}
+                            </form>
+                        </Form>
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </div>
     );
 }

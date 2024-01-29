@@ -91,7 +91,7 @@ const Header = () => {
                 </div>
                 {currentProject?.name?.length && (
                     <div className='flex justify-end items-center h-full mr-6 px-4 bg-background'>
-                        <p className='font-bold text-sm'>
+                        <p className='font-bold text-sm max-w-[300px] overflow-hidden text-ellipsis'>
                             {currentProject?.name}
                         </p>
                     </div>

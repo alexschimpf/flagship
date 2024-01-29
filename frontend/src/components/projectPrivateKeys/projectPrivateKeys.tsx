@@ -128,7 +128,7 @@ export default function () {
                                     <TableCell>
                                         {privateKey.project_private_key_id}
                                     </TableCell>
-                                    <TableCell>{privateKey.name}</TableCell>
+                                    <TableCell className='max-w-[400px] break-words'>{privateKey.name}</TableCell>
                                     <TableCell>
                                         {getLocalTimeString(
                                             privateKey.created_date

@@ -138,7 +138,7 @@ export default function () {
                                     <TableCell>
                                         {contextField.context_field_id}
                                     </TableCell>
-                                    <TableCell>{contextField.name}</TableCell>
+                                    <TableCell className='max-w-[300px] break-words'>{contextField.name}</TableCell>
                                     <TableCell>
                                         {contextField.field_key}
                                     </TableCell>
@@ -149,7 +149,7 @@ export default function () {
                                             ]
                                         }
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className='max-w-[300px] break-words'>
                                         {contextField.description}
                                     </TableCell>
                                     <TableCell>

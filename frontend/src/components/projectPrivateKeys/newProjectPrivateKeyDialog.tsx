@@ -32,7 +32,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 const formSchema = z.object({
-    name: z.string().min(1).max(256)
+    name: z.string().min(1).max(128)
 });
 
 class NewProjectPrivateKeyDialogProps {

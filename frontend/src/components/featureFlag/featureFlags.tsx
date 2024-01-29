@@ -137,8 +137,8 @@ export default function () {
                                     <TableCell>
                                         {featureFlag.feature_flag_id}
                                     </TableCell>
-                                    <TableCell>{featureFlag.name}</TableCell>
-                                    <TableCell>
+                                    <TableCell className='max-w-[300px] break-words'>{featureFlag.name}</TableCell>
+                                    <TableCell className='max-w-[300px] break-words'>
                                         {featureFlag.description}
                                     </TableCell>
                                     <TableCell>

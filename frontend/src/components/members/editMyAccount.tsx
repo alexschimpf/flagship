@@ -221,7 +221,7 @@ export default function () {
                                                             className='m-0.5'
                                                             value={project.project_id.toString()}
                                                         >
-                                                            <p>
+                                                            <p className='max-w-[300px] overflow-hidden text-ellipsis'>
                                                                 {project.name}
                                                             </p>
                                                         </ToggleGroupItem>
