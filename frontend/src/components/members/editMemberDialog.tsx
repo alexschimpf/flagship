@@ -183,6 +183,7 @@ export default function (props: EditMemberDialogProps) {
                                                     {Object.entries(userRoles).map(
                                                         ([roleId, roleName]) => (
                                                             <SelectItem
+                                                                key={roleId}
                                                                 value={roleId.toString()}
                                                             >
                                                                 {roleName}

@@ -20,8 +20,8 @@ export default (props: TooltipProps) => {
                 </TooltipTrigger>
                 <TooltipContent className='m-0 p-0 bg-accent border'>
                     <div className='bg-accent m-2 p-1 rounded-md'>
-                        {props.text.map(line => (
-                            <p>{line}</p>
+                        {props.text.map((line, i) => (
+                            <p key={i}>{line}</p>
                         ))}
                     </div>
                 </TooltipContent>
