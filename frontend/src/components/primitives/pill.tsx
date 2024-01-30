@@ -10,7 +10,7 @@ interface PillProps {
 export default (props: PillProps) => {
     return (
         <div className='flex justify-center items-center bg-background rounded-3xl p-2 w-fit m-1'>
-            <Label className='text-[12px]'>{props.label}</Label>
+            <Label className='text-[12px] font-bold'>{props.label}</Label>
             <Button
                 type='button'
                 variant='ghost'

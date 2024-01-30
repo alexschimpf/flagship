@@ -73,7 +73,7 @@ export default (props: FeatureFlagConditionGroupProps) => {
             {group.conditions.map((condition, i) => (
                 <div key={condition.id}>
                     <div className='flex items-center'>
-                        <div className='flex-auto'>
+                        <div className='flex-auto outline-accent border rounded-lg bg-muted-foreground'>
                             <FeatureFlagCondition
                                 contextFields={props.contextFields}
                                 onChange={onConditionChange}

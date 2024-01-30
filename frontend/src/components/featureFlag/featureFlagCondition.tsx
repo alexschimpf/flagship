@@ -193,7 +193,7 @@ export default (props: FeatureFlagConditionProps) => {
             value={contextField.field_key}
             onValueChange={onContextKeyChange}
         >
-            <SelectTrigger>
+            <SelectTrigger className='font-bold'>
                 <SelectValue placeholder='Select a context field' />
             </SelectTrigger>
             <SelectContent>
@@ -215,7 +215,7 @@ export default (props: FeatureFlagConditionProps) => {
             value={operator.toString()}
             onValueChange={onOperatorChange}
         >
-            <SelectTrigger>
+            <SelectTrigger className='font-bold'>
                 <SelectValue placeholder='Select an operator' />
             </SelectTrigger>
             <SelectContent>
@@ -242,6 +242,7 @@ export default (props: FeatureFlagConditionProps) => {
                 return (
                     <div className='flex items-center'>
                         <Input
+                            className='font-bold'
                             value={stagedValue}
                             onChange={e => setStagedValue(e.target.value)}
                         />
@@ -258,6 +259,7 @@ export default (props: FeatureFlagConditionProps) => {
             } else {
                 return (
                     <Input
+                        className='font-bold'
                         value={value}
                         onChange={e => onStringValueChange(e.target.value)}
                     />
@@ -270,6 +272,7 @@ export default (props: FeatureFlagConditionProps) => {
                 return (
                     <div className='flex items-center'>
                         <Input
+                            className='font-bold'
                             type='number'
                             value={stagedValue}
                             onChange={e => setStagedValue(e.target.value)}
@@ -287,6 +290,7 @@ export default (props: FeatureFlagConditionProps) => {
             } else {
                 return (
                     <Input
+                        className='font-bold'
                         type='number'
                         value={value}
                         onChange={e => onNumberValueChange(e.target.value)}
@@ -300,6 +304,7 @@ export default (props: FeatureFlagConditionProps) => {
                 return (
                     <div className='flex items-center'>
                         <Input
+                            className='font-bold'
                             type='number'
                             step={1}
                             value={stagedValue}
@@ -318,6 +323,7 @@ export default (props: FeatureFlagConditionProps) => {
             } else {
                 return (
                     <Input
+                        className='font-bold'
                         type='number'
                         step={1}
                         value={value}
@@ -332,7 +338,7 @@ export default (props: FeatureFlagConditionProps) => {
                     value={!value ? undefined : value ? '1' : '0'}
                     onValueChange={onBooleanValueChange}
                 >
-                    <SelectTrigger>
+                    <SelectTrigger className='font-bold'>
                         <SelectValue placeholder='Select a value' />
                     </SelectTrigger>
                     <SelectContent>
@@ -351,7 +357,7 @@ export default (props: FeatureFlagConditionProps) => {
                             value={stagedValue}
                             onValueChange={setStagedValue}
                         >
-                            <SelectTrigger>
+                            <SelectTrigger className='font-bold'>
                                 <SelectValue placeholder='Select a value' />
                             </SelectTrigger>
                             <SelectContent>
@@ -383,7 +389,7 @@ export default (props: FeatureFlagConditionProps) => {
                         value={value.toString()}
                         onValueChange={onEnumValueChange}
                     >
-                        <SelectTrigger>
+                        <SelectTrigger className='font-bold'>
                             <SelectValue placeholder='Select a value' />
                         </SelectTrigger>
                         <SelectContent>
@@ -405,6 +411,7 @@ export default (props: FeatureFlagConditionProps) => {
             // version
             return (
                 <Input
+                    className='font-bold'
                     value={value}
                     onChange={e => onStringValueChange(e.target.value)}
                 />
@@ -416,6 +423,7 @@ export default (props: FeatureFlagConditionProps) => {
                 return (
                     <div className='flex items-center'>
                         <Input
+                            className='font-bold'
                             value={stagedValue}
                             onChange={e => setStagedValue(e.target.value)}
                         />
@@ -432,6 +440,7 @@ export default (props: FeatureFlagConditionProps) => {
             } else {
                 return (
                     <Input
+                        className='font-bold'
                         value={value}
                         onChange={e => onStringValueChange(e.target.value)}
                     />
@@ -444,6 +453,7 @@ export default (props: FeatureFlagConditionProps) => {
                 return (
                     <div className='flex items-center'>
                         <Input
+                            className='font-bold'
                             type='number'
                             step={1}
                             value={stagedValue}
@@ -462,6 +472,7 @@ export default (props: FeatureFlagConditionProps) => {
             } else {
                 return (
                     <Input
+                        className='font-bold'
                         type='number'
                         step={1}
                         value={value}
@@ -479,7 +490,7 @@ export default (props: FeatureFlagConditionProps) => {
                             value={stagedValue}
                             onValueChange={setStagedValue}
                         >
-                            <SelectTrigger>
+                            <SelectTrigger className='font-bold'>
                                 <SelectValue placeholder='Select a value' />
                             </SelectTrigger>
                             <SelectContent>
@@ -508,7 +519,7 @@ export default (props: FeatureFlagConditionProps) => {
             } else {
                 return (
                     <Select value={value} onValueChange={onEnumValueChange}>
-                        <SelectTrigger>
+                        <SelectTrigger className='font-bold'>
                             <SelectValue placeholder='Select a value' />
                         </SelectTrigger>
                         <SelectContent>
@@ -570,7 +581,7 @@ export default (props: FeatureFlagConditionProps) => {
                 {pills?.length > 0 ? (
                     pills
                 ) : (
-                    <p className='text-sm p-2 m-1'>Please add a value...</p>
+                    <p className='text-sm p-2 m-1 text-background font-bold'>No values added</p>
                 )}
             </div>
         );
