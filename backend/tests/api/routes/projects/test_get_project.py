@@ -33,8 +33,8 @@ class TestGetProject(BaseTestCase):
                 url_params={'project_id': project_id},
                 response_json_modifiers={
                     'project_id': project_id,
-                    'created_date': project.created_date.isoformat(),
-                    'updated_date': project.created_date.isoformat()
+                    'created_date': project.created_date.isoformat().replace('+00:00', 'Z'),
+                    'updated_date': project.created_date.isoformat().replace('+00:00', 'Z')
                 }
             )
         self.verify_test_result(result=result)

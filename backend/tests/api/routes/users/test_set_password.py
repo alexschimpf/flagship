@@ -1,7 +1,8 @@
 import os
 import time
+from typing import Callable
 
-from rest_api_tester.runner import TestCaseRunner
+from rest_api_tester.runner import TestCaseRunner, TestData
 
 from app.api.routes.users.controllers import common
 from app.config import Config
@@ -21,7 +22,7 @@ class TestSetPassword(BaseTestCase):
         self.runner = TestCaseRunner(
             client=test_client,
             path_to_scenarios_dir=path_to_scenarios_dir,
-            default_content_type='application/json'
+            default_content_type='application/x-www-form-urlencoded'
         )
         utils.clear_database()
 
@@ -32,9 +33,7 @@ class TestSetPassword(BaseTestCase):
             path_to_test_cases=self.path_to_test_cases,
             test_name='test_set_password__302_success',
             user=utils.User(set_password_token=hashed_set_password_token),
-            request_json_modifiers={
-                'token': token
-            }
+            test_data_modifier=self.add_token(token=token)
         )
         self.verify_test_result(result=result)
 
@@ -50,9 +49,7 @@ class TestSetPassword(BaseTestCase):
             path_to_test_cases=self.path_to_test_cases,
             test_name='test_set_password__302_invalid_email',
             user=utils.User(set_password_token=hashed_set_password_token),
-            request_json_modifiers={
-                'token': token
-            }
+            test_data_modifier=self.add_token(token=token, update_header=True)
         )
         self.verify_test_result(result=result)
 
@@ -73,9 +70,7 @@ class TestSetPassword(BaseTestCase):
             path_to_test_cases=self.path_to_test_cases,
             test_name='test_set_password__302_invalid_password',
             user=utils.User(set_password_token=hashed_set_password_token),
-            request_json_modifiers={
-                'token': token
-            }
+            test_data_modifier=self.add_token(token=token, update_header=True)
         )
         self.verify_test_result(result=result)
 
@@ -91,8 +86,21 @@ class TestSetPassword(BaseTestCase):
             path_to_test_cases=self.path_to_test_cases,
             test_name='test_set_password__302_token_expired',
             user=utils.User(set_password_token=hashed_set_password_token),
-            request_json_modifiers={
-                'token': token
-            }
+            test_data_modifier=self.add_token(token=token, update_header=True)
         )
         self.verify_test_result(result=result)
+
+    @staticmethod
+    def add_token(token: str, update_header: bool = False) -> Callable[[TestData], TestData]:
+        def func(test_data: TestData) -> TestData:
+            if test_data.request_data:
+                test_data.request_data = test_data.request_data.replace('$$$', token)
+            if update_header:
+                expected_headers = test_data.expected_headers
+                if expected_headers:
+                    location_header = expected_headers.get('location')
+                    if location_header and 'error' in location_header:
+                        expected_headers['location'] = f'{expected_headers['location']}&token={token}'
+            return test_data
+
+        return func

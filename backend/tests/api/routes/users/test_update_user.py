@@ -41,7 +41,7 @@ class TestUpdateUser(BaseTestCase):
                 },
                 response_json_modifiers={
                     'user_id': user.user_id,
-                    'created_date': user.created_date.isoformat(),
+                    'created_date': user.created_date.isoformat().replace('+00:00', 'Z'),
                     'projects': [project.project_id]
                 }
             )

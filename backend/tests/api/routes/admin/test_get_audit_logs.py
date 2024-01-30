@@ -45,9 +45,9 @@ class TestGetAuditLogs(BaseTestCase):
                 test_name='test_get_audit_logs__200',
                 user=utils.User(),
                 response_json_modifiers={
-                    'items.[0].event_time': audit_log_1.created_date.isoformat(),
-                    'items.[1].event_time': audit_log_2.created_date.isoformat(),
-                    'items.[2].event_time': audit_log_3.created_date.isoformat()
+                    'items.[0].event_time': audit_log_1.created_date.isoformat().replace('+00:00', 'Z'),
+                    'items.[1].event_time': audit_log_2.created_date.isoformat().replace('+00:00', 'Z'),
+                    'items.[2].event_time': audit_log_3.created_date.isoformat().replace('+00:00', 'Z')
                 }
             )
             self.verify_test_result(result=result)

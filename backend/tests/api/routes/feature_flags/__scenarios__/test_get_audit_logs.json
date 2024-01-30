@@ -7,7 +7,7 @@
             "items": [
                 {
                     "actor": "other@email.com",
-                    "event_time": "$$$",
+                    "event_time": "2024-01-30T07:37:11Z",
                     "changes": [
                         {
                             "field": "Name",
@@ -21,8 +21,8 @@
                         },
                         {
                             "field": "Conditions",
-                            "old": "[]",
-                            "new": "[[{\"context_key\":\"context_key\",\"operator\":1,\"value\":\"1\"}]]"
+                            "old": "",
+                            "new": "`context_key` is \"1\""
                         },
                         {
                             "field": "Enabled",
@@ -33,7 +33,7 @@
                 },
                 {
                     "actor": "owner@flag.ship",
-                    "event_time": "$$$",
+                    "event_time": "2024-01-30T07:37:11Z",
                     "changes": [
                         {
                             "field": "Description",
@@ -44,7 +44,7 @@
                 },
                 {
                     "actor": "owner@flag.ship",
-                    "event_time": "$$$",
+                    "event_time": "2024-01-30T07:37:11Z",
                     "changes": [
                         {
                             "field": "Name",
@@ -59,7 +59,7 @@
                         {
                             "field": "Conditions",
                             "old": null,
-                            "new": "[]"
+                            "new": ""
                         },
                         {
                             "field": "Enabled",

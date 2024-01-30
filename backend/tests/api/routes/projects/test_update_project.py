@@ -33,7 +33,7 @@ class TestUpdateProject(BaseTestCase):
                 user=utils.User(projects=[project_id]),
                 response_json_modifiers={
                     'project_id': project_id,
-                    'created_date': project.created_date.isoformat()
+                    'created_date': project.created_date.isoformat().replace('+00:00', 'Z')
                 },
                 url_params={'project_id': project_id}
             )

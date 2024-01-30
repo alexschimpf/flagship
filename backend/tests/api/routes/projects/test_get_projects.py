@@ -35,8 +35,8 @@ class TestGetProjects(BaseTestCase):
                 user=utils.User(projects=[project_id]),
                 response_json_modifiers={
                     'items.[0].project_id': project_id,
-                    'items.[0].created_date': project.created_date.isoformat(),
-                    'items.[0].updated_date': project.updated_date.isoformat()
+                    'items.[0].created_date': project.created_date.isoformat().replace('+00:00', 'Z'),
+                    'items.[0].updated_date': project.updated_date.isoformat().replace('+00:00', 'Z')
                 }
             )
         self.verify_test_result(result=result)

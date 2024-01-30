@@ -39,8 +39,8 @@ class TestGetContextFields(BaseTestCase):
                 },
                 response_json_modifiers={
                     'items.[0].context_field_id': context_field.context_field_id,
-                    'items.[0].updated_date': context_field.updated_date.isoformat(),
-                    'items.[0].created_date': context_field.created_date.isoformat()
+                    'items.[0].updated_date': context_field.updated_date.isoformat().replace('+00:00', 'Z'),
+                    'items.[0].created_date': context_field.created_date.isoformat().replace('+00:00', 'Z')
                 }
             )
             self.verify_test_result(result=result)

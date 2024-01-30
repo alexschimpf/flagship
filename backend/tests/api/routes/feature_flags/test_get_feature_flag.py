@@ -39,8 +39,8 @@ class TestGetFeatureFlag(BaseTestCase):
                 },
                 response_json_modifiers={
                     'feature_flag_id': feature_flag.feature_flag_id,
-                    'updated_date': feature_flag.updated_date.isoformat(),
-                    'created_date': feature_flag.created_date.isoformat()
+                    'updated_date': feature_flag.updated_date.isoformat().replace('+00:00', 'Z'),
+                    'created_date': feature_flag.created_date.isoformat().replace('+00:00', 'Z')
                 }
             )
             self.verify_test_result(result=result)

@@ -32,8 +32,8 @@ class TestGetUsers(BaseTestCase):
                     test_name='test_get_users__200',
                     response_json_modifiers={
                         'items.[0].user_id': user_row.user_id,
-                        'items.[0].created_date': user_row.created_date.isoformat(),
-                        'items.[0].updated_date': user_row.updated_date.isoformat(),
+                        'items.[0].created_date': user_row.created_date.isoformat().replace('+00:00', 'Z'),
+                        'items.[0].updated_date': user_row.updated_date.isoformat().replace('+00:00', 'Z'),
                         'items.[0].projects': user.projects
                     },
                     test_data_modifier=self._add_session_cookie(

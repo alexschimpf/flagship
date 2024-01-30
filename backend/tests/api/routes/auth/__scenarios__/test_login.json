@@ -14,7 +14,7 @@
         "allow_redirects": false,
         "response_headers": {
             "content-length": "0",
-            "location": "http://localhost:5000/login?error=User%20is%20not%20activated."
+            "location": "http://localhost:3000/login?error=User%20is%20not%20activated."
         }
     },
     "test_login__302_invalid_credentials": {
@@ -25,7 +25,7 @@
         "allow_redirects": false,
         "response_headers": {
             "content-length": "0",
-            "location": "http://localhost:5000/login?error=Sorry%2C%20the%20credentials%20provided%20are%20invalid."
+            "location": "http://localhost:3000/login?error=Sorry%2C%20the%20credentials%20provided%20are%20invalid."
         }
     }
 }

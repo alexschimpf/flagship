@@ -47,7 +47,8 @@ class TestGetProjectPrivateKey(BaseTestCase):
                 url_params={'project_id': project_id},
                 response_json_modifiers={
                     'items.[0].project_private_key_id': project_private_key.project_private_key_id,
-                    'items.[0].name': project_private_key.name
+                    'items.[0].name': project_private_key.name,
+                    'items.[0].created_date': project_private_key.created_date.isoformat().replace('+00:00', 'Z')
                 }
             )
             self.verify_test_result(result=result)
