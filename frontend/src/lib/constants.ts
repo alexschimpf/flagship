@@ -14,7 +14,7 @@ export const contextFieldValueTypes: Record<number, string> = {
     3: 'Integer',
     4: 'Boolean',
     5: 'Enum',
-    6: 'Version',
+    6: 'Semantic Version',
     7: 'String List',
     8: 'Integer List',
     9: 'Enum List'
