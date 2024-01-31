@@ -3,11 +3,11 @@ from typing import cast
 import ujson
 
 from app.api.exceptions.exceptions import NameTakenException, AggregateException, AppException, NotFoundException, \
-    UnauthorizedException
+    UnauthorizedException, EnumContextFieldTypeWithoutEnumDefException
 from app.api.routes.context_fields.controllers import common
 from app.api.routes.context_fields.schemas import UpdateContextField, ContextField
 from app.api.schemas import User
-from app.constants import Permission
+from app.constants import Permission, ContextValueType
 from app.services.database.mysql.schemas.context_field import ContextFieldRow, ContextFieldsTable
 from app.services.database.mysql.schemas.context_field_audit_logs import ContextFieldAuditLogRow
 from app.services.database.mysql.service import MySQLService
@@ -34,7 +34,8 @@ class UpdateContextFieldController:
 
         errors: list[AppException] = []
         with MySQLService.get_session() as session:
-            if not session.get(ContextFieldRow, self.context_field_id):
+            context_field_row = session.get(ContextFieldRow, self.context_field_id)
+            if not context_field_row:
                 raise NotFoundException
 
             if ContextFieldsTable.is_context_field_name_taken(
@@ -45,7 +46,13 @@ class UpdateContextFieldController:
             ):
                 errors.append(NameTakenException(field='name'))
 
-        # TODO: Make sure non-enum value types can't have enum defs
+        value_type = context_field_row.value_type
+        enum_value_types = {ContextValueType.ENUM, ContextValueType.ENUM_LIST}
+        if value_type in enum_value_types and not self.request.enum_def:
+            errors.append(EnumContextFieldTypeWithoutEnumDefException(field='enum_def'))
+        if value_type not in enum_value_types and self.request.enum_def:
+            self.request.enum_def = None
+        
         try:
             common.validate_enum_def(enum_def=self.request.enum_def)
         except AppException as e:
