@@ -1,6 +1,6 @@
 from fastapi import Response
 
-from app.api.exceptions.exceptions import UnauthorizedException, CannotDeleteLastOwnerException, NotFoundException
+from app.api.exceptions.exceptions import UnauthorizedException, NoOwnersLeftException, NotFoundException
 from app.api.schemas import SuccessResponse, User
 from app.config import Config
 from app.constants import Permission, AuditLogEventType
@@ -25,7 +25,7 @@ class DeleteUserController:
                 raise NotFoundException
 
             if not UsersTable.owners_exist(excluded_user_id=self.user_id, session=session):
-                raise CannotDeleteLastOwnerException
+                raise NoOwnersLeftException
 
             UsersTable.delete_user(user_id=self.user_id, session=session)
 

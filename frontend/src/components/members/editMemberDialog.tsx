@@ -173,6 +173,7 @@ export default function (props: EditMemberDialogProps) {
                                             <Select
                                                 onValueChange={field.onChange}
                                                 defaultValue={field.value}
+                                                disabled={!hasPermission(currentUser, Permission.UPDATE_USER_ROLE)}
                                             >
                                                 <FormControl>
                                                     <SelectTrigger>
@@ -210,6 +211,7 @@ export default function (props: EditMemberDialogProps) {
                                                     type='multiple'
                                                     onValueChange={field.onChange}
                                                     value={field.value}
+                                                    disabled={!hasPermission(currentUser, Permission.UPDATE_USER_PROJECTS)}
                                                 >
                                                     <ScrollArea className='w-full rounded-md border min-h-20 max-h-40 p-2'>
                                                         {projectsQuery.isFetching && (

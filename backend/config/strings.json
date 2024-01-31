@@ -50,8 +50,8 @@
     "NO_PROJECT_ASSIGNED": {
         "en-us": "This user must be assigned to at least one project."
     },
-    "CANNOT_DELETE_LAST_OWNER": {
-        "en-us": "This user cannot be deleted because there must be at least one Flagship owner left."
+    "NO_OWNERS_LEFT": {
+        "en-us": "There must be at least one Flagship owner left."
     },
     "USER_NOT_ACTIVATED": {
         "en-us": "User is not activated."

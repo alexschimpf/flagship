@@ -1,12 +1,15 @@
 import { UpdateUser, User } from '@/api';
+import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
 import { userRoles } from '@/lib/constants';
+import { Permission, hasPermission } from '@/lib/permissions';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../primitives/button';
@@ -40,6 +43,7 @@ const formSchema = z.object({
 });
 
 export default function () {
+    const currentUser = useContext(UserContext);
     const router = useRouter();
     const queryClient = useQueryClient();
     const { toast } = useToast();
@@ -167,6 +171,7 @@ export default function () {
                                         onValueChange={field.onChange}
                                         defaultValue={field.value}
                                         value={field.value}
+                                        disabled={!hasPermission(currentUser, Permission.UPDATE_USER_ROLE)}
                                     >
                                         <FormControl>
                                             <SelectTrigger>
@@ -201,6 +206,7 @@ export default function () {
                                             type='multiple'
                                             onValueChange={field.onChange}
                                             value={field.value}
+                                            disabled={!hasPermission(currentUser, Permission.UPDATE_USER_PROJECTS)}
                                         >
                                             <ScrollArea className='w-full rounded-md border min-h-20 max-h-40 p-2'>
                                                 {projectsQuery.isFetching && (

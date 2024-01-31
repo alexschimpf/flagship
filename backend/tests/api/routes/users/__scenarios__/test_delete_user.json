@@ -35,8 +35,8 @@
         "response": {
             "errors": [
                 {
-                    "code": "CANNOT_DELETE_LAST_OWNER",
-                    "message": "This user cannot be deleted because there must be at least one Flagship owner left."
+                    "code": "NO_OWNERS_LEFT",
+                    "message": "There must be at least one Flagship owner left."
                 }
             ]
         }

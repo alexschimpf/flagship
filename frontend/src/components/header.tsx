@@ -36,6 +36,10 @@ const Header = () => {
     const router = useRouter();
     const pathName = usePathname();
 
+    const onLogoutClick = () => {
+        sessionStorage.clear();
+        router.replace('//localhost:8000/auth/logout');
+    };
     const onToggleLightDarkModeClick = () => {
         const newTheme = theme === 'dark' ? 'light' : 'dark';
         localStorage.setItem('theme', newTheme);
@@ -118,8 +122,8 @@ const Header = () => {
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className='cursor-pointer'>
-                                <a href='//localhost:8000/auth/logout'>
-                                    Logout
+                                <a onClick={onLogoutClick}>
+                                    Log out
                                 </a>
                             </DropdownMenuItem>
                         </DropdownMenuContent>

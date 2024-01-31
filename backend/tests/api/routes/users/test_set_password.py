@@ -2,7 +2,8 @@ import os
 import time
 from typing import Callable
 
-from rest_api_tester.runner import TestCaseRunner, TestData
+from rest_api_tester.runner import TestCaseRunner
+from rest_api_tester.test import TestData
 
 from app.api.routes.users.controllers import common
 from app.config import Config

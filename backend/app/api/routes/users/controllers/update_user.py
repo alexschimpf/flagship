@@ -1,10 +1,11 @@
 from typing import cast
+from sqlalchemy.orm import Session
 
 from app.api.exceptions.exceptions import InvalidProjectException, NotFoundException, NoProjectAssignedException, \
-    UnauthorizedException
+    UnauthorizedException, NoOwnersLeftException
 from app.api.routes.users.schemas import UpdateUser
 from app.api.schemas import User
-from app.constants import Permission, AuditLogEventType
+from app.constants import Permission, AuditLogEventType, UserRole
 from app.services.database.mysql.schemas.project import ProjectsTable
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
@@ -26,10 +27,10 @@ class UpdateUserController:
         return User.from_row(row=user_row, projects=self.request.projects)
 
     def _validate(self) -> str:
-        if self.me.user_id != self.user_id and not self.me.role.has_permission(Permission.UPDATE_USER):
-            raise UnauthorizedException
+        is_updating_me = self.me.user_id == self.user_id
 
-        # TODO: Prevent users from changing their own role and projects
+        if not is_updating_me and not self.me.role.has_permission(Permission.UPDATE_USER):
+            raise UnauthorizedException
 
         if not self.request.projects:
             raise NoProjectAssignedException(field='projects')
@@ -39,10 +40,34 @@ class UpdateUserController:
             if not row:
                 raise NotFoundException
 
+            projects = UsersProjectsTable.get_user_projects(user_id=self.user_id, session=session)
+
             if not ProjectsTable.are_projects_valid(project_ids=self.request.projects, session=session):
                 raise InvalidProjectException(field='projects')
 
+            self._validate_role_and_projects(user_row=row, projects=projects, session=session)
+
         return row.email
+
+    def _validate_role_and_projects(self, user_row: UserRow, projects: list[int], session: Session) -> None:
+        if (
+            (
+                not self.me.role.has_permission(Permission.UPDATE_USER_ROLE) and
+                self.request.role != user_row.role
+            ) or
+            (
+                not self.me.role.has_permission(Permission.UPDATE_USER_PROJECTS) and
+                self.request.projects != projects
+            )
+        ):
+            raise UnauthorizedException
+
+        if (
+            user_row.role == UserRole.OWNER and
+            self.request.role != UserRole.OWNER and
+            not UsersTable.owners_exist(excluded_user_id=self.user_id, session=session)
+        ):
+            raise NoOwnersLeftException
 
     def _update_user(self, email: str) -> UserRow:
         with MySQLService.get_session() as session:

@@ -98,8 +98,8 @@ class NoProjectAssignedException(BadRequestFieldException):
     CODE: str = 'NO_PROJECT_ASSIGNED'
 
 
-class CannotDeleteLastOwnerException(BadRequestException):
-    CODE: str = 'CANNOT_DELETE_LAST_OWNER'
+class NoOwnersLeftException(BadRequestException):
+    CODE: str = 'NO_OWNERS_LEFT'
 
 
 class UserNotActivatedException(BadRequestException):

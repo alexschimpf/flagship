@@ -26,6 +26,8 @@ export enum Permission {
     READ_USERS,
     INVITE_USER,
     UPDATE_USER,
+    UPDATE_USER_ROLE,
+    UPDATE_USER_PROJECTS,
     DELETE_USER,
 
     // Admin

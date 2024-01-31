@@ -3,10 +3,7 @@
     <module name="flagship" />
     <option name="ENV_FILES" value="" />
     <option name="INTERPRETER_OPTIONS" value="" />
-    <option name="PARENT_ENVS" value="true" />
-    <envs>
-      <env name="PYTHONUNBUFFERED" value="1" />
-    </envs>
+    <option name="PARENT_ENVS" value="false" />
     <option name="SDK_HOME" value="" />
     <option name="SDK_NAME" value="Python 3.12 (flagship)" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend" />

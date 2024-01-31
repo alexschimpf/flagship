@@ -78,6 +78,8 @@ class Permission(IntEnum):
     READ_USERS = auto()
     INVITE_USER = auto()
     UPDATE_USER = auto()
+    UPDATE_USER_ROLE = auto()
+    UPDATE_USER_PROJECTS = auto()
     DELETE_USER = auto()
 
     # Admin
