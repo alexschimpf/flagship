@@ -207,9 +207,14 @@ export default function () {
                     </Form>
                 </div>
             )}
-            {!contextFields?.length && (
+            {contextFieldsQuery.isFetching && (
                 <div className='absolute top-[calc(50%-41px)] left-1/2'>
                     <Loader2 className='animate-spin' size={48} />
+                </div>
+            )}
+            {!contextFieldsQuery.isFetching && !contextFields?.length && (
+                <div className='flex justify-center mt-8'>
+                    <p>Please create a context field first.</p>
                 </div>
             )}
         </div>

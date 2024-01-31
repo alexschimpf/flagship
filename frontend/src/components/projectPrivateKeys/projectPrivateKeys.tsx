@@ -42,15 +42,48 @@ export default function () {
 
     return (
         <div className='flex flex-col w-full justify-center items-center'>
+            <div className='flex items-center justify-center mt-4 h-10 mb-4 w-full'>
+                <div className='flex-1'>
+                    <Button
+                        variant='ghost'
+                        className='hover:bg-accent px-2 size-9'
+                        onClick={onBackClick}
+                    >
+                        <ArrowLeftIcon className='size-8 cursor-pointer' />
+                    </Button>
+                </div>
+                <div className='flex-1'>
+                    <h1 className='text-center text-lg font-bold'>
+                        Private Keys
+                    </h1>
+                </div>
+                {!query.isFetching && privateKeys.length && hasPermission(
+                    currentUser,
+                    Permission.CREATE_PROJECT_PRIVATE_KEY
+                ) ? (
+                    <div className='flex-1'>
+                        <NewProjectPrivateKeyDialog
+                            projectId={projectId}
+                            trigger={
+                                <Button
+                                    variant='ghost'
+                                    className='hover:bg-accent px-2 size-9'
+                                >
+                                    <PlusCircledIcon className='size-8 cursor-pointer' />
+                                </Button>
+                            }
+                        />
+                    </div>
+                ) : (
+                    <div className='flex-1 h-full' />
+                )}
+            </div>
             {!query.isFetching && !privateKeys.length && (
                 <div className='flex items-center justify-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl'>
                     <div className='flex flex-col items-center'>
-                        <p className='text-center pb-2'>
+                        <p className='text-center mb-4'>
                             Oops, you don't have any private keys for this
                             project yet.
-                        </p>
-                        <p className='text-center pb-2'>
-                            Don't be shy. Add one now.
                         </p>
                         {hasPermission(
                             currentUser,
@@ -59,12 +92,9 @@ export default function () {
                                 <NewProjectPrivateKeyDialog
                                     projectId={projectId}
                                     trigger={
-                                        <Button
-                                            variant='ghost'
-                                            className='hover:bg-background px-2 size-12'
-                                        >
-                                            <PlusCircledIcon className='size-8 cursor-pointer' />
-                                        </Button>
+                                        <PlusCircledIcon
+                                            className='size-9 cursor-pointer hover:bg-background rounded-md px-2'
+                                        />
                                     }
                                 />
                             )}
@@ -72,42 +102,6 @@ export default function () {
                 </div>
             )}
             <div className='p-4 flex flex-col fade-in-0 w-full'>
-                <div className='flex items-center justify-center mt-4 h-10 mb-4'>
-                    <div className='flex-1'>
-                        <Button
-                            variant='ghost'
-                            className='hover:bg-accent px-2 size-9'
-                            onClick={onBackClick}
-                        >
-                            <ArrowLeftIcon className='size-8 cursor-pointer' />
-                        </Button>
-                    </div>
-                    <div className='flex-1'>
-                        <h1 className='text-center text-lg font-bold'>
-                            Private Keys
-                        </h1>
-                    </div>
-                    {hasPermission(
-                        currentUser,
-                        Permission.CREATE_PROJECT_PRIVATE_KEY
-                    ) ? (
-                        <div className='flex-1'>
-                            <NewProjectPrivateKeyDialog
-                                projectId={projectId}
-                                trigger={
-                                    <Button
-                                        variant='ghost'
-                                        className='hover:bg-accent px-2 size-9'
-                                    >
-                                        <PlusCircledIcon className='size-8 cursor-pointer' />
-                                    </Button>
-                                }
-                            />
-                        </div>
-                    ) : (
-                        <div className='flex-1' />
-                    )}
-                </div>
                 {privateKeys.length > 0 && (
                     <Table>
                         <TableHeader>

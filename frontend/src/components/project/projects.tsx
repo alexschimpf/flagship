@@ -76,21 +76,22 @@ export default function () {
             {!query.isFetching && !projects.length && (
                 <div className='flex items-center justify-center w-full'>
                     <div className='flex flex-col items-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
-                        <p className='text-center pb-2'>
+                        <p className='text-center'>
                             Oops, you don't have any projects yet.
-                        </p>
-                        <p className='text-center pb-2'>
-                            Don't be shy. Add one now.
                         </p>
                         {hasPermission(
                             currentUser,
                             Permission.CREATE_PROJECT
                         ) && (
-                                <NewProjectDialog
-                                    trigger={
-                                        <PlusCircledIcon className='size-9 cursor-pointer hover:bg-accent px-2' />
-                                    }
-                                />
+                                <div className='mt-4'>
+                                    <NewProjectDialog
+                                        trigger={
+                                            <PlusCircledIcon
+                                                className='size-9 cursor-pointer hover:bg-background rounded-md px-2'
+                                            />
+                                        }
+                                    />
+                                </div>
                             )}
                     </div>
                 </div>

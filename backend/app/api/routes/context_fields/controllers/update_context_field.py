@@ -52,7 +52,7 @@ class UpdateContextFieldController:
             errors.append(EnumContextFieldTypeWithoutEnumDefException(field='enum_def'))
         if value_type not in enum_value_types and self.request.enum_def:
             self.request.enum_def = None
-        
+
         try:
             common.validate_enum_def(enum_def=self.request.enum_def)
         except AppException as e:
