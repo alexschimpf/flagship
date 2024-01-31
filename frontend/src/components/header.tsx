@@ -101,14 +101,14 @@ const Header = () => {
                     </div>
                 )}
                 <div className='flex justify-end items-center cursor-pointer'>
-                    <Button
-                        variant='ghost'
-                        className='hover:bg-accent hover:rounded-none px-2 size-10'
+                    <a
+                        href='//localhost:3000/help'
+                        className='flex items-center hover:bg-background hover:rounded-none px-2 size-10'
                     >
                         <QuestionMarkCircledIcon className='size-5' />
-                    </Button>
+                    </a>
                     <DropdownMenu>
-                        <DropdownMenuTrigger className='focus-visible:outline-none hover:bg-accent size-10 flex items-center justify-center'>
+                        <DropdownMenuTrigger className='focus-visible:outline-none hover:bg-background size-10 flex items-center justify-center'>
                             <PersonIcon className='size-5' />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
