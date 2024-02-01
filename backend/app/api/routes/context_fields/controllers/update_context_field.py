@@ -3,7 +3,7 @@ from typing import cast
 import ujson
 
 from app.api.exceptions.exceptions import NameTakenException, AggregateException, AppException, NotFoundException, \
-    UnauthorizedException, EnumContextFieldTypeWithoutEnumDefException
+    UnauthorizedException, EnumContextFieldTypeWithoutEnumDefException, IllegalContextFieldEnumChangeException
 from app.api.routes.context_fields.controllers import common
 from app.api.routes.context_fields.schemas import UpdateContextField, ContextField
 from app.api.schemas import User
@@ -38,6 +38,8 @@ class UpdateContextFieldController:
             if not context_field_row:
                 raise NotFoundException
 
+            self._validate_enum_def(context_field_row=context_field_row)
+
             if ContextFieldsTable.is_context_field_name_taken(
                 name=self.request.name,
                 project_id=self.project_id,
@@ -60,6 +62,14 @@ class UpdateContextFieldController:
 
         if errors:
             raise AggregateException(exceptions=errors)
+
+    def _validate_enum_def(self, context_field_row: ContextFieldRow) -> None:
+        # Don't allow enum def keys to be removed
+        if context_field_row.enum_def_dict:
+            existing_keys = set(context_field_row.enum_def_dict.keys())
+            new_keys = set(self.request.enum_def.keys()) if self.request.enum_def else set()
+            if existing_keys.difference(new_keys):
+                raise IllegalContextFieldEnumChangeException
 
     def _update_context_field(self) -> ContextFieldRow:
         enum_def = ujson.dumps(self.request.enum_def) if self.request.enum_def else None

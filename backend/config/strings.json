@@ -58,5 +58,8 @@
     },
     "PASSWORDS_DONT_MATCH": {
         "en-us": "Passwords don't match."
+    },
+    "ILLEGAL_CONTEXT_FIELD_ENUM_CHANGE": {
+        "en-us": "Existing keys cannot be removed from enum definitions."
     }
 }

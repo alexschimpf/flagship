@@ -104,3 +104,7 @@ class NoOwnersLeftException(BadRequestException):
 
 class UserNotActivatedException(BadRequestException):
     CODE: str = 'USER_NOT_ACTIVATED'
+
+
+class IllegalContextFieldEnumChangeException(BadRequestException):
+    CODE: str = 'ILLEGAL_CONTEXT_FIELD_ENUM_CHANGE'
