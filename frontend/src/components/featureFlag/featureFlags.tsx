@@ -233,21 +233,16 @@ export default function () {
                                                             }
                                                         />
                                                     )}
-                                                {hasPermission(
-                                                    currentUser,
-                                                    Permission.READ_FEATURE_FLAG_AUDIT_LOGS
-                                                ) && (
-                                                        <DropdownMenuItem
-                                                            className='hover:cursor-pointer'
-                                                            onClick={() =>
-                                                                onAuditLogsClick(
-                                                                    featureFlag.feature_flag_id
-                                                                )
-                                                            }
-                                                        >
-                                                            View audit logs
-                                                        </DropdownMenuItem>
-                                                    )}
+                                                <DropdownMenuItem
+                                                    className='hover:cursor-pointer'
+                                                    onClick={() =>
+                                                        onAuditLogsClick(
+                                                            featureFlag.feature_flag_id
+                                                        )
+                                                    }
+                                                >
+                                                    View audit logs
+                                                </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>

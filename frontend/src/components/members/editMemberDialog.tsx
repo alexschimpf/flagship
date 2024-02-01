@@ -173,7 +173,6 @@ export default function (props: EditMemberDialogProps) {
                                             <Select
                                                 onValueChange={field.onChange}
                                                 defaultValue={field.value}
-                                                disabled={!hasPermission(currentUser, Permission.UPDATE_USER_ROLE)}
                                             >
                                                 <FormControl>
                                                     <SelectTrigger>

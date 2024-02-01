@@ -1,8 +1,8 @@
 export const userRoles: Record<number, string> = {
-    1: 'Read only',
-    2: 'Standard',
-    3: 'Admin',
-    4: 'Owner'
+    5: 'Read only',
+    10: 'Standard',
+    15: 'Admin',
+    20: 'Owner'
 };
 export const userStatuses: Record<number, string> = {
     1: 'Invited',

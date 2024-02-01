@@ -171,7 +171,6 @@ export default function () {
                                         onValueChange={field.onChange}
                                         defaultValue={field.value}
                                         value={field.value}
-                                        disabled={!hasPermission(currentUser, Permission.UPDATE_USER_ROLE)}
                                     >
                                         <FormControl>
                                             <SelectTrigger>
@@ -180,7 +179,7 @@ export default function () {
                                         </FormControl>
                                         <SelectContent>
                                             {Object.entries(userRoles).map(
-                                                ([roleId, roleName]) => (
+                                                ([roleId, roleName]) => (currentUser && roleId <= currentUser.role &&
                                                     <SelectItem value={roleId}>
                                                         {roleName}
                                                     </SelectItem>

@@ -19,7 +19,11 @@ export default function ({ children }: any) {
         });
     }, []);
 
-    const theme = localStorage.getItem('theme') || 'dark';
+    let theme = 'dark';
+    if (typeof window !== 'undefined') {
+        theme = localStorage.getItem('theme') || 'dark';
+    }
+
     return (
         <div className='flex-1 flex flex-col container items-center w-3/4'>
             <QueryClientProvider client={queryClient}>

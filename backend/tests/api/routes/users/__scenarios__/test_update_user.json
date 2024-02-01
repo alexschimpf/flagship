@@ -5,14 +5,14 @@
         "status": 200,
         "request": {
             "name": "test",
-            "role": 3,
+            "role": 15,
             "projects": "$$$"
         },
         "response": {
             "user_id": "$$$",
             "email": "test@test.com",
             "name": "test",
-            "role": 3,
+            "role": 15,
             "projects": "$$$",
             "status": 2,
             "created_date": "$$$"
@@ -24,7 +24,7 @@
         "status": 403,
         "request": {
             "name": "test",
-            "role": 3,
+            "role": 15,
             "projects": "$$$"
         },
         "response": {
@@ -42,7 +42,7 @@
         "status": 400,
         "request": {
             "name": "test",
-            "role": 3,
+            "role": 15,
             "projects": []
         },
         "response": {
@@ -61,7 +61,7 @@
         "status": 400,
         "request": {
             "name": "test",
-            "role": 3,
+            "role": 15,
             "projects": [
                 999
             ]
@@ -82,7 +82,7 @@
         "status": 404,
         "request": {
             "name": "test",
-            "role": 3,
+            "role": 15,
             "projects": "$$$"
         },
         "response": {

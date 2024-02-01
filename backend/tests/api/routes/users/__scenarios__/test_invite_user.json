@@ -6,13 +6,13 @@
         "request": {
             "email": "test@test.com",
             "name": "test",
-            "role": 1,
+            "role": 5,
             "projects": "$$$"
         },
         "response": {
             "email": "test@test.com",
             "name": "test",
-            "role": 1,
+            "role": 5,
             "projects": [
                 236
             ],
@@ -26,7 +26,7 @@
         "request": {
             "email": "test@test.com",
             "name": "test",
-            "role": 1,
+            "role": 5,
             "projects": []
         },
         "response": {
@@ -46,7 +46,7 @@
         "request": {
             "email": "test@test.com",
             "name": "test",
-            "role": 1,
+            "role": 5,
             "projects": [
                 999
             ]
@@ -68,7 +68,7 @@
         "request": {
             "email": "test.user@gmail.com",
             "name": "test",
-            "role": 1,
+            "role": 5,
             "projects": "$$$"
         },
         "response": {
@@ -88,7 +88,7 @@
         "request": {
             "email": "test@test.com",
             "name": "test",
-            "role": 1,
+            "role": 5,
             "projects": "$$$"
         },
         "response": {

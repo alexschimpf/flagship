@@ -16,13 +16,14 @@ class DeleteUserController:
         self.me = me
 
     def handle_request(self, response: Response) -> SuccessResponse:
-        if not self.me.role.has_permission(Permission.DELETE_USER):
-            raise UnauthorizedException
-
         with MySQLService.get_session() as session:
             row = session.get(UserRow, self.user_id)
             if not row:
                 raise NotFoundException
+
+            # Don't allow a user to delete another user with a higher role
+            if not self.me.role.has_permission(Permission.DELETE_USER) or row.role > self.me.role:
+                raise UnauthorizedException
 
             if not UsersTable.owners_exist(excluded_user_id=self.user_id, session=session):
                 raise NoOwnersLeftException

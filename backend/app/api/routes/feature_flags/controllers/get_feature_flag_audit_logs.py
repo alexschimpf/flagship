@@ -21,9 +21,6 @@ class GetFeatureFlagAuditLogsController:
         self.me = me
 
     def handle_request(self) -> FeatureFlagAuditLogs:
-        if not self.me.role.has_permission(Permission.READ_FEATURE_FLAG_AUDIT_LOGS):
-            raise UnauthorizedException
-
         with MySQLService.get_session() as session:
             audit_logs, total_count = FeatureFlagAuditLogsTable.get_feature_flag_audit_logs(
                 project_id=self.project_id, feature_flag_id=self.feature_flag_id,

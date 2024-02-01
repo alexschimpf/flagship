@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Body_login_auth_login_post } from '../models/Body_login_auth_login_post';
+import type { SuccessResponse } from '../models/SuccessResponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class AuthService {
@@ -29,15 +30,14 @@ export class AuthService {
     }
     /**
      * Login Test
-     * @returns void
+     * @returns SuccessResponse Successful Response
      * @throws ApiError
      */
-    public loginTest(): CancelablePromise<void> {
+    public loginTest(): CancelablePromise<SuccessResponse> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/auth/login/test',
             errors: {
-                307: `Successful Response`,
                 400: `Bad Request`,
             },
         });

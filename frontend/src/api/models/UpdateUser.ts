@@ -6,7 +6,7 @@ import type { UserRole } from './UserRole';
 export type UpdateUser = {
     name: string;
     /**
-     * read only: 1</br>standard: 2</br>admin: 3</br>owner: 4
+     * read only: 5</br>standard: 10</br>admin: 15</br>owner: 20
      */
     role: UserRole;
     projects: Array<number>;

@@ -27,9 +27,7 @@ class UpdateUserController:
         return User.from_row(row=user_row, projects=self.request.projects)
 
     def _validate(self) -> str:
-        is_updating_me = self.me.user_id == self.user_id
-
-        if not is_updating_me and not self.me.role.has_permission(Permission.UPDATE_USER):
+        if self.me.user_id != self.user_id and not self.me.role.has_permission(Permission.UPDATE_USER):
             raise UnauthorizedException
 
         if not self.request.projects:
@@ -50,15 +48,11 @@ class UpdateUserController:
         return row.email
 
     def _validate_role_and_projects(self, user_row: UserRow, projects: list[int], session: Session) -> None:
-        if (
-            (
-                not self.me.role.has_permission(Permission.UPDATE_USER_ROLE) and
-                self.request.role != user_row.role
-            ) or
-            (
-                not self.me.role.has_permission(Permission.UPDATE_USER_PROJECTS) and
-                self.request.projects != projects
-            )
+        # Don't allow a user to update another user who has a higher role
+        # Don't allow a user to upgrade another user's (or its own) role to one higher than its own
+        if user_row.role > self.me.role or self.request.role > user_row.role or (
+            not self.me.role.has_permission(Permission.UPDATE_USER_PROJECTS) and
+            sorted(projects) != sorted(self.request.projects)
         ):
             raise UnauthorizedException
 

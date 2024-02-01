@@ -51,7 +51,6 @@ OPERATOR_DISPLAY_NAMES: Final[dict[Operator, str]] = {
 }
 
 
-
 class Permission(IntEnum):
     # Projects
     CREATE_PROJECT = auto()
@@ -66,7 +65,6 @@ class Permission(IntEnum):
     CREATE_FEATURE_FLAG = auto()
     UPDATE_FEATURE_FLAG = auto()
     DELETE_FEATURE_FLAG = auto()
-    READ_FEATURE_FLAG_AUDIT_LOGS = auto()
 
     # Context fields
     CREATE_CONTEXT_FIELD = auto()
@@ -78,7 +76,6 @@ class Permission(IntEnum):
     READ_USERS = auto()
     INVITE_USER = auto()
     UPDATE_USER = auto()
-    UPDATE_USER_ROLE = auto()
     UPDATE_USER_PROJECTS = auto()
     DELETE_USER = auto()
 
@@ -87,10 +84,10 @@ class Permission(IntEnum):
 
 
 class UserRole(IntEnum):
-    READ_ONLY = 1
-    STANDARD = 2
-    ADMIN = 3
-    OWNER = 4
+    READ_ONLY = 5
+    STANDARD = 10
+    ADMIN = 15
+    OWNER = 20
 
     def has_permission(self, permission: Permission) -> bool:
         if self is self.STANDARD:
@@ -98,7 +95,10 @@ class UserRole(IntEnum):
                 Permission.CREATE_FEATURE_FLAG,
                 Permission.UPDATE_FEATURE_FLAG,
                 Permission.DELETE_FEATURE_FLAG,
-                Permission.READ_FEATURE_FLAG_AUDIT_LOGS
+                Permission.CREATE_CONTEXT_FIELD,
+                Permission.UPDATE_CONTEXT_FIELD,
+                Permission.DELETE_CONTEXT_FIELD,
+                Permission.READ_CONTEXT_FIELD_AUDIT_LOGS
             )
         elif self is self.ADMIN:
             return permission in (
@@ -108,9 +108,18 @@ class UserRole(IntEnum):
                 Permission.CREATE_CONTEXT_FIELD,
                 Permission.UPDATE_CONTEXT_FIELD,
                 Permission.DELETE_CONTEXT_FIELD,
-                Permission.READ_FEATURE_FLAG_AUDIT_LOGS,
                 Permission.READ_CONTEXT_FIELD_AUDIT_LOGS,
-                Permission.READ_SYSTEM_AUDIT_LOGS
+                Permission.CREATE_PROJECT,
+                Permission.UPDATE_PROJECT,
+                Permission.READ_PROJECT_PRIVATE_KEYS,
+                Permission.CREATE_PROJECT_PRIVATE_KEY,
+                Permission.EDIT_PROJECT_PRIVATE_KEYS,
+                Permission.READ_SYSTEM_AUDIT_LOGS,
+                Permission.READ_USERS,
+                Permission.INVITE_USER,
+                Permission.UPDATE_USER,
+                Permission.UPDATE_USER_PROJECTS,
+                Permission.DELETE_USER
             )
         elif self is self.OWNER:
             return True

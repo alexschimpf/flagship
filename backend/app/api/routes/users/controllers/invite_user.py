@@ -28,7 +28,8 @@ class InviteUserController:
         return User.from_row(row=user_row, projects=self.request.projects)
 
     def _validate(self) -> None:
-        if not self.me.role.has_permission(Permission.INVITE_USER):
+        # Don't allow a user to create/invite another user with a higher role
+        if not self.me.role.has_permission(Permission.INVITE_USER) or self.request.role > self.me.role:
             raise UnauthorizedException
 
         if not self.request.projects:

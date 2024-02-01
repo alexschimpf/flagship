@@ -14,7 +14,6 @@ export enum Permission {
     CREATE_FEATURE_FLAG,
     UPDATE_FEATURE_FLAG,
     DELETE_FEATURE_FLAG,
-    READ_FEATURE_FLAG_AUDIT_LOGS,
 
     // Context fields
     CREATE_CONTEXT_FIELD,
@@ -26,7 +25,6 @@ export enum Permission {
     READ_USERS,
     INVITE_USER,
     UPDATE_USER,
-    UPDATE_USER_ROLE,
     UPDATE_USER_PROJECTS,
     DELETE_USER,
 
@@ -42,14 +40,7 @@ export const hasPermission = (
         return false;
     }
 
-    if (user.role === 2) {
-        return [
-            Permission.CREATE_FEATURE_FLAG,
-            Permission.UPDATE_FEATURE_FLAG,
-            Permission.DELETE_FEATURE_FLAG,
-            Permission.READ_FEATURE_FLAG_AUDIT_LOGS
-        ].includes(permission);
-    } else if (user.role === 3) {
+    if (user.role === 10) {
         return [
             Permission.CREATE_FEATURE_FLAG,
             Permission.UPDATE_FEATURE_FLAG,
@@ -57,11 +48,30 @@ export const hasPermission = (
             Permission.CREATE_CONTEXT_FIELD,
             Permission.UPDATE_CONTEXT_FIELD,
             Permission.DELETE_CONTEXT_FIELD,
-            Permission.READ_FEATURE_FLAG_AUDIT_LOGS,
-            Permission.READ_CONTEXT_FIELD_AUDIT_LOGS,
-            Permission.READ_SYSTEM_AUDIT_LOGS
+            Permission.READ_CONTEXT_FIELD_AUDIT_LOGS
         ].includes(permission);
-    } else if (user.role === 4) {
+    } else if (user.role === 15) {
+        return [
+            Permission.CREATE_FEATURE_FLAG,
+            Permission.UPDATE_FEATURE_FLAG,
+            Permission.DELETE_FEATURE_FLAG,
+            Permission.CREATE_CONTEXT_FIELD,
+            Permission.UPDATE_CONTEXT_FIELD,
+            Permission.DELETE_CONTEXT_FIELD,
+            Permission.READ_CONTEXT_FIELD_AUDIT_LOGS,
+            Permission.CREATE_PROJECT,
+            Permission.UPDATE_PROJECT,
+            Permission.READ_PROJECT_PRIVATE_KEYS,
+            Permission.CREATE_PROJECT_PRIVATE_KEY,
+            Permission.EDIT_PROJECT_PRIVATE_KEYS,
+            Permission.READ_SYSTEM_AUDIT_LOGS,
+            Permission.READ_USERS,
+            Permission.INVITE_USER,
+            Permission.UPDATE_USER,
+            Permission.UPDATE_USER_PROJECTS,
+            Permission.DELETE_USER
+        ].includes(permission);
+    } else if (user.role === 20) {
         return true;
     }
 

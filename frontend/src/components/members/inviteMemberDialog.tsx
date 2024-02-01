@@ -21,12 +21,14 @@ import {
     TooltipTrigger
 } from '@/components/primitives/tooltip';
 import { useToast } from '@/components/primitives/use-toast';
+import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
 import { userRoles } from '@/lib/constants';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import CustomTooltip from '../primitives/customTooltip';
@@ -62,6 +64,8 @@ class InviteMemberDialogProps {
 }
 
 export default function (props: InviteMemberDialogProps) {
+    const currentUser = useContext(UserContext);
+
     const { toast } = useToast();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -192,7 +196,7 @@ export default function (props: InviteMemberDialogProps) {
                                             </FormControl>
                                             <SelectContent>
                                                 {Object.entries(userRoles).map(
-                                                    ([roleId, roleName]) => (
+                                                    ([roleId, roleName]) => (currentUser && roleId <= currentUser.role &&
                                                         <SelectItem
                                                             key={roleId}
                                                             value={roleId.toString()}
