@@ -14,6 +14,7 @@ from app.api.routes.projects.schemas import Project, Projects, CreateOrUpdatePro
     ProjectPrivateKey, ProjectPrivateKeyName, ProjectPrivateKeys
 from app.api.schemas import SuccessResponse, User
 from app.constants import DEFAULT_PAGE_SIZE
+from app.services.database.redis.service import RedisService
 
 router = APIRouter(
     prefix='/projects',
@@ -63,7 +64,10 @@ def update_project(
 
 
 @router.delete('/{project_id}', response_model=SuccessResponse)
-def delete_project(project_id: int, me: User = Depends(auth.get_user)) -> SuccessResponse:
+def delete_project(
+    project_id: int,
+    me: User = Depends(auth.get_user)
+) -> SuccessResponse:
     return DeleteProjectController(
         project_id=project_id,
         me=me

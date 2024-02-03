@@ -1,10 +1,11 @@
 from app.api.exceptions.exceptions import NotFoundException, UnauthorizedException
-from app.api.routes.feature_flags.schemas import UpdateFeatureFlagStatus
 from app.api.schemas import SuccessResponse, User
 from app.constants import Permission
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow, FeatureFlagsTable
 from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogRow
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
+from app.api.routes.feature_flags.schemas import FeatureFlagCondition, UpdateFeatureFlagStatus
 
 
 class UpdateFeatureFlagStatusController:
@@ -38,5 +39,15 @@ class UpdateFeatureFlagStatusController:
                 enabled=self.request.enabled
             ))
             session.commit()
+
+        conditions = [[
+            FeatureFlagCondition(**condition) for condition in and_group
+        ] for and_group in row.conditions_list]
+        RedisService.add_or_replace_feature_flag(
+            project_id=self.project_id,
+            feature_flag_name=row.name,
+            conditions=conditions,
+            is_enabled=row.enabled
+        )
 
         return SuccessResponse()

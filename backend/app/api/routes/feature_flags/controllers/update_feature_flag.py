@@ -11,6 +11,7 @@ from app.constants import Permission
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow, FeatureFlagsTable
 from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogRow
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
 
 
 class UpdateFeatureFlagController:
@@ -84,5 +85,12 @@ class UpdateFeatureFlagController:
             session.commit()
 
             feature_flag_row = session.get(FeatureFlagRow, self.feature_flag_id)
+
+        RedisService.add_or_replace_feature_flag(
+            project_id=self.project_id,
+            feature_flag_name=self.request.name,
+            conditions=self.request.conditions,
+            is_enabled=self.request.enabled
+        )
 
         return cast(FeatureFlagRow, feature_flag_row)

@@ -9,6 +9,7 @@ from app.services.database.mysql.schemas.project import ProjectRow
 from app.services.database.mysql.schemas.project_private_key import ProjectPrivateKeyRow, ProjectPrivateKeysTable
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
 
 
 class CreateProjectPrivateKeyController:
@@ -20,7 +21,7 @@ class CreateProjectPrivateKeyController:
 
     def handle_request(self) -> ProjectPrivateKey:
         project_name = self._validate()
-        project_row, private_key = self._create_private_key(project_name=project_name)
+        private_key = self._create_private_key(project_name=project_name)
 
         return ProjectPrivateKey(
             private_key=private_key
@@ -43,7 +44,7 @@ class CreateProjectPrivateKeyController:
 
         return row.name
 
-    def _create_private_key(self, project_name: str) -> tuple[ProjectRow, str]:
+    def _create_private_key(self, project_name: str) -> str:
         private_key, encrypted_private_key = common.generate_private_key()
         with MySQLService.get_session() as session:
             session.add(ProjectPrivateKeyRow(
@@ -58,6 +59,9 @@ class CreateProjectPrivateKeyController:
             ))
             session.commit()
 
-            project_row = session.get(ProjectRow, self.project_id)
+        RedisService.add_project_private_key(
+            project_id=self.project_id,
+            encrypted_private_key=encrypted_private_key
+        )
 
-        return cast(ProjectRow, project_row), private_key
+        return private_key

@@ -4,6 +4,7 @@ from app.constants import Permission, AuditLogEventType
 from app.services.database.mysql.schemas.project import ProjectsTable, ProjectRow
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
 
 
 class DeleteProjectController:
@@ -38,3 +39,5 @@ class DeleteProjectController:
                 details=f'Name: {name}'
             ))
             session.commit()
+
+        RedisService.remove_project(project_id=self.project_id)

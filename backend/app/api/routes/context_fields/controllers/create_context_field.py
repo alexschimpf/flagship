@@ -10,6 +10,7 @@ from app.services.database.mysql.schemas.context_field import ContextFieldRow, C
 from app.services.database.mysql.schemas.context_field_audit_logs import ContextFieldAuditLogRow
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
 
 
 class CreateContextFieldController:
@@ -98,5 +99,11 @@ class CreateContextFieldController:
 
             session.commit()
             session.refresh(context_field_row)
+
+        RedisService.add_or_replace_context_field(
+            project_id=self.project_id,
+            context_field_key=self.request.field_key,
+            context_value_type=self.request.value_type
+        )
 
         return context_field_row

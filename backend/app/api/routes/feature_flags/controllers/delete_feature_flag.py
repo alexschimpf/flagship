@@ -4,6 +4,7 @@ from app.constants import Permission, AuditLogEventType
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagsTable, FeatureFlagRow
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
 
 
 class DeleteFeatureFlagController:
@@ -41,3 +42,8 @@ class DeleteFeatureFlagController:
                 details=f'Name: {name}'
             ))
             session.commit()
+
+        RedisService.remove_feature_flag(
+            project_id=self.project_id,
+            feature_flag_name=name
+        )

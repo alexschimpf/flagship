@@ -316,6 +316,7 @@ def new_context_field_audit_log(
 
 
 def clear_database() -> None:
+    # TODO: Clear Redis also...
     with MySQLService.get_session() as session:
         session.execute(delete(UserRow))
         session.execute(delete(ProjectRow))

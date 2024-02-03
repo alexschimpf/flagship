@@ -6,6 +6,7 @@ from app.services.database.mysql.schemas.project import ProjectRow
 from app.services.database.mysql.schemas.project_private_key import ProjectPrivateKeyRow, ProjectPrivateKeysTable
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
 
 
 class DeleteProjectPrivateKeyController:
@@ -16,26 +17,27 @@ class DeleteProjectPrivateKeyController:
         self.me = me
 
     def handle_request(self) -> SuccessResponse:
-        project_name = self._validate()
-        self._delete_private_key(project_name=project_name)
+        project_name, encrypted_private_key = self._validate()
+        self._delete_private_key(project_name=project_name, encrypted_private_key=encrypted_private_key)
 
         return SuccessResponse()
 
-    def _validate(self) -> str:
+    def _validate(self) -> tuple[str, str]:
         if (not self.me.role.has_permission(Permission.DELETE_PROJECT_PRIVATE_KEY) or
                 self.project_id not in self.me.projects):
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:
-            row = session.get(ProjectRow, self.project_id)
-            if not row:
+            project_row = session.get(ProjectRow, self.project_id)
+            if not project_row:
                 raise NotFoundException
-            if not session.get(ProjectPrivateKeyRow, self.project_private_key_id):
+            private_key_row = session.get(ProjectPrivateKeyRow, self.project_private_key_id)
+            if not private_key_row:
                 raise NotFoundException
 
-        return row.name
+        return project_row.name, private_key_row.private_key
 
-    def _delete_private_key(self, project_name: str) -> None:
+    def _delete_private_key(self, project_name: str, encrypted_private_key: str) -> None:
         with MySQLService.get_session() as session:
             ProjectPrivateKeysTable.delete_project_private_key(
                 project_id=self.project_id, project_private_key_id=self.project_private_key_id, session=session)
@@ -45,3 +47,8 @@ class DeleteProjectPrivateKeyController:
                 details=f'Name: {project_name}'
             ))
             session.commit()
+
+        RedisService.remove_project_private_key(
+            project_id=self.project_id,
+            encrypted_private_key=encrypted_private_key
+        )

@@ -113,7 +113,7 @@ const Header = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuItem className='cursor-pointer'>
-                                <a href='//localhost:3000/account'>
+                                <a className='w-full' href='//localhost:3000/account'>
                                     My Account
                                 </a>
                             </DropdownMenuItem>
@@ -122,7 +122,7 @@ const Header = () => {
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className='cursor-pointer'>
-                                <a onClick={onLogoutClick}>
+                                <a className='w-full' onClick={onLogoutClick}>
                                     Log out
                                 </a>
                             </DropdownMenuItem>

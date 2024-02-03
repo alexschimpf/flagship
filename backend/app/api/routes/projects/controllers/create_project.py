@@ -8,6 +8,7 @@ from app.services.database.mysql.schemas.project_private_key import ProjectPriva
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user_project import UserProjectRow
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
 
 
 class CreateProjectController:
@@ -65,4 +66,9 @@ class CreateProjectController:
             session.commit()
             session.refresh(project_row)
 
-            return project_row, private_key
+        RedisService.add_project_private_key(
+            project_id=project_row.project_id,
+            encrypted_private_key=encrypted_private_key
+        )
+
+        return project_row, private_key

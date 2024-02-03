@@ -17,4 +17,8 @@ done
 
 sleep 5
 
-PYTHONPATH=./backend MYSQL_ECHO=0 python -m pytest --disable-warnings --cov=./backend/app --cov-fail-under=80 --no-cov-on-fail ./backend/tests/api
+PYTHONPATH=./backend MYSQL_ECHO=0 TESTING=1 python -m pytest --disable-warnings --cov=./backend/app --cov-fail-under=80 --no-cov-on-fail ./backend/tests/api
+
+# Reset DBs
+docker exec -i mysql bash /docker-entrypoint-initdb.d/init.sh
+redis-cli --cluster call --cluster-only-masters 127.0.0.1:7000 FLUSHALL

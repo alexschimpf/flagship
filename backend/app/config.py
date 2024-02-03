@@ -13,6 +13,7 @@ class Config:
     MYSQL_POOL_SIZE: int
     MYSQL_MAX_OVERFLOW: int
     MYSQL_CONN_STR: str
+    REDIS_CONN_STR: str
     UI_BASE_URL: str
     SESSION_COOKIE_KEY: str
     SESSION_COOKIE_MAX_AGE: int
@@ -37,6 +38,9 @@ class Config:
         cls.MYSQL_CONN_STR = cls._get_value(
             env_var='MYSQL_CONN_STR', default='mysql+mysqlconnector://root:test@localhost:3306/flagship',
             warn_if_missing=True)
+        cls.REDIS_CONN_STR = cls._get_value(
+            env_var='REDIS_CONN_STR', default='redis://127.0.0.1:7000',
+            warn_if_missing=True)
         cls.UI_BASE_URL = cls._get_value(
             env_var='UI_BASE_URL', default='http://localhost:3000', warn_if_missing=True)
         cls.SESSION_COOKIE_KEY = cls._get_value(
@@ -52,8 +56,8 @@ class Config:
         cls.ENABLE_FAKE_AUTH = cls._get_value(
             env_var='ENABLE_FAKE_AUTH', default=False, type_cast=cls._to_bool)
         cls.DEFAULT_LOCALE = cls._get_value(
-            env_var='DEFAULT_LOCALE', default='en-us'
-        )
+            env_var='DEFAULT_LOCALE', default='en-us')
+
 
     @staticmethod
     def _to_bool(val: Any) -> bool:

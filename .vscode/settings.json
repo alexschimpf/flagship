@@ -1,15 +1,22 @@
 {
-    "files.associations": {
-      "*.css": "tailwindcss"
-    },
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": true
-    },
-    "[typescriptreact]": {
-      "editor.formatOnSave": true
-    },
-    "files.trimTrailingWhitespace": true,
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "window.zoomLevel": 0.2,
+  "files.autoSave": "off",
+  "mypy.configFile": "backend/mypy.ini",
+  "mypy.runUsingActiveInterpreter": true,
+  "mypy.targets": [
+    "./backend/"
+  ]
 }

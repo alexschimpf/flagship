@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 import logging
 import logging.config
 import os
@@ -19,6 +20,7 @@ from app.api.routers import router
 from app.api.schemas import ErrorResponseModel
 from app.config import Config
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
 from app.services.strings.service import StringsService
 
 
@@ -67,7 +69,9 @@ class Bootstrap:
 
     @staticmethod
     def _init_services() -> None:
+        # TODO: Move these to lifespan?
         MySQLService.init()
+        RedisService.init()
         StringsService.init(default_locale=Config.DEFAULT_LOCALE)
 
     @staticmethod

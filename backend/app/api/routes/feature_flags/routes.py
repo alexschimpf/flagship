@@ -12,6 +12,7 @@ from app.api.routes.feature_flags.schemas import CreateOrUpdateFeatureFlag, Feat
     FeatureFlagAuditLogs, UpdateFeatureFlagStatus
 from app.api.schemas import SuccessResponse, User
 from app.constants import DEFAULT_PAGE_SIZE
+from app.services.database.redis.service import RedisService
 
 router = APIRouter(
     prefix='/feature_flags',

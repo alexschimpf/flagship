@@ -11,6 +11,7 @@ from app.constants import Permission, ContextValueType
 from app.services.database.mysql.schemas.context_field import ContextFieldRow, ContextFieldsTable
 from app.services.database.mysql.schemas.context_field_audit_logs import ContextFieldAuditLogRow
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
 
 
 class UpdateContextFieldController:
@@ -93,5 +94,12 @@ class UpdateContextFieldController:
             session.commit()
 
             context_field_row = session.get(ContextFieldRow, self.context_field_id)
+
+        if context_field_row:
+            RedisService.add_or_replace_context_field(
+                project_id=self.project_id,
+                context_field_key=context_field_row.field_key,
+                context_value_type=ContextValueType(context_field_row.value_type)
+            )
 
         return cast(ContextFieldRow, context_field_row)

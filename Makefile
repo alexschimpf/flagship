@@ -37,7 +37,12 @@ be-run-api-tests:
 	./backend/tests/api/run-tests.sh
 
 # run dependencies via docker compose
-run-docker-compose-deps:
+run-deps:
+	cd docker &&\
+	docker-compose -f docker-compose-deps.yml up --remove-orphans
+
+# remove existing volumes and run dependencies via docker compose
+run-deps-clean:
 	cd docker &&\
 	docker-compose -f docker-compose-deps.yml down -v --remove-orphans &&\
 	docker-compose -f docker-compose-deps.yml up

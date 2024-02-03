@@ -11,6 +11,7 @@ from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow, Fea
 from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogRow
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.service import MySQLService
+from app.services.database.redis.service import RedisService
 
 
 class CreateFeatureFlagController:
@@ -85,5 +86,12 @@ class CreateFeatureFlagController:
 
             session.commit()
             session.refresh(feature_flag_row)
+
+        RedisService.add_or_replace_feature_flag(
+            project_id=self.project_id,
+            feature_flag_name=feature_flag_row.name,
+            conditions=self.request.conditions,
+            is_enabled=self.request.enabled
+        )
 
         return feature_flag_row
