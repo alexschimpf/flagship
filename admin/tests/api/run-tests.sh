@@ -17,7 +17,7 @@ done
 
 sleep 5
 
-PYTHONPATH=./backend MYSQL_ECHO=0 TESTING=1 python -m pytest --disable-warnings --cov=./backend/app --cov-fail-under=80 --no-cov-on-fail ./backend/tests/api
+PYTHONPATH=./admin MYSQL_ECHO=0 TESTING=1 python -m pytest --disable-warnings --cov=./admin/app --cov-fail-under=80 --no-cov-on-fail ./admin/tests/api
 
 # Reset DBs
 docker exec -i mysql bash /docker-entrypoint-initdb.d/init.sh

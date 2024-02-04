@@ -13,10 +13,10 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "window.zoomLevel": 0.2,
-  "files.autoSave": "off",
-  "mypy.configFile": "backend/mypy.ini",
+  "files.autoSave": "afterDelay",
+  "mypy.configFile": "admin/mypy.ini",
   "mypy.runUsingActiveInterpreter": true,
   "mypy.targets": [
-    "./backend/"
+    "./admin/"
   ]
 }

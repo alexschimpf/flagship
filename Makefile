@@ -16,25 +16,25 @@ help:
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
-# run mypy type checker using daemon
-be-type-check:
-	cd backend && mypy --config-file mypy.ini .
+# type check admin backend
+admin-type-check:
+	cd admin && mypy --config-file mypy.ini .
 
-# install backend python packages
-be-install-reqs:
-	pip install -r backend/requirements.txt
+# install admin python packages
+admin-install-reqs:
+	pip install -r admin/requirements.txt
 
-# install backend python packages
-be-install-dev-reqs:
-	pip install -r backend/requirements-dev.txt
+# install admin python dev packages
+admin-install-dev-reqs:
+	pip install -r admin/requirements-dev.txt
 
-# run backend unit tests
-be-run-unit-tests:
-	PYTHONPATH=./backend python -m pytest --verbose --disable-warnings backend/tests/unit
+# run admin unit tests
+admin-run-unit-tests:
+	PYTHONPATH=./admin python -m pytest --verbose --disable-warnings admin/tests/unit
 
-# run backend api tests
-be-run-api-tests:
-	./backend/tests/api/run-tests.sh
+# run admin api tests
+admin-run-api-tests:
+	./admin/tests/api/run-tests.sh
 
 # run dependencies via docker compose
 run-deps:
@@ -48,7 +48,7 @@ run-deps-clean:
 	docker-compose -f docker-compose-deps.yml up
 
 # get lines of python code
-be-size:
+ be-size:
 	git ls-files | grep '\.py' | xargs wc -l
 
 # get lines of ui code
