@@ -1,0 +1,14 @@
+{
+    "UNKNOWN": {
+        "en-us": "Oops, something went wrong!"
+    },
+    "NOT_FOUND": {
+        "en-us": "Resource not found."
+    },
+    "UNAUTHENTICATED": {
+        "en-us": "You are not authorized to perform this action."
+    },
+    "UNAUTHORIZED": {
+        "en-us": "You are not authorized to perform this action."
+    }
+}

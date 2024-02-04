@@ -48,7 +48,7 @@ run-deps-clean:
 	docker-compose -f docker-compose-deps.yml up
 
 # get lines of python code
- be-size:
+ py-size:
 	git ls-files | grep '\.py' | xargs wc -l
 
 # get lines of ui code
