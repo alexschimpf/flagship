@@ -248,6 +248,22 @@
         "documentation": {}
     },
     {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "testclient",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
         "label": "StringsService",
         "importPath": "app.services.strings.service",
         "description": "app.services.strings.service",
@@ -3613,6 +3629,30 @@
     },
     {
         "label": "Final",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Union",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -7781,12 +7821,28 @@
         "documentation": {}
     },
     {
+        "label": "BaseTestClient",
+        "importPath": "rest_api_tester.client.base_client",
+        "description": "rest_api_tester.client.base_client",
+        "isExtraImport": true,
+        "detail": "rest_api_tester.client.base_client",
+        "documentation": {}
+    },
+    {
         "label": "httpx",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "httpx",
         "description": "httpx",
         "detail": "httpx",
+        "documentation": {}
+    },
+    {
+        "label": "ResponseData",
+        "importPath": "rest_api_tester.client.response_data",
+        "description": "rest_api_tester.client.response_data",
+        "isExtraImport": true,
+        "detail": "rest_api_tester.client.response_data",
         "documentation": {}
     },
     {
@@ -9913,109 +9969,118 @@
     {
         "label": "AppException",
         "kind": 6,
-        "importPath": "feature_flags.app.api.exceptions.exceptions",
-        "description": "feature_flags.app.api.exceptions.exceptions",
+        "importPath": "flags.app.api.exceptions.exceptions",
+        "description": "flags.app.api.exceptions.exceptions",
         "peekOfCode": "class AppException(Exception):\n    STATUS: int = status.HTTP_500_INTERNAL_SERVER_ERROR\n    CODE: str = 'UNKNOWN'\n    def __init__(self, message: str | None = None):\n        message = message or StringsService.get(key=self.CODE)\n        super().__init__(message)\nclass NotFoundException(AppException):\n    STATUS: int = status.HTTP_404_NOT_FOUND\n    CODE: str = 'NOT_FOUND'\nclass UnauthenticatedException(AppException):",
-        "detail": "feature_flags.app.api.exceptions.exceptions",
+        "detail": "flags.app.api.exceptions.exceptions",
         "documentation": {}
     },
     {
         "label": "NotFoundException",
         "kind": 6,
-        "importPath": "feature_flags.app.api.exceptions.exceptions",
-        "description": "feature_flags.app.api.exceptions.exceptions",
+        "importPath": "flags.app.api.exceptions.exceptions",
+        "description": "flags.app.api.exceptions.exceptions",
         "peekOfCode": "class NotFoundException(AppException):\n    STATUS: int = status.HTTP_404_NOT_FOUND\n    CODE: str = 'NOT_FOUND'\nclass UnauthenticatedException(AppException):\n    STATUS: int = status.HTTP_401_UNAUTHORIZED\n    CODE: str = 'UNAUTHENTICATED'\nclass UnauthorizedException(AppException):\n    STATUS: int = status.HTTP_403_FORBIDDEN\n    CODE: str = 'UNAUTHORIZED'\nclass BadRequestException(AppException):",
-        "detail": "feature_flags.app.api.exceptions.exceptions",
+        "detail": "flags.app.api.exceptions.exceptions",
         "documentation": {}
     },
     {
         "label": "UnauthenticatedException",
         "kind": 6,
-        "importPath": "feature_flags.app.api.exceptions.exceptions",
-        "description": "feature_flags.app.api.exceptions.exceptions",
+        "importPath": "flags.app.api.exceptions.exceptions",
+        "description": "flags.app.api.exceptions.exceptions",
         "peekOfCode": "class UnauthenticatedException(AppException):\n    STATUS: int = status.HTTP_401_UNAUTHORIZED\n    CODE: str = 'UNAUTHENTICATED'\nclass UnauthorizedException(AppException):\n    STATUS: int = status.HTTP_403_FORBIDDEN\n    CODE: str = 'UNAUTHORIZED'\nclass BadRequestException(AppException):\n    STATUS: int = status.HTTP_400_BAD_REQUEST\nclass BadRequestFieldException(BadRequestException):\n    def __init__(self, field: str, message: str | None = None):",
-        "detail": "feature_flags.app.api.exceptions.exceptions",
+        "detail": "flags.app.api.exceptions.exceptions",
         "documentation": {}
     },
     {
         "label": "UnauthorizedException",
         "kind": 6,
-        "importPath": "feature_flags.app.api.exceptions.exceptions",
-        "description": "feature_flags.app.api.exceptions.exceptions",
+        "importPath": "flags.app.api.exceptions.exceptions",
+        "description": "flags.app.api.exceptions.exceptions",
         "peekOfCode": "class UnauthorizedException(AppException):\n    STATUS: int = status.HTTP_403_FORBIDDEN\n    CODE: str = 'UNAUTHORIZED'\nclass BadRequestException(AppException):\n    STATUS: int = status.HTTP_400_BAD_REQUEST\nclass BadRequestFieldException(BadRequestException):\n    def __init__(self, field: str, message: str | None = None):\n        self.field = field\n        super().__init__(message)\nclass AggregateException(BadRequestException):",
-        "detail": "feature_flags.app.api.exceptions.exceptions",
+        "detail": "flags.app.api.exceptions.exceptions",
         "documentation": {}
     },
     {
         "label": "BadRequestException",
         "kind": 6,
-        "importPath": "feature_flags.app.api.exceptions.exceptions",
-        "description": "feature_flags.app.api.exceptions.exceptions",
+        "importPath": "flags.app.api.exceptions.exceptions",
+        "description": "flags.app.api.exceptions.exceptions",
         "peekOfCode": "class BadRequestException(AppException):\n    STATUS: int = status.HTTP_400_BAD_REQUEST\nclass BadRequestFieldException(BadRequestException):\n    def __init__(self, field: str, message: str | None = None):\n        self.field = field\n        super().__init__(message)\nclass AggregateException(BadRequestException):\n    def __init__(self, exceptions: list[AppException]):\n        self.exceptions = exceptions",
-        "detail": "feature_flags.app.api.exceptions.exceptions",
+        "detail": "flags.app.api.exceptions.exceptions",
         "documentation": {}
     },
     {
         "label": "BadRequestFieldException",
         "kind": 6,
-        "importPath": "feature_flags.app.api.exceptions.exceptions",
-        "description": "feature_flags.app.api.exceptions.exceptions",
+        "importPath": "flags.app.api.exceptions.exceptions",
+        "description": "flags.app.api.exceptions.exceptions",
         "peekOfCode": "class BadRequestFieldException(BadRequestException):\n    def __init__(self, field: str, message: str | None = None):\n        self.field = field\n        super().__init__(message)\nclass AggregateException(BadRequestException):\n    def __init__(self, exceptions: list[AppException]):\n        self.exceptions = exceptions",
-        "detail": "feature_flags.app.api.exceptions.exceptions",
+        "detail": "flags.app.api.exceptions.exceptions",
         "documentation": {}
     },
     {
         "label": "AggregateException",
         "kind": 6,
-        "importPath": "feature_flags.app.api.exceptions.exceptions",
-        "description": "feature_flags.app.api.exceptions.exceptions",
+        "importPath": "flags.app.api.exceptions.exceptions",
+        "description": "flags.app.api.exceptions.exceptions",
         "peekOfCode": "class AggregateException(BadRequestException):\n    def __init__(self, exceptions: list[AppException]):\n        self.exceptions = exceptions",
-        "detail": "feature_flags.app.api.exceptions.exceptions",
+        "detail": "flags.app.api.exceptions.exceptions",
         "documentation": {}
     },
     {
         "label": "exception_handler",
         "kind": 2,
-        "importPath": "feature_flags.app.api.exceptions.handlers",
-        "description": "feature_flags.app.api.exceptions.handlers",
+        "importPath": "flags.app.api.exceptions.handlers",
+        "description": "flags.app.api.exceptions.handlers",
         "peekOfCode": "def exception_handler(_: Request, __: Exception) -> JSONResponse:\n    return JSONResponse(\n        status_code=500,\n        content={\n            'errors': [\n                {\n                    'code': AppException.CODE,\n                    'msg': StringsService.get(key=AppException.CODE)\n                }\n            ]",
-        "detail": "feature_flags.app.api.exceptions.handlers",
+        "detail": "flags.app.api.exceptions.handlers",
         "documentation": {}
     },
     {
         "label": "app_exception_handler",
         "kind": 2,
-        "importPath": "feature_flags.app.api.exceptions.handlers",
-        "description": "feature_flags.app.api.exceptions.handlers",
+        "importPath": "flags.app.api.exceptions.handlers",
+        "description": "flags.app.api.exceptions.handlers",
         "peekOfCode": "def app_exception_handler(_: Request, e: AppException) -> JSONResponse:\n    errors = []\n    exceptions = e.exceptions if isinstance(e, AggregateException) else [e]\n    for exc in exceptions:\n        if isinstance(exc, BadRequestFieldException):\n            errors.append({\n                'field': exc.field,\n                'code': exc.CODE,\n                'message': str(exc)\n            })",
-        "detail": "feature_flags.app.api.exceptions.handlers",
+        "detail": "flags.app.api.exceptions.handlers",
         "documentation": {}
     },
     {
         "label": "request_validation_exception_handler",
         "kind": 2,
-        "importPath": "feature_flags.app.api.exceptions.handlers",
-        "description": "feature_flags.app.api.exceptions.handlers",
+        "importPath": "flags.app.api.exceptions.handlers",
+        "description": "flags.app.api.exceptions.handlers",
         "peekOfCode": "def request_validation_exception_handler(_: Request, e: RequestValidationError) -> JSONResponse:\n    # TODO: Handle i18n\n    formatted_errors = []\n    for error in e.errors():\n        error_code, message = error['type'], error['msg']\n        field = error['loc'][1]\n        message = _make_user_friendly(error_code=error_code, field=field, message=message)\n        formatted_errors.append({\n            'field': field,\n            'code': error_code.upper(),",
-        "detail": "feature_flags.app.api.exceptions.handlers",
+        "detail": "flags.app.api.exceptions.handlers",
         "documentation": {}
     },
     {
         "label": "jwt_exception_handler",
         "kind": 2,
-        "importPath": "feature_flags.app.api.exceptions.handlers",
-        "description": "feature_flags.app.api.exceptions.handlers",
+        "importPath": "flags.app.api.exceptions.handlers",
+        "description": "flags.app.api.exceptions.handlers",
         "peekOfCode": "def jwt_exception_handler(_: Request, __: AuthJWTException) -> JSONResponse:\n    return JSONResponse(\n        status_code=status.HTTP_401_UNAUTHORIZED,\n        content={\n            'errors': [{\n                'code': UnauthenticatedException.CODE,\n                'message': StringsService.get(key=AppException.CODE)\n            }]\n        }\n    )",
-        "detail": "feature_flags.app.api.exceptions.handlers",
+        "detail": "flags.app.api.exceptions.handlers",
         "documentation": {}
     },
     {
         "label": "StringsService",
         "kind": 6,
-        "importPath": "feature_flags.app.services.strings.service",
-        "description": "feature_flags.app.services.strings.service",
+        "importPath": "flags.app.services.strings.service",
+        "description": "flags.app.services.strings.service",
         "peekOfCode": "class StringsService:\n    DEFAULT_LOCALE: str\n    LOOKUP: Final[dict[str, dict[str, str]]] = {}\n    @classmethod\n    def init(cls, default_locale: str) -> None:\n        file_path = os.path.join(os.path.dirname(__file__), '../../../config/strings.json')\n        with open(file_path) as file:\n            cls.LOOKUP.update(ujson.loads(file.read()))\n        cls.DEFAULT_LOCALE = default_locale\n    @classmethod",
-        "detail": "feature_flags.app.services.strings.service",
+        "detail": "flags.app.services.strings.service",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPITestClient",
+        "kind": 6,
+        "importPath": "flags.tests.api.fastapi_test_client",
+        "description": "flags.tests.api.fastapi_test_client",
+        "peekOfCode": "class FastAPITestClient(BaseTestClient):\n    def __init__(self, app: FastAPI):\n        self.test_client = testclient.TestClient(app)\n    async def wait_startup(self) -> None:\n        await self.test_client.wait_startup()\n    def get(\n        self,\n        url: str,\n        timeout: int,\n        allow_redirects: bool,",
+        "detail": "flags.tests.api.fastapi_test_client",
         "documentation": {}
     },
     {
