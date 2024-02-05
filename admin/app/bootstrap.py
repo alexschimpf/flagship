@@ -56,7 +56,7 @@ class Bootstrap:
             AuthJWTException: exception_handlers.jwt_exception_handler
         }
         return FastAPI(
-            title='Flagship API',
+            title='Flagship Admin API',
             version='1.0',
             responses={
                 400: {

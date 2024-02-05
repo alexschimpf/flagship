@@ -36,6 +36,26 @@ admin-run-unit-tests:
 admin-run-api-tests:
 	./admin/tests/api/run-tests.sh
 
+# type check flags backend
+flags-type-check:
+	cd flags && mypy --config-file mypy.ini .
+
+# install flags python packages
+flags-install-reqs:
+	pip install -r flags/requirements.txt
+
+# install flags python dev packages
+flags-install-dev-reqs:
+	pip install -r flags/requirements-dev.txt
+
+# run flags unit tests
+flags-run-unit-tests:
+	PYTHONPATH=./flags python -m pytest --verbose --disable-warnings flags/tests/unit
+
+# run flags api tests
+flags-run-api-tests:
+	./flags/tests/api/run-tests.sh
+
 # run dependencies via docker compose
 run-deps:
 	cd docker &&\

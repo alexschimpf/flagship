@@ -248,6 +248,46 @@
         "documentation": {}
     },
     {
+        "label": "Request",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Header",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
         "label": "FastAPI",
         "importPath": "fastapi",
         "description": "fastapi",
@@ -320,6 +360,14 @@
         "documentation": {}
     },
     {
+        "label": "StringsService",
+        "importPath": "app.services.strings.service",
+        "description": "app.services.strings.service",
+        "isExtraImport": true,
+        "detail": "app.services.strings.service",
+        "documentation": {}
+    },
+    {
         "label": "jsonable_encoder",
         "importPath": "fastapi.encoders",
         "description": "fastapi.encoders",
@@ -333,6 +381,14 @@
         "description": "fastapi.encoders",
         "isExtraImport": true,
         "detail": "fastapi.encoders",
+        "documentation": {}
+    },
+    {
+        "label": "RequestValidationError",
+        "importPath": "fastapi.exceptions",
+        "description": "fastapi.exceptions",
+        "isExtraImport": true,
+        "detail": "fastapi.exceptions",
         "documentation": {}
     },
     {
@@ -413,6 +469,14 @@
         "description": "fastapi.responses",
         "isExtraImport": true,
         "detail": "fastapi.responses",
+        "documentation": {}
+    },
+    {
+        "label": "AuthJWTException",
+        "importPath": "fastapi_another_jwt_auth.exceptions",
+        "description": "fastapi_another_jwt_auth.exceptions",
+        "isExtraImport": true,
+        "detail": "fastapi_another_jwt_auth.exceptions",
         "documentation": {}
     },
     {
@@ -513,6 +577,14 @@
     },
     {
         "label": "\\",
+        "importPath": "app.api.exceptions",
+        "description": "app.api.exceptions",
+        "isExtraImport": true,
+        "detail": "app.api.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "handlers",
         "importPath": "app.api.exceptions",
         "description": "app.api.exceptions",
         "isExtraImport": true,
@@ -1048,6 +1120,14 @@
         "documentation": {}
     },
     {
+        "label": "UnauthorizedException",
+        "importPath": "app.api.exceptions.exceptions",
+        "description": "app.api.exceptions.exceptions",
+        "isExtraImport": true,
+        "detail": "app.api.exceptions.exceptions",
+        "documentation": {}
+    },
+    {
         "label": "SystemAuditLog",
         "importPath": "app.api.routes.admin.schemas",
         "description": "app.api.routes.admin.schemas",
@@ -1417,6 +1497,14 @@
     },
     {
         "label": "User",
+        "importPath": "app.api.schemas",
+        "description": "app.api.schemas",
+        "isExtraImport": true,
+        "detail": "app.api.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "ErrorResponseModel",
         "importPath": "app.api.schemas",
         "description": "app.api.schemas",
         "isExtraImport": true,
@@ -2688,6 +2776,14 @@
         "documentation": {}
     },
     {
+        "label": "exceptions",
+        "importPath": "app.api",
+        "description": "app.api",
+        "isExtraImport": true,
+        "detail": "app.api",
+        "documentation": {}
+    },
+    {
         "label": "GetAuditLogsController",
         "importPath": "app.api.routes.admin.controllers.get_audit_logs",
         "description": "app.api.routes.admin.controllers.get_audit_logs",
@@ -2938,6 +3034,30 @@
         "documentation": {}
     },
     {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
         "label": "urllib.parse",
         "kind": 6,
         "isExtraImport": true,
@@ -3001,6 +3121,38 @@
         "description": "fastapi_another_jwt_auth",
         "isExtraImport": true,
         "detail": "fastapi_another_jwt_auth",
+        "documentation": {}
+    },
+    {
+        "label": "AuthJWT",
+        "importPath": "fastapi_another_jwt_auth",
+        "description": "fastapi_another_jwt_auth",
+        "isExtraImport": true,
+        "detail": "fastapi_another_jwt_auth",
+        "documentation": {}
+    },
+    {
+        "label": "Config",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "Config",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "Config",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
         "documentation": {}
     },
     {
@@ -3628,7 +3780,63 @@
         "documentation": {}
     },
     {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "TypedDict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "TYPE_CHECKING",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Final",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -3954,6 +4162,22 @@
         "description": "app.services.database.mysql.schemas.context_field_audit_logs",
         "isExtraImport": true,
         "detail": "app.services.database.mysql.schemas.context_field_audit_logs",
+        "documentation": {}
+    },
+    {
+        "label": "RedisService",
+        "importPath": "app.services.database.redis.service",
+        "description": "app.services.database.redis.service",
+        "isExtraImport": true,
+        "detail": "app.services.database.redis.service",
+        "documentation": {}
+    },
+    {
+        "label": "RedisService",
+        "importPath": "app.services.database.redis.service",
+        "description": "app.services.database.redis.service",
+        "isExtraImport": true,
+        "detail": "app.services.database.redis.service",
         "documentation": {}
     },
     {
@@ -4693,6 +4917,22 @@
         "documentation": {}
     },
     {
+        "label": "FeatureFlags",
+        "importPath": "app.api.routes.feature_flags.schemas",
+        "description": "app.api.routes.feature_flags.schemas",
+        "isExtraImport": true,
+        "detail": "app.api.routes.feature_flags.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "FeatureFlags",
+        "importPath": "app.api.routes.feature_flags.schemas",
+        "description": "app.api.routes.feature_flags.schemas",
+        "isExtraImport": true,
+        "detail": "app.api.routes.feature_flags.schemas",
+        "documentation": {}
+    },
+    {
         "label": "common",
         "importPath": "app.api.routes.feature_flags.controllers",
         "description": "app.api.routes.feature_flags.controllers",
@@ -4794,6 +5034,14 @@
         "description": "app.api.routes.feature_flags.controllers.get_feature_flag_audit_logs",
         "isExtraImport": true,
         "detail": "app.api.routes.feature_flags.controllers.get_feature_flag_audit_logs",
+        "documentation": {}
+    },
+    {
+        "label": "GetFeatureFlagsController",
+        "importPath": "app.api.routes.feature_flags.controllers.get_feature_flags",
+        "description": "app.api.routes.feature_flags.controllers.get_feature_flags",
+        "isExtraImport": true,
+        "detail": "app.api.routes.feature_flags.controllers.get_feature_flags",
         "documentation": {}
     },
     {
@@ -5544,6 +5792,14 @@
     },
     {
         "label": "router",
+        "importPath": "app.api.routes.feature_flags.routes",
+        "description": "app.api.routes.feature_flags.routes",
+        "isExtraImport": true,
+        "detail": "app.api.routes.feature_flags.routes",
+        "documentation": {}
+    },
+    {
+        "label": "router",
         "importPath": "app.api.routes.health.routes",
         "description": "app.api.routes.health.routes",
         "isExtraImport": true,
@@ -5584,6 +5840,14 @@
     },
     {
         "label": "auto",
+        "importPath": "enum",
+        "description": "enum",
+        "isExtraImport": true,
+        "detail": "enum",
+        "documentation": {}
+    },
+    {
+        "label": "IntEnum",
         "importPath": "enum",
         "description": "enum",
         "isExtraImport": true,
@@ -6327,6 +6591,30 @@
         "documentation": {}
     },
     {
+        "label": "BusyLoadingError",
+        "importPath": "redis",
+        "description": "redis",
+        "isExtraImport": true,
+        "detail": "redis",
+        "documentation": {}
+    },
+    {
+        "label": "ConnectionError",
+        "importPath": "redis",
+        "description": "redis",
+        "isExtraImport": true,
+        "detail": "redis",
+        "documentation": {}
+    },
+    {
+        "label": "TimeoutError",
+        "importPath": "redis",
+        "description": "redis",
+        "isExtraImport": true,
+        "detail": "redis",
+        "documentation": {}
+    },
+    {
         "label": "RedisCluster",
         "importPath": "redis.cluster",
         "description": "redis.cluster",
@@ -6335,7 +6623,7 @@
         "documentation": {}
     },
     {
-        "label": "ClusterNode",
+        "label": "RedisCluster",
         "importPath": "redis.cluster",
         "description": "redis.cluster",
         "isExtraImport": true,
@@ -6348,6 +6636,22 @@
         "description": "redis.retry",
         "isExtraImport": true,
         "detail": "redis.retry",
+        "documentation": {}
+    },
+    {
+        "label": "Retry",
+        "importPath": "redis.retry",
+        "description": "redis.retry",
+        "isExtraImport": true,
+        "detail": "redis.retry",
+        "documentation": {}
+    },
+    {
+        "label": "ExponentialBackoff",
+        "importPath": "redis.backoff",
+        "description": "redis.backoff",
+        "isExtraImport": true,
+        "detail": "redis.backoff",
         "documentation": {}
     },
     {
@@ -6373,6 +6677,14 @@
         "isExtraImport": true,
         "importPath": "contextlib",
         "description": "contextlib",
+        "detail": "contextlib",
+        "documentation": {}
+    },
+    {
+        "label": "asynccontextmanager",
+        "importPath": "contextlib",
+        "description": "contextlib",
+        "isExtraImport": true,
         "detail": "contextlib",
         "documentation": {}
     },
@@ -6420,11 +6732,35 @@
         "documentation": {}
     },
     {
+        "label": "CORSMiddleware",
+        "importPath": "fastapi.middleware.cors",
+        "description": "fastapi.middleware.cors",
+        "isExtraImport": true,
+        "detail": "fastapi.middleware.cors",
+        "documentation": {}
+    },
+    {
         "label": "APIRoute",
         "importPath": "fastapi.routing",
         "description": "fastapi.routing",
         "isExtraImport": true,
         "detail": "fastapi.routing",
+        "documentation": {}
+    },
+    {
+        "label": "APIRoute",
+        "importPath": "fastapi.routing",
+        "description": "fastapi.routing",
+        "isExtraImport": true,
+        "detail": "fastapi.routing",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "importPath": "app.api.routers",
+        "description": "app.api.routers",
+        "isExtraImport": true,
+        "detail": "app.api.routers",
         "documentation": {}
     },
     {
@@ -6442,6 +6778,14 @@
         "importPath": "sys",
         "description": "sys",
         "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "Bootstrap",
+        "importPath": "app.bootstrap",
+        "description": "app.bootstrap",
+        "isExtraImport": true,
+        "detail": "app.bootstrap",
         "documentation": {}
     },
     {
@@ -7869,6 +8213,91 @@
         "importPath": "unittest",
         "description": "unittest",
         "detail": "unittest",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "six",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "six",
+        "description": "six",
+        "detail": "six",
+        "documentation": {}
+    },
+    {
+        "label": "math",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "math",
+        "description": "math",
+        "detail": "math",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "importPath": "packaging.version",
+        "description": "packaging.version",
+        "isExtraImport": true,
+        "detail": "packaging.version",
+        "documentation": {}
+    },
+    {
+        "label": "ContextValueType",
+        "importPath": "app.api.routes.feature_flags.constants",
+        "description": "app.api.routes.feature_flags.constants",
+        "isExtraImport": true,
+        "detail": "app.api.routes.feature_flags.constants",
+        "documentation": {}
+    },
+    {
+        "label": "Operator",
+        "importPath": "app.api.routes.feature_flags.constants",
+        "description": "app.api.routes.feature_flags.constants",
+        "isExtraImport": true,
+        "detail": "app.api.routes.feature_flags.constants",
+        "documentation": {}
+    },
+    {
+        "label": "hmac",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "hmac",
+        "description": "hmac",
+        "detail": "hmac",
+        "documentation": {}
+    },
+    {
+        "label": "hashlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "hashlib",
+        "description": "hashlib",
+        "detail": "hashlib",
+        "documentation": {}
+    },
+    {
+        "label": "Fernet",
+        "importPath": "cryptography.fernet",
+        "description": "cryptography.fernet",
+        "isExtraImport": true,
+        "detail": "cryptography.fernet",
+        "documentation": {}
+    },
+    {
+        "label": "ConditionChecker",
+        "importPath": "app.api.routes.feature_flags.controllers.condition_checker",
+        "description": "app.api.routes.feature_flags.controllers.condition_checker",
+        "isExtraImport": true,
+        "detail": "app.api.routes.feature_flags.controllers.condition_checker",
         "documentation": {}
     },
     {
@@ -10066,12 +10495,156 @@
         "documentation": {}
     },
     {
+        "label": "ConditionChecker",
+        "kind": 6,
+        "importPath": "flags.app.api.routes.feature_flags.controllers.condition_checker",
+        "description": "flags.app.api.routes.feature_flags.controllers.condition_checker",
+        "peekOfCode": "class ConditionChecker:\n    @classmethod\n    def check(\n        cls,\n        context_value: Any,\n        context_value_type: int,\n        operator: int,\n        condition_value: Any\n    ) -> bool:\n        handler_args = {",
+        "detail": "flags.app.api.routes.feature_flags.controllers.condition_checker",
+        "documentation": {}
+    },
+    {
+        "label": "GetFeatureFlagsController",
+        "kind": 6,
+        "importPath": "flags.app.api.routes.feature_flags.controllers.get_feature_flags",
+        "description": "flags.app.api.routes.feature_flags.controllers.get_feature_flags",
+        "peekOfCode": "class GetFeatureFlagsController:\n    def __init__(\n        self,\n        project_id: int,\n        user_key: str,\n        context: dict[str, Any],\n        signature: str\n    ):\n        self.project_id = project_id\n        self.user_key = user_key",
+        "detail": "flags.app.api.routes.feature_flags.controllers.get_feature_flags",
+        "documentation": {}
+    },
+    {
+        "label": "ContextValueType",
+        "kind": 6,
+        "importPath": "flags.app.api.routes.feature_flags.constants",
+        "description": "flags.app.api.routes.feature_flags.constants",
+        "peekOfCode": "class ContextValueType(IntEnum):\n    STRING = 1\n    NUMBER = 2\n    INTEGER = 3\n    BOOLEAN = 4\n    ENUM = 5\n    VERSION = 6\n    STRING_LIST = 7\n    INTEGER_LIST = 8\n    ENUM_LIST = 9",
+        "detail": "flags.app.api.routes.feature_flags.constants",
+        "documentation": {}
+    },
+    {
+        "label": "Operator",
+        "kind": 6,
+        "importPath": "flags.app.api.routes.feature_flags.constants",
+        "description": "flags.app.api.routes.feature_flags.constants",
+        "peekOfCode": "class Operator(IntEnum):\n    EQUALS = 1\n    NOT_EQUALS = 2\n    LESS_THAN = 3\n    LESS_THAN_OR_EQUAL_TO = 4\n    GREATER_THAN = 5\n    GREATER_THAN_OR_EQUAL_TO = 6\n    MATCHES_REGEX = 7\n    IN_LIST = 8\n    NOT_IN_LIST = 9",
+        "detail": "flags.app.api.routes.feature_flags.constants",
+        "documentation": {}
+    },
+    {
+        "label": "get_enabled_feature_flags",
+        "kind": 2,
+        "importPath": "flags.app.api.routes.feature_flags.routes",
+        "description": "flags.app.api.routes.feature_flags.routes",
+        "peekOfCode": "def get_enabled_feature_flags(\n    project_id: int,\n    user_key: str,\n    request: Request,\n    signature: str = Header()\n) -> FeatureFlags:\n    context = request.json\n    return GetFeatureFlagsController(\n        project_id=project_id,\n        user_key=user_key,",
+        "detail": "flags.app.api.routes.feature_flags.routes",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "flags.app.api.routes.feature_flags.routes",
+        "description": "flags.app.api.routes.feature_flags.routes",
+        "peekOfCode": "router = APIRouter(\n    prefix='/feature_flags',\n    tags=['Feature Flags']\n)\n@router.post('', response_model=FeatureFlags)\ndef get_enabled_feature_flags(\n    project_id: int,\n    user_key: str,\n    request: Request,\n    signature: str = Header()",
+        "detail": "flags.app.api.routes.feature_flags.routes",
+        "documentation": {}
+    },
+    {
+        "label": "FeatureFlags",
+        "kind": 6,
+        "importPath": "flags.app.api.routes.feature_flags.schemas",
+        "description": "flags.app.api.routes.feature_flags.schemas",
+        "peekOfCode": "class FeatureFlags(BaseModel):\n    items: list[str]",
+        "detail": "flags.app.api.routes.feature_flags.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "flags.app.api.routers",
+        "description": "flags.app.api.routers",
+        "peekOfCode": "router = APIRouter()\nrouter.include_router(feature_flags_router)",
+        "detail": "flags.app.api.routers",
+        "documentation": {}
+    },
+    {
+        "label": "ErrorModel",
+        "kind": 6,
+        "importPath": "flags.app.api.schemas",
+        "description": "flags.app.api.schemas",
+        "peekOfCode": "class ErrorModel(BaseModel):\n    code: str\n    message: str\n    field: str | None\nclass ErrorResponseModel(BaseModel):\n    errors: list[ErrorModel]\nclass SuccessResponse(BaseModel):\n    success: bool = True",
+        "detail": "flags.app.api.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "ErrorResponseModel",
+        "kind": 6,
+        "importPath": "flags.app.api.schemas",
+        "description": "flags.app.api.schemas",
+        "peekOfCode": "class ErrorResponseModel(BaseModel):\n    errors: list[ErrorModel]\nclass SuccessResponse(BaseModel):\n    success: bool = True",
+        "detail": "flags.app.api.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "SuccessResponse",
+        "kind": 6,
+        "importPath": "flags.app.api.schemas",
+        "description": "flags.app.api.schemas",
+        "peekOfCode": "class SuccessResponse(BaseModel):\n    success: bool = True",
+        "detail": "flags.app.api.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "RedisService",
+        "kind": 6,
+        "importPath": "flags.app.services.database.redis.service",
+        "description": "flags.app.services.database.redis.service",
+        "peekOfCode": "class RedisService:\n    if TYPE_CHECKING:\n        _client: RedisCluster[str]\n    else:\n        _client: RedisCluster\n    @classmethod\n    def init(cls) -> None:\n        cls._client = RedisCluster.from_url(\n            url=Config.REDIS_CONN_STR,\n            decode_responses=True,",
+        "detail": "flags.app.services.database.redis.service",
+        "documentation": {}
+    },
+    {
         "label": "StringsService",
         "kind": 6,
         "importPath": "flags.app.services.strings.service",
         "description": "flags.app.services.strings.service",
         "peekOfCode": "class StringsService:\n    DEFAULT_LOCALE: str\n    LOOKUP: Final[dict[str, dict[str, str]]] = {}\n    @classmethod\n    def init(cls, default_locale: str) -> None:\n        file_path = os.path.join(os.path.dirname(__file__), '../../../config/strings.json')\n        with open(file_path) as file:\n            cls.LOOKUP.update(ujson.loads(file.read()))\n        cls.DEFAULT_LOCALE = default_locale\n    @classmethod",
         "detail": "flags.app.services.strings.service",
+        "documentation": {}
+    },
+    {
+        "label": "Bootstrap",
+        "kind": 6,
+        "importPath": "flags.app.bootstrap",
+        "description": "flags.app.bootstrap",
+        "peekOfCode": "class Bootstrap:\n    def run(self) -> FastAPI:\n        Config.init()\n        self._init_logger()\n        app = self._build_app()\n        self._init_services()\n        app.include_router(router)\n        self._override_openapi(app=app)\n        self._add_cors_middleware(app=app)\n        self._set_route_operation_ids(app=app)",
+        "detail": "flags.app.bootstrap",
+        "documentation": {}
+    },
+    {
+        "label": "Config",
+        "kind": 6,
+        "importPath": "flags.app.config",
+        "description": "flags.app.config",
+        "peekOfCode": "class Config:\n    SECRET_KEY: str\n    REDIS_CONN_STR: str\n    CORS_ALLOW_ORIGINS: list[str]\n    DEFAULT_LOCALE: str\n    @classmethod\n    def init(cls) -> None:\n        cls.SECRET_KEY = cls._get_value(\n            env_var='SECRET_KEY', default='_NOR3QX7-7LAJLLQ_OeOMuFzfq1Xg9RICwTalktXg5s=', warn_if_missing=True)\n        cls.REDIS_CONN_STR = cls._get_value(",
+        "detail": "flags.app.config",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "flags.app.config",
+        "description": "flags.app.config",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass Config:\n    SECRET_KEY: str\n    REDIS_CONN_STR: str\n    CORS_ALLOW_ORIGINS: list[str]\n    DEFAULT_LOCALE: str\n    @classmethod\n    def init(cls) -> None:\n        cls.SECRET_KEY = cls._get_value(\n            env_var='SECRET_KEY', default='_NOR3QX7-7LAJLLQ_OeOMuFzfq1Xg9RICwTalktXg5s=', warn_if_missing=True)",
+        "detail": "flags.app.config",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "flags.app.main",
+        "description": "flags.app.main",
+        "peekOfCode": "app = Bootstrap().run()",
+        "detail": "flags.app.main",
         "documentation": {}
     },
     {
