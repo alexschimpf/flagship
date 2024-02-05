@@ -8,7 +8,7 @@ from app.config import Config
 from app.services.database.redis.service import RedisService
 from app.api.routes.feature_flags.schemas import FeatureFlags
 from app.api.exceptions.exceptions import UnauthorizedException
-from app.api.routes.feature_flags.controllers.condition_checker import ConditionChecker
+from app.api.routes.feature_flags.condition_checker import ConditionChecker
 
 
 class GetFeatureFlagsController:

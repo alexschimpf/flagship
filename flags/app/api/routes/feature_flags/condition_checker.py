@@ -4,7 +4,7 @@ import math
 from typing import Any
 from packaging.version import parse as parse_version
 
-from app.api.routes.feature_flags.constants import ContextValueType, Operator
+from app.constants import ContextValueType, Operator
 
 
 class ConditionChecker:
