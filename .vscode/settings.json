@@ -17,6 +17,7 @@
   "mypy.configFile": "admin/mypy.ini",
   "mypy.runUsingActiveInterpreter": true,
   "mypy.targets": [
-    "./admin/"
+    "./admin/",
+    "./flags"
   ]
 }

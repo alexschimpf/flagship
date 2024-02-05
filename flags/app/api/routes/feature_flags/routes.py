@@ -1,4 +1,5 @@
-from fastapi import Request, Header, APIRouter
+from typing import Any
+from fastapi import Body, Header, APIRouter
 
 from app.api.routes.feature_flags.schemas import FeatureFlags
 from app.api.routes.feature_flags.controllers.get_feature_flags import GetFeatureFlagsController
@@ -13,10 +14,9 @@ router = APIRouter(
 def get_enabled_feature_flags(
     project_id: int,
     user_key: str,
-    request: Request,
+    context: dict[str, Any] = Body(),
     signature: str = Header()
 ) -> FeatureFlags:
-    context = request.json
     return GetFeatureFlagsController(
         project_id=project_id,
         user_key=user_key,

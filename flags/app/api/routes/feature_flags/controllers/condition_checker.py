@@ -22,34 +22,37 @@ class ConditionChecker:
             'operator': operator,
             'condition_value': condition_value
         }
+        res: bool
         match context_value_type:
             case ContextValueType.STRING:
-                return cls._handle_string(**handler_args)
+                res = cls._handle_string(**handler_args)
             case ContextValueType.NUMBER:
-                return cls._handle_number(**handler_args)
+                res = cls._handle_number(**handler_args)
             case ContextValueType.INTEGER:
-                return cls._handle_integer(**handler_args)
+                res = cls._handle_integer(**handler_args)
             case ContextValueType.BOOLEAN:
-                return cls._handle_boolean(**handler_args)
+                res = cls._handle_boolean(**handler_args)
             case ContextValueType.ENUM:
-                return cls._handle_enum(**handler_args)
+                res = cls._handle_enum(**handler_args)
             case ContextValueType.VERSION:
-                return cls._handle_version(**handler_args)
+                res = cls._handle_version(**handler_args)
             case ContextValueType.STRING_LIST:
-                return cls._handle_string_list(**handler_args)
+                res = cls._handle_string_list(**handler_args)
             case ContextValueType.INTEGER_LIST:
-                return cls._handle_integer_list(**handler_args)
+                res = cls._handle_integer_list(**handler_args)
             case ContextValueType.ENUM_LIST:
-                return cls._handle_enum_list(**handler_args)
+                res = cls._handle_enum_list(**handler_args)
             case _:
                 raise Exception('Unexpected context value type')
+
+        return res
 
     @staticmethod
     def _handle_string(
         context_value: Any,
         operator: int,
         condition_value: Any
-    ) -> bool:
+    ) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, six.string_types):
@@ -73,7 +76,7 @@ class ConditionChecker:
         context_value: Any,
         operator: int,
         condition_value: Any
-    ) -> bool:
+    ) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, (int, float)):
@@ -110,13 +113,13 @@ class ConditionChecker:
         context_value: Any,
         operator: int,
         condition_value: Any
-    ) -> bool:
+    ) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, int):
             raise TypeError('context_value must be an integer')
 
-        return cls.handle_number(
+        return cls._handle_number(
             context_value=context_value,
             operator=operator,
             condition_value=condition_value
@@ -127,7 +130,7 @@ class ConditionChecker:
         context_value: Any,
         operator: int,
         condition_value: Any
-    ) -> bool:
+    ) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, bool):
@@ -145,11 +148,11 @@ class ConditionChecker:
         context_value: Any,
         operator: int,
         condition_value: Any
-    ) -> bool:
+    ) -> Any:
         if context_value is None:
             return False
-        if not isinstance(context_value, six.string_types + (int, float)):
-            raise TypeError('context_value must be a string, float, or integer')
+        if not isinstance(context_value, six.string_types + (int,)):
+            raise TypeError('context_value must be a string or integer')
 
         if operator == Operator.EQUALS:
             return context_value == condition_value
@@ -167,7 +170,7 @@ class ConditionChecker:
         context_value: Any,
         operator: int,
         condition_value: Any
-    ) -> bool:
+    ) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, six.string_types):
@@ -196,7 +199,7 @@ class ConditionChecker:
         context_value: Any,
         operator: int,
         condition_value: Any
-    ) -> bool:
+    ) -> Any:
         return cls._handle_list(
             context_value=context_value,
             operator=operator,
@@ -210,7 +213,7 @@ class ConditionChecker:
         context_value: Any,
         operator: int,
         condition_value: Any
-    ) -> bool:
+    ) -> Any:
         return cls._handle_list(
             context_value=context_value,
             operator=operator,
@@ -224,7 +227,7 @@ class ConditionChecker:
         context_value: Any,
         operator: int,
         condition_value: Any
-    ) -> bool:
+    ) -> Any:
         return cls._handle_list(
             context_value=context_value,
             operator=operator,
@@ -233,7 +236,12 @@ class ConditionChecker:
         )
 
     @staticmethod
-    def _handle_list(context_value, operator, condition_value, list_type):
+    def _handle_list(
+        context_value: Any,
+        operator: int,
+        condition_value: Any,
+        list_type: Any
+    ) -> Any:
         if isinstance(context_value, list):
             for item in context_value:
                 if not isinstance(item, list_type):

@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 import hmac
 import hashlib
 from cryptography.fernet import Fernet
@@ -65,7 +65,7 @@ class GetFeatureFlagsController:
         if conditions_str in (None, '', '[]'):
             return True
 
-        conditions = ujson.loads(conditions_str)
+        conditions = ujson.loads(cast(str, conditions_str))
         for and_group in conditions:
             for condition in and_group:
                 context_key = condition['context_key']
@@ -87,8 +87,7 @@ class GetFeatureFlagsController:
 
         return False
 
-
-    def _is_signature_valid(self, private_key: str):
+    def _is_signature_valid(self, private_key: str) -> bool:
         true_signature = hmac.new(
             private_key.encode(), self.user_key.encode(), hashlib.sha256).hexdigest()
         return self.signature == true_signature

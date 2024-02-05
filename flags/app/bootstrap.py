@@ -1,4 +1,3 @@
-from contextlib import asynccontextmanager
 import logging
 import logging.config
 import os
@@ -10,9 +9,6 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
-from fastapi_another_jwt_auth import AuthJWT
-from fastapi_another_jwt_auth.exceptions import AuthJWTException
-from pydantic import BaseModel
 
 from app.api import exceptions
 from app.api.exceptions import handlers as exception_handlers

@@ -2,14 +2,30 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Module",
+            "name": "Admin Server",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
-            "args": ["app.main:app", "--reload"],
+            "args": ["app.main:app", "--reload", "--port", "8000", "--log-config", "./admin/config/logger.json"],
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/admin"
             }
+        },
+        {
+            "name": "Flags Server",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": ["app.main:app", "--reload", "--port", "8001", "--log-config", "./flags/config/logger.json"],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/flags"
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Flagship Servers",
+            "configurations": ["Admin Server", "Flags Server"]
         }
     ]
 }
