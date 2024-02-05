@@ -1,23 +1,46 @@
 {
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
-  },
-  "[typescriptreact]": {
-    "editor.formatOnSave": true
-  },
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true,
-  "window.zoomLevel": 0.2,
-  "files.autoSave": "afterDelay",
-  "mypy.configFile": "admin/mypy.ini",
-  "mypy.runUsingActiveInterpreter": true,
-  "mypy.targets": [
-    "./admin/",
-    "./flags"
-  ]
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "[typescriptreact]": {
+        "editor.formatOnSave": true
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "window.zoomLevel": 0.2,
+    "files.autoSave": "afterDelay",
+    "mypy.configFile": "admin/mypy.ini",
+    "mypy.runUsingActiveInterpreter": true,
+    "mypy.targets": [
+        "./admin/",
+        "./flags"
+    ],
+    "folder-path-color.folders": [
+        {
+            "path": "./.github",
+        },
+        {
+            "path": "./.vscode",
+        },
+        {
+            "path": "./admin"
+        },
+        {
+            "path": "./docker"
+        },
+        {
+            "path": "./flags",
+        },
+        {
+            "path": "./frontend",
+        },
+        {
+            "path": "./sdk",
+        }
+    ]
 }

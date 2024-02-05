@@ -56,6 +56,10 @@ flags-run-unit-tests:
 flags-run-api-tests:
 	./flags/tests/api/run-tests.sh
 
+# type check python sdk
+sdk-python-type-check:
+	cd sdk/python && mypy --config-file mypy.ini .
+
 # run dependencies via docker compose
 run-deps:
 	cd docker &&\
