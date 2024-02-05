@@ -49,16 +49,23 @@ class Flagship {
     }
 
     _request(context, timeout) {
-        const path = `api/projects/${this.projectId}/users/${this.userKey}/feature_flags`;
-        const url = `${this.scheme}://${this.host}:${this.port}/${path}`;
+        const url = `${this.scheme}://${this.host}:${this.port}/feature_flags`;
+        const params = {
+            'project_id': this.projectId,
+            'user_key': this.userKey
+        };
         const headers = {
             'Content-Type': 'application/json',
-            'FFM-Signature': this.signature
+            'Signature': this.signature
         };
         const data = JSON.stringify({
             context: context
         });
-        return axios.post(url, data, { headers: headers, timeout: timeout });
+        return axios.post(url, data, {
+            params,
+            headers,
+            timeout
+        });
     }
 
     /**
