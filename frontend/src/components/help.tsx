@@ -4,7 +4,7 @@ import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
 import { Button } from './primitives/button';
 
-export default function () {
+export default function Help() {
     const router = useRouter();
     const onBackClick = () => router.push('/');
 
@@ -42,7 +42,7 @@ export default function () {
                     <p>Projects can be viewed and managed via the home page.</p>
                     <h1 className='text-lg font-bold w-full my-4'>Private Keys</h1>
                     <p>Each project should be assigned at least one private key.</p>
-                    <p>A private key must be used when authenticating your client's requests to Flagship.</p>
+                    <p>{"A private key must be used when authenticating your client's requests to Flagship."}</p>
                     <p>Private keys are always active and can be used at any time (unless deleted), so rotating private keys is simple.</p>
                     <p>It probably goes without saying, but these should be stored securely.</p>
                 </div>
@@ -57,22 +57,22 @@ export default function () {
                     <p>Feature flags (explained below) can be enabled/disabled under certain conditions. These conditions reference your context fields.</p>
                     <br />
                     <p>Context fields must be assigned a value type. For example, your user ID field may be an integer.</p>
-                    <p>Enums can also be used for your value types if you want to give more user friendly names to a field's values. For example, if your users are assigned to groups, you may pass group IDs to Flagship. However, it would be easier to manage your feature flag conditions if these IDs were mapped to human-friendly names.</p>
+                    <p>{"Enums can also be used for your value types if you want to give more user friendly names to a field's values. For example, if your users are assigned to groups, you may pass group IDs to Flagship. However, it would be easier to manage your feature flag conditions if these IDs were mapped to human-friendly names."}</p>
                 </div>
                 <hr className='mb-8' />
                 <div className='mb-8'>
                     <h1 className='text-2xl font-bold w-full mb-4'>Feature Flags</h1>
-                    <p>Feature flags allows you to control access to your system's features.</p>
+                    <p>{"Feature flags allows you to control access to your system's features."}</p>
                     <p>Each feature flag has its own set of conditions.</p>
                     <br />
-                    <p>For example, you may have a feature flag "DARK_THEME" with conditions like:</p>
-                    <p>`country` IS 'US' AND `user_id` IS ONE OF 1, 2, 3</p>
+                    <p>{'For example, you may have a feature flag "DARK_THEME" with conditions like:'}</p>
+                    <p>{"`country` IS 'US' AND `user_id` IS ONE OF 1, 2, 3"}</p>
                     <br />
-                    <p>Conditions reference the context fields you've created for your project.</p>
-                    <p>Different "operators" are available for each context field when used in feature flag conditions.</p>
+                    <p>{"Conditions reference the context fields you've created for your project."}</p>
+                    <p>{'Different "operators" are available for each context field when used in feature flag conditions.'}</p>
                     <br />
                     <p>For example, STRING value types can be used with operatos: IS, IS NOT, IS ONE OF, IS NOT ONE OF, MATCHES</p>
-                    <p>On the other hand, INTEGER value types can be used with operatos: IS, IS NOT, IS ONE OF, IS NOT ONE OF, &lt;, &lt;=, &gt;, &gt;=</p>
+                    <p>{'On the other hand, INTEGER value types can be used with operatos: IS, IS NOT, IS ONE OF, IS NOT ONE OF, <, <=, >, >='}</p>
                 </div>
                 <hr className='mb-8' />
                 <div className='mb-8'>

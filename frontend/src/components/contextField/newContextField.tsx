@@ -53,7 +53,7 @@ const formSchema = z.object({
         .optional()
 });
 
-export default function () {
+export default function NewContextField() {
     const params = useParams<{ projectId: string; }>();
     const router = useRouter();
     const queryClient = useQueryClient();
@@ -208,7 +208,7 @@ export default function () {
                                             {Object.entries(
                                                 contextFieldValueTypes
                                             ).map(([value, label]) => (
-                                                <SelectItem value={value}>
+                                                <SelectItem key={value} value={value}>
                                                     {label}
                                                 </SelectItem>
                                             ))}

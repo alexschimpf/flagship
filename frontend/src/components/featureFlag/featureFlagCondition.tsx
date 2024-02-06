@@ -25,7 +25,7 @@ interface FeatureFlagConditionProps {
     onChange: (condition: Condition) => void;
 }
 
-export default (props: FeatureFlagConditionProps) => {
+export default function FeatureFlagCondition(props: FeatureFlagConditionProps) {
     const getContextFieldFromKey = (key: string): ContextField => {
         return props.contextFields.find(
             x => x.field_key === key

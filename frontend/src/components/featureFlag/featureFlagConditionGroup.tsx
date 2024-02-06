@@ -16,7 +16,7 @@ interface FeatureFlagConditionGroupProps {
     onChange: (group: ConditionGroup) => void;
 }
 
-export default (props: FeatureFlagConditionGroupProps) => {
+export default function FeatureFlagConditionGroup(props: FeatureFlagConditionGroupProps) {
     const [group, setGroup] = useState(props.group);
 
     const id = props.group.id;

@@ -21,15 +21,15 @@ import { useTheme } from 'next-themes';
 import { usePathname, useRouter } from 'next/navigation';
 import { useContext } from 'react';
 
-export default function () {
+export default function Header() {
     return (
         <UserProvider>
-            <Header />
+            <Header_ />
         </UserProvider>
     );
 }
 
-const Header = () => {
+const Header_ = () => {
     const { theme, setTheme } = useTheme();
     const currentUser = useContext(UserContext);
     const currentProject = useContext(ProjectContext);

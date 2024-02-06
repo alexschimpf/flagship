@@ -16,7 +16,7 @@ import {
     TableRow
 } from '../primitives/table';
 
-export default function () {
+export default function AuditLogs() {
     const router = useRouter();
     const query = useInfiniteQuery<SystemAuditLogs, Error>({
         queryKey: [`audit-logs`],

@@ -28,7 +28,7 @@ import {
 import DeleteProjectDialog from './deleteProjectDialog';
 import EditProjectDialog from './editProjectDialog';
 
-export default function () {
+export default function Projects() {
     const currentUser = useContext(UserContext);
     const router = useRouter();
     const [searchText, setSearchText] = useState('');
@@ -76,9 +76,7 @@ export default function () {
             {!query.isFetching && !projects.length && (
                 <div className='flex items-center justify-center w-full'>
                     <div className='flex flex-col items-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
-                        <p className='text-center'>
-                            Oops, you don't have any projects yet.
-                        </p>
+                        <p className='text-center'>{"Oops, you don't have any projects yet."}</p>
                         {hasPermission(
                             currentUser,
                             Permission.CREATE_PROJECT

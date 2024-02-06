@@ -24,7 +24,7 @@ import {
 import DeleteProjectPrivateKeyDialog from './deleteProjectPrivateKeyDialog';
 import NewProjectPrivateKeyDialog from './newProjectPrivateKeyDialog';
 
-export default function () {
+export default function ProjectPrivateKeys() {
     const currentUser = useContext(UserContext);
     const router = useRouter();
     const params = useParams<{ projectId: string; }>();
@@ -81,10 +81,7 @@ export default function () {
             {!query.isFetching && !privateKeys.length && (
                 <div className='flex items-center justify-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl'>
                     <div className='flex flex-col items-center'>
-                        <p className='text-center mb-4'>
-                            Oops, you don't have any private keys for this
-                            project yet.
-                        </p>
+                        <p className='text-center mb-4'>{"Oops, you don't have any private keys for this project yet."}</p>
                         {hasPermission(
                             currentUser,
                             Permission.CREATE_PROJECT_PRIVATE_KEY

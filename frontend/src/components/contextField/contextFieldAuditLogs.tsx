@@ -16,7 +16,7 @@ import {
     TableRow
 } from '../primitives/table';
 
-export default function () {
+export default function ContextFieldAuditLogs() {
     const params = useParams<{ projectId: string; contextFieldId: string; }>();
     const router = useRouter();
 

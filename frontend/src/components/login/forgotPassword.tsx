@@ -12,7 +12,7 @@ import { useToast } from "../primitives/use-toast";
 
 const emailRegex = new RegExp('.+\@.+\..+');
 
-export default () => {
+export default function ForgotPassword() {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const { toast } = useToast();
@@ -37,7 +37,7 @@ export default () => {
         apiClient.auth.loginTest().then(() => {
             router.push('/');
         }).catch(() => { });
-    }, []);
+    }, [router]);
 
     return (
         <div className='flex-1 flex flex-col container items-center w-3/4'>

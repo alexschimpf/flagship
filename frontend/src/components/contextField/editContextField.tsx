@@ -46,7 +46,7 @@ const formSchema = z.object({
         .optional()
 });
 
-export default function () {
+export default function EditContextField() {
     const currentUser = useContext(UserContext);
     const params = useParams<{ projectId: string; contextFieldId: string; }>();
     const router = useRouter();

@@ -35,7 +35,7 @@ class EditProjectDialogProps {
     trigger: any;
 }
 
-export default function (props: EditProjectDialogProps) {
+export default function EditProjectDialog(props: EditProjectDialogProps) {
     const { toast } = useToast();
     const [open, setOpen] = useState(false);
     const queryClient = useQueryClient();

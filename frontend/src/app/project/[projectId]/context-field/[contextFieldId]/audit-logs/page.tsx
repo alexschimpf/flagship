@@ -3,7 +3,7 @@
 import App from '@/components/app';
 import ContextFieldAuditLogs from '@/components/contextField/contextFieldAuditLogs';
 
-export default function () {
+export default function ContextFieldAuditLogsPage() {
     return (
         <App>
             <ContextFieldAuditLogs />

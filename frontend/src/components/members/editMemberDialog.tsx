@@ -58,7 +58,7 @@ class EditMemberDialogProps {
     trigger: any;
 }
 
-export default function (props: EditMemberDialogProps) {
+export default function EditMemberDialog(props: EditMemberDialogProps) {
     const { toast } = useToast();
 
     const currentUser = useContext(UserContext);

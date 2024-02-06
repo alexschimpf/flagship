@@ -63,7 +63,7 @@ class InviteMemberDialogProps {
     trigger: any;
 }
 
-export default function (props: InviteMemberDialogProps) {
+export default function InviteMemberDialog(props: InviteMemberDialogProps) {
     const currentUser = useContext(UserContext);
 
     const { toast } = useToast();
@@ -196,7 +196,7 @@ export default function (props: InviteMemberDialogProps) {
                                             </FormControl>
                                             <SelectContent>
                                                 {Object.entries(userRoles).map(
-                                                    ([roleId, roleName]) => (currentUser && roleId <= currentUser.role &&
+                                                    ([roleId, roleName]) => (currentUser && parseInt(roleId) <= currentUser.role &&
                                                         <SelectItem
                                                             key={roleId}
                                                             value={roleId.toString()}

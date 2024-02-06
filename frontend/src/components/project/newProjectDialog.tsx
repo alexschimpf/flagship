@@ -39,7 +39,7 @@ class NewProjectDialogProps {
     trigger: any;
 }
 
-export default function (props: NewProjectDialogProps) {
+export default function NewProjectDialog(props: NewProjectDialogProps) {
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const form = useForm<z.infer<typeof formSchema>>({
@@ -140,10 +140,10 @@ export default function (props: NewProjectDialogProps) {
                         {mutation.isSuccess && (
                             <div className='mt-4'>
                                 <p className='mb-4 text-red-500 text-sm text-center'>
-                                    Your project's <b>secret key</b> is below.
+                                    Your project&lsquo;s <b>secret key</b> is below.
                                     Please save it somewhere safe and
                                     accessible. It is needed to authenticate
-                                    your client's requests. You <b>will not</b>{' '}
+                                    your client&lsquo;s requests. You <b>will not</b>{' '}
                                     see it again after this dialog closes.
                                 </p>
                                 <Textarea

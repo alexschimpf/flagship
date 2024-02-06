@@ -16,7 +16,7 @@ import {
     TableRow
 } from '../primitives/table';
 
-export default function () {
+export default function FeatureFlagAuditLogs() {
     const params = useParams<{ projectId: string; featureFlagId: string; }>();
     const router = useRouter();
 

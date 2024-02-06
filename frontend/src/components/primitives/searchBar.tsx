@@ -8,7 +8,7 @@ export interface SearchBarProps {
     className?: string;
 }
 
-export default function (props: SearchBarProps) {
+export default function SearchBar(props: SearchBarProps) {
     return (
         <div
             className={`flex items-center justify-center ${props.className || ''}`}

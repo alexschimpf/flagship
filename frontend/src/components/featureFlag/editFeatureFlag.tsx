@@ -32,7 +32,7 @@ const formSchema = z.object({
 });
 
 // TODO: Show spinner while context fields are loading
-export default function () {
+export default function EditFeatureFlag() {
     const params = useParams<{ projectId: string; featureFlagId: string; }>();
     const currentUser = useContext(UserContext);
     const router = useRouter();

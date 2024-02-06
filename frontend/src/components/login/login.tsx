@@ -8,7 +8,7 @@ import { Button } from "../primitives/button";
 import { Input } from "../primitives/input";
 import { Label } from "../primitives/label";
 
-export default () => {
+export default function Login() {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,7 +19,7 @@ export default () => {
         apiClient.auth.loginTest().then(() => {
             router.push('/');
         }).catch(() => { });
-    }, []);
+    }, [router]);
 
     return (
         <div className='flex-1 flex flex-col container items-center w-3/4'>

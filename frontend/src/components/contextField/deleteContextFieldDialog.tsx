@@ -19,7 +19,7 @@ class DeleteContextFieldDialogProps {
     trigger: any;
 }
 
-export default function (props: DeleteContextFieldDialogProps) {
+export default function DeleteContextFieldDialog(props: DeleteContextFieldDialogProps) {
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const mutation = useMutation({

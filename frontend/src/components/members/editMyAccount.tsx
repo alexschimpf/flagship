@@ -42,7 +42,7 @@ const formSchema = z.object({
     })
 });
 
-export default function () {
+export default function EditMyAccount() {
     const currentUser = useContext(UserContext);
     const router = useRouter();
     const queryClient = useQueryClient();
@@ -179,8 +179,8 @@ export default function () {
                                         </FormControl>
                                         <SelectContent>
                                             {Object.entries(userRoles).map(
-                                                ([roleId, roleName]) => (currentUser && roleId <= currentUser.role &&
-                                                    <SelectItem value={roleId}>
+                                                ([roleId, roleName]) => (currentUser && parseInt(roleId) <= currentUser.role &&
+                                                    <SelectItem key={roleId} value={roleId}>
                                                         {roleName}
                                                     </SelectItem>
                                                 )

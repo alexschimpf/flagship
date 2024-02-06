@@ -11,13 +11,13 @@ import Footer from './footer';
 import Header from './header';
 import { Toaster } from './primitives/toaster';
 
-export default function ({ children }: any) {
+export default function App({ children }: any) {
     const router = useRouter();
     useEffect(() => {
         apiClient.auth.loginTest().catch(() => {
             router.push('/login');
         });
-    }, []);
+    }, [router]);
 
     let theme = 'dark';
     if (typeof window !== 'undefined') {

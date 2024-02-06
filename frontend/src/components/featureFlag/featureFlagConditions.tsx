@@ -14,7 +14,7 @@ interface FeatureFlagConditionsProps {
     onChange: (conditions: ConditionGroup[]) => void;
 }
 
-export default (props: FeatureFlagConditionsProps) => {
+export default function FeatureFlagConditions(props: FeatureFlagConditionsProps) {
     const getDefaultCondition = (): Condition => {
         return {
             id: Math.random(),
@@ -29,10 +29,9 @@ export default (props: FeatureFlagConditionsProps) => {
 
     const [conditions, setConditions] = useState(props.conditions);
 
-    // TODO: Is this needed?
     useEffect(() => {
         props.onChange(conditions);
-    }, []);
+    }, [props, conditions]);
 
     const onGroupChange = (group: ConditionGroup) => {
         const newConditions = conditions

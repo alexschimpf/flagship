@@ -29,7 +29,7 @@ const formSchema = z.object({
     enabled: z.boolean()
 });
 
-export default function () {
+export default function NewFeatureFlag() {
     const params = useParams<{ projectId: string; }>();
     const router = useRouter();
     const queryClient = useQueryClient();

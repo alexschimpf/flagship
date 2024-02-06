@@ -3,7 +3,7 @@
 import App from '@/components/app';
 import NewContextField from '@/components/contextField/newContextField';
 
-export default function () {
+export default function NewContextFieldPage() {
     return (
         <App>
             <NewContextField />

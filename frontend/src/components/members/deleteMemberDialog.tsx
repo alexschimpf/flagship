@@ -18,7 +18,7 @@ class DeleteMemberDialogProps {
     trigger: any;
 }
 
-export default function (props: DeleteMemberDialogProps) {
+export default function DeleteMemberDialog(props: DeleteMemberDialogProps) {
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const mutation = useMutation({

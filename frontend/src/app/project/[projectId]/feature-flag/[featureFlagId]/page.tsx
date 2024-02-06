@@ -3,7 +3,7 @@
 import App from '@/components/app';
 import EditFeatureFlag from '@/components/featureFlag/editFeatureFlag';
 
-export default function () {
+export default function FeatureFlagPage() {
     return (
         <App>
             <EditFeatureFlag />

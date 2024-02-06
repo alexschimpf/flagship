@@ -7,7 +7,7 @@ interface PillProps {
     onRemove: () => void;
 }
 
-export default (props: PillProps) => {
+export default function Pill(props: PillProps) {
     return (
         <div className='flex justify-center items-center bg-background rounded-3xl p-2 w-fit m-1'>
             <Label className='text-[12px] font-bold'>{props.label}</Label>

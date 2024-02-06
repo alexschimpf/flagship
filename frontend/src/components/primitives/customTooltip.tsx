@@ -11,7 +11,7 @@ interface TooltipProps {
     trigger?: any;
 }
 
-export default (props: TooltipProps) => {
+export default function CustomTooltip(props: TooltipProps) {
     return (
         <TooltipProvider>
             <Tooltip>

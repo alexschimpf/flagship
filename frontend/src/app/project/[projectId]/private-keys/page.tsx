@@ -3,7 +3,7 @@
 import App from '@/components/app';
 import ProjectPrivateKeys from '@/components/projectPrivateKeys/projectPrivateKeys';
 
-export default function () {
+export default function ProjectPrivateKeysPage() {
     return (
         <App>
             <ProjectPrivateKeys />

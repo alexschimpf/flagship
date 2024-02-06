@@ -4,7 +4,7 @@ import { ThemeProvider } from "next-themes";
 
 import Login from '@/components/login/login';
 
-export default function () {
+export default function LoginPage() {
     let theme = 'dark';
     if (typeof window !== 'undefined') {
         theme = localStorage.getItem('theme') || 'dark';

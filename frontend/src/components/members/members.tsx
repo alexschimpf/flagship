@@ -33,7 +33,7 @@ import DeleteMemberDialog from './deleteMemberDialog';
 import EditMemberDialog from './editMemberDialog';
 import InviteMemberDialog from './inviteMemberDialog';
 
-export default function () {
+export default function Members() {
     const currentUser = useContext(UserContext);
     const router = useRouter();
     const queryClient = useQueryClient();

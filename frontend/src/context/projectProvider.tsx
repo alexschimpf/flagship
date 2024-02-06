@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { ProjectContext } from './projectContext';
 
 export const ProjectProvider = ({ children }: any) => {
-    const params = useParams<{ projectId: string }>();
+    const params = useParams<{ projectId: string; }>();
     const [project, setProject] = useState<Project | undefined>(undefined);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export const ProjectProvider = ({ children }: any) => {
                     setProject(data);
                 });
         }
-    }, [params.projectId]);
+    }, [params.projectId, project?.project_id]);
 
     return (
         <ProjectContext.Provider value={project}>

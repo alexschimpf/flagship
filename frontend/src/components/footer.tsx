@@ -1,4 +1,4 @@
-export default function () {
+export default function Footer() {
     return (
         <footer className='sticky z-50 w-full border-t bottom-0'>
             <div className='container flex h-10 max-w-screen-2xl items-center justify-center'>
