@@ -1,7 +1,9 @@
 bcrypt==4.1.2
 cryptography==41.0.7
 fastapi==0.108.0
+packaging==23.2
 pydantic==2.5.3
 redis[hiredis]==5.0.1
+six==1.16.0
 ujson==5.9.0
-uvicorn==0.25.0
+uvicorn[standard]==0.25.0

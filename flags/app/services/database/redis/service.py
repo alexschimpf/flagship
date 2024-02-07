@@ -21,6 +21,7 @@ class RedisService:
         cls._client = RedisCluster.from_url(
             url=Config.REDIS_CONN_STR,
             decode_responses=True,
+            require_full_coverage=True,
             retry_on_error=[BusyLoadingError, ConnectionError, TimeoutError],
             retry=Retry(ExponentialBackoff(), 3)
         )

@@ -39,7 +39,7 @@ class Config:
             env_var='MYSQL_CONN_STR', default='mysql+mysqlconnector://root:test@localhost:3306/flagship',
             warn_if_missing=True)
         cls.REDIS_CONN_STR = cls._get_value(
-            env_var='REDIS_CONN_STR', default='redis://127.0.0.1:7000',
+            env_var='REDIS_CONN_STR', default='redis://redis:7000',
             warn_if_missing=True)
         cls.UI_BASE_URL = cls._get_value(
             env_var='UI_BASE_URL', default='http://localhost:3000', warn_if_missing=True)

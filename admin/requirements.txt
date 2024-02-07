@@ -7,5 +7,6 @@ pydantic[email]==2.5.3
 python-multipart==0.0.6
 redis[hiredis]==5.0.1
 SQLAlchemy[asyncio]==2.0.23
+SQLAlchemy-Utc==0.14.0
 ujson==5.9.0
-uvicorn==0.25.0
+uvicorn[standard]==0.25.0

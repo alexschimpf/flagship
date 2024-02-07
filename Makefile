@@ -65,14 +65,27 @@ run-deps:
 	cd docker &&\
 	docker-compose -f docker-compose-deps.yml up --remove-orphans
 
-# remove existing volumes and run dependencies via docker compose
+# run dependencies via docker compose from clean slate
 run-deps-clean:
 	cd docker &&\
 	docker-compose -f docker-compose-deps.yml down -v --remove-orphans &&\
-	docker-compose -f docker-compose-deps.yml up
+	docker-compose -f docker-compose-deps.yml pull &&\
+	docker-compose -f docker-compose-deps.yml up --build
+
+# run full flagship docker compose
+run-flagship:
+	cd docker &&\
+	docker-compose up --remove-orphans
+
+# run full flagship docker compose from clean slate
+run-flagship-clean:
+	cd docker &&\
+	docker-compose down -v --remove-orphans &&\
+	docker-compose pull &&\
+	docker-compose up --build
 
 # get lines of python code
- py-size:
+py-size:
 	git ls-files | grep '\.py' | xargs wc -l
 
 # get lines of ui code

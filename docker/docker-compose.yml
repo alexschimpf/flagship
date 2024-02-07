@@ -1,0 +1,54 @@
+services:
+    mysql:
+        extends:
+            file: docker-compose-deps.yml
+            service: mysql
+
+    redis:
+        extends:
+            file: docker-compose-deps.yml
+            service: redis
+        environment:
+            - IP=redis
+
+    admin-server:
+        build: ../admin
+        container_name: admin-server
+        depends_on:
+            redis:
+                condition: service_healthy
+            mysql:
+                condition: service_healthy
+        restart: on-failure
+        ports:
+            - 8000:80
+        environment:
+            - SECRET_KEY=_NOR3QX7-7LAJLLQ_OeOMuFzfq1Xg9RICwTalktXg5s=
+            - MYSQL_CONN_STR=mysql+mysqlconnector://root:test@mysql:3306/flagship
+            - REDIS_CONN_STR=redis://redis:7000
+
+    flags-server:
+        build: ../flags
+        container_name: flags-server
+        depends_on:
+            redis:
+                condition: service_healthy
+            mysql:
+                condition: service_healthy
+        restart: on-failure
+        ports:
+            - 8001:80
+        environment:
+            - SECRET_KEY=_NOR3QX7-7LAJLLQ_OeOMuFzfq1Xg9RICwTalktXg5s=
+            - REDIS_CONN_STR=redis://redis:7000
+
+    ui-server:
+        build: ../frontend
+        container_name: ui-server
+        restart: on-failure
+        ports:
+            - 3000:3000
+
+volumes:
+    mysql-volume:
+    redis-volume:
