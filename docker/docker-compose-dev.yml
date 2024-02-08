@@ -1,0 +1,38 @@
+services:
+    mysql:
+        extends:
+            file: docker-compose.yml
+            service: mysql
+
+    redis:
+        extends:
+            file: docker-compose.yml
+            service: redis
+
+    admin-server:
+        extends:
+            file: docker-compose.yml
+            service: admin-server
+        volumes:
+            - ../admin:/admin
+        command: "uvicorn app.main:app --host 0.0.0.0 --port 80 --reload"
+
+    flags-server:
+        extends:
+            file: docker-compose.yml
+            service: flags-server
+        volumes:
+            - ../flags:/flags
+        command: "uvicorn app.main:app --host 0.0.0.0 --port 80 --reload"
+
+    ui-server:
+        extends:
+            file: docker-compose.yml
+            service: ui-server
+        volumes:
+            - ../frontend:/frontend
+        command: "npm run dev"
+
+volumes:
+    mysql-volume:
+    redis-volume:

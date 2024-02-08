@@ -72,6 +72,18 @@ run-deps-clean:
 	docker-compose -f docker-compose-deps.yml pull &&\
 	docker-compose -f docker-compose-deps.yml up --build
 
+# run full flagship dev docker compose
+run-flagship-dev:
+	cd docker &&\
+	docker-compose -f docker-compose-dev.yml up --remove-orphans
+
+# run full flagship dev docker compose from clean slate
+run-flagship-dev-clean:
+	cd docker &&\
+	docker-compose -f docker-compose-dev.yml down -v --remove-orphans &&\
+	docker-compose -f docker-compose-dev.yml pull &&\
+	docker-compose -f docker-compose-dev.yml up --build
+
 # run full flagship docker compose
 run-flagship:
 	cd docker &&\

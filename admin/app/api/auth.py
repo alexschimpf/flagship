@@ -36,4 +36,3 @@ def get_user(authorize: AuthJWT = Depends()) -> User:
         projects = UsersProjectsTable.get_user_projects(user_id=user_id, session=session)
 
     return User.from_row(row=user_row, projects=projects)
-

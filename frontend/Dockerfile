@@ -1,13 +1,11 @@
 FROM node:21-slim
 
-WORKDIR /flagship
+WORKDIR /frontend
 
-COPY package*.json /flagship/
+COPY package*.json /frontend/
 
 RUN npm install .
 
-COPY . /flagship/
+COPY . /frontend/
 
-RUN npm run build
-
-CMD npm run start
+CMD npm run build && npm run start

@@ -12,14 +12,15 @@ services:
             - IP=redis
 
     admin-server:
-        build: ../admin
+        build:
+            context: ../admin
         container_name: admin-server
         depends_on:
             redis:
                 condition: service_healthy
             mysql:
                 condition: service_healthy
-        restart: on-failure
+        restart: always
         ports:
             - 8000:80
         environment:
@@ -28,14 +29,15 @@ services:
             - REDIS_CONN_STR=redis://redis:7000
 
     flags-server:
-        build: ../flags
+        build:
+            context: ../flags
         container_name: flags-server
         depends_on:
             redis:
                 condition: service_healthy
             mysql:
                 condition: service_healthy
-        restart: on-failure
+        restart: always
         ports:
             - 8001:80
         environment:
@@ -43,9 +45,12 @@ services:
             - REDIS_CONN_STR=redis://redis:7000
 
     ui-server:
-        build: ../frontend
+        build:
+            context: ../frontend
+        depends_on:
+            - admin-server
         container_name: ui-server
-        restart: on-failure
+        restart: always
         ports:
             - 3000:3000
 
