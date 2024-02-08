@@ -2,7 +2,7 @@ import { UpdateUser, User } from '@/api';
 import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
 import { userRoles } from '@/lib/constants';
-import { Permission, hasPermission } from '@/lib/permissions';
+import { Permission, hasPermission, permissionsSummary } from '@/lib/permissions';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
@@ -13,6 +13,7 @@ import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../primitives/button';
+import CustomTooltip from '../primitives/customTooltip';
 import {
     Form,
     FormControl,
@@ -167,6 +168,9 @@ export default function EditMyAccount() {
                             render={({ field }) => (
                                 <FormItem className='w-full'>
                                     <FormLabel>Role*</FormLabel>
+                                    <CustomTooltip
+                                        text={permissionsSummary}
+                                    />
                                     <Select
                                         onValueChange={field.onChange}
                                         defaultValue={field.value}

@@ -7,7 +7,7 @@ import {
 } from './tooltip';
 
 interface TooltipProps {
-    text: string[];
+    text: string[] | readonly string[];
     trigger?: any;
 }
 

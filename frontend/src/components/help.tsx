@@ -1,5 +1,6 @@
 'use client';
 
+import { permissionsSummary } from '@/lib/permissions';
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
 import { Button } from './primitives/button';
@@ -81,12 +82,9 @@ export default function Help() {
                     <p>Each user is assigned a role and one or more projects.</p>
                     <p>The following roles are available:</p>
                     <div className='ml-10 my-2'>
-                        <ul className='list-disc'>
-                            <li>Owner: Can do anything, including user management</li>
-                            <li>Admin: Can manage feature flags, manage context fields, and view audit logs</li>
-                            <li>Standard: Can manage feature flags</li>
-                            <li>Read only: Can view feature flags</li>
-                        </ul>
+                        <ul className='list-disc'>{
+                            permissionsSummary.map(line => <li key={line}>{line}</li>)
+                        }</ul>
                     </div>
                     <p>Users must be invited from within Flagship by owners.</p>
                     <p>When the app is set up, a starting owner must be added to the database. At least one owner must always exist.</p>

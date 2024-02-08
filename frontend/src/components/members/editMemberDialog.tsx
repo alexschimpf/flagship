@@ -18,7 +18,7 @@ import { useToast } from '@/components/primitives/use-toast';
 import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
 import { userRoles } from '@/lib/constants';
-import { Permission, hasPermission } from '@/lib/permissions';
+import { Permission, hasPermission, permissionsSummary } from '@/lib/permissions';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -163,12 +163,7 @@ export default function EditMemberDialog(props: EditMemberDialogProps) {
                                         <FormItem className='w-full'>
                                             <FormLabel>Role*</FormLabel>
                                             <CustomTooltip
-                                                text={[
-                                                    'Read only: Can view feature flags.',
-                                                    'Standard: Can manage feature flags.',
-                                                    'Admin: Can manage feature flags, manage context fields, and view audit logs.',
-                                                    'Owner: Can do anything, including user management.'
-                                                ]}
+                                                text={permissionsSummary}
                                             />
                                             <Select
                                                 onValueChange={field.onChange}

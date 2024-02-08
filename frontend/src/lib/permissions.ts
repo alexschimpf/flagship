@@ -77,3 +77,10 @@ export const hasPermission = (
 
     return false;
 };
+
+export const permissionsSummary: readonly string[] = Object.freeze([
+    'Read only users can view feature flags.',
+    'Standard users can manage feature flags and context fields.',
+    'Admins can do anything except delete projects and project private keys.',
+    'Owners can do anything.'
+]);
