@@ -2,7 +2,6 @@ from datetime import datetime
 
 from pydantic import BaseModel, EmailStr, Field
 
-from app.api import utils
 from app.constants import UserRole, UserStatus
 from app.services.database.mysql.schemas.user import UserRow
 
@@ -25,9 +24,9 @@ class User(BaseModel):
     user_id: int
     email: EmailStr
     name: str
-    role: UserRole = Field(description=utils.get_enum_description(enum=UserRole))
+    role: UserRole
     projects: list[int]
-    status: UserStatus = Field(description=utils.get_enum_description(enum=UserStatus))
+    status: UserStatus
     created_date: datetime
     updated_date: datetime
 

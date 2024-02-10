@@ -6,9 +6,6 @@ import type { UserRole } from './UserRole';
 export type InviteUser = {
     email: string;
     name: string;
-    /**
-     * read only: 5</br>standard: 10</br>admin: 15</br>owner: 20
-     */
     role: UserRole;
     projects: Array<number>;
 };

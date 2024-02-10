@@ -1,6 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field, ConfigDict
 
-from app.api import utils
 from app.api.schemas import User
 from app.constants import UserRole
 
@@ -8,7 +7,7 @@ from app.constants import UserRole
 class InviteUser(BaseModel):
     email: EmailStr
     name: str = Field(min_length=1, max_length=128)
-    role: UserRole = Field(description=utils.get_enum_description(enum=UserRole))
+    role: UserRole
     projects: list[int]
 
     model_config = ConfigDict(
@@ -18,7 +17,7 @@ class InviteUser(BaseModel):
 
 class UpdateUser(BaseModel):
     name: str = Field(min_length=1, max_length=128)
-    role: UserRole = Field(description=utils.get_enum_description(enum=UserRole))
+    role: UserRole
     projects: list[int]
 
     model_config = ConfigDict(

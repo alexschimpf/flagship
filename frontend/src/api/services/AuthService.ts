@@ -10,16 +10,21 @@ export class AuthService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
      * Login
+     * @param returnUrl
      * @param formData
      * @returns void
      * @throws ApiError
      */
     public login(
+        returnUrl: (string | null),
         formData: Body_login_auth_login_post,
     ): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/auth/login',
+            query: {
+                'return_url': returnUrl,
+            },
             formData: formData,
             mediaType: 'application/x-www-form-urlencoded',
             errors: {

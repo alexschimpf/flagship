@@ -1,39 +1,38 @@
-export const userRoles: Record<number, string> = {
-    5: 'Read only',
-    10: 'Standard',
-    15: 'Admin',
-    20: 'Owner'
+import { ContextValueType, Operator, UserRole, UserStatus } from "@/api";
+
+const reverseEnum = (obj: any, valueFn?: (v: any) => any): any => {
+    const reversedEntries =
+        Object.entries(
+            obj
+        ).filter(
+            ([k, v]) => isNaN(Number(k))
+        ).map(
+            ([k, v]) => [v, valueFn ? valueFn(k) : k]
+        );
+    return Object.fromEntries(reversedEntries);
 };
-export const userStatuses: Record<number, string> = {
-    1: 'Invited',
-    2: 'Activated'
+
+const capitalize = (s: string) => {
+    s = s.replaceAll('_', ' ');
+    return s.split(' ').map((w) => w.charAt(0).toUpperCase() + w.substring(1).toLowerCase()).join(' ');
 };
-export const contextFieldValueTypes: Record<number, string> = {
-    1: 'String',
-    2: 'Number',
-    3: 'Integer',
-    4: 'Boolean',
-    5: 'Enum',
-    6: 'Semantic Version',
-    7: 'String List',
-    8: 'Integer List',
-    9: 'Enum List'
+
+const lower = (s: string) => {
+    return s.replaceAll('_', ' ').toLowerCase();
 };
-export const operators: Record<number, string> = {
-    1: 'is',
-    2: 'is not',
-    3: '<',
-    4: '<=',
-    5: '>',
-    6: '>=',
-    7: 'matches',
-    8: 'is one of',
-    9: 'is not one of',
-    10: 'has one of',
-    11: 'does not have any of',
-    12: 'has',
-    13: 'does not have'
-};
+
+export const userRoles: Record<number, string> =
+    reverseEnum(UserRole, (v: string): any => capitalize(v));
+
+export const userStatuses: Record<number, string> =
+    reverseEnum(UserStatus, (v: string): any => capitalize(v));
+
+export const contextFieldValueTypes: Record<number, string> =
+    reverseEnum(ContextValueType, (v: string): any => capitalize(v));
+
+export const operators: Record<number, string> =
+    reverseEnum(Operator, (v: string): any => lower(v));
+
 export const contextFieldValueTypeOperators: Record<number, number[]> = {
     1: [1, 2, 7, 8, 9],
     2: [1, 2, 3, 4, 5, 6, 8, 9],

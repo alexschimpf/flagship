@@ -2,15 +2,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios';
 import FormData from 'form-data';
 
 import { ApiError } from './ApiError';
 import type { ApiRequestOptions } from './ApiRequestOptions';
 import type { ApiResult } from './ApiResult';
-import type { OnCancel } from './CancelablePromise';
 import { CancelablePromise } from './CancelablePromise';
+import type { OnCancel } from './CancelablePromise';
 import type { OpenAPIConfig } from './OpenAPI';
 
 export const isDefined = <T>(value: T | null | undefined): value is Exclude<T, null | undefined> => {
@@ -152,7 +152,7 @@ export const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptio
         resolve(options, config.HEADERS),
     ]);
 
-    const formHeaders = typeof formData?.getHeaders === 'function' && formData?.getHeaders() || {};
+    const formHeaders = typeof formData?.getHeaders === 'function' && formData?.getHeaders() || {}
 
     const headers = Object.entries({
         Accept: 'application/json',
@@ -160,11 +160,11 @@ export const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptio
         ...options.headers,
         ...formHeaders,
     })
-        .filter(([_, value]) => isDefined(value))
-        .reduce((headers, [key, value]) => ({
-            ...headers,
-            [key]: String(value),
-        }), {} as Record<string, string>);
+    .filter(([_, value]) => isDefined(value))
+    .reduce((headers, [key, value]) => ({
+        ...headers,
+        [key]: String(value),
+    }), {} as Record<string, string>);
 
     if (isStringWithValue(token)) {
         headers['Authorization'] = `Bearer ${token}`;
@@ -258,7 +258,7 @@ export const catchErrorCodes = (options: ApiRequestOptions, result: ApiResult): 
         502: 'Bad Gateway',
         503: 'Service Unavailable',
         ...options.errors,
-    };
+    }
 
     const error = errors[result.status];
     if (error) {

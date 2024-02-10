@@ -3,13 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 export enum ContextValueType {
-    '_1' = 1,
-    '_2' = 2,
-    '_3' = 3,
-    '_4' = 4,
-    '_5' = 5,
-    '_6' = 6,
-    '_7' = 7,
-    '_8' = 8,
-    '_9' = 9,
+    STRING = 1,
+    NUMBER = 2,
+    INTEGER = 3,
+    BOOLEAN = 4,
+    ENUM = 5,
+    VERSION = 6,
+    STRING_LIST = 7,
+    INTEGER_LIST = 8,
+    ENUM_LIST = 9,
 }

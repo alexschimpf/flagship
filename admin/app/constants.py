@@ -1,12 +1,34 @@
 import sys
 from enum import IntEnum, auto
 from typing import Final
+from pydantic import BaseModel
+import inspect
 
 
 DEFAULT_PAGE_SIZE = sys.maxsize
 
 
-class ContextValueType(IntEnum):
+class OpenAPIIntEnum(IntEnum):
+
+    def __new__(cls, value, doc=None):
+        self = int.__new__(cls, value)
+        self._value_ = value
+        if doc is not None:
+            self.__doc__ = doc
+        return self
+
+    @classmethod
+    def __get_pydantic_json_schema__(cls, core_schema, handler):
+        json_schema = BaseModel.__get_pydantic_json_schema__(core_schema, handler)
+        json_schema["x-enum-varnames"] = [v.name for v in cls]
+        json_schema["oneOf"] = [
+            {"title": v.name, "const": v.value, "description": inspect.getdoc(v)} for v in cls
+        ]
+        json_schema = handler.resolve_ref_schema(json_schema)
+        return json_schema
+
+
+class ContextValueType(OpenAPIIntEnum):
     STRING = 1
     NUMBER = 2
     INTEGER = 3
@@ -18,7 +40,7 @@ class ContextValueType(IntEnum):
     ENUM_LIST = 9
 
 
-class Operator(IntEnum):
+class Operator(OpenAPIIntEnum):
     EQUALS = 1
     NOT_EQUALS = 2
     LESS_THAN = 3
@@ -51,7 +73,7 @@ OPERATOR_DISPLAY_NAMES: Final[dict[Operator, str]] = {
 }
 
 
-class Permission(IntEnum):
+class Permission(OpenAPIIntEnum):
     # Projects
     CREATE_PROJECT = auto()
     UPDATE_PROJECT = auto()
@@ -83,7 +105,7 @@ class Permission(IntEnum):
     READ_SYSTEM_AUDIT_LOGS = auto()
 
 
-class UserRole(IntEnum):
+class UserRole(OpenAPIIntEnum):
     READ_ONLY = 5
     STANDARD = 10
     ADMIN = 15
@@ -127,7 +149,7 @@ class UserRole(IntEnum):
         return False
 
 
-class UserStatus(IntEnum):
+class UserStatus(OpenAPIIntEnum):
     INVITED = 1
     ACTIVATED = 2
 
@@ -199,7 +221,7 @@ CONTEXT_VALUE_TYPE_OPERATORS: Final[dict[ContextValueType, set[Operator]]] = {
 }
 
 
-class AuditLogEventType(IntEnum):
+class AuditLogEventType(OpenAPIIntEnum):
     INVITED_USER = 1
     DELETED_USER = 2
     UPDATED_USER = 3

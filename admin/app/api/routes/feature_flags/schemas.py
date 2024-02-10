@@ -3,14 +3,13 @@ from typing import Any
 
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
 
-from app.api import utils
 from app.constants import Operator
 from app.services.database.mysql.schemas.feature_flag import FeatureFlagRow
 
 
 class FeatureFlagCondition(BaseModel):
     context_key: str
-    operator: Operator = Field(description=utils.get_enum_description(enum=Operator))
+    operator: Operator
     value: Any
 
     model_config = ConfigDict(

@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import { AxiosHttpRequest } from './core/AxiosHttpRequest';
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
+import { AxiosHttpRequest } from './core/AxiosHttpRequest';
 import { AdminService } from './services/AdminService';
 import { AuthService } from './services/AuthService';
 import { ContextFieldsService } from './services/ContextFieldsService';
@@ -40,3 +40,4 @@ export class APIClient {
         this.users = new UsersService(this.request);
     }
 }
+
