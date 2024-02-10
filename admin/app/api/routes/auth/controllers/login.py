@@ -15,7 +15,8 @@ from app.services.strings.service import StringsService
 
 class LoginController:
 
-    def __init__(self, email: str, password: str, authorize: AuthJWT) -> None:
+    def __init__(self, return_url: str | None, email: str, password: str, authorize: AuthJWT) -> None:
+        self.return_url = return_url
         self.email = email
         self.password = password
         self.authorize = authorize
@@ -43,13 +44,15 @@ class LoginController:
                 if isinstance(e, exceptions.AppException)
                 else StringsService.get(key=exceptions.AppException.CODE)
             )
+            return_url = f'&return_url={self.return_url}' if self.return_url else ''
             return RedirectResponse(
-                url=f'{Config.UI_BASE_URL}/login?error={error}',
+                url=f'{Config.UI_BASE_URL}/login?error={error}{return_url}',
                 status_code=status.HTTP_302_FOUND
             )
 
+        return_url = f'{Config.UI_BASE_URL}{self.return_url or ""}'
         response = RedirectResponse(
-            url=Config.UI_BASE_URL,
+            url=return_url,
             status_code=status.HTTP_302_FOUND
         )
 

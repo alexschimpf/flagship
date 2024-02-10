@@ -4,9 +4,48 @@ import {
     ExclamationTriangleIcon
 } from '@radix-ui/react-icons';
 import { QueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 import parseHTML from 'html-react-parser';
+import { ApiRequestOptions } from '../api/core/ApiRequestOptions';
+import { BaseHttpRequest } from '../api/core/BaseHttpRequest';
+import { CancelablePromise } from '../api/core/CancelablePromise';
+import type { OpenAPIConfig } from '../api/core/OpenAPI';
+import { request as __request } from '../api/core/request';
 
-export const apiClient = new APIClient({ BASE: 'http://localhost:8000', WITH_CREDENTIALS: true });
+
+export class AxiosClient extends BaseHttpRequest {
+    axiosInstance = axios.create();
+
+    constructor(config: OpenAPIConfig) {
+        super(config);
+
+        this.axiosInstance.interceptors.response.use(
+            response => response,
+            error => {
+                if (error?.response?.status === 401 &&
+                    window.location.pathname.indexOf('/login') !== 0 &&
+                    window.location.pathname.indexOf('/forgot-password') !== 0
+                ) {
+                    window.location.replace(`/login?return_url=${encodeURIComponent(window.location.pathname)}`);
+                }
+
+                return Promise.reject(error);
+            }
+        );
+    }
+
+    public override request<T>(options: ApiRequestOptions): CancelablePromise<T> {
+        return __request(this.config, options, this.axiosInstance);
+    }
+}
+
+export const apiClient = new APIClient(
+    {
+        BASE: 'http://localhost:8000',
+        WITH_CREDENTIALS: true
+    },
+    AxiosClient
+);
 export const queryClient = new QueryClient();
 
 export const getErrorMessage = (error: Error | string): string => {

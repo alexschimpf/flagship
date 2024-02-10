@@ -15,8 +15,14 @@ router = APIRouter(
 
 
 @router.post('/login', response_class=RedirectResponse)
-def login(email: str = Form(), password: str = Form(), authorize: AuthJWT = Depends()) -> RedirectResponse:
+def login(
+    return_url: str | None,
+    email: str = Form(),
+    password: str = Form(),
+    authorize: AuthJWT = Depends()
+) -> RedirectResponse:
     return LoginController(
+        return_url=return_url,
         email=email,
         password=password,
         authorize=authorize
@@ -32,5 +38,3 @@ def login_test(authorize: AuthJWT = Depends()) -> Any:
 @router.get('/logout', response_class=RedirectResponse)
 def logout() -> Any:
     return LogoutController().handle_request()
-
-

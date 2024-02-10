@@ -11,11 +11,17 @@ import { Label } from "../primitives/label";
 export default function Login() {
     const router = useRouter();
     const [email, setEmail] = useState('');
+    const [formAction, setFormAction] = useState('');
     const [password, setPassword] = useState('');
     const params = useSearchParams();
     const error = params.get('error') || '';
 
     useEffect(() => {
+        const searchParams = new URL(window.location as any).searchParams;
+        const returnPath = searchParams.get('return_url') as string || '';
+        const returnURL = `return_url=${encodeURIComponent(returnPath)}`;
+        setFormAction(`http://localhost:8000/auth/login?${returnURL}`);
+
         apiClient.auth.loginTest().then(() => {
             router.push('/');
         }).catch(() => { });
@@ -42,7 +48,7 @@ export default function Login() {
                 </div>
             </header>
             <div className='flex flex-col flex-1 justify-center items-center size-full'>
-                <form className='size-[400px]' method='POST' action='http://localhost:8000/auth/login'>
+                <form className='size-[400px]' method='POST' action={formAction}>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className='text-xl'>Log in</h1>
                     </div>

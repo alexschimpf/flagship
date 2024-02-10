@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import { AxiosHttpRequest } from './core/AxiosHttpRequest';
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
-import { FetchHttpRequest } from './core/FetchHttpRequest';
 import { AdminService } from './services/AdminService';
 import { AuthService } from './services/AuthService';
 import { ContextFieldsService } from './services/ContextFieldsService';
@@ -20,7 +20,7 @@ export class APIClient {
     public readonly projects: ProjectsService;
     public readonly users: UsersService;
     public readonly request: BaseHttpRequest;
-    constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = FetchHttpRequest) {
+    constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = AxiosHttpRequest) {
         this.request = new HttpRequest({
             BASE: config?.BASE ?? '',
             VERSION: config?.VERSION ?? '1.0',
@@ -40,4 +40,3 @@ export class APIClient {
         this.users = new UsersService(this.request);
     }
 }
-

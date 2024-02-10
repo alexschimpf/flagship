@@ -18,7 +18,7 @@ services:
             - 5678:5678
         volumes:
             - ../admin:/admin
-        command: sh -c "python -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.main:app --host 0.0.0.0 --port 80 --reload"
+        command: sh -c "pip install debugpy && python -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.main:app --host 0.0.0.0 --port 80 --reload"
 
     flags-server:
         extends:
@@ -26,7 +26,7 @@ services:
             service: flags-server
         volumes:
             - ../flags:/flags
-        command: sh -c "python -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5679 -m uvicorn app.main:app --host 0.0.0.0 --port 80 --reload"
+        command: sh -c "pip install debugpy && python -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5679 -m uvicorn app.main:app --host 0.0.0.0 --port 80 --reload"
 
     ui-server:
         extends:
