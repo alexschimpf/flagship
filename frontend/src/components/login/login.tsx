@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "@/app/config";
 import { apiClient } from "@/lib/api";
 import { RocketIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
@@ -20,7 +21,7 @@ export default function Login() {
         const searchParams = new URL(window.location as any).searchParams;
         const returnPath = searchParams.get('return_url') as string || '';
         const returnURL = `return_url=${encodeURIComponent(returnPath)}`;
-        setFormAction(`http://localhost:8000/auth/login?${returnURL}`);
+        setFormAction(`${API_BASE_URL}/auth/login?${returnURL}`);
 
         apiClient.auth.loginTest().then(() => {
             router.push('/');

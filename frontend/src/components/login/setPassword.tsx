@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "@/app/config";
 import { apiClient } from "@/lib/api";
 import { RocketIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
@@ -44,7 +45,7 @@ export default function SetPassword() {
                 </div>
             </header>
             <div className='flex flex-col flex-1 justify-center items-center size-full'>
-                <form className='size-[400px]' method='POST' action='http://localhost:8000/users/password/set'>
+                <form className='size-[400px]' method='POST' action={`${API_BASE_URL}/users/password/set`}>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className='text-xl'>Set password</h1>
                     </div>

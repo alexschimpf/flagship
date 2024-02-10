@@ -1,4 +1,5 @@
 import { APIClient, ApiError } from '@/api';
+import { API_BASE_URL } from '@/app/config';
 import {
     CheckCircledIcon,
     ExclamationTriangleIcon
@@ -41,7 +42,7 @@ export class AxiosClient extends BaseHttpRequest {
 
 export const apiClient = new APIClient(
     {
-        BASE: 'http://localhost:8000',
+        BASE: API_BASE_URL,
         WITH_CREDENTIALS: true
     },
     AxiosClient

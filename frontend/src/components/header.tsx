@@ -1,5 +1,6 @@
 'use client';
 
+import { API_BASE_URL } from '@/app/config';
 import { Button } from '@/components/primitives/button';
 import {
     DropdownMenu,
@@ -39,7 +40,7 @@ const Header_ = () => {
 
     const onLogoutClick = () => {
         sessionStorage.clear();
-        router.replace('//localhost:8000/auth/logout');
+        router.replace(`${API_BASE_URL}/auth/logout`);
     };
 
     const onToggleLightDarkModeClick = () => {
