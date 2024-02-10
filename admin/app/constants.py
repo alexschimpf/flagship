@@ -1,6 +1,6 @@
 import sys
 from enum import IntEnum, auto
-from typing import Final
+from typing import Final, Any
 from pydantic import BaseModel
 import inspect
 
@@ -10,7 +10,7 @@ DEFAULT_PAGE_SIZE = sys.maxsize
 
 class OpenAPIIntEnum(IntEnum):
 
-    def __new__(cls, value, doc=None):
+    def __new__(cls, value: Any, doc: Any = None) -> Any:
         self = int.__new__(cls, value)
         self._value_ = value
         if doc is not None:
@@ -18,7 +18,7 @@ class OpenAPIIntEnum(IntEnum):
         return self
 
     @classmethod
-    def __get_pydantic_json_schema__(cls, core_schema, handler):
+    def __get_pydantic_json_schema__(cls, core_schema: Any, handler: Any) -> Any:
         json_schema = BaseModel.__get_pydantic_json_schema__(core_schema, handler)
         json_schema["x-enum-varnames"] = [v.name for v in cls]
         json_schema["oneOf"] = [
