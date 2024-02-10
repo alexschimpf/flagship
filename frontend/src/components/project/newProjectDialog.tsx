@@ -95,7 +95,7 @@ export default function NewProjectDialog(props: NewProjectDialogProps) {
                         e.preventDefault();
                     }}
                 >
-                    <DialogHeader>
+                    <DialogHeader className='border-b pb-4'>
                         <DialogTitle>New Project</DialogTitle>
                     </DialogHeader>
                     <div className='w-full'>

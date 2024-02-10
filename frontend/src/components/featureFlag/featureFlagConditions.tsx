@@ -66,7 +66,7 @@ export default function FeatureFlagConditions(props: FeatureFlagConditionsProps)
         <div className='flex flex-col w-full'>
             {conditions.map((group, i) => (
                 <div key={group.id} className='flex flex-col'>
-                    <div className='outline-accent border-4 rounded-md p-2'>
+                    <div className='outline-accent border rounded-md p-2'>
                         <div className='flex justify-end'>
                             <Button
                                 type='button'

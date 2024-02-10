@@ -83,7 +83,7 @@ export default function EditProjectDialog(props: EditProjectDialogProps) {
                         e.preventDefault();
                     }}
                 >
-                    <DialogHeader>
+                    <DialogHeader className='border-b pb-4'>
                         <DialogTitle>Edit Project</DialogTitle>
                     </DialogHeader>
                     <div className='w-full'>

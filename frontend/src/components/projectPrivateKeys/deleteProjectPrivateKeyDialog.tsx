@@ -69,7 +69,7 @@ export default function DeleteProjectPrivateKeyDialog(props: DeleteProjectPrivat
                         e.preventDefault();
                     }}
                 >
-                    <DialogHeader>
+                    <DialogHeader className='border-b pb-4'>
                         <DialogTitle>Delete Project Private Key</DialogTitle>
                     </DialogHeader>
                     <div className='w-full flex flex-col items-end'>

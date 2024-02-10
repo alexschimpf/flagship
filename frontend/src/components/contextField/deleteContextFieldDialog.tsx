@@ -50,7 +50,7 @@ export default function DeleteContextFieldDialog(props: DeleteContextFieldDialog
                         e.preventDefault();
                     }}
                 >
-                    <DialogHeader>
+                    <DialogHeader className='border-b pb-4'>
                         <DialogTitle>Delete Context Field</DialogTitle>
                     </DialogHeader>
                     <div className='w-full flex flex-col items-end'>

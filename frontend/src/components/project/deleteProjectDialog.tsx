@@ -44,7 +44,7 @@ export default function DeleteProjectDialog(props: DeleteProjectDialogProps) {
                         e.preventDefault();
                     }}
                 >
-                    <DialogHeader>
+                    <DialogHeader className='border-b pb-4'>
                         <DialogTitle>Delete Project</DialogTitle>
                     </DialogHeader>
                     <div className='w-full flex flex-col items-end'>

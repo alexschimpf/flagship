@@ -131,7 +131,7 @@ export default function InviteMemberDialog(props: InviteMemberDialogProps) {
                     e.preventDefault();
                 }}
             >
-                <DialogHeader>
+                <DialogHeader className='border-b pb-4'>
                     <DialogTitle>Invite Member</DialogTitle>
                 </DialogHeader>
                 <div className='w-full'>

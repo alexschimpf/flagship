@@ -99,7 +99,7 @@ export default function NewProjectPrivateKeyDialog(props: NewProjectPrivateKeyDi
                         e.preventDefault();
                     }}
                 >
-                    <DialogHeader>
+                    <DialogHeader className='border-b pb-4'>
                         <DialogTitle>New Project Private Key</DialogTitle>
                     </DialogHeader>
                     <div className='w-full'>

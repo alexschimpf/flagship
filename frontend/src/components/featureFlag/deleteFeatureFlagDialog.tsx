@@ -50,7 +50,7 @@ export default function DeleteFeatureFlagDialog(props: DeleteFeatureFlagDialogPr
                         e.preventDefault();
                     }}
                 >
-                    <DialogHeader>
+                    <DialogHeader className='border-b pb-4'>
                         <DialogTitle>Delete Feature Flag</DialogTitle>
                     </DialogHeader>
                     <div className='w-full flex flex-col items-end'>

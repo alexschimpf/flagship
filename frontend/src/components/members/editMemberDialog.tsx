@@ -131,7 +131,7 @@ export default function EditMemberDialog(props: EditMemberDialogProps) {
                         e.preventDefault();
                     }}
                 >
-                    <DialogHeader>
+                    <DialogHeader className='border-b pb-4'>
                         <DialogTitle>Edit Member</DialogTitle>
                     </DialogHeader>
                     <div className='w-full'>
