@@ -17,6 +17,7 @@ import {
     QuestionMarkCircledIcon,
     RocketIcon
 } from '@radix-ui/react-icons';
+import { Moon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { usePathname, useRouter } from 'next/navigation';
 import { useContext } from 'react';
@@ -40,6 +41,7 @@ const Header_ = () => {
         sessionStorage.clear();
         router.replace('//localhost:8000/auth/logout');
     };
+
     const onToggleLightDarkModeClick = () => {
         const newTheme = theme === 'dark' ? 'light' : 'dark';
         localStorage.setItem('theme', newTheme);
@@ -103,10 +105,17 @@ const Header_ = () => {
                 <div className='flex justify-end items-center cursor-pointer'>
                     <a
                         href='//localhost:3000/help'
-                        className='flex items-center hover:bg-background hover:rounded-none px-2 size-10'
+                        className='flex justify-center items-center hover:bg-background hover:rounded-none px-2 size-10'
                     >
                         <QuestionMarkCircledIcon className='size-5' />
                     </a>
+                    <div
+                        className='flex justify-center items-center hover:bg-background hover:rounded-none px-2 size-10'
+                        title='Toggle dark mode'
+                        onClick={onToggleLightDarkModeClick}
+                    >
+                        <Moon className='size-5' />
+                    </div>
                     <DropdownMenu>
                         <DropdownMenuTrigger className='focus-visible:outline-none hover:bg-background size-10 flex items-center justify-center'>
                             <PersonIcon className='size-5' />
@@ -116,9 +125,6 @@ const Header_ = () => {
                                 <a className='w-full' href='//localhost:3000/account'>
                                     My Account
                                 </a>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className='cursor-pointer' onClick={onToggleLightDarkModeClick}>
-                                {theme === 'dark' ? 'Enable light mode' : 'Enable dark mode'}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className='cursor-pointer'>
