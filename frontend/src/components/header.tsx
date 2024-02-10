@@ -56,7 +56,7 @@ const Header_ = () => {
                         variant='ghost'
                         className='focus-visible:bg-white p-0 mr-6'
                         onClick={() => {
-                            window.location.replace('http://localhost:3000');
+                            window.location.replace('/');
                         }}
                     >
                         <RocketIcon />
@@ -104,7 +104,7 @@ const Header_ = () => {
                 )}
                 <div className='flex justify-end items-center cursor-pointer'>
                     <a
-                        href='//localhost:3000/help'
+                        href='/help'
                         className='flex justify-center items-center hover:bg-background hover:rounded-none px-2 size-10'
                     >
                         <QuestionMarkCircledIcon className='size-5' />
@@ -122,7 +122,7 @@ const Header_ = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuItem className='cursor-pointer'>
-                                <a className='w-full' href='//localhost:3000/account'>
+                                <a className='w-full' href='/account'>
                                     My Account
                                 </a>
                             </DropdownMenuItem>

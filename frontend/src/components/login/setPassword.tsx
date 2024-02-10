@@ -32,7 +32,7 @@ export default function SetPassword() {
                             variant='ghost'
                             className='focus-visible:bg-white p-0 mr-6'
                             onClick={() => {
-                                window.location.replace('http://localhost:3000/login');
+                                window.location.replace('/login');
                             }}
                         >
                             <RocketIcon />
