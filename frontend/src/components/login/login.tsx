@@ -1,3 +1,5 @@
+'use client';
+
 import { API_BASE_URL } from "@/app/config";
 import { apiClient } from "@/lib/api";
 import { RocketIcon } from "@radix-ui/react-icons";

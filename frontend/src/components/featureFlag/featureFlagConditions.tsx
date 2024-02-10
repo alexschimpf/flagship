@@ -1,3 +1,5 @@
+'use client';
+
 import { ContextField } from '@/api';
 import { contextFieldValueTypeOperators } from '@/lib/constants';
 import { Cross1Icon, PlusCircledIcon } from '@radix-ui/react-icons';

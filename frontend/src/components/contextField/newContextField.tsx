@@ -1,3 +1,5 @@
+'use client';
+
 import { CreateContextField } from '@/api';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
 import { contextFieldValueTypes } from '@/lib/constants';

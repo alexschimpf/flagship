@@ -1,3 +1,5 @@
+'use client';
+
 import { ContextField } from '@/api';
 import {
     DropdownMenu,

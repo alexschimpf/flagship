@@ -1,3 +1,5 @@
+'use client';
+
 import { FeatureFlag } from '@/api';
 import {
     DropdownMenu,

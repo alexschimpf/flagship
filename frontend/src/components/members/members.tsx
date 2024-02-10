@@ -1,3 +1,5 @@
+'use client';
+
 import { User } from '@/api';
 import {
     DropdownMenu,

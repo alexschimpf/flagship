@@ -1,3 +1,5 @@
+'use client';
+
 import { CreateOrUpdateFeatureFlag } from '@/api';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
 import { ErrorMessage } from '@hookform/error-message';

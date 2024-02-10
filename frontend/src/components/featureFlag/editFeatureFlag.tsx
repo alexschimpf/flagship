@@ -1,3 +1,5 @@
+'use client';
+
 import { CreateOrUpdateFeatureFlag, FeatureFlag } from '@/api';
 import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';

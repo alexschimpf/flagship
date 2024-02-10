@@ -1,3 +1,5 @@
+'use client';
+
 import { ContextField } from '@/api';
 import { contextFieldValueTypeOperators, operators } from '@/lib/constants';
 import { useState } from 'react';

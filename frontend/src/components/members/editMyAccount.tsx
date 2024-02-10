@@ -1,3 +1,5 @@
+'use client';
+
 import { UpdateUser, User } from '@/api';
 import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';

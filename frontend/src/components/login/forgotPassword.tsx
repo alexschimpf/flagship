@@ -1,3 +1,5 @@
+'use client';
+
 import { apiClient, getErrorToast, getSuccessToast } from "@/lib/api";
 import { RocketIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
