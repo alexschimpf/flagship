@@ -228,7 +228,7 @@ export default function EditFeatureFlag() {
                                                 Conditions
                                             </FormLabel>
                                         </div>
-                                        <div className='mt-2'>
+                                        <div className='mt-4'>
                                             <FeatureFlagConditions
                                                 contextFields={contextFields}
                                                 conditions={conditions}

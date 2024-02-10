@@ -61,15 +61,15 @@ export default function FeatureFlagConditions(props: FeatureFlagConditionsProps)
     };
 
     return (
-        <div className='flex flex-col w-full p-2'>
+        <div className='flex flex-col w-full'>
             {conditions.map((group, i) => (
                 <div key={group.id} className='flex flex-col'>
-                    <div className='outline-accent border-4 rounded-md p-4 bg-accent'>
+                    <div className='outline-accent border-4 rounded-md p-2'>
                         <div className='flex justify-end'>
                             <Button
                                 type='button'
                                 variant='ghost'
-                                className='h-auto p-2 translate-x-3 -translate-y-3 hover:scale-125'
+                                className='h-auto p-1 hover:scale-125'
                                 onClick={() => onRemove(group.id)}
                             >
                                 <Cross1Icon className='size-3' />
@@ -94,7 +94,7 @@ export default function FeatureFlagConditions(props: FeatureFlagConditionsProps)
                 <Button
                     type='button'
                     variant='ghost'
-                    className='p-3 mt-1'
+                    className='p-1 size-[32px] mt-2 hover:scale-110'
                     onClick={onAdd}
                 >
                     <PlusCircledIcon className='size-5' />

@@ -13,9 +13,12 @@ services:
         extends:
             file: docker-compose.yml
             service: admin-server
+        ports:
+            - 8000:80
+            - 5678:5678
         volumes:
             - ../admin:/admin
-        command: "uvicorn app.main:app --host 0.0.0.0 --port 80 --reload"
+        command: sh -c "python -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.main:app --host 0.0.0.0 --port 80 --reload"
 
     flags-server:
         extends:
@@ -23,7 +26,7 @@ services:
             service: flags-server
         volumes:
             - ../flags:/flags
-        command: "uvicorn app.main:app --host 0.0.0.0 --port 80 --reload"
+        command: sh -c "python -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5679 -m uvicorn app.main:app --host 0.0.0.0 --port 80 --reload"
 
     ui-server:
         extends:

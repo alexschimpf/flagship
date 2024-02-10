@@ -20,12 +20,43 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/flags"
             }
+        },
+        {
+            "name": "Admin Server Debugger",
+            "type": "debugpy",
+            "request": "attach",
+            "connect":{
+                "host": "0.0.0.0",
+                "port": 5678
+            },
+            "pathMappings":[{
+                "localRoot": "${workspaceFolder}/admin",
+                "remoteRoot": "/admin"
+            }]
+        },
+        {
+            "name": "Flags Server Debugger",
+            "type": "debugpy",
+            "request": "attach",
+            "connect":{
+                "host": "0.0.0.0",
+                "port": 5679
+            },
+            "pathMappings":[{
+                "localRoot": "${workspaceFolder}/flags",
+                "remoteRoot": "/flags"
+            }]
         }
     ],
     "compounds": [
         {
             "name": "Flagship Servers",
-            "configurations": ["Admin Server", "Flags Server"]
+            "configurations": [
+                "Admin Server",
+                "Flags Server",
+                "Flags Server Debugger",
+                "Admin Server Debugger"
+            ]
         }
     ]
 }

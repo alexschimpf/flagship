@@ -186,7 +186,7 @@ export default function NewFeatureFlag() {
                                         Conditions
                                     </FormLabel>
                                 </div>
-                                <div className='mt-2'>
+                                <div className='mt-3'>
                                     <FeatureFlagConditions
                                         contextFields={contextFields}
                                         conditions={conditions}

@@ -193,7 +193,7 @@ export default function FeatureFlagCondition(props: FeatureFlagConditionProps) {
             value={contextField.field_key}
             onValueChange={onContextKeyChange}
         >
-            <SelectTrigger className='font-bold'>
+            <SelectTrigger className='font-bold' title={contextField.name}>
                 <SelectValue placeholder='Select a context field' />
             </SelectTrigger>
             <SelectContent>
@@ -201,8 +201,12 @@ export default function FeatureFlagCondition(props: FeatureFlagConditionProps) {
                     <SelectItem
                         key={availableContextField.field_key}
                         value={availableContextField.field_key}
+                        title={availableContextField.name}
                     >
-                        {availableContextField.name}
+                        {availableContextField.name.length > 25 ?
+                            `${availableContextField.name.substring(0, 30)}...` :
+                            availableContextField.name
+                        }
                     </SelectItem>
                 ))}
             </SelectContent>
@@ -215,7 +219,7 @@ export default function FeatureFlagCondition(props: FeatureFlagConditionProps) {
             value={operator.toString()}
             onValueChange={onOperatorChange}
         >
-            <SelectTrigger className='font-bold'>
+            <SelectTrigger className='font-bold '>
                 <SelectValue placeholder='Select an operator' />
             </SelectTrigger>
             <SelectContent>
@@ -581,17 +585,17 @@ export default function FeatureFlagCondition(props: FeatureFlagConditionProps) {
                 {pills?.length > 0 ? (
                     pills
                 ) : (
-                    <p className='text-sm p-2 m-1 text-background font-bold'>No values added</p>
+                    <p className='text-sm p-2 m-1 text-foreground font-bold'>No values added</p>
                 )}
             </div>
         );
     };
 
     return (
-        <div className='w-full flex flex-col justify-center items-center border-4 rounded-md p-4 border-background'>
-            <div className='w-full flex'>
-                <div className='mr-4 flex-auto'>{contextKeySelect}</div>
-                <div className='mr-4 flex-auto'>{operatorSelect}</div>
+        <div className='w-full flex flex-col justify-center items-center rounded-md p-4'>
+            <div className='w-full flex flex-wrap gap-y-2'>
+                <div className='mr-2 flex-auto'>{contextKeySelect}</div>
+                <div className='mr-2 flex-auto'>{operatorSelect}</div>
                 <div className='flex-auto'>{getInputSelect()}</div>
             </div>
             {getPills()}
