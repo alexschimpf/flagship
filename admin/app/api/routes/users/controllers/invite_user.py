@@ -9,6 +9,8 @@ from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLog
 from app.services.database.mysql.schemas.user import UserRow, UsersTable
 from app.services.database.mysql.schemas.user_project import UsersProjectsTable
 from app.services.database.mysql.service import MySQLService
+from app.services.email.service import EmailService, Templates
+from app.config import Config
 
 
 class InviteUserController:
@@ -23,7 +25,14 @@ class InviteUserController:
         hashed_set_password_token, token = common.generate_set_password_token()
         user_row = self._create_user(set_password_token=hashed_set_password_token)
 
-        # TODO: Send invite/set password email (using token)
+        EmailService.send_email(
+            subject='Flagship - Invite',
+            to=self.request.email,
+            template=Templates.INVITE_USER,
+            template_vars={
+                'url': f'{Config.UI_BASE_URL}/set-password?token={token}'
+            }
+        )
 
         return User.from_row(row=user_row, projects=self.request.projects)
 

@@ -22,6 +22,11 @@ class Config:
     SET_PASSWORD_TOKEN_TTL: int
     ENABLE_FAKE_AUTH: bool
     DEFAULT_LOCALE: str
+    SMTP_HOST: str
+    SMTP_PORT: int
+    SMTP_USER: str
+    SMTP_PASSWORD: str
+    EMAIL_FROM_ADDRESS: str
 
     @classmethod
     def init(cls) -> None:
@@ -32,21 +37,21 @@ class Config:
         cls.MYSQL_ISOLATION_LEVEL = cls._get_value(
             env_var='MYSQL_ISOLATION_LEVEL', default='READ COMMITTED')
         cls.MYSQL_POOL_SIZE = cls._get_value(
-            env_var='MYSQL_POOL_SIZE', default=5)
+            env_var='MYSQL_POOL_SIZE', default=5, type_cast=int)
         cls.MYSQL_MAX_OVERFLOW = cls._get_value(
-            env_var='MYSQL_MAX_OVERFLOW', default=10)
+            env_var='MYSQL_MAX_OVERFLOW', default=10, type_cast=int)
         cls.MYSQL_CONN_STR = cls._get_value(
             env_var='MYSQL_CONN_STR', default='mysql+mysqlconnector://root:test@localhost:3306/flagship',
             warn_if_missing=True)
         cls.REDIS_CONN_STR = cls._get_value(
-            env_var='REDIS_CONN_STR', default='redis://redis:7000',
+            env_var='REDIS_CONN_STR', default='redis://localhost:7000',
             warn_if_missing=True)
         cls.UI_BASE_URL = cls._get_value(
             env_var='UI_BASE_URL', default='http://localhost:3000', warn_if_missing=True)
         cls.SESSION_COOKIE_KEY = cls._get_value(
             env_var='SESSION_COOKIE_KEY', default='flagship-session')
         cls.SESSION_COOKIE_MAX_AGE = cls._get_value(
-            env_var='COOKIE_MAX_AGE', default=86400)
+            env_var='COOKIE_MAX_AGE', default=86400, type_cast=int)
         cls.SESSION_COOKIE_DOMAIN = cls._get_value(
             env_var='SESSION_COOKIE_DOMAIN', default='localhost', warn_if_missing=True)
         cls.CORS_ALLOW_ORIGINS = cls._get_value(
@@ -57,6 +62,16 @@ class Config:
             env_var='ENABLE_FAKE_AUTH', default=False, type_cast=cls._to_bool)
         cls.DEFAULT_LOCALE = cls._get_value(
             env_var='DEFAULT_LOCALE', default='en-us')
+        cls.SMTP_HOST = cls._get_value(
+            env_var='SMTP_HOST', default='', warn_if_missing=True)
+        cls.SMTP_PORT = cls._get_value(
+            env_var='SMTP_PORT', default=0, type_cast=int, warn_if_missing=True)
+        cls.SMTP_USER = cls._get_value(
+            env_var='SMTP_USER', default='', warn_if_missing=True)
+        cls.SMTP_PASSWORD = cls._get_value(
+            env_var='SMTP_PASSWORD', default='', warn_if_missing=True)
+        cls.EMAIL_FROM_ADDRESS = cls._get_value(
+            env_var='EMAIL_FROM_ADDRESS', default='', warn_if_missing=True)
 
     @staticmethod
     def _to_bool(val: Any) -> bool:

@@ -16,9 +16,9 @@ router = APIRouter(
 
 @router.post('/login', response_class=RedirectResponse)
 def login(
-    return_url: str | None,
     email: str = Form(),
     password: str = Form(),
+    return_url: str | None = None,
     authorize: AuthJWT = Depends()
 ) -> RedirectResponse:
     return LoginController(

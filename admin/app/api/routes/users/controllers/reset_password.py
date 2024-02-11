@@ -5,6 +5,8 @@ from app.constants import AuditLogEventType
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
 from app.services.database.mysql.schemas.user import UsersTable
 from app.services.database.mysql.service import MySQLService
+from app.services.email.service import EmailService, Templates
+from app.config import Config
 
 
 class ResetPasswordController:
@@ -26,6 +28,13 @@ class ResetPasswordController:
             ))
             session.commit()
 
-        # TODO: Send reset password email (using token)
+        EmailService.send_email(
+            subject='Flagship - Reset Password',
+            to=self.request.email,
+            template=Templates.RESET_PASSWORD,
+            template_vars={
+                'url': f'{Config.UI_BASE_URL}/set-password?token={token}'
+            }
+        )
 
         return SuccessResponse()
