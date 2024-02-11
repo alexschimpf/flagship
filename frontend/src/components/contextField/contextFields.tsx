@@ -34,7 +34,7 @@ import DeleteContextFieldDialog from './deleteContextFieldDialog';
 
 export default function ContextFields() {
     const currentUser = useContext(UserContext);
-    const params = useParams<{ projectId: string; }>();
+    const params = useParams<{ projectId: string }>();
     const projectId = parseInt(params.projectId);
     const [searchText, setSearchText] = useState('');
     const router = useRouter();
@@ -44,11 +44,16 @@ export default function ContextFields() {
     });
 
     const contextFieldMatchesSearchText = (contextField: ContextField) => {
-        return !searchText || contextField.name.toLowerCase().includes(searchText.toLowerCase());
+        return (
+            !searchText ||
+            contextField.name.toLowerCase().includes(searchText.toLowerCase())
+        );
     };
 
     const contextFields = query.data?.items || [];
-    const filteredContextFields = contextFields.filter(contextFieldMatchesSearchText);
+    const filteredContextFields = contextFields.filter(
+        contextFieldMatchesSearchText
+    );
 
     const onBackClick = () => router.push('/');
     const onNewClick = () =>
@@ -84,25 +89,30 @@ export default function ContextFields() {
                             currentUser,
                             Permission.CREATE_CONTEXT_FIELD
                         ) && (
-                            <PlusCircledIcon className='size-9 cursor-pointer hover:bg-accent px-2' onClick={onNewClick} />
+                            <PlusCircledIcon
+                                className='size-9 cursor-pointer hover:bg-accent px-2'
+                                onClick={onNewClick}
+                            />
                         )}
                 </div>
             </div>
             {!query.isFetching && !contextFields.length && (
                 <div className='flex items-center justify-center w-full'>
                     <div className='flex flex-col items-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
-                        <p className='text-center mb-4'>{
-                            "Oops, you don't have any context fields for this project yet."
-                        }</p>
+                        <p className='text-center mb-4'>
+                            {
+                                "Oops, you don't have any context fields for this project yet."
+                            }
+                        </p>
                         {hasPermission(
                             currentUser,
                             Permission.CREATE_CONTEXT_FIELD
                         ) && (
-                                <PlusCircledIcon
-                                    className='size-9 cursor-pointer hover:bg-background rounded-md px-2'
-                                    onClick={onNewClick}
-                                />
-                            )}
+                            <PlusCircledIcon
+                                className='size-9 cursor-pointer hover:bg-background rounded-md px-2'
+                                onClick={onNewClick}
+                            />
+                        )}
                     </div>
                 </div>
             )}
@@ -139,14 +149,16 @@ export default function ContextFields() {
                                     <TableCell>
                                         {contextField.context_field_id}
                                     </TableCell>
-                                    <TableCell className='max-w-[300px] break-words'>{contextField.name}</TableCell>
+                                    <TableCell className='max-w-[300px] break-words'>
+                                        {contextField.name}
+                                    </TableCell>
                                     <TableCell>
                                         {contextField.field_key}
                                     </TableCell>
                                     <TableCell>
                                         {
                                             contextFieldValueTypes[
-                                            contextField.value_type
+                                                contextField.value_type
                                             ]
                                         }
                                     </TableCell>
@@ -191,40 +203,40 @@ export default function ContextFields() {
                                                     currentUser,
                                                     Permission.DELETE_CONTEXT_FIELD
                                                 ) && (
-                                                        <DeleteContextFieldDialog
-                                                            projectId={projectId}
-                                                            contextFieldId={
-                                                                contextField.context_field_id
-                                                            }
-                                                            name={contextField.name}
-                                                            trigger={
-                                                                <DropdownMenuItem
-                                                                    className='hover:cursor-pointer'
-                                                                    onSelect={e =>
-                                                                        e.preventDefault()
-                                                                    }
-                                                                >
-                                                                    Delete context
-                                                                    field
-                                                                </DropdownMenuItem>
-                                                            }
-                                                        />
-                                                    )}
+                                                    <DeleteContextFieldDialog
+                                                        projectId={projectId}
+                                                        contextFieldId={
+                                                            contextField.context_field_id
+                                                        }
+                                                        name={contextField.name}
+                                                        trigger={
+                                                            <DropdownMenuItem
+                                                                className='hover:cursor-pointer'
+                                                                onSelect={e =>
+                                                                    e.preventDefault()
+                                                                }
+                                                            >
+                                                                Delete context
+                                                                field
+                                                            </DropdownMenuItem>
+                                                        }
+                                                    />
+                                                )}
                                                 {hasPermission(
                                                     currentUser,
                                                     Permission.READ_CONTEXT_FIELD_AUDIT_LOGS
                                                 ) && (
-                                                        <DropdownMenuItem
-                                                            className='hover:cursor-pointer'
-                                                            onClick={() =>
-                                                                onAuditLogsClick(
-                                                                    contextField.context_field_id
-                                                                )
-                                                            }
-                                                        >
-                                                            View audit logs
-                                                        </DropdownMenuItem>
-                                                    )}
+                                                    <DropdownMenuItem
+                                                        className='hover:cursor-pointer'
+                                                        onClick={() =>
+                                                            onAuditLogsClick(
+                                                                contextField.context_field_id
+                                                            )
+                                                        }
+                                                    >
+                                                        View audit logs
+                                                    </DropdownMenuItem>
+                                                )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>
@@ -232,11 +244,11 @@ export default function ContextFields() {
                             ))}
                         </TableBody>
                     </Table>
-                    {!filteredContextFields.length &&
+                    {!filteredContextFields.length && (
                         <div className='flex justify-center w-full m-4'>
                             <p>No results</p>
                         </div>
-                    }
+                    )}
                 </div>
             )}
             {query.isFetching && (

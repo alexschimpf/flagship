@@ -4,7 +4,11 @@ import { UpdateUser, User } from '@/api';
 import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
 import { userRoles } from '@/lib/constants';
-import { Permission, hasPermission, permissionsSummary } from '@/lib/permissions';
+import {
+    Permission,
+    hasPermission,
+    permissionsSummary
+} from '@/lib/permissions';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
@@ -170,9 +174,7 @@ export default function EditMyAccount() {
                             render={({ field }) => (
                                 <FormItem className='w-full'>
                                     <FormLabel>Role*</FormLabel>
-                                    <CustomTooltip
-                                        text={permissionsSummary}
-                                    />
+                                    <CustomTooltip text={permissionsSummary} />
                                     <Select
                                         onValueChange={field.onChange}
                                         defaultValue={field.value}
@@ -185,11 +187,17 @@ export default function EditMyAccount() {
                                         </FormControl>
                                         <SelectContent>
                                             {Object.entries(userRoles).map(
-                                                ([roleId, roleName]) => (currentUser && parseInt(roleId) <= currentUser.role &&
-                                                    <SelectItem key={roleId} value={roleId}>
-                                                        {roleName}
-                                                    </SelectItem>
-                                                )
+                                                ([roleId, roleName]) =>
+                                                    currentUser &&
+                                                    parseInt(roleId) <=
+                                                        currentUser.role && (
+                                                        <SelectItem
+                                                            key={roleId}
+                                                            value={roleId}
+                                                        >
+                                                            {roleName}
+                                                        </SelectItem>
+                                                    )
                                             )}
                                         </SelectContent>
                                     </Select>
@@ -211,7 +219,12 @@ export default function EditMyAccount() {
                                             type='multiple'
                                             onValueChange={field.onChange}
                                             value={field.value}
-                                            disabled={!hasPermission(currentUser, Permission.UPDATE_USER_PROJECTS)}
+                                            disabled={
+                                                !hasPermission(
+                                                    currentUser,
+                                                    Permission.UPDATE_USER_PROJECTS
+                                                )
+                                            }
                                         >
                                             <ScrollArea className='w-full rounded-md border min-h-20 max-h-40 p-2'>
                                                 {projectsQuery.isFetching && (

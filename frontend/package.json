@@ -7,8 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "openapi-codegen": "openapi --input http://localhost:8000/openapi.json --output ./src/api --name APIClient --client axios",
-        "format": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
+        "openapi-codegen": "openapi --input http://localhost:8000/openapi.json --output ./src/api --name APIClient --client axios"
     },
     "dependencies": {
         "@hookform/error-message": "^2.0.1",

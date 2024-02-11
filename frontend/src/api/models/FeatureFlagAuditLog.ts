@@ -8,4 +8,3 @@ export type FeatureFlagAuditLog = {
     event_time: string;
     changes: Array<FeatureFlagChange>;
 };
-

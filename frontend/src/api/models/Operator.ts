@@ -15,5 +15,5 @@ export enum Operator {
     INTERSECTS = 10,
     NOT_INTERSECTS = 11,
     CONTAINS = 12,
-    NOT_CONTAINS = 13,
+    NOT_CONTAINS = 13
 }

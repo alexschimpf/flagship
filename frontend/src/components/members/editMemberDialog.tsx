@@ -18,7 +18,11 @@ import { useToast } from '@/components/primitives/use-toast';
 import { UserContext } from '@/context/userContext';
 import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
 import { userRoles } from '@/lib/constants';
-import { Permission, hasPermission, permissionsSummary } from '@/lib/permissions';
+import {
+    Permission,
+    hasPermission,
+    permissionsSummary
+} from '@/lib/permissions';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -175,8 +179,13 @@ export default function EditMemberDialog(props: EditMemberDialogProps) {
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>
-                                                    {Object.entries(userRoles).map(
-                                                        ([roleId, roleName]) => (
+                                                    {Object.entries(
+                                                        userRoles
+                                                    ).map(
+                                                        ([
+                                                            roleId,
+                                                            roleName
+                                                        ]) => (
                                                             <SelectItem
                                                                 key={roleId}
                                                                 value={roleId.toString()}
@@ -203,9 +212,16 @@ export default function EditMemberDialog(props: EditMemberDialogProps) {
                                             <FormControl className='flex flex-col items-center justify-center'>
                                                 <ToggleGroup
                                                     type='multiple'
-                                                    onValueChange={field.onChange}
+                                                    onValueChange={
+                                                        field.onChange
+                                                    }
                                                     value={field.value}
-                                                    disabled={!hasPermission(currentUser, Permission.UPDATE_USER_PROJECTS)}
+                                                    disabled={
+                                                        !hasPermission(
+                                                            currentUser,
+                                                            Permission.UPDATE_USER_PROJECTS
+                                                        )
+                                                    }
                                                 >
                                                     <ScrollArea className='w-full rounded-md border min-h-20 max-h-40 p-2'>
                                                         {projectsQuery.isFetching && (
@@ -250,14 +266,14 @@ export default function EditMemberDialog(props: EditMemberDialogProps) {
                                     Permission.UPDATE_USER
                                 ) ||
                                     currentUser?.user_id === user.user_id) && (
-                                        <Button
-                                            type='submit'
-                                            className='w-1/4'
-                                            disabled={mutation.isPending}
-                                        >
-                                            Save
-                                        </Button>
-                                    )}
+                                    <Button
+                                        type='submit'
+                                        className='w-1/4'
+                                        disabled={mutation.isPending}
+                                    >
+                                        Save
+                                    </Button>
+                                )}
                             </form>
                         </Form>
                     </div>

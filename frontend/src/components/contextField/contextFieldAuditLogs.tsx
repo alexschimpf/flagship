@@ -17,15 +17,22 @@ import {
 } from '../primitives/table';
 
 export default function ContextFieldAuditLogs() {
-    const params = useParams<{ projectId: string; contextFieldId: string; }>();
+    const params = useParams<{ projectId: string; contextFieldId: string }>();
     const router = useRouter();
 
     const contextFieldId = parseInt(params.contextFieldId);
     const projectId = parseInt(params.projectId);
 
     const query = useInfiniteQuery<ContextFieldAuditLogs, Error>({
-        queryKey: [`/projects/${projectId}/context-fields/${contextFieldId}/audit-logs`],
-        queryFn: ({ pageParam }) => apiClient.contextFields.getContextFieldAuditLogs(contextFieldId, projectId, pageParam as number),
+        queryKey: [
+            `/projects/${projectId}/context-fields/${contextFieldId}/audit-logs`
+        ],
+        queryFn: ({ pageParam }) =>
+            apiClient.contextFields.getContextFieldAuditLogs(
+                contextFieldId,
+                projectId,
+                pageParam as number
+            ),
         initialPageParam: 0,
         getNextPageParam: (lastPage: any, pages: any, lastPageParam: any) => {
             if (!lastPage.items.length) {
@@ -49,9 +56,13 @@ export default function ContextFieldAuditLogs() {
                     rows.push(
                         <TableRow
                             key={rowNum}
-                            className={rowNum % 2 == 0 ? 'bg-accent' : 'bg-muted/50'}
+                            className={
+                                rowNum % 2 == 0 ? 'bg-accent' : 'bg-muted/50'
+                            }
                         >
-                            <TableCell className='max-w-[200px] break-words'>{auditLog.actor}</TableCell>
+                            <TableCell className='max-w-[200px] break-words'>
+                                {auditLog.actor}
+                            </TableCell>
                             <TableCell>{change.field}</TableCell>
                             <TableCell className='break-normal max-w-[200px] break-words'>
                                 {change.old || '--'}
@@ -105,19 +116,21 @@ export default function ContextFieldAuditLogs() {
                         </TableHeader>
                         <TableBody>{getAuditLogRows()}</TableBody>
                     </Table>
-                    {query.hasNextPage &&
+                    {query.hasNextPage && (
                         <div className='flex justify-center m-4'>
                             <Button
                                 onClick={() => query.fetchNextPage()}
-                                disabled={!query.hasNextPage || query.isFetchingNextPage}
+                                disabled={
+                                    !query.hasNextPage ||
+                                    query.isFetchingNextPage
+                                }
                             >
                                 {query.isFetchingNextPage
                                     ? 'Loading more...'
-                                    : 'Load more'
-                                }
+                                    : 'Load more'}
                             </Button>
                         </div>
-                    }
+                    )}
                 </div>
             )}
             {query.isFetching && (

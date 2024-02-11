@@ -3,7 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 import axios from 'axios';
-import type { AxiosError, AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios';
+import type {
+    AxiosError,
+    AxiosRequestConfig,
+    AxiosResponse,
+    AxiosInstance
+} from 'axios';
 import FormData from 'form-data';
 
 import { ApiError } from './ApiError';
@@ -13,7 +18,9 @@ import { CancelablePromise } from './CancelablePromise';
 import type { OnCancel } from './CancelablePromise';
 import type { OpenAPIConfig } from './OpenAPI';
 
-export const isDefined = <T>(value: T | null | undefined): value is Exclude<T, null | undefined> => {
+export const isDefined = <T>(
+    value: T | null | undefined
+): value is Exclude<T, null | undefined> => {
     return value !== undefined && value !== null;
 };
 
@@ -59,7 +66,9 @@ export const getQueryString = (params: Record<string, any>): string => {
     const qs: string[] = [];
 
     const append = (key: string, value: any) => {
-        qs.push(`${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`);
+        qs.push(
+            `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`
+        );
     };
 
     const process = (key: string, value: any) => {
@@ -108,7 +117,9 @@ const getUrl = (config: OpenAPIConfig, options: ApiRequestOptions): string => {
     return url;
 };
 
-export const getFormData = (options: ApiRequestOptions): FormData | undefined => {
+export const getFormData = (
+    options: ApiRequestOptions
+): FormData | undefined => {
     if (options.formData) {
         const formData = new FormData();
 
@@ -137,34 +148,47 @@ export const getFormData = (options: ApiRequestOptions): FormData | undefined =>
 
 type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
 
-export const resolve = async <T>(options: ApiRequestOptions, resolver?: T | Resolver<T>): Promise<T | undefined> => {
+export const resolve = async <T>(
+    options: ApiRequestOptions,
+    resolver?: T | Resolver<T>
+): Promise<T | undefined> => {
     if (typeof resolver === 'function') {
         return (resolver as Resolver<T>)(options);
     }
     return resolver;
 };
 
-export const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptions, formData?: FormData): Promise<Record<string, string>> => {
+export const getHeaders = async (
+    config: OpenAPIConfig,
+    options: ApiRequestOptions,
+    formData?: FormData
+): Promise<Record<string, string>> => {
     const [token, username, password, additionalHeaders] = await Promise.all([
         resolve(options, config.TOKEN),
         resolve(options, config.USERNAME),
         resolve(options, config.PASSWORD),
-        resolve(options, config.HEADERS),
+        resolve(options, config.HEADERS)
     ]);
 
-    const formHeaders = typeof formData?.getHeaders === 'function' && formData?.getHeaders() || {}
+    const formHeaders =
+        (typeof formData?.getHeaders === 'function' &&
+            formData?.getHeaders()) ||
+        {};
 
     const headers = Object.entries({
         Accept: 'application/json',
         ...additionalHeaders,
         ...options.headers,
-        ...formHeaders,
+        ...formHeaders
     })
-    .filter(([_, value]) => isDefined(value))
-    .reduce((headers, [key, value]) => ({
-        ...headers,
-        [key]: String(value),
-    }), {} as Record<string, string>);
+        .filter(([_, value]) => isDefined(value))
+        .reduce(
+            (headers, [key, value]) => ({
+                ...headers,
+                [key]: String(value)
+            }),
+            {} as Record<string, string>
+        );
 
     if (isStringWithValue(token)) {
         headers['Authorization'] = `Bearer ${token}`;
@@ -179,7 +203,8 @@ export const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptio
         if (options.mediaType) {
             headers['Content-Type'] = options.mediaType;
         } else if (isBlob(options.body)) {
-            headers['Content-Type'] = options.body.type || 'application/octet-stream';
+            headers['Content-Type'] =
+                options.body.type || 'application/octet-stream';
         } else if (isString(options.body)) {
             headers['Content-Type'] = 'text/plain';
         } else if (!isFormData(options.body)) {
@@ -215,7 +240,7 @@ export const sendRequest = async <T>(
         data: body ?? formData,
         method: options.method,
         withCredentials: config.WITH_CREDENTIALS,
-        cancelToken: source.token,
+        cancelToken: source.token
     };
 
     onCancel(() => source.cancel('The user aborted a request.'));
@@ -231,7 +256,10 @@ export const sendRequest = async <T>(
     }
 };
 
-export const getResponseHeader = (response: AxiosResponse<any>, responseHeader?: string): string | undefined => {
+export const getResponseHeader = (
+    response: AxiosResponse<any>,
+    responseHeader?: string
+): string | undefined => {
     if (responseHeader) {
         const content = response.headers[responseHeader];
         if (isString(content)) {
@@ -248,7 +276,10 @@ export const getResponseBody = (response: AxiosResponse<any>): any => {
     return undefined;
 };
 
-export const catchErrorCodes = (options: ApiRequestOptions, result: ApiResult): void => {
+export const catchErrorCodes = (
+    options: ApiRequestOptions,
+    result: ApiResult
+): void => {
     const errors: Record<number, string> = {
         400: 'Bad Request',
         401: 'Unauthorized',
@@ -257,8 +288,8 @@ export const catchErrorCodes = (options: ApiRequestOptions, result: ApiResult): 
         500: 'Internal Server Error',
         502: 'Bad Gateway',
         503: 'Service Unavailable',
-        ...options.errors,
-    }
+        ...options.errors
+    };
 
     const error = errors[result.status];
     if (error) {
@@ -276,7 +307,9 @@ export const catchErrorCodes = (options: ApiRequestOptions, result: ApiResult): 
             }
         })();
 
-        throw new ApiError(options, result,
+        throw new ApiError(
+            options,
+            result,
             `Generic Error: status: ${errorStatus}; status text: ${errorStatusText}; body: ${errorBody}`
         );
     }
@@ -290,7 +323,11 @@ export const catchErrorCodes = (options: ApiRequestOptions, result: ApiResult): 
  * @returns CancelablePromise<T>
  * @throws ApiError
  */
-export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions, axiosClient: AxiosInstance = axios): CancelablePromise<T> => {
+export const request = <T>(
+    config: OpenAPIConfig,
+    options: ApiRequestOptions,
+    axiosClient: AxiosInstance = axios
+): CancelablePromise<T> => {
     return new CancelablePromise(async (resolve, reject, onCancel) => {
         try {
             const url = getUrl(config, options);
@@ -299,16 +336,28 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions, ax
             const headers = await getHeaders(config, options, formData);
 
             if (!onCancel.isCancelled) {
-                const response = await sendRequest<T>(config, options, url, body, formData, headers, onCancel, axiosClient);
+                const response = await sendRequest<T>(
+                    config,
+                    options,
+                    url,
+                    body,
+                    formData,
+                    headers,
+                    onCancel,
+                    axiosClient
+                );
                 const responseBody = getResponseBody(response);
-                const responseHeader = getResponseHeader(response, options.responseHeader);
+                const responseHeader = getResponseHeader(
+                    response,
+                    options.responseHeader
+                );
 
                 const result: ApiResult = {
                     url,
                     ok: isSuccess(response.status),
                     status: response.status,
                     statusText: response.statusText,
-                    body: responseHeader ?? responseBody,
+                    body: responseHeader ?? responseBody
                 };
 
                 catchErrorCodes(options, result);

@@ -8,4 +8,3 @@ export type Body_set_password_users_password_set_post = {
     password_repeat: string;
     token: string;
 };
-

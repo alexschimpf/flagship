@@ -4,5 +4,5 @@
 /* eslint-disable */
 export enum UserStatus {
     INVITED = 1,
-    ACTIVATED = 2,
+    ACTIVATED = 2
 }

@@ -47,7 +47,10 @@ export default function Projects() {
         router.push(`/project/${projectId}/context-fields`);
 
     const projectMatchesSearchText = (project: Project) => {
-        return !searchText || project.name.toLowerCase().includes(searchText.toLowerCase());
+        return (
+            !searchText ||
+            project.name.toLowerCase().includes(searchText.toLowerCase())
+        );
     };
 
     const projects = query.data?.items || [];
@@ -78,21 +81,21 @@ export default function Projects() {
             {!query.isFetching && !projects.length && (
                 <div className='flex items-center justify-center w-full'>
                     <div className='flex flex-col items-center border-accent h-1/2 w-2/5 border-2 p-8 rounded-md bg-accent rounded-b-2xl mt-4'>
-                        <p className='text-center'>{"Oops, you don't have any projects yet."}</p>
+                        <p className='text-center'>
+                            {"Oops, you don't have any projects yet."}
+                        </p>
                         {hasPermission(
                             currentUser,
                             Permission.CREATE_PROJECT
                         ) && (
-                                <div className='mt-4'>
-                                    <NewProjectDialog
-                                        trigger={
-                                            <PlusCircledIcon
-                                                className='size-9 cursor-pointer hover:bg-background rounded-md px-2'
-                                            />
-                                        }
-                                    />
-                                </div>
-                            )}
+                            <div className='mt-4'>
+                                <NewProjectDialog
+                                    trigger={
+                                        <PlusCircledIcon className='size-9 cursor-pointer hover:bg-background rounded-md px-2' />
+                                    }
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
@@ -102,7 +105,7 @@ export default function Projects() {
                         <SearchBar
                             placeholder='Search for projects..'
                             className='w-1/2'
-                            onChange={(e) => setSearchText(e.currentTarget.value)}
+                            onChange={e => setSearchText(e.currentTarget.value)}
                         />
                     </div>
                     <Table>
@@ -123,7 +126,9 @@ export default function Projects() {
                                     }
                                 >
                                     <TableCell>{project.project_id}</TableCell>
-                                    <TableCell className='max-w-[400px] break-words'>{project.name}</TableCell>
+                                    <TableCell className='max-w-[400px] break-words'>
+                                        {project.name}
+                                    </TableCell>
                                     <TableCell>
                                         {getLocalTimeString(
                                             project.created_date
@@ -157,32 +162,32 @@ export default function Projects() {
                                                     currentUser,
                                                     Permission.UPDATE_CONTEXT_FIELD
                                                 ) && (
-                                                        <DropdownMenuItem
-                                                            className='hover:cursor-pointer'
-                                                            onClick={() =>
-                                                                onContextFieldsClick(
-                                                                    project.project_id
-                                                                )
-                                                            }
-                                                        >
-                                                            Manage context fields
-                                                        </DropdownMenuItem>
-                                                    )}
+                                                    <DropdownMenuItem
+                                                        className='hover:cursor-pointer'
+                                                        onClick={() =>
+                                                            onContextFieldsClick(
+                                                                project.project_id
+                                                            )
+                                                        }
+                                                    >
+                                                        Manage context fields
+                                                    </DropdownMenuItem>
+                                                )}
                                                 {hasPermission(
                                                     currentUser,
                                                     Permission.READ_PROJECT_PRIVATE_KEYS
                                                 ) && (
-                                                        <DropdownMenuItem
-                                                            className='hover:cursor-pointer'
-                                                            onClick={() =>
-                                                                onProjectPrivateKeysClick(
-                                                                    project.project_id
-                                                                )
-                                                            }
-                                                        >
-                                                            Manage private keys
-                                                        </DropdownMenuItem>
-                                                    )}
+                                                    <DropdownMenuItem
+                                                        className='hover:cursor-pointer'
+                                                        onClick={() =>
+                                                            onProjectPrivateKeysClick(
+                                                                project.project_id
+                                                            )
+                                                        }
+                                                    >
+                                                        Manage private keys
+                                                    </DropdownMenuItem>
+                                                )}
                                                 {(hasPermission(
                                                     currentUser,
                                                     Permission.UPDATE_PROJECT
@@ -191,52 +196,52 @@ export default function Projects() {
                                                         currentUser,
                                                         Permission.DELETE_PROJECT
                                                     )) && (
-                                                        <DropdownMenuSeparator className='border-y h-0.5 my-2' />
-                                                    )}
+                                                    <DropdownMenuSeparator className='border-y h-0.5 my-2' />
+                                                )}
                                                 {hasPermission(
                                                     currentUser,
                                                     Permission.UPDATE_PROJECT
                                                 ) && (
-                                                        <EditProjectDialog
-                                                            projectId={
-                                                                project.project_id
-                                                            }
-                                                            initialName={
-                                                                project.name
-                                                            }
-                                                            trigger={
-                                                                <DropdownMenuItem
-                                                                    className='hover:cursor-pointer'
-                                                                    onSelect={e =>
-                                                                        e.preventDefault()
-                                                                    }
-                                                                >
-                                                                    Edit project
-                                                                </DropdownMenuItem>
-                                                            }
-                                                        />
-                                                    )}
+                                                    <EditProjectDialog
+                                                        projectId={
+                                                            project.project_id
+                                                        }
+                                                        initialName={
+                                                            project.name
+                                                        }
+                                                        trigger={
+                                                            <DropdownMenuItem
+                                                                className='hover:cursor-pointer'
+                                                                onSelect={e =>
+                                                                    e.preventDefault()
+                                                                }
+                                                            >
+                                                                Edit project
+                                                            </DropdownMenuItem>
+                                                        }
+                                                    />
+                                                )}
                                                 {hasPermission(
                                                     currentUser,
                                                     Permission.DELETE_PROJECT
                                                 ) && (
-                                                        <DeleteProjectDialog
-                                                            projectId={
-                                                                project.project_id
-                                                            }
-                                                            name={project.name}
-                                                            trigger={
-                                                                <DropdownMenuItem
-                                                                    className='hover:cursor-pointer'
-                                                                    onSelect={e =>
-                                                                        e.preventDefault()
-                                                                    }
-                                                                >
-                                                                    Delete project
-                                                                </DropdownMenuItem>
-                                                            }
-                                                        />
-                                                    )}
+                                                    <DeleteProjectDialog
+                                                        projectId={
+                                                            project.project_id
+                                                        }
+                                                        name={project.name}
+                                                        trigger={
+                                                            <DropdownMenuItem
+                                                                className='hover:cursor-pointer'
+                                                                onSelect={e =>
+                                                                    e.preventDefault()
+                                                                }
+                                                            >
+                                                                Delete project
+                                                            </DropdownMenuItem>
+                                                        }
+                                                    />
+                                                )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>
@@ -244,11 +249,11 @@ export default function Projects() {
                             ))}
                         </TableBody>
                     </Table>
-                    {!filteredProjects.length &&
+                    {!filteredProjects.length && (
                         <div className='flex justify-center w-full m-4'>
                             <p>No results</p>
                         </div>
-                    }
+                    )}
                 </div>
             )}
             {query.isFetching && (

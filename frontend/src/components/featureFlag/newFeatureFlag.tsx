@@ -32,7 +32,7 @@ const formSchema = z.object({
 });
 
 export default function NewFeatureFlag() {
-    const params = useParams<{ projectId: string; }>();
+    const params = useParams<{ projectId: string }>();
     const router = useRouter();
     const queryClient = useQueryClient();
     const { toast } = useToast();

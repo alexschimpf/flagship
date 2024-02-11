@@ -19,7 +19,11 @@ export default function SearchBar(props: SearchBarProps) {
             <MagnifyingGlassIcon
                 className={'relative left-7 top-2 transform -translate-y-1/2'}
             />
-            <Input className='pl-10' placeholder={props.placeholder} onChange={props.onChange} />
+            <Input
+                className='pl-10'
+                placeholder={props.placeholder}
+                onChange={props.onChange}
+            />
         </div>
     );
 }

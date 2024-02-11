@@ -19,7 +19,9 @@ class DeleteFeatureFlagDialogProps {
     trigger: any;
 }
 
-export default function DeleteFeatureFlagDialog(props: DeleteFeatureFlagDialogProps) {
+export default function DeleteFeatureFlagDialog(
+    props: DeleteFeatureFlagDialogProps
+) {
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const mutation = useMutation({

@@ -86,14 +86,14 @@ const Header_ = () => {
                             currentUser,
                             Permission.READ_SYSTEM_AUDIT_LOGS
                         ) && (
-                                <Button
-                                    variant='ghost'
-                                    className={`h-full p-3 hover:bg-background rounded-none ${pathName === '/audit-logs' ? 'bg-background' : ''}`}
-                                    onClick={() => router.push('/audit-logs')}
-                                >
-                                    Audit Logs
-                                </Button>
-                            )}
+                            <Button
+                                variant='ghost'
+                                className={`h-full p-3 hover:bg-background rounded-none ${pathName === '/audit-logs' ? 'bg-background' : ''}`}
+                                onClick={() => router.push('/audit-logs')}
+                            >
+                                Audit Logs
+                            </Button>
+                        )}
                     </nav>
                 </div>
                 {currentProject?.name?.length && (

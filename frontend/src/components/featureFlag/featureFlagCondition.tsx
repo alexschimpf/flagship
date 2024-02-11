@@ -205,10 +205,9 @@ export default function FeatureFlagCondition(props: FeatureFlagConditionProps) {
                         value={availableContextField.field_key}
                         title={availableContextField.name}
                     >
-                        {availableContextField.name.length > 25 ?
-                            `${availableContextField.name.substring(0, 30)}...` :
-                            availableContextField.name
-                        }
+                        {availableContextField.name.length > 25
+                            ? `${availableContextField.name.substring(0, 30)}...`
+                            : availableContextField.name}
                     </SelectItem>
                 ))}
             </SelectContent>
@@ -587,7 +586,9 @@ export default function FeatureFlagCondition(props: FeatureFlagConditionProps) {
                 {pills?.length > 0 ? (
                     pills
                 ) : (
-                    <p className='text-sm p-2 m-1 text-foreground font-bold'>No values added</p>
+                    <p className='text-sm p-2 m-1 text-foreground font-bold'>
+                        No values added
+                    </p>
                 )}
             </div>
         );
@@ -603,4 +604,4 @@ export default function FeatureFlagCondition(props: FeatureFlagConditionProps) {
             {getPills()}
         </div>
     );
-};
+}

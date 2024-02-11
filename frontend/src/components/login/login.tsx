@@ -1,15 +1,15 @@
 'use client';
 
-import { API_BASE_URL } from "@/app/config";
-import { apiClient } from "@/lib/api";
-import { RocketIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import Footer from "../footer";
-import { Button } from "../primitives/button";
-import { Input } from "../primitives/input";
-import { Label } from "../primitives/label";
+import { API_BASE_URL } from '@/app/config';
+import { apiClient } from '@/lib/api';
+import { RocketIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Footer from '../footer';
+import { Button } from '../primitives/button';
+import { Input } from '../primitives/input';
+import { Label } from '../primitives/label';
 
 export default function Login() {
     const router = useRouter();
@@ -21,13 +21,16 @@ export default function Login() {
 
     useEffect(() => {
         const searchParams = new URL(window.location as any).searchParams;
-        const returnPath = searchParams.get('return_url') as string || '';
+        const returnPath = (searchParams.get('return_url') as string) || '';
         const returnURL = `return_url=${encodeURIComponent(returnPath)}`;
         setFormAction(`${API_BASE_URL}/auth/login?${returnURL}`);
 
-        apiClient.auth.loginTest().then(() => {
-            router.push('/');
-        }).catch(() => { });
+        apiClient.auth
+            .loginTest()
+            .then(() => {
+                router.push('/');
+            })
+            .catch(() => {});
     }, [router]);
 
     return (
@@ -51,25 +54,46 @@ export default function Login() {
                 </div>
             </header>
             <div className='flex flex-col flex-1 justify-center items-center size-full'>
-                <form className='size-[400px]' method='POST' action={formAction}>
+                <form
+                    className='size-[400px]'
+                    method='POST'
+                    action={formAction}
+                >
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className='text-xl'>Log in</h1>
                     </div>
                     <div className='mt-8'>
                         <Label htmlFor='email'>Email</Label>
-                        <Input className='mt-2' type='email' name='email' onChange={e => setEmail(e.currentTarget.value)}></Input>
+                        <Input
+                            className='mt-2'
+                            type='email'
+                            name='email'
+                            onChange={e => setEmail(e.currentTarget.value)}
+                        ></Input>
                     </div>
                     <div className='mt-4'>
                         <Label htmlFor='password'>Password</Label>
-                        <Input className='mt-2' type='password' name='password' onChange={e => setPassword(e.currentTarget.value)}></Input>
+                        <Input
+                            className='mt-2'
+                            type='password'
+                            name='password'
+                            onChange={e => setPassword(e.currentTarget.value)}
+                        ></Input>
                     </div>
-                    {error.length > 0 &&
+                    {error.length > 0 && (
                         <div className='flex justify-center mt-8'>
-                            <p className='text-sm text-red-600 p-3 rounded-md'>{error}</p>
+                            <p className='text-sm text-red-600 p-3 rounded-md'>
+                                {error}
+                            </p>
                         </div>
-                    }
+                    )}
                     <div className='flex items-center justify-end mt-8'>
-                        <Link className='mr-4 text-sm hover:underline' href='/forgot-password'>Forgot password?</Link>
+                        <Link
+                            className='mr-4 text-sm hover:underline'
+                            href='/forgot-password'
+                        >
+                            Forgot password?
+                        </Link>
                         <Button disabled={!email || !password}>Log in</Button>
                     </div>
                 </form>
@@ -77,4 +101,4 @@ export default function Login() {
             <Footer />
         </div>
     );
-};
+}

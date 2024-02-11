@@ -23,4 +23,4 @@ export default function Pill(props: PillProps) {
             </Button>
         </div>
     );
-};
+}

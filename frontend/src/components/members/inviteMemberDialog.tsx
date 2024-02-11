@@ -192,14 +192,17 @@ export default function InviteMemberDialog(props: InviteMemberDialogProps) {
                                             </FormControl>
                                             <SelectContent>
                                                 {Object.entries(userRoles).map(
-                                                    ([roleId, roleName]) => (currentUser && parseInt(roleId) <= currentUser.role &&
-                                                        <SelectItem
-                                                            key={roleId}
-                                                            value={roleId.toString()}
-                                                        >
-                                                            {roleName}
-                                                        </SelectItem>
-                                                    )
+                                                    ([roleId, roleName]) =>
+                                                        currentUser &&
+                                                        parseInt(roleId) <=
+                                                            currentUser.role && (
+                                                            <SelectItem
+                                                                key={roleId}
+                                                                value={roleId.toString()}
+                                                            >
+                                                                {roleName}
+                                                            </SelectItem>
+                                                        )
                                                 )}
                                             </SelectContent>
                                         </Select>

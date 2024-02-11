@@ -7,4 +7,3 @@ export type SystemAuditLogs = {
     items: Array<SystemAuditLog>;
     total: number;
 };
-

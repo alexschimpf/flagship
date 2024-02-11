@@ -40,7 +40,9 @@ class NewProjectPrivateKeyDialogProps {
     trigger: any;
 }
 
-export default function NewProjectPrivateKeyDialog(props: NewProjectPrivateKeyDialogProps) {
+export default function NewProjectPrivateKeyDialog(
+    props: NewProjectPrivateKeyDialogProps
+) {
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const form = useForm<z.infer<typeof formSchema>>({

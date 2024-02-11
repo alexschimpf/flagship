@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    typescript: {
+        tsconfigPath: './tsconfig.json'
+    }
+};
 
 module.exports = nextConfig;

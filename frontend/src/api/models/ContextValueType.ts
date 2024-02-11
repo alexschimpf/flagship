@@ -11,5 +11,5 @@ export enum ContextValueType {
     VERSION = 6,
     STRING_LIST = 7,
     INTEGER_LIST = 8,
-    ENUM_LIST = 9,
+    ENUM_LIST = 9
 }

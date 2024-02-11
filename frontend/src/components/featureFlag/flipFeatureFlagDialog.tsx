@@ -32,7 +32,9 @@ interface FlipFeatureFlagDialogProps {
     trigger: any;
 }
 
-export default function FlipFeatureFlagDialog(props: FlipFeatureFlagDialogProps) {
+export default function FlipFeatureFlagDialog(
+    props: FlipFeatureFlagDialogProps
+) {
     const { toast } = useToast();
     const [open, setOpen] = useState(false);
     const queryClient = useQueryClient();

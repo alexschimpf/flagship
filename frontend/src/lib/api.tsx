@@ -13,7 +13,6 @@ import { CancelablePromise } from '../api/core/CancelablePromise';
 import type { OpenAPIConfig } from '../api/core/OpenAPI';
 import { request as __request } from '../api/core/request';
 
-
 export class AxiosClient extends BaseHttpRequest {
     axiosInstance = axios.create();
 
@@ -23,11 +22,14 @@ export class AxiosClient extends BaseHttpRequest {
         this.axiosInstance.interceptors.response.use(
             response => response,
             error => {
-                if (error?.response?.status === 401 &&
+                if (
+                    error?.response?.status === 401 &&
                     window.location.pathname.indexOf('/login') !== 0 &&
                     window.location.pathname.indexOf('/forgot-password') !== 0
                 ) {
-                    window.location.replace(`/login?return_url=${encodeURIComponent(window.location.pathname)}`);
+                    window.location.replace(
+                        `/login?return_url=${encodeURIComponent(window.location.pathname)}`
+                    );
                 }
 
                 return Promise.reject(error);
@@ -35,7 +37,9 @@ export class AxiosClient extends BaseHttpRequest {
         );
     }
 
-    public override request<T>(options: ApiRequestOptions): CancelablePromise<T> {
+    public override request<T>(
+        options: ApiRequestOptions
+    ): CancelablePromise<T> {
         return __request(this.config, options, this.axiosInstance);
     }
 }

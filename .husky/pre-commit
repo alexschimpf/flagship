@@ -1,0 +1,4 @@
+npm run admin-type-check
+npm run flags-type-check
+npm run fe-prettier
+npm run fe-lint

@@ -60,7 +60,11 @@ export default function Members() {
     });
 
     const userMatchesSearchText = (user: User) => {
-        return !searchText || user.email.toLowerCase().includes(searchText.toLowerCase()) || user.name.toLowerCase().includes(searchText.toLowerCase());
+        return (
+            !searchText ||
+            user.email.toLowerCase().includes(searchText.toLowerCase()) ||
+            user.name.toLowerCase().includes(searchText.toLowerCase())
+        );
     };
 
     const users = query.data?.items || [];
@@ -124,8 +128,12 @@ export default function Members() {
                                     }
                                 >
                                     <TableCell>{user.user_id}</TableCell>
-                                    <TableCell className='max-w-[200px] break-words'>{user.email}</TableCell>
-                                    <TableCell className='max-w-[200px] break-words'>{user.name}</TableCell>
+                                    <TableCell className='max-w-[200px] break-words'>
+                                        {user.email}
+                                    </TableCell>
+                                    <TableCell className='max-w-[200px] break-words'>
+                                        {user.name}
+                                    </TableCell>
                                     <TableCell>
                                         {userRoles[user.role]}
                                     </TableCell>
@@ -169,39 +177,39 @@ export default function Members() {
                                                     currentUser,
                                                     Permission.DELETE_USER
                                                 ) && (
-                                                        <DeleteMemberDialog
-                                                            userId={user.user_id}
-                                                            email={user.email}
-                                                            trigger={
-                                                                <DropdownMenuItem
-                                                                    className='hover:cursor-pointer'
-                                                                    onSelect={e =>
-                                                                        e.preventDefault()
-                                                                    }
-                                                                >
-                                                                    Delete member
-                                                                </DropdownMenuItem>
-                                                            }
-                                                        />
-                                                    )}
+                                                    <DeleteMemberDialog
+                                                        userId={user.user_id}
+                                                        email={user.email}
+                                                        trigger={
+                                                            <DropdownMenuItem
+                                                                className='hover:cursor-pointer'
+                                                                onSelect={e =>
+                                                                    e.preventDefault()
+                                                                }
+                                                            >
+                                                                Delete member
+                                                            </DropdownMenuItem>
+                                                        }
+                                                    />
+                                                )}
                                                 {(hasPermission(
                                                     currentUser,
                                                     Permission.UPDATE_USER
                                                 ) ||
                                                     currentUser?.user_id ===
-                                                    user.user_id) && (
-                                                        <DropdownMenuItem
-                                                            className='hover:cursor-pointer'
-                                                            onClick={() =>
-                                                                resetPasswordMutation.mutate(
-                                                                    user.email
-                                                                )
-                                                            }
-                                                        >
-                                                            Resend set password
-                                                            email
-                                                        </DropdownMenuItem>
-                                                    )}
+                                                        user.user_id) && (
+                                                    <DropdownMenuItem
+                                                        className='hover:cursor-pointer'
+                                                        onClick={() =>
+                                                            resetPasswordMutation.mutate(
+                                                                user.email
+                                                            )
+                                                        }
+                                                    >
+                                                        Resend set password
+                                                        email
+                                                    </DropdownMenuItem>
+                                                )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>
@@ -209,11 +217,11 @@ export default function Members() {
                             ))}
                         </TableBody>
                     </Table>
-                    {!filteredUsers.length &&
+                    {!filteredUsers.length && (
                         <div className='flex justify-center w-full m-4'>
                             <p>No results</p>
                         </div>
-                    }
+                    )}
                 </div>
             )}
             {query.isFetching && (

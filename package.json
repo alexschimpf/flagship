@@ -1,0 +1,40 @@
+{
+    "name": "flagship",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "prepare": "husky",
+        "fe-prettier": "lint-staged",
+        "fe-lint": "cd frontend && npx next lint",
+        "admin-type-check": "mypy --config-file admin/mypy.ini admin",
+        "admin-install-reqs": "pip install -r admin/requirements.txt",
+        "admin-install-dev-reqs": "pip install -r admin/requirements-dev.txt",
+        "admin-run-unit-tests": "PYTHONPATH=./admin python -m pytest --verbose --disable-warnings admin/tests/unit",
+        "admin-run-api-tests": "./admin/tests/api/run-tests.sh",
+        "flags-type-check": "mypy --config-file flags/mypy.ini flags",
+        "flags-install-reqs": "pip install -r flags/requirements.txt",
+        "flags-install-dev-reqs": "pip install -r flags/requirements-dev.txt",
+        "flags-run-unit-tests": "PYTHONPATH=./flags python -m pytest --verbose --disable-warnings flags/tests/unit",
+        "flags-run-api-tests": "./flags/tests/api/run-tests.sh",
+        "sdk-python-type-check": "mypy --config-file sdk/python/mypy.ini sdk/python",
+        "run-deps": "docker-compose -f docker/docker-compose-deps.yml up --remove-orphans",
+        "run-deps-clean": "docker-compose -f docker/docker-compose-deps.yml down -v --remove-orphans && docker-compose -f docker/docker-compose-deps.yml pull && docker-compose -f docker/docker-compose-deps.yml up --build",
+        "run-flagship-dev": "docker-compose -f docker/docker-compose-dev.yml up --remove-orphans",
+        "run-flagship-dev-clean": "docker-compose -f docker/docker-compose-dev.yml down -v --remove-orphans && docker-compose -f docker/docker-compose-dev.yml pull && docker-compose -f docker/docker-compose-dev.yml up --build",
+        "run-flagship": "docker-compose up -f docker/docker-compose.yml --remove-orphans",
+        "run-flagship-clean": "docker-compose down -f docker/docker-compose.yml -v --remove-orphans && docker-compose -f docker/docker-compose.yml pull && docker-compose -f docker/docker-compose.yml up --build",
+        "py-size": "git ls-files | grep '\\.py' | xargs wc -l",
+        "fe-size": "git ls-files | grep -e 'frontend/src/app' -e 'frontend/src/components' -e 'frontend/src/context' -e 'frontend/src/lib' | xargs wc -l"
+    },
+    "devDependencies": {
+        "husky": "^9.0.10",
+        "lint-staged": "^15.2.2",
+        "prettier": "^3.2.4"
+    },
+    "lint-staged": {
+        "frontend/src/**/*.(js|jsx|ts|tsx|json)": [
+            "prettier --config frontend/.prettierrc --write",
+            "git add"
+        ]
+    }
+}

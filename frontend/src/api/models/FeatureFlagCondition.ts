@@ -8,4 +8,3 @@ export type FeatureFlagCondition = {
     operator: Operator;
     value: any;
 };
-

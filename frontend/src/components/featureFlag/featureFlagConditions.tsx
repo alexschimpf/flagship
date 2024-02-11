@@ -16,14 +16,16 @@ interface FeatureFlagConditionsProps {
     onChange: (conditions: ConditionGroup[]) => void;
 }
 
-export default function FeatureFlagConditions(props: FeatureFlagConditionsProps) {
+export default function FeatureFlagConditions(
+    props: FeatureFlagConditionsProps
+) {
     const getDefaultCondition = (): Condition => {
         return {
             id: Math.random(),
             context_key: props.contextFields[0].field_key,
             operator:
                 contextFieldValueTypeOperators[
-                props.contextFields[0].value_type
+                    props.contextFields[0].value_type
                 ][0],
             value: ''
         };
@@ -104,4 +106,4 @@ export default function FeatureFlagConditions(props: FeatureFlagConditionsProps)
             </div>
         </div>
     );
-};
+}

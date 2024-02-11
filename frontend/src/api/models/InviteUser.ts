@@ -9,4 +9,3 @@ export type InviteUser = {
     role: UserRole;
     projects: Array<number>;
 };
-

@@ -7,4 +7,3 @@ export type ContextFields = {
     items: Array<ContextField>;
     total: number;
 };
-

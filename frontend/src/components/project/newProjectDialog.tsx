@@ -140,11 +140,12 @@ export default function NewProjectDialog(props: NewProjectDialogProps) {
                         {mutation.isSuccess && (
                             <div className='mt-4'>
                                 <p className='mb-4 text-red-500 text-sm text-center'>
-                                    Your project&lsquo;s <b>secret key</b> is below.
-                                    Please save it somewhere safe and
+                                    Your project&lsquo;s <b>secret key</b> is
+                                    below. Please save it somewhere safe and
                                     accessible. It is needed to authenticate
-                                    your client&lsquo;s requests. You <b>will not</b>{' '}
-                                    see it again after this dialog closes.
+                                    your client&lsquo;s requests. You{' '}
+                                    <b>will not</b> see it again after this
+                                    dialog closes.
                                 </p>
                                 <Textarea
                                     className='bg-accent cursor-pointer resize-none text-center'

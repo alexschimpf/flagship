@@ -20,7 +20,8 @@ export default function AuditLogs() {
     const router = useRouter();
     const query = useInfiniteQuery<SystemAuditLogs, Error>({
         queryKey: [`audit-logs`],
-        queryFn: ({ pageParam }) => apiClient.admin.getAuditLogs(pageParam as number),
+        queryFn: ({ pageParam }) =>
+            apiClient.admin.getAuditLogs(pageParam as number),
         initialPageParam: 0,
         getNextPageParam: (lastPage: any, pages: any, lastPageParam: any) => {
             if (!lastPage.items.length) {
@@ -65,39 +66,50 @@ export default function AuditLogs() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {pages.map(page => (
+                            {pages.map(page =>
                                 page.items.map((auditLog, i) => (
                                     <TableRow
                                         key={i}
                                         className={
-                                            i % 2 == 0 ? 'bg-accent' : 'bg-muted/50'
+                                            i % 2 == 0
+                                                ? 'bg-accent'
+                                                : 'bg-muted/50'
                                         }
                                     >
-                                        <TableCell className='max-w-[200px] break-words'>{auditLog.actor}</TableCell>
-                                        <TableCell>{auditLog.event_type}</TableCell>
-                                        <TableCell className='max-w-[400px] break-words'>{auditLog.details}</TableCell>
+                                        <TableCell className='max-w-[200px] break-words'>
+                                            {auditLog.actor}
+                                        </TableCell>
+                                        <TableCell>
+                                            {auditLog.event_type}
+                                        </TableCell>
+                                        <TableCell className='max-w-[400px] break-words'>
+                                            {auditLog.details}
+                                        </TableCell>
                                         <TableCell>
                                             {getLocalTimeString(
                                                 auditLog.event_time
                                             )}
                                         </TableCell>
                                     </TableRow>
-                                ))))}
+                                ))
+                            )}
                         </TableBody>
                     </Table>
-                    {query.hasNextPage &&
+                    {query.hasNextPage && (
                         <div className='flex justify-center m-4'>
                             <Button
                                 onClick={() => query.fetchNextPage()}
-                                disabled={!query.hasNextPage || query.isFetchingNextPage}
+                                disabled={
+                                    !query.hasNextPage ||
+                                    query.isFetchingNextPage
+                                }
                             >
                                 {query.isFetchingNextPage
                                     ? 'Loading more...'
-                                    : 'Load more'
-                                }
+                                    : 'Load more'}
                             </Button>
                         </div>
-                    }
+                    )}
                 </div>
             )}
             {query.isFetching && (

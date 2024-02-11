@@ -1,18 +1,18 @@
 'use client';
 
-import { apiClient, getErrorToast, getSuccessToast } from "@/lib/api";
-import { RocketIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import Footer from "../footer";
-import { Button } from "../primitives/button";
-import { Input } from "../primitives/input";
-import { Label } from "../primitives/label";
-import { Toaster } from "../primitives/toaster";
-import { useToast } from "../primitives/use-toast";
+import { apiClient, getErrorToast, getSuccessToast } from '@/lib/api';
+import { RocketIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Footer from '../footer';
+import { Button } from '../primitives/button';
+import { Input } from '../primitives/input';
+import { Label } from '../primitives/label';
+import { Toaster } from '../primitives/toaster';
+import { useToast } from '../primitives/use-toast';
 
-const emailRegex = new RegExp('.+\@.+\..+');
+const emailRegex = new RegExp('.+@.+..+');
 
 export default function ForgotPassword() {
     const router = useRouter();
@@ -29,16 +29,23 @@ export default function ForgotPassword() {
 
         try {
             await apiClient.users.resetPassword({ email });
-            toast(getSuccessToast('If the entered email address was valid, an email was sent containing instructions to reset your password.'));
+            toast(
+                getSuccessToast(
+                    'If the entered email address was valid, an email was sent containing instructions to reset your password.'
+                )
+            );
         } catch (e: any) {
             toast(getErrorToast(e));
         }
     };
 
     useEffect(() => {
-        apiClient.auth.loginTest().then(() => {
-            router.push('/');
-        }).catch(() => { });
+        apiClient.auth
+            .loginTest()
+            .then(() => {
+                router.push('/');
+            })
+            .catch(() => {});
     }, [router]);
 
     return (
@@ -68,11 +75,26 @@ export default function ForgotPassword() {
                     </div>
                     <div className='mt-8'>
                         <Label htmlFor='email'>Email</Label>
-                        <Input className='mt-2' type='email' name='email' onChange={e => setEmail(e.currentTarget.value)}></Input>
+                        <Input
+                            className='mt-2'
+                            type='email'
+                            name='email'
+                            onChange={e => setEmail(e.currentTarget.value)}
+                        ></Input>
                     </div>
                     <div className='flex items-center justify-end mt-8'>
-                        <Link className='mr-4 text-sm hover:underline' href='/login'>Return to login</Link>
-                        <Button disabled={!email?.length} onClick={onResetClick}>Reset password</Button>
+                        <Link
+                            className='mr-4 text-sm hover:underline'
+                            href='/login'
+                        >
+                            Return to login
+                        </Link>
+                        <Button
+                            disabled={!email?.length}
+                            onClick={onResetClick}
+                        >
+                            Reset password
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -80,4 +102,4 @@ export default function ForgotPassword() {
             <Toaster />
         </div>
     );
-};
+}

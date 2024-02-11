@@ -17,15 +17,22 @@ import {
 } from '../primitives/table';
 
 export default function FeatureFlagAuditLogs() {
-    const params = useParams<{ projectId: string; featureFlagId: string; }>();
+    const params = useParams<{ projectId: string; featureFlagId: string }>();
     const router = useRouter();
 
     const featureFlagId = parseInt(params.featureFlagId);
     const projectId = parseInt(params.projectId);
 
     const query = useInfiniteQuery<FeatureFlagAuditLogs, Error>({
-        queryKey: [`/projects/${projectId}/feature-flags/${featureFlagId}/audit-logs`],
-        queryFn: ({ pageParam }) => apiClient.featureFlags.getFeatureFlagAuditLogs(featureFlagId, projectId, pageParam as number),
+        queryKey: [
+            `/projects/${projectId}/feature-flags/${featureFlagId}/audit-logs`
+        ],
+        queryFn: ({ pageParam }) =>
+            apiClient.featureFlags.getFeatureFlagAuditLogs(
+                featureFlagId,
+                projectId,
+                pageParam as number
+            ),
         initialPageParam: 0,
         getNextPageParam: (lastPage: any, pages: any, lastPageParam: any) => {
             if (!lastPage.items.length) {
@@ -49,9 +56,13 @@ export default function FeatureFlagAuditLogs() {
                     rows.push(
                         <TableRow
                             key={rowNum}
-                            className={rowNum % 2 == 0 ? 'bg-accent' : 'bg-muted/50'}
+                            className={
+                                rowNum % 2 == 0 ? 'bg-accent' : 'bg-muted/50'
+                            }
                         >
-                            <TableCell className='max-w-[200px] break-words'>{auditLog.actor}</TableCell>
+                            <TableCell className='max-w-[200px] break-words'>
+                                {auditLog.actor}
+                            </TableCell>
                             <TableCell>{change.field}</TableCell>
                             <TableCell className='break-normal max-w-[200px] break-words'>
                                 {change.old || '--'}
@@ -105,19 +116,21 @@ export default function FeatureFlagAuditLogs() {
                         </TableHeader>
                         <TableBody>{getAuditLogRows()}</TableBody>
                     </Table>
-                    {query.hasNextPage &&
+                    {query.hasNextPage && (
                         <div className='flex justify-center m-4'>
                             <Button
                                 onClick={() => query.fetchNextPage()}
-                                disabled={!query.hasNextPage || query.isFetchingNextPage}
+                                disabled={
+                                    !query.hasNextPage ||
+                                    query.isFetchingNextPage
+                                }
                             >
                                 {query.isFetchingNextPage
                                     ? 'Loading more...'
-                                    : 'Load more'
-                                }
+                                    : 'Load more'}
                             </Button>
                         </div>
-                    }
+                    )}
                 </div>
             )}
             {query.isFetching && (

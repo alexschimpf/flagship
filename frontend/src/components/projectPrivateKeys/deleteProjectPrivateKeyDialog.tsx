@@ -25,7 +25,9 @@ interface DeleteProjectPrivateKeyDialogProps {
     trigger: any;
 }
 
-export default function DeleteProjectPrivateKeyDialog(props: DeleteProjectPrivateKeyDialogProps) {
+export default function DeleteProjectPrivateKeyDialog(
+    props: DeleteProjectPrivateKeyDialogProps
+) {
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const mutation = useMutation({

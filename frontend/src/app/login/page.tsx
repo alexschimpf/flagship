@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from 'next-themes';
 
 import Login from '@/components/login/login';
 
@@ -10,11 +10,7 @@ export default function LoginPage() {
         theme = localStorage.getItem('theme') || 'dark';
     }
     return (
-        <ThemeProvider
-            attribute='class'
-            defaultTheme={theme}
-            enableSystem
-        >
+        <ThemeProvider attribute='class' defaultTheme={theme} enableSystem>
             <Login />
         </ThemeProvider>
     );

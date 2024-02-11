@@ -14,4 +14,3 @@ export type User = {
     created_date: string;
     updated_date: string;
 };
-

@@ -18,7 +18,9 @@ interface FeatureFlagConditionGroupProps {
     onChange: (group: ConditionGroup) => void;
 }
 
-export default function FeatureFlagConditionGroup(props: FeatureFlagConditionGroupProps) {
+export default function FeatureFlagConditionGroup(
+    props: FeatureFlagConditionGroupProps
+) {
     const [group, setGroup] = useState(props.group);
 
     const id = props.group.id;
@@ -29,7 +31,7 @@ export default function FeatureFlagConditionGroup(props: FeatureFlagConditionGro
             context_key: props.contextFields[0].field_key,
             operator:
                 contextFieldValueTypeOperators[
-                props.contextFields[0].value_type
+                    props.contextFields[0].value_type
                 ][0],
             value: ''
         };
@@ -112,4 +114,4 @@ export default function FeatureFlagConditionGroup(props: FeatureFlagConditionGro
             </div>
         </div>
     );
-};
+}

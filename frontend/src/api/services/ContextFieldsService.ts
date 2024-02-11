@@ -23,19 +23,19 @@ export class ContextFieldsService {
     public getContextFields(
         projectId: number,
         page?: number,
-        pageSize: number = 9223372036854776000,
+        pageSize: number = 9223372036854776000
     ): CancelablePromise<ContextFields> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/context_fields',
             query: {
-                'project_id': projectId,
-                'page': page,
-                'page_size': pageSize,
+                project_id: projectId,
+                page: page,
+                page_size: pageSize
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -47,19 +47,19 @@ export class ContextFieldsService {
      */
     public createContextField(
         projectId: number,
-        requestBody: CreateContextField,
+        requestBody: CreateContextField
     ): CancelablePromise<ContextField> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/context_fields',
             query: {
-                'project_id': projectId,
+                project_id: projectId
             },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -71,20 +71,20 @@ export class ContextFieldsService {
      */
     public getContextField(
         contextFieldId: number,
-        projectId: number,
+        projectId: number
     ): CancelablePromise<ContextField> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/context_fields/{context_field_id}',
             path: {
-                'context_field_id': contextFieldId,
+                context_field_id: contextFieldId
             },
             query: {
-                'project_id': projectId,
+                project_id: projectId
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -98,22 +98,22 @@ export class ContextFieldsService {
     public updateContextField(
         contextFieldId: number,
         projectId: number,
-        requestBody: UpdateContextField,
+        requestBody: UpdateContextField
     ): CancelablePromise<ContextField> {
         return this.httpRequest.request({
             method: 'PUT',
             url: '/context_fields/{context_field_id}',
             path: {
-                'context_field_id': contextFieldId,
+                context_field_id: contextFieldId
             },
             query: {
-                'project_id': projectId,
+                project_id: projectId
             },
             body: requestBody,
             mediaType: 'application/json',
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -125,20 +125,20 @@ export class ContextFieldsService {
      */
     public deleteContextField(
         contextFieldId: number,
-        projectId: number,
+        projectId: number
     ): CancelablePromise<SuccessResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/context_fields/{context_field_id}',
             path: {
-                'context_field_id': contextFieldId,
+                context_field_id: contextFieldId
             },
             query: {
-                'project_id': projectId,
+                project_id: projectId
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -154,22 +154,22 @@ export class ContextFieldsService {
         contextFieldId: number,
         projectId: number,
         page?: number,
-        pageSize: number = 100,
+        pageSize: number = 100
     ): CancelablePromise<ContextFieldAuditLogs> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/context_fields/{context_field_id}/audit_logs',
             path: {
-                'context_field_id': contextFieldId,
+                context_field_id: contextFieldId
             },
             query: {
-                'project_id': projectId,
-                'page': page,
-                'page_size': pageSize,
+                project_id: projectId,
+                page: page,
+                page_size: pageSize
             },
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
 }

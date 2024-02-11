@@ -16,21 +16,21 @@ export class AuthService {
      * @throws ApiError
      */
     public login(
-        returnUrl: (string | null),
-        formData: Body_login_auth_login_post,
+        returnUrl: string | null,
+        formData: Body_login_auth_login_post
     ): CancelablePromise<void> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/auth/login',
             query: {
-                'return_url': returnUrl,
+                return_url: returnUrl
             },
             formData: formData,
             mediaType: 'application/x-www-form-urlencoded',
             errors: {
                 307: `Successful Response`,
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -43,8 +43,8 @@ export class AuthService {
             method: 'POST',
             url: '/auth/login/test',
             errors: {
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
     /**
@@ -58,8 +58,8 @@ export class AuthService {
             url: '/auth/logout',
             errors: {
                 307: `Successful Response`,
-                400: `Bad Request`,
-            },
+                400: `Bad Request`
+            }
         });
     }
 }
