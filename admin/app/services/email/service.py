@@ -38,6 +38,7 @@ class EmailService:
 
             if body:
                 message.set_content(body)
+
             if template:
                 template_path = os.path.join(os.path.dirname(__file__), 'templates', template)
                 with open(template_path, 'r') as template_file:

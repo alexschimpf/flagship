@@ -60,7 +60,7 @@ const Header_ = () => {
                             window.location.replace('/');
                         }}
                     >
-                        <RocketIcon />
+                        <RocketIcon className='size-5' />
                         <h1 className='font-bold text-lg pl-2 cursor-pointer'>
                             Flagship
                         </h1>
