@@ -15,6 +15,20 @@
             ]
         }
     },
+    "test_get_feature_flags__200_no_flags": {
+        "url": "/feature_flags?project_id={project_id}&user_key={user_key}",
+        "method": "POST",
+        "status": 200,
+        "request": {
+            "str": "cde"
+        },
+        "headers": {
+            "FLAGSHIP-SIGNATURE": "$$$"
+        },
+        "response": {
+            "items": []
+        }
+    },
     "test_get_feature_flags__403": {
         "url": "/feature_flags?project_id={project_id}&user_key={user_key}",
         "method": "POST",

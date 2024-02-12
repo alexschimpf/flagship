@@ -41,6 +41,24 @@ class TestGetFeatureFlags(TestCase):
         )
         self.verify_test_result(result=result)
 
+    def test_get_feature_flags__200_no_flags(self) -> None:
+        signature = self._generate_signature(
+            private_key=self.private_key,
+            user_key='1'
+        )
+        result = self.runner.run(
+            path_to_test_cases=self.path_to_test_cases,
+            test_name='test_get_feature_flags__200_no_flags',
+            url_params={
+                'project_id': 1,
+                'user_key': 1
+            },
+            request_header_modifiers={
+                'FLAGSHIP-SIGNATURE': signature
+            }
+        )
+        self.verify_test_result(result=result)
+
     def test_get_feature_flags__403(self) -> None:
         result = self.runner.run(
             path_to_test_cases=self.path_to_test_cases,

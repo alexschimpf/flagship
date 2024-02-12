@@ -24,6 +24,7 @@
         "docker-flagship-dev-clean": "docker-compose -f docker/docker-compose-dev.yml down -v --remove-orphans && docker-compose -f docker/docker-compose-dev.yml pull && docker-compose -f docker/docker-compose-dev.yml up --build",
         "docker-flagship": "docker-compose up -f docker/docker-compose.yml --remove-orphans",
         "docker-flagship-clean": "docker-compose down -f docker/docker-compose.yml -v --remove-orphans && docker-compose -f docker/docker-compose.yml pull && docker-compose -f docker/docker-compose.yml up --build",
+        "all-tests": "npm run admin-unit-tests && npm run admin-api-tests && npm run flags-unit-tests && npm run flags-api-tests",
         "loc": "git ls-files | grep -e '\\.py' -e 'frontend/src' -e 'sdk/javascript/.*\\.js' | xargs wc -l"
     },
     "devDependencies": {

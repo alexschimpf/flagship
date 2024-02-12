@@ -17,6 +17,7 @@ done
 
 sleep 5
 
+# Add up some redis data
 redis-cli -c --cluster call --cluster-only-masters 127.0.0.1:7000 FLUSHALL
 redis-cli -c --cluster call --cluster-only-masters 127.0.0.1:7000 HSET "context-fields:{1}" "str" "1"
 redis-cli -c --cluster call --cluster-only-masters 127.0.0.1:7000 HSET "feature-flags:{1}" "FLAG_1" '[[{"context_key": "str", "operator": 1, "value": "abc"}]]'
