@@ -3,6 +3,8 @@ services:
         extends:
             file: docker-compose.yml
             service: mysql
+        environment:
+            - DEV=1
 
     redis:
         extends:

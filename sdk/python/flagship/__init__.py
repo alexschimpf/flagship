@@ -86,7 +86,7 @@ class Flagship:
         :return: str
         """
         return hmac.new(
-            self._private_key.encode('utf-8'),
-            self._user_key.encode('utf-8'),
+            self._private_key.encode(),
+            self._user_key.encode(),
             hashlib.sha256
         ).hexdigest()

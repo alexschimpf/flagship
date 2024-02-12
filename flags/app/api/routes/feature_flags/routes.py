@@ -15,11 +15,11 @@ def get_enabled_feature_flags(
     project_id: int,
     user_key: str,
     context: dict[str, Any] = Body(),
-    signature: str = Header()
+    flagship_signature: str = Header()
 ) -> FeatureFlags:
     return GetFeatureFlagsController(
         project_id=project_id,
         user_key=user_key,
         context=context,
-        signature=signature
+        signature=flagship_signature
     ).handle_request()

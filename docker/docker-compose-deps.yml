@@ -11,6 +11,7 @@ services:
             - mysql-volume:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=test
+            - DEV=1
         healthcheck:
             test: ["CMD", "mysqladmin", "-uroot", "-ptest", "ping"]
             interval: 5s

@@ -2,23 +2,11 @@
     "files.associations": {
         "*.css": "tailwindcss"
     },
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": "explicit"
-    },
-    "[typescriptreact]": {
-        "editor.formatOnSave": true
-    },
-    "files.trimTrailingWhitespace": true,
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "window.zoomLevel": 0.2,
-    "files.autoSave": "afterDelay",
-    "mypy.configFile": "admin/mypy.ini",
+    "mypy.configFile": "flags/mypy.ini",
     "mypy.runUsingActiveInterpreter": true,
     "mypy.targets": [
         "./admin/",
-        "./flags"
+        "./flags/"
     ],
     "folder-path-color.folders": [
         {
@@ -42,5 +30,8 @@
         {
             "path": "./sdk",
         }
+    ],
+    "python.testing.pytestArgs": [
+        "flags"
     ]
 }

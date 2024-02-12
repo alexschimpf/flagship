@@ -17,7 +17,7 @@ class Config:
         cls.SECRET_KEY = cls._get_value(
             env_var='SECRET_KEY', default='_NOR3QX7-7LAJLLQ_OeOMuFzfq1Xg9RICwTalktXg5s=', warn_if_missing=True)
         cls.REDIS_CONN_STR = cls._get_value(
-            env_var='REDIS_CONN_STR', default='redis://127.0.0.1:7000',
+            env_var='REDIS_CONN_STR', default='redis://localhost:7000',
             warn_if_missing=True)
         cls.CORS_ALLOW_ORIGINS = cls._get_value(
             env_var='CORS_ALLOW_ORIGINS', default='*', warn_if_missing=True, type_cast=cls._to_str_list)

@@ -46,27 +46,26 @@ class GetFeatureFlagsController:
 
     def _get_enabled_feature_flags(
         self,
-        feature_flags: dict[str, str],
+        feature_flags: dict[str, list[list[dict[str, Any]]] | None],
         context_fields: dict[str, str]
     ) -> list[str]:
         enabled_feature_flags = []
         if feature_flags and context_fields:
-            for feature_flag_name, conditions_str in feature_flags.items():
-                if self._is_feature_flag_enabled(conditions_str=conditions_str, context_fields=context_fields):
+            for feature_flag_name, conditions in feature_flags.items():
+                if self._is_feature_flag_enabled(conditions=conditions, context_fields=context_fields):
                     enabled_feature_flags.append(feature_flag_name)
 
         return enabled_feature_flags
 
     def _is_feature_flag_enabled(
         self,
-        conditions_str: str | None,
+        conditions: list[list[dict[str, Any]]] | None,
         context_fields: dict[str, str]
     ) -> bool:
-        if conditions_str in (None, '', '[]'):
+        if conditions in (None, []):
             return True
 
-        conditions = ujson.loads(cast(str, conditions_str))
-        for and_group in conditions:
+        for and_group in conditions or []:
             for condition in and_group:
                 context_key = condition['context_key']
                 context_value = self.context.get(context_key)

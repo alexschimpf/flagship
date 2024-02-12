@@ -27,11 +27,14 @@ class RedisService:
         )
 
     @classmethod
-    def get_project_data(cls, project_id: int) -> tuple[Any, Any, Any]:
+    def get_project_data(
+        cls,
+        project_id: int
+    ) -> tuple[dict[str, list[list[dict[str, Any]]] | None], dict[str, str], set[str]]:
         pipeline = cls._client.pipeline()
-        pipeline.hgetall(f'feature-flags:{project_id}')
-        pipeline.hgetall(f'context-fields:{project_id}')
-        pipeline.smembers(f'private-keys:{project_id}')
+        pipeline.hgetall(f'feature-flags:{{{project_id}}}')
+        pipeline.hgetall(f'context-fields:{{{project_id}}}')
+        pipeline.smembers(f'private-keys:{{{project_id}}}')
         feature_flags, context_fields, private_keys = pipeline.execute()
 
         for name, conditions in feature_flags.items():
