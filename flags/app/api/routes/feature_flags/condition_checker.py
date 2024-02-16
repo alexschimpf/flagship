@@ -246,7 +246,7 @@ class ConditionChecker:
             for item in context_value:
                 if not isinstance(item, list_type):
                     if isinstance(list_type, tuple):
-                        valid_types = f'({', '.join(map(lambda x: x.__name__, list_type))})s'
+                        valid_types = f'({", ".join((x.__name__ for x in list_type))})s'
                     else:
                         valid_types = f'{list_type.__name__}s'
                     raise TypeError('context_value must be a list of ' + valid_types)

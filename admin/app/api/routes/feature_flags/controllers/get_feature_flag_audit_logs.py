@@ -1,11 +1,10 @@
 import ujson
 from typing import Any
 
-from app.api.exceptions.exceptions import UnauthorizedException
 from app.api.routes.feature_flags.schemas import FeatureFlagAuditLogs, FeatureFlagAuditLog, FeatureFlagChange, \
     FeatureFlagCondition
 from app.api.schemas import User
-from app.constants import Permission, OPERATOR_DISPLAY_NAMES
+from app.constants import OPERATOR_DISPLAY_NAMES
 from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogsTable, \
     FeatureFlagAuditLogRow
 from app.services.database.mysql.service import MySQLService
@@ -29,7 +28,7 @@ class GetFeatureFlagAuditLogsController:
 
         result = []
         for i, audit_log in enumerate(audit_logs):
-            prev = audit_logs[i-1] if i > 0 else None
+            prev = audit_logs[i - 1] if i > 0 else None
             changes = self._get_changes(old=prev, new_=audit_log)
             if changes:
                 result.append(FeatureFlagAuditLog(

@@ -24,7 +24,6 @@ class Config:
         cls.DEFAULT_LOCALE = cls._get_value(
             env_var='DEFAULT_LOCALE', default='en-us')
 
-
     @staticmethod
     def _to_bool(val: Any) -> bool:
         if isinstance(val, bool):

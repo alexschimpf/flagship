@@ -1,1 +1,1 @@
-from app.api.exceptions.exceptions import *
+from app.api.exceptions.exceptions import *  # noqa

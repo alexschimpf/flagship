@@ -10,7 +10,7 @@ from app.api.routes.users.controllers.invite_user import InviteUserController
 from app.api.routes.users.controllers.reset_password import ResetPasswordController
 from app.api.routes.users.controllers.set_password import SetPasswordController
 from app.api.routes.users.controllers.update_user import UpdateUserController
-from app.api.routes.users.schemas import SetPassword, ResetPassword, InviteUser, UpdateUser, Users
+from app.api.routes.users.schemas import ResetPassword, InviteUser, UpdateUser, Users
 from app.api.schemas import SuccessResponse, User
 from app.constants import DEFAULT_PAGE_SIZE
 

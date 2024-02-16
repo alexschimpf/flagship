@@ -3,8 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from app.api.exceptions.exceptions import AppException, AggregateException, BadRequestFieldException, \
-    UnauthenticatedException
+from app.api.exceptions.exceptions import AppException, AggregateException, BadRequestFieldException
 from app.services.strings.service import StringsService
 
 

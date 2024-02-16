@@ -13,7 +13,8 @@ class TestGetProjects(BaseTestCase):
     def setUp(self) -> None:
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
-        path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
+        path_to_scenarios_dir = os.path.join(
+            os.path.dirname(__file__), '__scenarios__')
         self.path_to_test_cases = 'test_get_projects.json'
         self.runner = TestCaseRunner(
             client=test_client,
@@ -40,4 +41,3 @@ class TestGetProjects(BaseTestCase):
                 }
             )
         self.verify_test_result(result=result)
-

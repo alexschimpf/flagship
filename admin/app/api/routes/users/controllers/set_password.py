@@ -9,7 +9,6 @@ from fastapi_another_jwt_auth import AuthJWT
 
 from app.api.exceptions.exceptions import InvalidPasswordException, InvalidSetPasswordTokenException, AppException, \
     PasswordsDontMatchException
-from app.api.routes.users.schemas import SetPassword
 from app.config import Config
 from app.constants import AuditLogEventType
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow

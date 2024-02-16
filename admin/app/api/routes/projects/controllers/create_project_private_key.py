@@ -1,5 +1,3 @@
-from typing import cast
-
 from app.api.exceptions.exceptions import NotFoundException, UnauthorizedException, NameTakenException
 from app.api.routes.projects.controllers import common
 from app.api.routes.projects.schemas import ProjectPrivateKey, ProjectPrivateKeyName

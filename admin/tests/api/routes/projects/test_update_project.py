@@ -14,7 +14,8 @@ class TestUpdateProject(BaseTestCase):
     def setUp(self) -> None:
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
-        path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
+        path_to_scenarios_dir = os.path.join(
+            os.path.dirname(__file__), '__scenarios__')
         self.path_to_test_cases = 'test_update_project.json'
         self.runner = TestCaseRunner(
             client=test_client,
@@ -49,7 +50,8 @@ class TestUpdateProject(BaseTestCase):
                 runner=self.runner,
                 path_to_test_cases=self.path_to_test_cases,
                 test_name='test_update_project__403_read_only_role',
-                user=utils.User(projects=[project_id], role=UserRole.READ_ONLY),
+                user=utils.User(projects=[project_id],
+                                role=UserRole.READ_ONLY),
                 url_params={'project_id': project_id}
             )
         self.verify_test_result(
@@ -71,4 +73,3 @@ class TestUpdateProject(BaseTestCase):
             result=result,
             excluded_response_paths=['updated_date']
         )
-

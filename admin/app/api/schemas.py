@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr
 
 from app.constants import UserRole, UserStatus
 from app.services.database.mysql.schemas.user import UserRow

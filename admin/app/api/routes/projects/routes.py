@@ -14,7 +14,6 @@ from app.api.routes.projects.schemas import Project, Projects, CreateOrUpdatePro
     ProjectPrivateKey, ProjectPrivateKeyName, ProjectPrivateKeys
 from app.api.schemas import SuccessResponse, User
 from app.constants import DEFAULT_PAGE_SIZE
-from app.services.database.redis.service import RedisService
 
 router = APIRouter(
     prefix='/projects',

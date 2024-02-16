@@ -20,9 +20,13 @@ class OpenAPIIntEnum(IntEnum):
     @classmethod
     def __get_pydantic_json_schema__(cls, core_schema: Any, handler: Any) -> Any:
         json_schema = BaseModel.__get_pydantic_json_schema__(core_schema, handler)
-        json_schema["x-enum-varnames"] = [v.name for v in cls]
-        json_schema["oneOf"] = [
-            {"title": v.name, "const": v.value, "description": inspect.getdoc(v)} for v in cls
+        json_schema['x-enum-varnames'] = [v.name for v in cls]
+        json_schema['oneOf'] = [
+            {
+                'title': v.name,
+                'const': v.value,
+                'description': inspect.getdoc(v)
+            } for v in cls
         ]
         json_schema = handler.resolve_ref_schema(json_schema)
         return json_schema

@@ -1,41 +1,11 @@
 {
     "name": "flagship",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "private": true,
     "scripts": {
-        "prepare": "husky",
-        "setup": "npm install . && npm install frontend --prefix frontend && npx husky init && npm run admin-install-reqs && npm run admin-install-dev-reqs && npm run flags-install-reqs && npm run flags-install-dev-reqs",
-        "fe-prettier": "lint-staged",
-        "fe-lint": "cd frontend && npx next lint",
-        "admin-type-check": "mypy --config-file admin/mypy.ini admin",
-        "admin-install": "pip install -r admin/requirements.txt",
-        "admin-install-dev": "pip install -r admin/requirements-dev.txt",
-        "admin-unit-tests": "PYTHONPATH=admin python -m pytest --verbose --disable-warnings admin/tests/unit",
-        "admin-api-tests": "./admin/tests/api/run-tests.sh",
-        "flags-type-check": "mypy --config-file flags/mypy.ini flags",
-        "flags-install": "pip install -r flags/requirements.txt",
-        "flags-install-dev": "pip install -r flags/requirements-dev.txt",
-        "flags-unit-tests": "PYTHONPATH=flags python -m pytest --verbose --disable-warnings flags/tests/unit",
-        "flags-api-tests": "./flags/tests/api/run-tests.sh",
-        "sdk-python-type-check": "mypy --config-file sdk/python/mypy.ini sdk/python",
-        "docker-deps": "docker-compose -f docker/docker-compose-deps.yml up --remove-orphans",
-        "docker-deps-clean": "docker-compose -f docker/docker-compose-deps.yml down -v --remove-orphans && docker-compose -f docker/docker-compose-deps.yml pull && docker-compose -f docker/docker-compose-deps.yml up --build",
-        "docker-flagship-dev": "docker-compose -f docker/docker-compose-dev.yml up --remove-orphans",
-        "docker-flagship-dev-clean": "docker-compose -f docker/docker-compose-dev.yml down -v --remove-orphans && docker-compose -f docker/docker-compose-dev.yml pull && docker-compose -f docker/docker-compose-dev.yml up --build",
-        "docker-flagship": "docker-compose up -f docker/docker-compose.yml --remove-orphans",
-        "docker-flagship-clean": "docker-compose down -f docker/docker-compose.yml -v --remove-orphans && docker-compose -f docker/docker-compose.yml pull && docker-compose -f docker/docker-compose.yml up --build",
-        "all-tests": "npm run admin-unit-tests && npm run admin-api-tests && npm run flags-unit-tests && npm run flags-api-tests",
-        "loc": "git ls-files | grep -e '\\.py' -e 'frontend/src' -e 'sdk/javascript/.*\\.js' | xargs wc -l"
+        "prepare": "husky"
     },
     "devDependencies": {
-        "husky": "^9.0.10",
-        "lint-staged": "^15.2.2",
-        "prettier": "^3.2.4"
-    },
-    "lint-staged": {
-        "frontend/src/**/*.(js|jsx|ts|tsx|json)": [
-            "prettier --config frontend/.prettierrc --write",
-            "git add"
-        ]
+        "husky": "^9.0.10"
     }
 }

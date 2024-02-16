@@ -44,7 +44,8 @@ class BaseTestCase(TestCase):
             if test_data_modifier:
                 test_data = test_data_modifier(test_data)
 
-            session_cookie = cls._login(email=user.email, password=user.password, test_client=test_client)
+            session_cookie = cls._login(
+                email=user.email, password=user.password, test_client=test_client)
             if test_data.cookies is None:
                 test_data.cookies = {}
             test_data.cookies[Config.SESSION_COOKIE_KEY] = session_cookie
@@ -59,7 +60,7 @@ class BaseTestCase(TestCase):
             url='/auth/login',
             allow_redirects=False,
             headers={
-              'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
             data=form_data,
             timeout=5

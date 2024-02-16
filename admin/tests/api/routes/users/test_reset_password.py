@@ -15,7 +15,8 @@ class TestResetPassword(BaseTestCase):
     def setUp(self) -> None:
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
-        path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
+        path_to_scenarios_dir = os.path.join(
+            os.path.dirname(__file__), '__scenarios__')
         self.path_to_test_cases = 'test_reset_password.json'
         self.runner = TestCaseRunner(
             client=test_client,
@@ -41,6 +42,3 @@ class TestResetPassword(BaseTestCase):
                 user_row = session.get(UserRow, user.user_id)
                 if user_row:
                     self.assertIsNotNone(user_row.set_password_token)
-
-
-

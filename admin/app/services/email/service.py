@@ -7,6 +7,7 @@ from app.config import Config
 
 logger = logging.getLogger(__name__)
 
+
 class Templates:
     INVITE_USER = 'invite-user.html'
     RESET_PASSWORD = 'reset-password.html'
@@ -40,7 +41,8 @@ class EmailService:
                 message.set_content(body)
 
             if template:
-                template_path = os.path.join(os.path.dirname(__file__), 'templates', template)
+                template_path = os.path.join(
+                    os.path.dirname(__file__), 'templates', template)
                 with open(template_path, 'r') as template_file:
                     template_content = template_file.read()
                     if template_vars:

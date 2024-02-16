@@ -1,8 +1,7 @@
-from typing import Any, cast
+from typing import Any
 import hmac
 import hashlib
 from cryptography.fernet import Fernet
-import ujson
 
 from app.config import Config
 from app.services.database.redis.service import RedisService

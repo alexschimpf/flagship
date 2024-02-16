@@ -18,7 +18,8 @@ class TestSetPassword(BaseTestCase):
     def setUp(self) -> None:
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
-        path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
+        path_to_scenarios_dir = os.path.join(
+            os.path.dirname(__file__), '__scenarios__')
         self.path_to_test_cases = 'test_set_password.json'
         self.runner = TestCaseRunner(
             client=test_client,
@@ -95,13 +96,15 @@ class TestSetPassword(BaseTestCase):
     def add_token(token: str, update_header: bool = False) -> Callable[[TestData], TestData]:
         def func(test_data: TestData) -> TestData:
             if test_data.request_data:
-                test_data.request_data = test_data.request_data.replace('$$$', token)
+                test_data.request_data = test_data.request_data.replace(
+                    '$$$', token)
             if update_header:
                 expected_headers = test_data.expected_headers
                 if expected_headers:
                     location_header = expected_headers.get('location')
                     if location_header and 'error' in location_header:
-                        expected_headers['location'] = f'{expected_headers['location']}&token={token}'
+                        expected_headers['location'] = f'{
+                            expected_headers["location"]}&token={token}'
             return test_data
 
         return func

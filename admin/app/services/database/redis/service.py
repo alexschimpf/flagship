@@ -1,7 +1,7 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import ujson
-from redis import BusyLoadingError, ConnectionError, TimeoutError
+import redis
 from redis.cluster import RedisCluster
 from redis.retry import Retry
 from redis.backoff import ExponentialBackoff
@@ -24,7 +24,7 @@ class RedisService:
             url=Config.REDIS_CONN_STR,
             decode_responses=True,
             require_full_coverage=True,
-            retry_on_error=[BusyLoadingError, ConnectionError, TimeoutError],
+            retry_on_error=[redis.BusyLoadingError, redis.ConnectionError, redis.TimeoutError],
             retry=Retry(ExponentialBackoff(), 3)
         )
 

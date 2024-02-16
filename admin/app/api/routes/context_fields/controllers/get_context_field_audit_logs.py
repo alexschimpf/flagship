@@ -28,7 +28,7 @@ class GetContextFieldAuditLogsController:
 
         result = []
         for i, audit_log in enumerate(audit_logs):
-            prev = audit_logs[i-1] if i > 0 else None
+            prev = audit_logs[i - 1] if i > 0 else None
             changes = self._get_changes(old=prev, new_=audit_log)
             if changes:
                 result.append(ContextFieldAuditLog(

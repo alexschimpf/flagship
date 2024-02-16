@@ -1,19 +1,20 @@
 -r requirements.txt
 
-debugpy>=1.8.0
-flake8>=5.0.4
-flake8-builtins>=2.0.1
-flake8-comprehensions>=3.10.1
-flake8-eradicate>=1.4.0
-flake8-print>=5.0.0
-flake8-length>=0.3.1
-flake8-quotes>=3.3.1
-flake8-use-fstring>=1.4
-httpx==0.26.0
-rest_api_tester==3.0.0
-mypy==1.8.0
-pytest==7.4.3
-pytest-cov==4.1.0
-types-redis==4.6.0.20240106
-types-six==1.16.21.20240106
-types-ujson==5.9.0.0
+autopep8==2.*
+debugpy==1.8.0
+flake8==7.*
+flake8-builtins==2.*
+flake8-comprehensions==3.*
+flake8-eradicate==1.*
+flake8-print==5.*
+flake8-length==0.*
+flake8-quotes==3.*
+flake8-use-fstring==1.*
+httpx==0.*
+rest_api_tester==3.*
+mypy==1.*
+pytest==7.*
+pytest-cov==4.*
+types-redis==4.*
+types-six==1.*
+types-ujson==5.*

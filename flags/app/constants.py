@@ -1,5 +1,6 @@
 from enum import IntEnum
 
+
 class ContextValueType(IntEnum):
     STRING = 1
     NUMBER = 2

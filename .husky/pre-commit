@@ -1,4 +1,14 @@
-npm run admin-type-check
-npm run flags-type-check
-npm run fe-prettier
-npm run fe-lint
+echo 'admin type check...'
+make -C admin type-check
+
+echo 'flags type check...'
+make -C flags type-check
+
+echo 'admin lint...'
+make -C admin lint
+
+echo 'flags lint...'
+make -C flags lint
+
+echo 'frontend lint...'
+npm --prefix frontend run lint

@@ -1,11 +1,12 @@
 {
     "name": "flagship",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "private": true,
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
+        "format": "prettier --write .",
         "lint": "next lint",
         "openapi-codegen": "openapi --input http://localhost:8000/openapi.json --output ./src/api --name APIClient --client axios"
     },
