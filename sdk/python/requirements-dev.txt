@@ -9,3 +9,4 @@ flake8-length==0.*
 flake8-quotes==3.*
 flake8-use-fstring==1.*
 types-requests==2.*
+twine==5.*

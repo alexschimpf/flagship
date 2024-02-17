@@ -16,13 +16,21 @@ help:
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
+# build python package
+build:
+	echo 'build'
+
+# install package (after running `make build`)
+install-build:
+	echo 'install-build'
+
+# deploy to pypi
+deploy:
+	twine upload dist/*
+
 # run autopep8 formatter
 format:
-	autopep8 --in-place -r .
-
-# run autopep8 formatter for git staged files
-format-staged:
-	autopep8 --in-place -r . && git diff --cached --name-only | egrep '\\.py$'| xargs -l git add
+	autopep8 --global-config .autopep8 --in-place -r .
 
 # run flake8 linter
 lint:

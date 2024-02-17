@@ -32,7 +32,10 @@ all-tests:
 	make -C flags api-tests
 
 format:
-	make -C admin format && make -C flags format && npm --prefix frontend run format
+	make -C admin format &&\
+	make -C flags format &&\
+	make -C sdk/python format &&\
+	npm --prefix frontend run format
 
 loc:
-	git ls-files | grep -e '\\.py' -e 'frontend/src' -e 'sdk/javascript/.*\\.js' | xargs wc -l
+	git ls-files | grep -e '\.py' -e 'frontend/src' -e 'sdk/javascript/.*\\.js' | xargs wc -l

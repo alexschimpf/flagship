@@ -1,0 +1,19 @@
+name: sdk javascript - pull request
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - 'sdk/javascript/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
