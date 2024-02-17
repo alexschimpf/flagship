@@ -8,35 +8,22 @@ from app.constants import Operator, ContextValueType
 
 
 class TestFeatureFlagsCommon(unittest.TestCase):
-
     def test_validate_and_group__pass(self) -> None:
-        common._validate_and_group(and_group=[
-            FeatureFlagCondition(
-                context_key='blah',
-                operator=Operator.EQUALS,
-                value='1'
-            ),
-            FeatureFlagCondition(
-                context_key='blah2',
-                operator=Operator.NOT_EQUALS,
-                value='2'
-            )
-        ])
+        common._validate_and_group(
+            and_group=[
+                FeatureFlagCondition(context_key='blah', operator=Operator.EQUALS, value='1'),
+                FeatureFlagCondition(context_key='blah2', operator=Operator.NOT_EQUALS, value='2'),
+            ]
+        )
 
     def test_validate_and_group__fail(self) -> None:
         with self.assertRaises(exceptions.SameContextFieldKeysInAndGroup):
-            common._validate_and_group(and_group=[
-                FeatureFlagCondition(
-                    context_key='blah',
-                    operator=Operator.EQUALS,
-                    value='1'
-                ),
-                FeatureFlagCondition(
-                    context_key='blah',
-                    operator=Operator.NOT_EQUALS,
-                    value='2'
-                )
-            ])
+            common._validate_and_group(
+                and_group=[
+                    FeatureFlagCondition(context_key='blah', operator=Operator.EQUALS, value='1'),
+                    FeatureFlagCondition(context_key='blah', operator=Operator.NOT_EQUALS, value='2'),
+                ]
+            )
 
     def test_validate_context_field_and_operator__pass(self) -> None:
         params: Any = [
@@ -161,7 +148,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             (ContextValueType.ENUM_LIST, Operator.LESS_THAN_OR_EQUAL_TO),
             (ContextValueType.ENUM_LIST, Operator.GREATER_THAN_OR_EQUAL_TO),
             (ContextValueType.ENUM_LIST, Operator.IN_LIST),
-            (ContextValueType.ENUM_LIST, Operator.NOT_IN_LIST)
+            (ContextValueType.ENUM_LIST, Operator.NOT_IN_LIST),
         ]
         for value_type, operator in params:
             with self.subTest(value_type=value_type, operator=operator):
@@ -175,7 +162,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             ('a*b', Operator.MATCHES_REGEX, 'a*b'),
             (True, Operator.NOT_EQUALS, 'True'),
             ([1, '1', 'a*b', True], Operator.IN_LIST, ['1', '1', 'a*b', 'True']),
-            ([1, '1', 'a*b', True], Operator.NOT_IN_LIST, ['1', '1', 'a*b', 'True'])
+            ([1, '1', 'a*b', True], Operator.NOT_IN_LIST, ['1', '1', 'a*b', 'True']),
         ]
         for value, operator, expected in params:
             with self.subTest(value=value, operator=operator, expected=expected):
@@ -190,7 +177,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             ('1', Operator.IN_LIST),
             (1, Operator.NOT_IN_LIST),
             ([None], Operator.IN_LIST),
-            ([{'a': 1}], Operator.NOT_IN_LIST)
+            ([{'a': 1}], Operator.NOT_IN_LIST),
         ]
         for value, operator in params:
             with self.subTest(value=value, operator=operator):
@@ -204,7 +191,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             ('3', Operator.GREATER_THAN, 3),
             ('0', Operator.LESS_THAN_OR_EQUAL_TO, 0),
             ([1, 0, '3', '0'], Operator.IN_LIST, [1, 0, 3, 0]),
-            ([1, 0, '3', '0'], Operator.NOT_IN_LIST, [1, 0, 3, 0])
+            ([1, 0, '3', '0'], Operator.NOT_IN_LIST, [1, 0, 3, 0]),
         ]
         for value, operator, expected in params:
             with self.subTest(value=value, operator=operator, expected=expected):
@@ -221,7 +208,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             ({}, Operator.LESS_THAN_OR_EQUAL_TO),
             (None, Operator.NOT_EQUALS),
             ([1, 0, '3', False], Operator.IN_LIST),
-            ([1, 0, '3.4', '0'], Operator.NOT_IN_LIST)
+            ([1, 0, '3.4', '0'], Operator.NOT_IN_LIST),
         ]
         for value, operator in params:
             with self.subTest(value=value, operator=operator):
@@ -236,7 +223,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             ('3.4', Operator.GREATER_THAN, 3.4),
             ('0', Operator.LESS_THAN_OR_EQUAL_TO, 0.0),
             ([1, 0, '3.4', '0'], Operator.IN_LIST, [1.0, 0.0, 3.4, 0.0]),
-            ([1, 0, '3.4', '0'], Operator.NOT_IN_LIST, [1.0, 0.0, 3.4, 0.0])
+            ([1, 0, '3.4', '0'], Operator.NOT_IN_LIST, [1.0, 0.0, 3.4, 0.0]),
         ]
         for value, operator, expected in params:
             with self.subTest(value=value, operator=operator, expected=expected):
@@ -251,7 +238,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             ({}, Operator.LESS_THAN_OR_EQUAL_TO),
             (None, Operator.NOT_EQUALS),
             ([1, 0, '3', False], Operator.IN_LIST),
-            ([1, 0, None, '0'], Operator.NOT_IN_LIST)
+            ([1, 0, None, '0'], Operator.NOT_IN_LIST),
         ]
         for value, operator in params:
             with self.subTest(value=value, operator=operator):
@@ -259,51 +246,28 @@ class TestFeatureFlagsCommon(unittest.TestCase):
                     common._validate_number_condition(value=value, operator=operator)
 
     def test_validate_boolean_condition__pass(self) -> None:
-        params: Any = [
-            ('tRue', True),
-            ('fAlse', False),
-            (True, True),
-            (False, False)
-        ]
+        params: Any = [('tRue', True), ('fAlse', False), (True, True), (False, False)]
         for value, expected in params:
             with self.subTest(value=value, expected=expected):
                 actual = common._validate_boolean_condition(value=value)
                 self.assertEqual(expected, actual)
 
     def test_validate_boolean_condition__fail(self) -> None:
-        params: Any = [
-            'blah',
-            0,
-            1.4,
-            [],
-            {},
-            None
-        ]
+        params: Any = ['blah', 0, 1.4, [], {}, None]
         for value in params:
             with self.subTest(value=value):
                 with self.assertRaises(Exception):
                     common._validate_boolean_condition(value=value)
 
     def test_validate_version_condition__pass(self) -> None:
-        params: Any = [
-            ('1', '1'),
-            ('1.2', '1.2'),
-            ('1.2.3', '1.2.3')
-        ]
+        params: Any = [('1', '1'), ('1.2', '1.2'), ('1.2.3', '1.2.3')]
         for value, expected in params:
             with self.subTest(value=value, expected=expected):
                 actual = common._validate_version_condition(value=value)
                 self.assertEqual(expected, actual)
 
     def test_validate_version_condition__fail(self) -> None:
-        params: Any = [
-            1,
-            1.2,
-            None,
-            [],
-            {},
-            False
-        ]
+        params: Any = [1, 1.2, None, [], {}, False]
         for value in params:
             with self.subTest(value=value):
                 with self.assertRaises(Exception):
@@ -314,7 +278,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             (Operator.EQUALS, 1, {'a': 1}, 1),
             (Operator.NOT_EQUALS, '1', {'a': '1'}, '1'),
             (Operator.IN_LIST, [1], {'a': 1}, [1]),
-            (Operator.NOT_IN_LIST, ['1'], {'a': '1'}, ['1'])
+            (Operator.NOT_IN_LIST, ['1'], {'a': '1'}, ['1']),
         ]
         for operator, value, enum_def, expected in params:
             with self.subTest(operator=operator, value=value, enum_def=enum_def, expected=expected):
@@ -329,7 +293,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             (Operator.EQUALS, False, {'a': 1}),
             (Operator.NOT_EQUALS, 1.2, {'a': 1}),
             (Operator.IN_LIST, [1], {'a': '1'}),
-            (Operator.NOT_IN_LIST, ['1'], {'a': 1})
+            (Operator.NOT_IN_LIST, ['1'], {'a': 1}),
         ]
         for operator, value, enum_def in params:
             with self.subTest(operator=operator, value=value, enum_def=enum_def):
@@ -360,7 +324,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             (Operator.NOT_CONTAINS, {}),
             (Operator.INTERSECTS, 'a'),
             (Operator.NOT_INTERSECTS, 1),
-            (Operator.INTERSECTS, {})
+            (Operator.INTERSECTS, {}),
         ]
         for operator, value in params:
             with self.subTest(value=value, operator=operator):
@@ -373,7 +337,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             (Operator.NOT_CONTAINS, 1, 1),
             (Operator.INTERSECTS, ['1'], [1]),
             (Operator.NOT_INTERSECTS, [1], [1]),
-            (Operator.NOT_INTERSECTS, [], [])
+            (Operator.NOT_INTERSECTS, [], []),
         ]
         for operator, value, expected in params:
             with self.subTest(value=value, operator=operator, expected=expected):
@@ -395,7 +359,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             (Operator.NOT_INTERSECTS, [None]),
             (Operator.INTERSECTS, [False]),
             (Operator.NOT_INTERSECTS, [[]]),
-            (Operator.NOT_INTERSECTS, [{}])
+            (Operator.NOT_INTERSECTS, [{}]),
         ]
         for operator, value in params:
             with self.subTest(value=value, operator=operator):
@@ -408,7 +372,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             (Operator.NOT_CONTAINS, '1', {'a': '1'}, '1'),
             (Operator.INTERSECTS, [1], {'a': 1}, [1]),
             (Operator.NOT_INTERSECTS, ['1'], {'a': '1'}, ['1']),
-            (Operator.NOT_INTERSECTS, [], {'a': '1'}, [])
+            (Operator.NOT_INTERSECTS, [], {'a': '1'}, []),
         ]
         for operator, value, enum_def, expected in params:
             with self.subTest(operator=operator, value=value, enum_def=enum_def, expected=expected):
@@ -428,7 +392,7 @@ class TestFeatureFlagsCommon(unittest.TestCase):
             (Operator.NOT_INTERSECTS, [None], {'a': '1'}),
             (Operator.NOT_INTERSECTS, [False], {'a': 1}),
             (Operator.NOT_INTERSECTS, [[]], {'a': '1'}),
-            (Operator.NOT_INTERSECTS, [{}], {'a': '1'})
+            (Operator.NOT_INTERSECTS, [{}], {'a': '1'}),
         ]
         for operator, value, enum_def in params:
             with self.subTest(operator=operator, value=value, enum_def=enum_def):

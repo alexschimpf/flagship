@@ -9,16 +9,13 @@ from tests.api.fastapi_test_client import FastAPITestClient
 
 
 class TestGetProject(BaseTestCase):
-
     def setUp(self) -> None:
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
         path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
         self.path_to_test_cases = 'test_get_project.json'
         self.runner = TestCaseRunner(
-            client=test_client,
-            path_to_scenarios_dir=path_to_scenarios_dir,
-            default_content_type='application/json'
+            client=test_client, path_to_scenarios_dir=path_to_scenarios_dir, default_content_type='application/json'
         )
         utils.clear_database()
 
@@ -34,8 +31,8 @@ class TestGetProject(BaseTestCase):
                 response_json_modifiers={
                     'project_id': project_id,
                     'created_date': project.created_date.isoformat().replace('+00:00', 'Z'),
-                    'updated_date': project.created_date.isoformat().replace('+00:00', 'Z')
-                }
+                    'updated_date': project.created_date.isoformat().replace('+00:00', 'Z'),
+                },
             )
         self.verify_test_result(result=result)
 
@@ -46,6 +43,6 @@ class TestGetProject(BaseTestCase):
                 path_to_test_cases=self.path_to_test_cases,
                 test_name='test_get_project__403',
                 user=utils.User(),
-                url_params={'project_id': project.project_id}
+                url_params={'project_id': project.project_id},
             )
         self.verify_test_result(result=result)

@@ -2,8 +2,15 @@ from typing import cast
 
 import ujson
 
-from app.api.exceptions.exceptions import NameTakenException, AggregateException, AppException, NotFoundException, \
-    UnauthorizedException, EnumContextFieldTypeWithoutEnumDefException, IllegalContextFieldEnumChangeException
+from app.api.exceptions.exceptions import (
+    NameTakenException,
+    AggregateException,
+    AppException,
+    NotFoundException,
+    UnauthorizedException,
+    EnumContextFieldTypeWithoutEnumDefException,
+    IllegalContextFieldEnumChangeException,
+)
 from app.api.routes.context_fields.controllers import common
 from app.api.routes.context_fields.schemas import UpdateContextField, ContextField
 from app.api.schemas import User
@@ -15,7 +22,6 @@ from app.services.database.redis.service import RedisService
 
 
 class UpdateContextFieldController:
-
     def __init__(self, project_id: int, context_field_id: int, request: UpdateContextField, me: User):
         self.project_id = project_id
         self.context_field_id = context_field_id
@@ -29,8 +35,7 @@ class UpdateContextFieldController:
         return ContextField.from_row(row=context_field_row)
 
     def _validate(self) -> None:
-        if (not self.me.role.has_permission(Permission.UPDATE_CONTEXT_FIELD) or
-                self.project_id not in self.me.projects):
+        if not self.me.role.has_permission(Permission.UPDATE_CONTEXT_FIELD) or self.project_id not in self.me.projects:
             raise UnauthorizedException
 
         errors: list[AppException] = []
@@ -45,7 +50,7 @@ class UpdateContextFieldController:
                 name=self.request.name,
                 project_id=self.project_id,
                 context_field_id=self.context_field_id,
-                session=session
+                session=session,
             ):
                 errors.append(NameTakenException(field='name'))
 
@@ -81,16 +86,18 @@ class UpdateContextFieldController:
                 name=self.request.name,
                 enum_def=enum_def,
                 description=self.request.description,
-                session=session
+                session=session,
             )
-            session.add(ContextFieldAuditLogRow(
-                context_field_id=self.context_field_id,
-                project_id=self.project_id,
-                actor=self.me.email,
-                name=self.request.name,
-                description=self.request.description,
-                enum_def=enum_def
-            ))
+            session.add(
+                ContextFieldAuditLogRow(
+                    context_field_id=self.context_field_id,
+                    project_id=self.project_id,
+                    actor=self.me.email,
+                    name=self.request.name,
+                    description=self.request.description,
+                    enum_def=enum_def,
+                )
+            )
             session.commit()
 
             context_field_row = session.get(ContextFieldRow, self.context_field_id)
@@ -99,7 +106,7 @@ class UpdateContextFieldController:
             RedisService.add_or_replace_context_field(
                 project_id=self.project_id,
                 context_field_key=context_field_row.field_key,
-                context_value_type=ContextValueType(context_field_row.value_type)
+                context_value_type=ContextValueType(context_field_row.value_type),
             )
 
         return cast(ContextFieldRow, context_field_row)

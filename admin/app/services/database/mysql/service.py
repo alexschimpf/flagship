@@ -7,7 +7,6 @@ from app.config import Config
 
 
 class MySQLService:
-
     _engine: Engine
 
     @classmethod
@@ -18,7 +17,7 @@ class MySQLService:
             echo_pool=Config.MYSQL_ECHO,
             isolation_level=Config.MYSQL_ISOLATION_LEVEL,
             pool_size=Config.MYSQL_POOL_SIZE,
-            max_overflow=Config.MYSQL_MAX_OVERFLOW
+            max_overflow=Config.MYSQL_MAX_OVERFLOW,
         )
 
     @classmethod

@@ -1,7 +1,13 @@
 import ujson
 
-from app.api.exceptions.exceptions import NameTakenException, ContextFieldKeyTakenException, AggregateException, \
-    AppException, EnumContextFieldTypeWithoutEnumDefException, UnauthorizedException
+from app.api.exceptions.exceptions import (
+    NameTakenException,
+    ContextFieldKeyTakenException,
+    AggregateException,
+    AppException,
+    EnumContextFieldTypeWithoutEnumDefException,
+    UnauthorizedException,
+)
 from app.api.routes.context_fields.controllers import common
 from app.api.routes.context_fields.schemas import CreateContextField, ContextField
 from app.api.schemas import User
@@ -14,7 +20,6 @@ from app.services.database.redis.service import RedisService
 
 
 class CreateContextFieldController:
-
     def __init__(self, project_id: int, request: CreateContextField, me: User):
         self.project_id = project_id
         self.request = request
@@ -27,8 +32,7 @@ class CreateContextFieldController:
         return ContextField.from_row(row=context_field_row)
 
     def _validate(self) -> None:
-        if (not self.me.role.has_permission(Permission.CREATE_CONTEXT_FIELD) or
-                self.project_id not in self.me.projects):
+        if not self.me.role.has_permission(Permission.CREATE_CONTEXT_FIELD) or self.project_id not in self.me.projects:
             raise UnauthorizedException
 
         errors: list[AppException] = []
@@ -37,16 +41,12 @@ class CreateContextFieldController:
 
         with MySQLService.get_session() as session:
             if ContextFieldsTable.is_context_field_name_taken(
-                name=self.request.name,
-                project_id=self.project_id,
-                session=session
+                name=self.request.name, project_id=self.project_id, session=session
             ):
                 errors.append(NameTakenException(field='name'))
 
             if ContextFieldsTable.is_context_field_field_key_taken(
-                field_key=self.request.field_key,
-                project_id=self.project_id,
-                session=session
+                field_key=self.request.field_key, project_id=self.project_id, session=session
             ):
                 errors.append(ContextFieldKeyTakenException(field='field_key'))
 
@@ -77,25 +77,29 @@ class CreateContextFieldController:
                 description=self.request.description,
                 field_key=self.request.field_key,
                 value_type=self.request.value_type.value,
-                enum_def=enum_def
+                enum_def=enum_def,
             )
             session.add(context_field_row)
             session.flush()
 
-            session.add(ContextFieldAuditLogRow(
-                context_field_id=context_field_row.context_field_id,
-                project_id=self.project_id,
-                actor=self.me.email,
-                name=context_field_row.name,
-                description=context_field_row.description,
-                enum_def=context_field_row.enum_def
-            ))
+            session.add(
+                ContextFieldAuditLogRow(
+                    context_field_id=context_field_row.context_field_id,
+                    project_id=self.project_id,
+                    actor=self.me.email,
+                    name=context_field_row.name,
+                    description=context_field_row.description,
+                    enum_def=context_field_row.enum_def,
+                )
+            )
 
-            session.add(SystemAuditLogRow(
-                actor=self.me.email,
-                event_type=AuditLogEventType.CREATED_CONTEXT_FIELD,
-                details=f'Name: {context_field_row.name}'
-            ))
+            session.add(
+                SystemAuditLogRow(
+                    actor=self.me.email,
+                    event_type=AuditLogEventType.CREATED_CONTEXT_FIELD,
+                    details=f'Name: {context_field_row.name}',
+                )
+            )
 
             session.commit()
             session.refresh(context_field_row)
@@ -103,7 +107,7 @@ class CreateContextFieldController:
         RedisService.add_or_replace_context_field(
             project_id=self.project_id,
             context_field_key=self.request.field_key,
-            context_value_type=self.request.value_type
+            context_value_type=self.request.value_type,
         )
 
         return context_field_row

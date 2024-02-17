@@ -9,9 +9,7 @@ from app.services.database.mysql.schemas.context_field import ContextFieldsTable
 
 
 def validate_feature_flag_conditions(
-    project_id: int,
-    conditions: list[list[FeatureFlagCondition]],
-    session: Session
+    project_id: int, conditions: list[list[FeatureFlagCondition]], session: Session
 ) -> None:
     if not conditions:
         return
@@ -24,15 +22,10 @@ def validate_feature_flag_conditions(
     for and_group in conditions:
         _validate_and_group(and_group=and_group)
         for condition in and_group:
-            condition.value = _validate_condition(
-                condition=condition,
-                context_fields_by_key=context_fields_by_key
-            )
+            condition.value = _validate_condition(condition=condition, context_fields_by_key=context_fields_by_key)
 
 
-def _validate_and_group(
-    and_group: list[FeatureFlagCondition]
-) -> None:
+def _validate_and_group(and_group: list[FeatureFlagCondition]) -> None:
     context_keys = set()
     for condition in and_group:
         if condition.context_key in context_keys:
@@ -40,10 +33,7 @@ def _validate_and_group(
         context_keys.add(condition.context_key)
 
 
-def _validate_condition(
-    condition: FeatureFlagCondition,
-    context_fields_by_key: dict[str, ContextFieldRow]
-) -> Any:
+def _validate_condition(condition: FeatureFlagCondition, context_fields_by_key: dict[str, ContextFieldRow]) -> Any:
     key = condition.context_key
     operator = condition.operator
     value = condition.value
@@ -57,20 +47,13 @@ def _validate_condition(
     return coerced_value
 
 
-def _validate_context_field_and_operator(
-    value_type: int,
-    operator: Operator
-) -> None:
+def _validate_context_field_and_operator(value_type: int, operator: Operator) -> None:
     allowed_operators = CONTEXT_VALUE_TYPE_OPERATORS[ContextValueType(value_type)]
     if operator not in allowed_operators:
         raise exceptions.InvalidFeatureFlagConditions(field='conditions')
 
 
-def _validate_value(
-    context_field: ContextFieldRow,
-    operator: Operator,
-    value: Any
-) -> Any:
+def _validate_value(context_field: ContextFieldRow, operator: Operator, value: Any) -> Any:
     if value in ('', None) or isinstance(value, dict):
         raise exceptions.InvalidFeatureFlagConditions(field='conditions')
 
@@ -90,14 +73,16 @@ def _validate_value(
                 coerced_value = _validate_version_condition(value=value)
             case ContextValueType.ENUM:
                 coerced_value = _validate_enum_condition(
-                    operator=operator, value=value, enum_def=context_field.enum_def_dict)
+                    operator=operator, value=value, enum_def=context_field.enum_def_dict
+                )
             case ContextValueType.STRING_LIST:
                 coerced_value = _validate_string_list_condition(operator=operator, value=value)
             case ContextValueType.INTEGER_LIST:
                 coerced_value = _validate_integer_list_condition(operator=operator, value=value)
             case ContextValueType.ENUM_LIST:
                 coerced_value = _validate_enum_list_condition(
-                    operator=operator, value=value, enum_def=context_field.enum_def_dict)
+                    operator=operator, value=value, enum_def=context_field.enum_def_dict
+                )
             case _:
                 raise Exception('Unexpected value type')
     except Exception:
@@ -106,10 +91,7 @@ def _validate_value(
     return coerced_value
 
 
-def _validate_string_condition(
-    operator: Operator,
-    value: Any
-) -> Any:
+def _validate_string_condition(operator: Operator, value: Any) -> Any:
     if operator in (Operator.IN_LIST, Operator.NOT_IN_LIST):
         if not isinstance(value, list):
             raise Exception
@@ -125,10 +107,7 @@ def _validate_string_condition(
     return value
 
 
-def _validate_integer_condition(
-    operator: Operator,
-    value: Any
-) -> Any:
+def _validate_integer_condition(operator: Operator, value: Any) -> Any:
     if operator in (Operator.IN_LIST, Operator.NOT_IN_LIST):
         if not isinstance(value, list):
             raise Exception
@@ -144,10 +123,7 @@ def _validate_integer_condition(
     return value
 
 
-def _validate_number_condition(
-    operator: Operator,
-    value: Any
-) -> Any:
+def _validate_number_condition(operator: Operator, value: Any) -> Any:
     if operator in (Operator.IN_LIST, Operator.NOT_IN_LIST):
         if not isinstance(value, list):
             raise Exception
@@ -169,9 +145,7 @@ def _validate_number_condition(
     return value
 
 
-def _validate_boolean_condition(
-    value: Any
-) -> Any:
+def _validate_boolean_condition(value: Any) -> Any:
     if isinstance(value, str):
         if value.lower() == 'true':
             value = True
@@ -185,20 +159,14 @@ def _validate_boolean_condition(
     return bool(value)
 
 
-def _validate_version_condition(
-    value: Any
-) -> Any:
+def _validate_version_condition(value: Any) -> Any:
     if not value or not isinstance(value, str):
         raise Exception
 
     return value
 
 
-def _validate_enum_condition(
-    operator: Operator,
-    value: Any,
-    enum_def: dict[str, Any] | None
-) -> Any:
+def _validate_enum_condition(operator: Operator, value: Any, enum_def: dict[str, Any] | None) -> Any:
     if not enum_def:
         raise Exception
 
@@ -217,10 +185,7 @@ def _validate_enum_condition(
     return value
 
 
-def _validate_string_list_condition(
-    operator: Operator,
-    value: Any
-) -> Any:
+def _validate_string_list_condition(operator: Operator, value: Any) -> Any:
     if operator in (Operator.INTERSECTS, Operator.NOT_INTERSECTS):
         if not isinstance(value, list):
             raise Exception
@@ -236,10 +201,7 @@ def _validate_string_list_condition(
     return value
 
 
-def _validate_integer_list_condition(
-    operator: Operator,
-    value: Any
-) -> Any:
+def _validate_integer_list_condition(operator: Operator, value: Any) -> Any:
     if operator in (Operator.INTERSECTS, Operator.NOT_INTERSECTS):
         if not isinstance(value, list):
             raise Exception
@@ -255,11 +217,7 @@ def _validate_integer_list_condition(
     return value
 
 
-def _validate_enum_list_condition(
-    operator: Operator,
-    value: Any,
-    enum_def: dict[str, Any] | None
-) -> Any:
+def _validate_enum_list_condition(operator: Operator, value: Any, enum_def: dict[str, Any] | None) -> Any:
     if not enum_def:
         raise Exception
 
@@ -278,10 +236,7 @@ def _validate_enum_list_condition(
     return value
 
 
-def _get_context_fields_by_field_key(
-    project_id: int,
-    session: Session
-) -> dict[str, ContextFieldRow]:
+def _get_context_fields_by_field_key(project_id: int, session: Session) -> dict[str, ContextFieldRow]:
     context_fields, _ = ContextFieldsTable.get_context_fields(project_id=project_id, session=session)
     context_fields_by_key: dict[str, ContextFieldRow] = {}
     for context_field in context_fields or []:

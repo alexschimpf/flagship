@@ -11,7 +11,6 @@ from tests.api.fastapi_test_client import FastAPITestClient
 
 
 class TestLogin(BaseTestCase):
-
     def setUp(self) -> None:
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
@@ -26,10 +25,7 @@ class TestLogin(BaseTestCase):
 
     def test_login__302_success(self) -> None:
         with utils.new_user(user=utils.User()):
-            result = self.runner.run(
-                path_to_test_cases=self.path_to_test_cases,
-                test_name='test_login__302_success'
-            )
+            result = self.runner.run(path_to_test_cases=self.path_to_test_cases, test_name='test_login__302_success')
             self.verify_test_result(result=result)
 
             location = result.response.headers['location']
@@ -40,15 +36,13 @@ class TestLogin(BaseTestCase):
     def test_login__302_user_not_activated(self) -> None:
         with utils.new_user(user=utils.User(status=UserStatus.INVITED)):
             result = self.runner.run(
-                path_to_test_cases=self.path_to_test_cases,
-                test_name='test_login__302_user_not_activated'
+                path_to_test_cases=self.path_to_test_cases, test_name='test_login__302_user_not_activated'
             )
             self.verify_test_result(result=result)
 
     def test_login__302_invalid_credentials(self) -> None:
         with utils.new_user(user=utils.User()):
             result = self.runner.run(
-                path_to_test_cases=self.path_to_test_cases,
-                test_name='test_login__302_invalid_credentials'
+                path_to_test_cases=self.path_to_test_cases, test_name='test_login__302_invalid_credentials'
             )
             self.verify_test_result(result=result)

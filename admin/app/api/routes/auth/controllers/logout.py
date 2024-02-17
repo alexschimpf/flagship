@@ -5,7 +5,6 @@ from app.config import Config
 
 
 class LogoutController:
-
     @staticmethod
     def handle_request() -> RedirectResponse:
         response = RedirectResponse(url=f'{Config.UI_BASE_URL}/login', status_code=status.HTTP_302_FOUND)

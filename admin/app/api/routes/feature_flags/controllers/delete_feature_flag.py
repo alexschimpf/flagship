@@ -8,7 +8,6 @@ from app.services.database.redis.service import RedisService
 
 
 class DeleteFeatureFlagController:
-
     def __init__(self, project_id: int, feature_flag_id: int, me: User):
         self.project_id = project_id
         self.feature_flag_id = feature_flag_id
@@ -20,8 +19,7 @@ class DeleteFeatureFlagController:
         return SuccessResponse()
 
     def _validate(self) -> str:
-        if (not self.me.role.has_permission(Permission.DELETE_FEATURE_FLAG)
-                or self.project_id not in self.me.projects):
+        if not self.me.role.has_permission(Permission.DELETE_FEATURE_FLAG) or self.project_id not in self.me.projects:
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:
@@ -36,14 +34,11 @@ class DeleteFeatureFlagController:
             FeatureFlagsTable.delete_feature_flag(
                 project_id=self.project_id, feature_flag_id=self.feature_flag_id, session=session
             )
-            session.add(SystemAuditLogRow(
-                actor=self.me.email,
-                event_type=AuditLogEventType.DELETED_FEATURE_FLAG,
-                details=f'Name: {name}'
-            ))
+            session.add(
+                SystemAuditLogRow(
+                    actor=self.me.email, event_type=AuditLogEventType.DELETED_FEATURE_FLAG, details=f'Name: {name}'
+                )
+            )
             session.commit()
 
-        RedisService.remove_feature_flag(
-            project_id=self.project_id,
-            feature_flag_name=name
-        )
+        RedisService.remove_feature_flag(project_id=self.project_id, feature_flag_name=name)

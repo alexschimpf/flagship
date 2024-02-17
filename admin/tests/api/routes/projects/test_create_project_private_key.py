@@ -13,16 +13,13 @@ from tests.api.fastapi_test_client import FastAPITestClient
 
 
 class TestResetProjectPrivateKey(BaseTestCase):
-
     def setUp(self) -> None:
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
         path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
         self.path_to_test_cases = 'test_create_project_private_key.json'
         self.runner = TestCaseRunner(
-            client=test_client,
-            path_to_scenarios_dir=path_to_scenarios_dir,
-            default_content_type='application/json'
+            client=test_client, path_to_scenarios_dir=path_to_scenarios_dir, default_content_type='application/json'
         )
         utils.clear_database()
 
@@ -34,14 +31,9 @@ class TestResetProjectPrivateKey(BaseTestCase):
                 path_to_test_cases=self.path_to_test_cases,
                 test_name='test_create_project_private_key__200',
                 user=utils.User(projects=[project_id]),
-                url_params={'project_id': project_id}
+                url_params={'project_id': project_id},
             )
-            self.verify_test_result(
-                result=result,
-                excluded_response_paths=[
-                    'private_key'
-                ]
-            )
+            self.verify_test_result(result=result, excluded_response_paths=['private_key'])
 
     def test_create_project_private_key__403_read_only_role(self) -> None:
         with utils.new_project(project=utils.Project()) as project:
@@ -51,7 +43,7 @@ class TestResetProjectPrivateKey(BaseTestCase):
                 path_to_test_cases=self.path_to_test_cases,
                 test_name='test_create_project_private_key__403_read_only_role',
                 user=utils.User(projects=[project_id], role=UserRole.READ_ONLY),
-                url_params={'project_id': project_id}
+                url_params={'project_id': project_id},
             )
             self.verify_test_result(result=result)
 
@@ -63,7 +55,7 @@ class TestResetProjectPrivateKey(BaseTestCase):
                 path_to_test_cases=self.path_to_test_cases,
                 test_name='test_create_project_private_key__403_project_not_assigned_to_user',
                 user=utils.User(),
-                url_params={'project_id': project_id}
+                url_params={'project_id': project_id},
             )
             self.verify_test_result(result=result)
 
@@ -71,11 +63,9 @@ class TestResetProjectPrivateKey(BaseTestCase):
         with utils.new_project(project=utils.Project()) as project:
             with MySQLService.get_session() as session:
                 project_private_key_name = session.scalar(
-                    select(
-                        ProjectPrivateKeyRow.name
-                    ).where(
-                        ProjectPrivateKeyRow.project_id == project.project_id
-                    ).limit(1)
+                    select(ProjectPrivateKeyRow.name)
+                    .where(ProjectPrivateKeyRow.project_id == project.project_id)
+                    .limit(1)
                 )
 
             project_id = project.project_id
@@ -85,8 +75,6 @@ class TestResetProjectPrivateKey(BaseTestCase):
                 test_name='test_create_project_private_key__400_name_taken',
                 user=utils.User(projects=[project_id]),
                 url_params={'project_id': project_id},
-                request_json_modifiers={
-                    'name': project_private_key_name
-                }
+                request_json_modifiers={'name': project_private_key_name},
             )
             self.verify_test_result(result=result)

@@ -9,7 +9,6 @@ from app.services.database.mysql.service import MySQLService
 
 
 class UpdateProjectController:
-
     def __init__(self, project_id: int, request: CreateOrUpdateProject, me: User):
         self.project_id = project_id
         self.request = request
@@ -21,8 +20,7 @@ class UpdateProjectController:
         return Project.from_row(row=project_row)
 
     def _validate(self) -> None:
-        if (not self.me.role.has_permission(Permission.UPDATE_PROJECT) or
-                self.project_id not in self.me.projects):
+        if not self.me.role.has_permission(Permission.UPDATE_PROJECT) or self.project_id not in self.me.projects:
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:

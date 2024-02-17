@@ -10,7 +10,6 @@ from app.services.database.mysql.service import MySQLService
 
 
 class DeleteUserController:
-
     def __init__(self, user_id: int, me: User):
         self.user_id = user_id
         self.me = me
@@ -30,11 +29,11 @@ class DeleteUserController:
 
             UsersTable.delete_user(user_id=self.user_id, session=session)
 
-            session.add(SystemAuditLogRow(
-                actor=self.me.email,
-                event_type=AuditLogEventType.DELETED_USER,
-                details=f'Email: {row.email}'
-            ))
+            session.add(
+                SystemAuditLogRow(
+                    actor=self.me.email, event_type=AuditLogEventType.DELETED_USER, details=f'Email: {row.email}'
+                )
+            )
 
             session.commit()
 

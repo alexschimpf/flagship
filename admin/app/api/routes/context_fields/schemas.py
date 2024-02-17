@@ -27,7 +27,7 @@ class ContextField(BaseModel):
             description=row.description,
             enum_def=row.enum_def_dict,
             created_date=row.created_date,
-            updated_date=row.updated_date
+            updated_date=row.updated_date,
         )
 
 
@@ -43,9 +43,7 @@ class CreateContextField(BaseModel):
     description: str = Field(default='', max_length=256)
     enum_def: dict[str, Any] | None = None
 
-    model_config = ConfigDict(
-        str_strip_whitespace=True
-    )
+    model_config = ConfigDict(str_strip_whitespace=True)
 
 
 class UpdateContextField(BaseModel):
@@ -53,9 +51,7 @@ class UpdateContextField(BaseModel):
     description: str = Field(default='', max_length=256)
     enum_def: dict[str, Any] | None = None
 
-    model_config = ConfigDict(
-        str_strip_whitespace=True
-    )
+    model_config = ConfigDict(str_strip_whitespace=True)
 
 
 class ContextFieldChange(BaseModel):

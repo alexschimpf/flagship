@@ -14,7 +14,6 @@ from app.services.strings.service import StringsService
 
 
 class LoginController:
-
     def __init__(self, return_url: str | None, email: str, password: str, authorize: AuthJWT) -> None:
         self.return_url = return_url
         self.email = email
@@ -46,15 +45,11 @@ class LoginController:
             )
             return_url = f'&return_url={self.return_url}' if self.return_url else ''
             return RedirectResponse(
-                url=f'{Config.UI_BASE_URL}/login?error={error}{return_url}',
-                status_code=status.HTTP_302_FOUND
+                url=f'{Config.UI_BASE_URL}/login?error={error}{return_url}', status_code=status.HTTP_302_FOUND
             )
 
         return_url = f'{Config.UI_BASE_URL}{self.return_url or ""}'
-        response = RedirectResponse(
-            url=return_url,
-            status_code=status.HTTP_302_FOUND
-        )
+        response = RedirectResponse(url=return_url, status_code=status.HTTP_302_FOUND)
 
         response.set_cookie(
             key=Config.SESSION_COOKIE_KEY,
@@ -62,6 +57,6 @@ class LoginController:
             max_age=Config.SESSION_COOKIE_MAX_AGE,
             domain=Config.SESSION_COOKIE_DOMAIN,
             secure=True,
-            samesite='lax'
+            samesite='lax',
         )
         return response

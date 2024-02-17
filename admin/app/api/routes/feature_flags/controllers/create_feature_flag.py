@@ -15,7 +15,6 @@ from app.services.database.redis.service import RedisService
 
 
 class CreateFeatureFlagController:
-
     def __init__(self, project_id: int, request: CreateOrUpdateFeatureFlag, me: User):
         self.project_id = project_id
         self.request = request
@@ -29,22 +28,20 @@ class CreateFeatureFlagController:
         return FeatureFlag.from_row(row=feature_flag_row)
 
     def _validate(self) -> None:
-        if (not self.me.role.has_permission(Permission.CREATE_FEATURE_FLAG) or
-                self.project_id not in self.me.projects):
+        if not self.me.role.has_permission(Permission.CREATE_FEATURE_FLAG) or self.project_id not in self.me.projects:
             raise UnauthorizedException
 
         errors: list[AppException] = []
         with MySQLService.get_session() as session:
             if FeatureFlagsTable.is_feature_flag_name_taken(
-                name=self.request.name,
-                project_id=self.project_id,
-                session=session
+                name=self.request.name, project_id=self.project_id, session=session
             ):
                 errors.append(NameTakenException(field='name'))
 
             try:
                 common.validate_feature_flag_conditions(
-                    project_id=self.project_id, conditions=self.request.conditions, session=session)
+                    project_id=self.project_id, conditions=self.request.conditions, session=session
+                )
             except AppException as e:
                 errors.append(e)
 
@@ -54,9 +51,7 @@ class CreateFeatureFlagController:
     def _create_feature_flag(self) -> FeatureFlagRow:
         conditions: list[list[dict[str, Any]]] = []
         for and_group in self.request.conditions:
-            conditions.append([
-                condition.model_dump() for condition in and_group
-            ])
+            conditions.append([condition.model_dump() for condition in and_group])
 
         with MySQLService.get_session() as session:
             feature_flag_row = FeatureFlagRow(
@@ -64,25 +59,29 @@ class CreateFeatureFlagController:
                 name=self.request.name,
                 description=self.request.description,
                 conditions=ujson.dumps(conditions),
-                enabled=self.request.enabled
+                enabled=self.request.enabled,
             )
             session.add(feature_flag_row)
             session.flush()
 
-            session.add(FeatureFlagAuditLogRow(
-                feature_flag_id=feature_flag_row.feature_flag_id,
-                project_id=self.project_id,
-                actor=self.me.email,
-                name=feature_flag_row.name,
-                description=feature_flag_row.description,
-                conditions=feature_flag_row.conditions,
-                enabled=feature_flag_row.enabled
-            ))
-            session.add(SystemAuditLogRow(
-                actor=self.me.email,
-                event_type=AuditLogEventType.CREATED_FEATURE_FLAG,
-                details=f'Name: {self.request.name}'
-            ))
+            session.add(
+                FeatureFlagAuditLogRow(
+                    feature_flag_id=feature_flag_row.feature_flag_id,
+                    project_id=self.project_id,
+                    actor=self.me.email,
+                    name=feature_flag_row.name,
+                    description=feature_flag_row.description,
+                    conditions=feature_flag_row.conditions,
+                    enabled=feature_flag_row.enabled,
+                )
+            )
+            session.add(
+                SystemAuditLogRow(
+                    actor=self.me.email,
+                    event_type=AuditLogEventType.CREATED_FEATURE_FLAG,
+                    details=f'Name: {self.request.name}',
+                )
+            )
 
             session.commit()
             session.refresh(feature_flag_row)
@@ -91,7 +90,7 @@ class CreateFeatureFlagController:
             project_id=self.project_id,
             feature_flag_name=feature_flag_row.name,
             conditions=self.request.conditions,
-            is_enabled=self.request.enabled
+            is_enabled=self.request.enabled,
         )
 
         return feature_flag_row

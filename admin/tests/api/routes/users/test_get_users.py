@@ -10,16 +10,13 @@ from tests.api.fastapi_test_client import FastAPITestClient
 
 
 class TestGetUsers(BaseTestCase):
-
     def setUp(self) -> None:
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
         path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
         self.path_to_test_cases = 'test_get_users.json'
         self.runner = TestCaseRunner(
-            client=test_client,
-            path_to_scenarios_dir=path_to_scenarios_dir,
-            default_content_type='application/json'
+            client=test_client, path_to_scenarios_dir=path_to_scenarios_dir, default_content_type='application/json'
         )
         utils.clear_database()
 
@@ -34,11 +31,9 @@ class TestGetUsers(BaseTestCase):
                         'items.[0].user_id': user_row.user_id,
                         'items.[0].created_date': user_row.created_date.isoformat().replace('+00:00', 'Z'),
                         'items.[0].updated_date': user_row.updated_date.isoformat().replace('+00:00', 'Z'),
-                        'items.[0].projects': user.projects
+                        'items.[0].projects': user.projects,
                     },
-                    test_data_modifier=self._add_session_cookie(
-                        user=user, test_client=self.runner.client
-                    )
+                    test_data_modifier=self._add_session_cookie(user=user, test_client=self.runner.client),
                 )
                 self.verify_test_result(result=result)
 
@@ -47,6 +42,6 @@ class TestGetUsers(BaseTestCase):
             runner=self.runner,
             path_to_test_cases=self.path_to_test_cases,
             test_name='test_get_users__403',
-            user=utils.User(role=UserRole.READ_ONLY)
+            user=utils.User(role=UserRole.READ_ONLY),
         )
         self.verify_test_result(result=result)

@@ -14,29 +14,27 @@ from tests.api.fastapi_test_client import FastAPITestClient
 
 
 class TestGetProjectPrivateKey(BaseTestCase):
-
     def setUp(self) -> None:
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
         path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
         self.path_to_test_cases = 'test_get_project_private_keys.json'
         self.runner = TestCaseRunner(
-            client=test_client,
-            path_to_scenarios_dir=path_to_scenarios_dir,
-            default_content_type='application/json'
+            client=test_client, path_to_scenarios_dir=path_to_scenarios_dir, default_content_type='application/json'
         )
         utils.clear_database()
 
     def test_get_project_private_keys__200(self) -> None:
         with utils.new_project(project=utils.Project()) as project:
             with MySQLService.get_session() as session:
-                project_private_key = cast(ProjectPrivateKeyRow, session.scalar(
-                    select(
-                        ProjectPrivateKeyRow
-                    ).where(
-                        ProjectPrivateKeyRow.project_id == project.project_id
-                    ).limit(1)
-                ))
+                project_private_key = cast(
+                    ProjectPrivateKeyRow,
+                    session.scalar(
+                        select(ProjectPrivateKeyRow)
+                        .where(ProjectPrivateKeyRow.project_id == project.project_id)
+                        .limit(1)
+                    ),
+                )
 
             project_id = project.project_id
             result = self.run_test_with_user(
@@ -48,8 +46,8 @@ class TestGetProjectPrivateKey(BaseTestCase):
                 response_json_modifiers={
                     'items.[0].project_private_key_id': project_private_key.project_private_key_id,
                     'items.[0].name': project_private_key.name,
-                    'items.[0].created_date': project_private_key.created_date.isoformat().replace('+00:00', 'Z')
-                }
+                    'items.[0].created_date': project_private_key.created_date.isoformat().replace('+00:00', 'Z'),
+                },
             )
             self.verify_test_result(result=result)
 
@@ -61,7 +59,7 @@ class TestGetProjectPrivateKey(BaseTestCase):
                 path_to_test_cases=self.path_to_test_cases,
                 test_name='test_get_project_private_keys__403_read_only_role',
                 user=utils.User(projects=[project_id], role=UserRole.READ_ONLY),
-                url_params={'project_id': project_id}
+                url_params={'project_id': project_id},
             )
             self.verify_test_result(result=result)
 
@@ -73,6 +71,6 @@ class TestGetProjectPrivateKey(BaseTestCase):
                 path_to_test_cases=self.path_to_test_cases,
                 test_name='test_get_project_private_keys__403_project_not_assigned_to_user',
                 user=utils.User(),
-                url_params={'project_id': project_id}
+                url_params={'project_id': project_id},
             )
             self.verify_test_result(result=result)

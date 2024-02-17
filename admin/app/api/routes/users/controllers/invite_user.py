@@ -1,5 +1,9 @@
-from app.api.exceptions.exceptions import EmailTakenException, InvalidProjectException, NoProjectAssignedException, \
-    UnauthorizedException
+from app.api.exceptions.exceptions import (
+    EmailTakenException,
+    InvalidProjectException,
+    NoProjectAssignedException,
+    UnauthorizedException,
+)
 from app.api.routes.users.controllers import common
 from app.api.routes.users.schemas import InviteUser
 from app.api.schemas import User
@@ -14,7 +18,6 @@ from app.config import Config
 
 
 class InviteUserController:
-
     def __init__(self, request: InviteUser, me: User):
         self.request = request
         self.me = me
@@ -29,9 +32,7 @@ class InviteUserController:
             subject='Flagship - Invite',
             to=self.request.email,
             template=Templates.INVITE_USER,
-            template_vars={
-                'url': f'{Config.UI_BASE_URL}/set-password?token={token}'
-            }
+            template_vars={'url': f'{Config.UI_BASE_URL}/set-password?token={token}'},
         )
 
         return User.from_row(row=user_row, projects=self.request.projects)
@@ -58,19 +59,20 @@ class InviteUserController:
                 name=self.request.name,
                 role=self.request.role,
                 status=UserStatus.INVITED,
-                set_password_token=set_password_token
+                set_password_token=set_password_token,
             )
             session.add(user_row)
             session.flush()
 
             UsersProjectsTable.update_user_projects(
-                user_id=user_row.user_id, project_ids=self.request.projects, session=session)
+                user_id=user_row.user_id, project_ids=self.request.projects, session=session
+            )
 
-            session.add(SystemAuditLogRow(
-                actor=self.me.email,
-                event_type=AuditLogEventType.INVITED_USER,
-                details=f'Email: {user_row.email}'
-            ))
+            session.add(
+                SystemAuditLogRow(
+                    actor=self.me.email, event_type=AuditLogEventType.INVITED_USER, details=f'Email: {user_row.email}'
+                )
+            )
 
             session.commit()
             session.refresh(user_row)

@@ -10,7 +10,6 @@ from app.config import Config
 
 
 class RedisService:
-
     if TYPE_CHECKING:
         _client: RedisCluster[str]
     else:
@@ -23,13 +22,12 @@ class RedisService:
             decode_responses=True,
             require_full_coverage=True,
             retry_on_error=[redis.BusyLoadingError, redis.ConnectionError, redis.TimeoutError],
-            retry=Retry(ExponentialBackoff(), 3)
+            retry=Retry(ExponentialBackoff(), 3),
         )
 
     @classmethod
     def get_project_data(
-        cls,
-        project_id: int
+        cls, project_id: int
     ) -> tuple[dict[str, list[list[dict[str, Any]]] | None], dict[str, str], set[str]]:
         pipeline = cls._client.pipeline()
         pipeline.hgetall(f'feature-flags:{{{project_id}}}')

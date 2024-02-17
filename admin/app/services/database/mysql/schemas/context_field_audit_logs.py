@@ -10,7 +10,6 @@ from app.services.database.mysql.schemas.base import BaseRow
 
 
 class ContextFieldAuditLogRow(BaseRow):
-
     __tablename__ = 'context_field_audit_logs'
 
     audit_log_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
@@ -24,38 +23,32 @@ class ContextFieldAuditLogRow(BaseRow):
 
 
 class ContextFieldAuditLogsTable:
-
     @staticmethod
     def get_context_field_audit_logs(
-        project_id: int,
-        context_field_id: int,
-        page: int,
-        page_size: int,
-        session: Session
+        project_id: int, context_field_id: int, page: int, page_size: int, session: Session
     ) -> tuple[list[ContextFieldAuditLogRow], int]:
-        rows = list(session.scalars(
-            select(
-                ContextFieldAuditLogRow
-            ).where(
-                ContextFieldAuditLogRow.context_field_id == context_field_id,
-                ContextFieldAuditLogRow.project_id == project_id
-            ).order_by(
-                ContextFieldAuditLogRow.created_date.asc()
-            ).offset(
-                page * page_size
-            ).limit(
-                page_size
+        rows = list(
+            session.scalars(
+                select(ContextFieldAuditLogRow)
+                .where(
+                    ContextFieldAuditLogRow.context_field_id == context_field_id,
+                    ContextFieldAuditLogRow.project_id == project_id,
+                )
+                .order_by(ContextFieldAuditLogRow.created_date.asc())
+                .offset(page * page_size)
+                .limit(page_size)
             )
-        ))
-        total_count = cast(int, session.scalar(
-            select(
-                func.count()
-            ).select_from(
-                ContextFieldAuditLogRow
-            ).where(
-                ContextFieldAuditLogRow.project_id == project_id,
-                ContextFieldAuditLogRow.context_field_id == context_field_id
-            )
-        ))
+        )
+        total_count = cast(
+            int,
+            session.scalar(
+                select(func.count())
+                .select_from(ContextFieldAuditLogRow)
+                .where(
+                    ContextFieldAuditLogRow.project_id == project_id,
+                    ContextFieldAuditLogRow.context_field_id == context_field_id,
+                )
+            ),
+        )
 
         return rows, total_count

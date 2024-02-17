@@ -9,7 +9,6 @@ DEFAULT_PAGE_SIZE = sys.maxsize
 
 
 class OpenAPIIntEnum(IntEnum):
-
     def __new__(cls, value: Any, doc: Any = None) -> Any:
         self = int.__new__(cls, value)
         self._value_ = value
@@ -21,13 +20,7 @@ class OpenAPIIntEnum(IntEnum):
     def __get_pydantic_json_schema__(cls, core_schema: Any, handler: Any) -> Any:
         json_schema = BaseModel.__get_pydantic_json_schema__(core_schema, handler)
         json_schema['x-enum-varnames'] = [v.name for v in cls]
-        json_schema['oneOf'] = [
-            {
-                'title': v.name,
-                'const': v.value,
-                'description': inspect.getdoc(v)
-            } for v in cls
-        ]
+        json_schema['oneOf'] = [{'title': v.name, 'const': v.value, 'description': inspect.getdoc(v)} for v in cls]
         json_schema = handler.resolve_ref_schema(json_schema)
         return json_schema
 
@@ -73,7 +66,7 @@ OPERATOR_DISPLAY_NAMES: Final[dict[Operator, str]] = {
     Operator.INTERSECTS: 'has one of',
     Operator.NOT_INTERSECTS: 'does not have any of',
     Operator.CONTAINS: 'has',
-    Operator.NOT_CONTAINS: 'does not have'
+    Operator.NOT_CONTAINS: 'does not have',
 }
 
 
@@ -124,7 +117,7 @@ class UserRole(OpenAPIIntEnum):
                 Permission.CREATE_CONTEXT_FIELD,
                 Permission.UPDATE_CONTEXT_FIELD,
                 Permission.DELETE_CONTEXT_FIELD,
-                Permission.READ_CONTEXT_FIELD_AUDIT_LOGS
+                Permission.READ_CONTEXT_FIELD_AUDIT_LOGS,
             )
         elif self is self.ADMIN:
             return permission in (
@@ -145,7 +138,7 @@ class UserRole(OpenAPIIntEnum):
                 Permission.INVITE_USER,
                 Permission.UPDATE_USER,
                 Permission.UPDATE_USER_PROJECTS,
-                Permission.DELETE_USER
+                Permission.DELETE_USER,
             )
         elif self is self.OWNER:
             return True
@@ -164,7 +157,7 @@ CONTEXT_VALUE_TYPE_OPERATORS: Final[dict[ContextValueType, set[Operator]]] = {
         Operator.NOT_EQUALS,
         Operator.MATCHES_REGEX,
         Operator.IN_LIST,
-        Operator.NOT_IN_LIST
+        Operator.NOT_IN_LIST,
     },
     ContextValueType.NUMBER: {
         Operator.EQUALS,
@@ -174,7 +167,7 @@ CONTEXT_VALUE_TYPE_OPERATORS: Final[dict[ContextValueType, set[Operator]]] = {
         Operator.LESS_THAN,
         Operator.LESS_THAN_OR_EQUAL_TO,
         Operator.GREATER_THAN,
-        Operator.GREATER_THAN_OR_EQUAL_TO
+        Operator.GREATER_THAN_OR_EQUAL_TO,
     },
     ContextValueType.INTEGER: {
         Operator.EQUALS,
@@ -184,44 +177,36 @@ CONTEXT_VALUE_TYPE_OPERATORS: Final[dict[ContextValueType, set[Operator]]] = {
         Operator.LESS_THAN,
         Operator.LESS_THAN_OR_EQUAL_TO,
         Operator.GREATER_THAN,
-        Operator.GREATER_THAN_OR_EQUAL_TO
+        Operator.GREATER_THAN_OR_EQUAL_TO,
     },
-    ContextValueType.BOOLEAN: {
-        Operator.EQUALS,
-        Operator.NOT_EQUALS
-    },
-    ContextValueType.ENUM: {
-        Operator.EQUALS,
-        Operator.NOT_EQUALS,
-        Operator.IN_LIST,
-        Operator.NOT_IN_LIST
-    },
+    ContextValueType.BOOLEAN: {Operator.EQUALS, Operator.NOT_EQUALS},
+    ContextValueType.ENUM: {Operator.EQUALS, Operator.NOT_EQUALS, Operator.IN_LIST, Operator.NOT_IN_LIST},
     ContextValueType.VERSION: {
         Operator.EQUALS,
         Operator.NOT_EQUALS,
         Operator.GREATER_THAN,
         Operator.GREATER_THAN_OR_EQUAL_TO,
         Operator.LESS_THAN,
-        Operator.LESS_THAN_OR_EQUAL_TO
+        Operator.LESS_THAN_OR_EQUAL_TO,
     },
     ContextValueType.STRING_LIST: {
         Operator.INTERSECTS,
         Operator.NOT_INTERSECTS,
         Operator.CONTAINS,
-        Operator.NOT_CONTAINS
+        Operator.NOT_CONTAINS,
     },
     ContextValueType.INTEGER_LIST: {
         Operator.INTERSECTS,
         Operator.NOT_INTERSECTS,
         Operator.CONTAINS,
-        Operator.NOT_CONTAINS
+        Operator.NOT_CONTAINS,
     },
     ContextValueType.ENUM_LIST: {
         Operator.INTERSECTS,
         Operator.NOT_INTERSECTS,
         Operator.CONTAINS,
-        Operator.NOT_CONTAINS
-    }
+        Operator.NOT_CONTAINS,
+    },
 }
 
 

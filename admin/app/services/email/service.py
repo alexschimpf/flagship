@@ -14,14 +14,13 @@ class Templates:
 
 
 class EmailService:
-
     @staticmethod
     def send_email(
         subject: str,
         to: str,
         body: str | None = None,
         template: str | None = None,
-        template_vars: dict[str, str] | None = None
+        template_vars: dict[str, str] | None = None,
     ) -> None:
         if not Config.SMTP_HOST:
             logger.info('Skipping email...')
@@ -41,8 +40,7 @@ class EmailService:
                 message.set_content(body)
 
             if template:
-                template_path = os.path.join(
-                    os.path.dirname(__file__), 'templates', template)
+                template_path = os.path.join(os.path.dirname(__file__), 'templates', template)
                 with open(template_path, 'r') as template_file:
                     template_content = template_file.read()
                     if template_vars:

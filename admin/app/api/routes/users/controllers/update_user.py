@@ -1,8 +1,13 @@
 from typing import cast
 from sqlalchemy.orm import Session
 
-from app.api.exceptions.exceptions import InvalidProjectException, NotFoundException, NoProjectAssignedException, \
-    UnauthorizedException, NoOwnersLeftException
+from app.api.exceptions.exceptions import (
+    InvalidProjectException,
+    NotFoundException,
+    NoProjectAssignedException,
+    UnauthorizedException,
+    NoOwnersLeftException,
+)
 from app.api.routes.users.schemas import UpdateUser
 from app.api.schemas import User
 from app.constants import Permission, AuditLogEventType, UserRole
@@ -14,7 +19,6 @@ from app.services.database.mysql.service import MySQLService
 
 
 class UpdateUserController:
-
     def __init__(self, user_id: int, request: UpdateUser, me: User):
         self.user_id = user_id
         self.request = request
@@ -50,36 +54,38 @@ class UpdateUserController:
     def _validate_role_and_projects(self, user_row: UserRow, projects: list[int], session: Session) -> None:
         # Don't allow a user to update another user who has a higher role
         # Don't allow a user to upgrade another user's (or its own) role to one higher than its own
-        if user_row.role > self.me.role or self.request.role > user_row.role or (
-            not self.me.role.has_permission(Permission.UPDATE_USER_PROJECTS) and
-            sorted(projects) != sorted(self.request.projects)
+        if (
+            user_row.role > self.me.role
+            or self.request.role > user_row.role
+            or (
+                not self.me.role.has_permission(Permission.UPDATE_USER_PROJECTS)
+                and sorted(projects) != sorted(self.request.projects)
+            )
         ):
             raise UnauthorizedException
 
         if (
-            user_row.role == UserRole.OWNER and
-            self.request.role != UserRole.OWNER and
-            not UsersTable.owners_exist(excluded_user_id=self.user_id, session=session)
+            user_row.role == UserRole.OWNER
+            and self.request.role != UserRole.OWNER
+            and not UsersTable.owners_exist(excluded_user_id=self.user_id, session=session)
         ):
             raise NoOwnersLeftException
 
     def _update_user(self, email: str) -> UserRow:
         with MySQLService.get_session() as session:
             UsersTable.update_user(
-                user_id=self.user_id,
-                name=self.request.name,
-                role=self.request.role,
-                session=session
+                user_id=self.user_id, name=self.request.name, role=self.request.role, session=session
             )
 
             UsersProjectsTable.update_user_projects(
-                user_id=self.user_id, project_ids=self.request.projects, session=session)
+                user_id=self.user_id, project_ids=self.request.projects, session=session
+            )
 
-            session.add(SystemAuditLogRow(
-                actor=self.me.email,
-                event_type=AuditLogEventType.UPDATED_USER,
-                details=f'Email: {email}'
-            ))
+            session.add(
+                SystemAuditLogRow(
+                    actor=self.me.email, event_type=AuditLogEventType.UPDATED_USER, details=f'Email: {email}'
+                )
+            )
 
             session.commit()
 

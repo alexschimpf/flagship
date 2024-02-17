@@ -5,7 +5,6 @@ from app.services.database.mysql.service import MySQLService
 
 
 class GetContextFieldController:
-
     def __init__(self, project_id: int, context_field_id: int):
         self.project_id = project_id
         self.context_field_id = context_field_id

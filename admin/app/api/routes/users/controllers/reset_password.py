@@ -10,7 +10,6 @@ from app.config import Config
 
 
 class ResetPasswordController:
-
     def __init__(self, request: ResetPassword):
         self.request = request
 
@@ -18,23 +17,16 @@ class ResetPasswordController:
         hashed_set_password_token, token = common.generate_set_password_token()
         with MySQLService.get_session() as session:
             UsersTable.update_set_password_token(
-                email=self.request.email,
-                set_password_token=hashed_set_password_token,
-                session=session
+                email=self.request.email, set_password_token=hashed_set_password_token, session=session
             )
-            session.add(SystemAuditLogRow(
-                actor=self.request.email,
-                event_type=AuditLogEventType.RESET_PASSWORD
-            ))
+            session.add(SystemAuditLogRow(actor=self.request.email, event_type=AuditLogEventType.RESET_PASSWORD))
             session.commit()
 
         EmailService.send_email(
             subject='Flagship - Reset Password',
             to=self.request.email,
             template=Templates.RESET_PASSWORD,
-            template_vars={
-                'url': f'{Config.UI_BASE_URL}/set-password?token={token}'
-            }
+            template_vars={'url': f'{Config.UI_BASE_URL}/set-password?token={token}'},
         )
 
         return SuccessResponse()

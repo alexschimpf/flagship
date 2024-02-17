@@ -8,20 +8,9 @@ from app.constants import ContextValueType, Operator
 
 
 class ConditionChecker:
-
     @classmethod
-    def check(
-        cls,
-        context_value: Any,
-        context_value_type: int,
-        operator: int,
-        condition_value: Any
-    ) -> bool:
-        handler_args = {
-            'context_value': context_value,
-            'operator': operator,
-            'condition_value': condition_value
-        }
+    def check(cls, context_value: Any, context_value_type: int, operator: int, condition_value: Any) -> bool:
+        handler_args = {'context_value': context_value, 'operator': operator, 'condition_value': condition_value}
         res: bool
         match context_value_type:
             case ContextValueType.STRING:
@@ -48,11 +37,7 @@ class ConditionChecker:
         return res
 
     @staticmethod
-    def _handle_string(
-        context_value: Any,
-        operator: int,
-        condition_value: Any
-    ) -> Any:
+    def _handle_string(context_value: Any, operator: int, condition_value: Any) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, six.string_types):
@@ -72,11 +57,7 @@ class ConditionChecker:
             raise ValueError('Unsupported operator')
 
     @staticmethod
-    def _handle_number(
-        context_value: Any,
-        operator: int,
-        condition_value: Any
-    ) -> Any:
+    def _handle_number(context_value: Any, operator: int, condition_value: Any) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, (int, float)):
@@ -95,12 +76,12 @@ class ConditionChecker:
         elif operator == Operator.GREATER_THAN_OR_EQUAL_TO:
             return math.isclose(context_value, condition_value) or context_value > condition_value
         elif operator == Operator.IN_LIST:
-            for list_val in (condition_value or ()):
+            for list_val in condition_value or ():
                 if math.isclose(context_value, list_val):
                     return True
             return False
         elif operator == Operator.NOT_IN_LIST:
-            for list_val in (condition_value or ()):
+            for list_val in condition_value or ():
                 if math.isclose(context_value, list_val):
                     return False
             return True
@@ -108,29 +89,16 @@ class ConditionChecker:
             raise ValueError('Unsupported operator')
 
     @classmethod
-    def _handle_integer(
-        cls,
-        context_value: Any,
-        operator: int,
-        condition_value: Any
-    ) -> Any:
+    def _handle_integer(cls, context_value: Any, operator: int, condition_value: Any) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, int):
             raise TypeError('context_value must be an integer')
 
-        return cls._handle_number(
-            context_value=context_value,
-            operator=operator,
-            condition_value=condition_value
-        )
+        return cls._handle_number(context_value=context_value, operator=operator, condition_value=condition_value)
 
     @staticmethod
-    def _handle_boolean(
-        context_value: Any,
-        operator: int,
-        condition_value: Any
-    ) -> Any:
+    def _handle_boolean(context_value: Any, operator: int, condition_value: Any) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, bool):
@@ -144,11 +112,7 @@ class ConditionChecker:
             raise ValueError('Unsupported operator')
 
     @staticmethod
-    def _handle_enum(
-        context_value: Any,
-        operator: int,
-        condition_value: Any
-    ) -> Any:
+    def _handle_enum(context_value: Any, operator: int, condition_value: Any) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, six.string_types + (int,)):
@@ -166,11 +130,7 @@ class ConditionChecker:
             raise ValueError('Unsupported operator')
 
     @staticmethod
-    def _handle_version(
-        context_value: Any,
-        operator: int,
-        condition_value: Any
-    ) -> Any:
+    def _handle_version(context_value: Any, operator: int, condition_value: Any) -> Any:
         if context_value is None:
             return False
         if not isinstance(context_value, six.string_types):
@@ -194,54 +154,28 @@ class ConditionChecker:
             raise ValueError('Unsupported operator')
 
     @classmethod
-    def _handle_string_list(
-        cls,
-        context_value: Any,
-        operator: int,
-        condition_value: Any
-    ) -> Any:
+    def _handle_string_list(cls, context_value: Any, operator: int, condition_value: Any) -> Any:
         return cls._handle_list(
-            context_value=context_value,
-            operator=operator,
-            condition_value=condition_value,
-            list_type=six.string_types
+            context_value=context_value, operator=operator, condition_value=condition_value, list_type=six.string_types
         )
 
     @classmethod
-    def _handle_integer_list(
-        cls,
-        context_value: Any,
-        operator: int,
-        condition_value: Any
-    ) -> Any:
+    def _handle_integer_list(cls, context_value: Any, operator: int, condition_value: Any) -> Any:
         return cls._handle_list(
-            context_value=context_value,
-            operator=operator,
-            condition_value=condition_value,
-            list_type=int
+            context_value=context_value, operator=operator, condition_value=condition_value, list_type=int
         )
 
     @classmethod
-    def _handle_enum_list(
-        cls,
-        context_value: Any,
-        operator: int,
-        condition_value: Any
-    ) -> Any:
+    def _handle_enum_list(cls, context_value: Any, operator: int, condition_value: Any) -> Any:
         return cls._handle_list(
             context_value=context_value,
             operator=operator,
             condition_value=condition_value,
-            list_type=six.string_types + (int,)
+            list_type=six.string_types + (int,),
         )
 
     @staticmethod
-    def _handle_list(
-        context_value: Any,
-        operator: int,
-        condition_value: Any,
-        list_type: Any
-    ) -> Any:
+    def _handle_list(context_value: Any, operator: int, condition_value: Any, list_type: Any) -> Any:
         if isinstance(context_value, list):
             for item in context_value:
                 if not isinstance(item, list_type):

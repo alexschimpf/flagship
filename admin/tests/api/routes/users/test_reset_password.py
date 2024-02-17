@@ -11,17 +11,13 @@ from tests.api.fastapi_test_client import FastAPITestClient
 
 
 class TestResetPassword(BaseTestCase):
-
     def setUp(self) -> None:
         self.maxDiff = None
         test_client = FastAPITestClient(app=app)
-        path_to_scenarios_dir = os.path.join(
-            os.path.dirname(__file__), '__scenarios__')
+        path_to_scenarios_dir = os.path.join(os.path.dirname(__file__), '__scenarios__')
         self.path_to_test_cases = 'test_reset_password.json'
         self.runner = TestCaseRunner(
-            client=test_client,
-            path_to_scenarios_dir=path_to_scenarios_dir,
-            default_content_type='application/json'
+            client=test_client, path_to_scenarios_dir=path_to_scenarios_dir, default_content_type='application/json'
         )
         utils.clear_database()
 
@@ -32,10 +28,7 @@ class TestResetPassword(BaseTestCase):
                 if user_row_before:
                     self.assertIsNone(user_row_before.set_password_token)
 
-            result = self.runner.run(
-                path_to_test_cases=self.path_to_test_cases,
-                test_name='test_reset_password__200'
-            )
+            result = self.runner.run(path_to_test_cases=self.path_to_test_cases, test_name='test_reset_password__200')
             self.verify_test_result(result=result)
 
             with MySQLService.get_session() as session:

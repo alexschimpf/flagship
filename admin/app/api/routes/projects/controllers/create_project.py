@@ -12,7 +12,6 @@ from app.services.database.redis.service import RedisService
 
 
 class CreateProjectController:
-
     def __init__(self, request: CreateOrUpdateProject, me: User):
         self.request = request
         self.me = me
@@ -27,7 +26,7 @@ class CreateProjectController:
             name=project_row.name,
             private_key=private_key,
             created_date=project_row.created_date,
-            updated_date=project_row.updated_date
+            updated_date=project_row.updated_date,
         )
 
     def _validate(self) -> None:
@@ -41,34 +40,30 @@ class CreateProjectController:
     def _create_project(self) -> tuple[ProjectRow, str]:
         with MySQLService.get_session() as session:
             private_key, encrypted_private_key = common.generate_private_key()
-            project_row = ProjectRow(
-                name=self.request.name
-            )
+            project_row = ProjectRow(name=self.request.name)
 
             session.add(project_row)
             session.flush()
 
-            session.add(UserProjectRow(
-                user_id=self.me.user_id,
-                project_id=project_row.project_id
-            ))
-            session.add(ProjectPrivateKeyRow(
-                project_id=project_row.project_id,
-                private_key=encrypted_private_key,
-                name='First private key'
-            ))
-            session.add(SystemAuditLogRow(
-                actor=self.me.email,
-                event_type=AuditLogEventType.CREATED_PROJECT,
-                details=f'Name: {project_row.name}'
-            ))
+            session.add(UserProjectRow(user_id=self.me.user_id, project_id=project_row.project_id))
+            session.add(
+                ProjectPrivateKeyRow(
+                    project_id=project_row.project_id, private_key=encrypted_private_key, name='First private key'
+                )
+            )
+            session.add(
+                SystemAuditLogRow(
+                    actor=self.me.email,
+                    event_type=AuditLogEventType.CREATED_PROJECT,
+                    details=f'Name: {project_row.name}',
+                )
+            )
 
             session.commit()
             session.refresh(project_row)
 
         RedisService.add_project_private_key(
-            project_id=project_row.project_id,
-            encrypted_private_key=encrypted_private_key
+            project_id=project_row.project_id, encrypted_private_key=encrypted_private_key
         )
 
         return project_row, private_key

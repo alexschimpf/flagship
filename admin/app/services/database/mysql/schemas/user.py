@@ -12,7 +12,6 @@ from app.services.database.mysql.schemas.base import BaseRow
 
 
 class UserRow(BaseRow):
-
     __tablename__ = 'users'
 
     user_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
@@ -24,7 +23,8 @@ class UserRow(BaseRow):
     set_password_token: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_date: Mapped[datetime.datetime] = mapped_column(UtcDateTime, server_default=func.current_timestamp())
     updated_date: Mapped[datetime.datetime] = mapped_column(
-        UtcDateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
+        UtcDateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+    )
 
     @validates('email')
     def validate_email(self, _: str, value: str) -> str:
@@ -51,96 +51,55 @@ class UserRow(BaseRow):
 
 
 class UsersTable:
-
     @staticmethod
     def get_users(page: int, page_size: int, session: Session) -> tuple[list[UserRow], int]:
-        rows = list(session.scalars(
-            select(
-                UserRow
-            ).order_by(
-                UserRow.user_id
-            ).offset(
-                page * page_size
-            ).limit(
-                page_size
-            )
-        ))
-        total_count = cast(int, session.scalar(
-            select(
-                func.count()
-            ).select_from(
-                UserRow
-            )
-        ))
+        rows = list(
+            session.scalars(select(UserRow).order_by(UserRow.user_id).offset(page * page_size).limit(page_size))
+        )
+        total_count = cast(int, session.scalar(select(func.count()).select_from(UserRow)))
 
         return rows, total_count
 
     @staticmethod
     def delete_user(user_id: int, session: Session) -> None:
-        session.execute(
-            delete(
-                UserRow
-            ).where(
-                UserRow.user_id == user_id
-            )
-        )
+        session.execute(delete(UserRow).where(UserRow.user_id == user_id))
 
     @staticmethod
     def update_set_password_token(email: str, set_password_token: str, session: Session) -> None:
         session.execute(
-            update(
-                UserRow
-            ).where(
-                UserRow.email == email
-            ).values({
-                UserRow.set_password_token: set_password_token
-            })
+            update(UserRow).where(UserRow.email == email).values({UserRow.set_password_token: set_password_token})
         )
 
     @staticmethod
     def update_password(user_id: int, password: str, session: Session) -> None:
         session.execute(
-            update(
-                UserRow
-            ).where(
-                UserRow.user_id == user_id
-            ).values({
-                UserRow.set_password_token: None,
-                UserRow.password: password,
-                UserRow.status: UserStatus.ACTIVATED.value
-            })
-        )
-
-    @staticmethod
-    def get_user_by_email(email: str, session: Session) -> UserRow | None:
-        return session.scalar(
-            select(
-                UserRow
-            ).where(
-                UserRow.email == email
+            update(UserRow)
+            .where(UserRow.user_id == user_id)
+            .values(
+                {
+                    UserRow.set_password_token: None,
+                    UserRow.password: password,
+                    UserRow.status: UserStatus.ACTIVATED.value,
+                }
             )
         )
 
     @staticmethod
+    def get_user_by_email(email: str, session: Session) -> UserRow | None:
+        return session.scalar(select(UserRow).where(UserRow.email == email))
+
+    @staticmethod
     def update_user(user_id: int, name: str, role: int, session: Session) -> None:
         session.execute(
-            update(
-                UserRow
-            ).where(
-                UserRow.user_id == user_id
-            ).values({
-                UserRow.name: name,
-                UserRow.role: role
-            })
+            update(UserRow).where(UserRow.user_id == user_id).values({UserRow.name: name, UserRow.role: role})
         )
 
     @staticmethod
     def owners_exist(excluded_user_id: int, session: Session) -> bool:
-        return bool(session.scalar(
-            select(
-                UserRow.user_id
-            ).where(
-                UserRow.role == UserRole.OWNER.value,
-                UserRow.user_id != excluded_user_id
-            ).limit(1)
-        ))
+        return bool(
+            session.scalar(
+                select(UserRow.user_id)
+                .where(UserRow.role == UserRole.OWNER.value, UserRow.user_id != excluded_user_id)
+                .limit(1)
+            )
+        )

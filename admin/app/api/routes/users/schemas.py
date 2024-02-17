@@ -10,9 +10,7 @@ class InviteUser(BaseModel):
     role: UserRole
     projects: list[int]
 
-    model_config = ConfigDict(
-        str_strip_whitespace=True
-    )
+    model_config = ConfigDict(str_strip_whitespace=True)
 
 
 class UpdateUser(BaseModel):
@@ -20,9 +18,7 @@ class UpdateUser(BaseModel):
     role: UserRole
     projects: list[int]
 
-    model_config = ConfigDict(
-        str_strip_whitespace=True
-    )
+    model_config = ConfigDict(str_strip_whitespace=True)
 
 
 class SetPassword(BaseModel):

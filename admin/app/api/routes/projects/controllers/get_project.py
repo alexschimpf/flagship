@@ -6,7 +6,6 @@ from app.services.database.mysql.service import MySQLService
 
 
 class GetProjectController:
-
     def __init__(self, project_id: int, me: User):
         self.project_id = project_id
         self.me = me

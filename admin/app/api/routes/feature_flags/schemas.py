@@ -12,9 +12,7 @@ class FeatureFlagCondition(BaseModel):
     operator: Operator
     value: Any
 
-    model_config = ConfigDict(
-        str_strip_whitespace=True
-    )
+    model_config = ConfigDict(str_strip_whitespace=True)
 
 
 class FeatureFlag(BaseModel):
@@ -35,7 +33,7 @@ class FeatureFlag(BaseModel):
             enabled=row.enabled,
             conditions=row.conditions_list,  # type: ignore
             created_date=row.created_date,
-            updated_date=row.updated_date
+            updated_date=row.updated_date,
         )
 
 
@@ -50,9 +48,7 @@ class CreateOrUpdateFeatureFlag(BaseModel):
     enabled: bool
     conditions: list[list[FeatureFlagCondition]] = Field(default=[])
 
-    model_config = ConfigDict(
-        str_strip_whitespace=True
-    )
+    model_config = ConfigDict(str_strip_whitespace=True)
 
 
 class UpdateFeatureFlagStatus(BaseModel):

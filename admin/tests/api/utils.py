@@ -32,10 +32,7 @@ class User(BaseModel):
 
     @property
     def hashed_password(self) -> str:
-        return bcrypt.hashpw(
-            self.password.encode(),
-            bcrypt.gensalt(prefix=b'2a')
-        ).decode()
+        return bcrypt.hashpw(self.password.encode(), bcrypt.gensalt(prefix=b'2a')).decode()
 
 
 class Project(BaseModel):
@@ -87,7 +84,7 @@ def new_user(user: User) -> Generator[UserRow, None, None]:
         role=user.role.value,
         status=user.status.value,
         password=user.hashed_password,
-        set_password_token=user.set_password_token
+        set_password_token=user.set_password_token,
     )
     try:
         with MySQLService.get_session() as session:
@@ -96,7 +93,8 @@ def new_user(user: User) -> Generator[UserRow, None, None]:
 
             if user.projects:
                 UsersProjectsTable.update_user_projects(
-                    user_id=user_row.user_id, project_ids=user.projects, session=session)
+                    user_id=user_row.user_id, project_ids=user.projects, session=session
+                )
 
             session.commit()
             session.refresh(user_row)
@@ -105,31 +103,23 @@ def new_user(user: User) -> Generator[UserRow, None, None]:
     finally:
         if user_row.user_id:
             with MySQLService.get_session() as session:
-                session.execute(
-                    delete(
-                        UserRow
-                    ).where(
-                        UserRow.user_id == user_row.user_id
-                    )
-                )
+                session.execute(delete(UserRow).where(UserRow.user_id == user_row.user_id))
                 session.commit()
 
 
 @contextlib.contextmanager
 def new_project(project: Project) -> Generator[ProjectRow, None, None]:
-    project_row = ProjectRow(
-        name=project.name
-    )
+    project_row = ProjectRow(name=project.name)
     try:
         with MySQLService.get_session() as session:
             session.add(project_row)
             session.flush()
 
-            session.add(ProjectPrivateKeyRow(
-                project_id=project_row.project_id,
-                private_key=project.private_key,
-                name=uuid.uuid4().hex
-            ))
+            session.add(
+                ProjectPrivateKeyRow(
+                    project_id=project_row.project_id, private_key=project.private_key, name=uuid.uuid4().hex
+                )
+            )
 
             session.commit()
             session.refresh(project_row)
@@ -138,28 +128,21 @@ def new_project(project: Project) -> Generator[ProjectRow, None, None]:
     finally:
         if project_row.project_id:
             with MySQLService.get_session() as session:
-                session.execute(
-                    delete(
-                        ProjectRow
-                    ).where(
-                        ProjectRow.project_id == project_row.project_id
-                    )
-                )
+                session.execute(delete(ProjectRow).where(ProjectRow.project_id == project_row.project_id))
                 session.commit()
 
 
 @contextlib.contextmanager
 def new_feature_flag(project_id: int, feature_flag: FeatureFlag) -> Generator[FeatureFlagRow, None, None]:
-    conditions = ujson.dumps([
-        [condition.model_dump() for condition in and_group]
-        for and_group in feature_flag.conditions
-    ])
+    conditions = ujson.dumps(
+        [[condition.model_dump() for condition in and_group] for and_group in feature_flag.conditions]
+    )
     feature_flag_row = FeatureFlagRow(
         project_id=project_id,
         name=feature_flag.name,
         description=feature_flag.description,
         conditions=conditions,
-        enabled=feature_flag.enabled
+        enabled=feature_flag.enabled,
     )
     try:
         with MySQLService.get_session() as session:
@@ -172,11 +155,9 @@ def new_feature_flag(project_id: int, feature_flag: FeatureFlag) -> Generator[Fe
         if feature_flag_row.feature_flag_id:
             with MySQLService.get_session() as session:
                 session.execute(
-                    delete(
-                        FeatureFlagRow
-                    ).where(
+                    delete(FeatureFlagRow).where(
                         FeatureFlagRow.project_id == feature_flag_row.project_id,
-                        FeatureFlagRow.feature_flag_id == feature_flag_row.feature_flag_id
+                        FeatureFlagRow.feature_flag_id == feature_flag_row.feature_flag_id,
                     )
                 )
                 session.commit()
@@ -191,7 +172,7 @@ def new_context_field(project_id: int, context_field: ContextField) -> Generator
         description=context_field.description,
         field_key=context_field.field_key,
         value_type=context_field.value_type.value,
-        enum_def=enum_def
+        enum_def=enum_def,
     )
     try:
         with MySQLService.get_session() as session:
@@ -204,11 +185,9 @@ def new_context_field(project_id: int, context_field: ContextField) -> Generator
         if context_field_row.context_field_id:
             with MySQLService.get_session() as session:
                 session.execute(
-                    delete(
-                        ContextFieldRow
-                    ).where(
+                    delete(ContextFieldRow).where(
                         ContextFieldRow.project_id == context_field_row.project_id,
-                        ContextFieldRow.context_field_id == context_field_row.context_field_id
+                        ContextFieldRow.context_field_id == context_field_row.context_field_id,
                     )
                 )
                 session.commit()
@@ -216,11 +195,7 @@ def new_context_field(project_id: int, context_field: ContextField) -> Generator
 
 @contextlib.contextmanager
 def new_system_audit_log(audit_log: SystemAuditLog) -> Generator[SystemAuditLogRow, None, None]:
-    row = SystemAuditLogRow(
-        actor=audit_log.actor,
-        event_type=audit_log.event_type.value,
-        details=audit_log.details
-    )
+    row = SystemAuditLogRow(actor=audit_log.actor, event_type=audit_log.event_type.value, details=audit_log.details)
     try:
         with MySQLService.get_session() as session:
             session.add(row)
@@ -231,26 +206,17 @@ def new_system_audit_log(audit_log: SystemAuditLog) -> Generator[SystemAuditLogR
     finally:
         if row.audit_log_id:
             with MySQLService.get_session() as session:
-                session.execute(
-                    delete(
-                        SystemAuditLogRow
-                    ).where(
-                        SystemAuditLogRow.audit_log_id == row.audit_log_id
-                    )
-                )
+                session.execute(delete(SystemAuditLogRow).where(SystemAuditLogRow.audit_log_id == row.audit_log_id))
                 session.commit()
 
 
 @contextlib.contextmanager
 def new_feature_flag_audit_log(
-    project_id: int,
-    feature_flag_id: int,
-    audit_log: FeatureFlagAuditLog
+    project_id: int, feature_flag_id: int, audit_log: FeatureFlagAuditLog
 ) -> Generator[FeatureFlagAuditLogRow, None, None]:
-    conditions = ujson.dumps([
-        [condition.model_dump() for condition in and_group]
-        for and_group in audit_log.conditions
-    ])
+    conditions = ujson.dumps(
+        [[condition.model_dump() for condition in and_group] for and_group in audit_log.conditions]
+    )
     row = FeatureFlagAuditLogRow(
         feature_flag_id=feature_flag_id,
         project_id=project_id,
@@ -258,7 +224,7 @@ def new_feature_flag_audit_log(
         name=audit_log.name,
         description=audit_log.description,
         conditions=conditions,
-        enabled=audit_log.enabled
+        enabled=audit_log.enabled,
     )
     try:
         with MySQLService.get_session() as session:
@@ -271,20 +237,14 @@ def new_feature_flag_audit_log(
         if row.audit_log_id:
             with MySQLService.get_session() as session:
                 session.execute(
-                    delete(
-                        FeatureFlagAuditLogRow
-                    ).where(
-                        FeatureFlagAuditLogRow.audit_log_id == row.audit_log_id
-                    )
+                    delete(FeatureFlagAuditLogRow).where(FeatureFlagAuditLogRow.audit_log_id == row.audit_log_id)
                 )
                 session.commit()
 
 
 @contextlib.contextmanager
 def new_context_field_audit_log(
-    project_id: int,
-    context_field_id: int,
-    audit_log: ContextFieldAuditLog
+    project_id: int, context_field_id: int, audit_log: ContextFieldAuditLog
 ) -> Generator[ContextFieldAuditLogRow, None, None]:
     enum_def = ujson.dumps(audit_log.enum_def) if audit_log.enum_def else None
     row = ContextFieldAuditLogRow(
@@ -293,7 +253,7 @@ def new_context_field_audit_log(
         actor=audit_log.actor,
         name=audit_log.name,
         description=audit_log.description,
-        enum_def=enum_def
+        enum_def=enum_def,
     )
     try:
         with MySQLService.get_session() as session:
@@ -306,11 +266,7 @@ def new_context_field_audit_log(
         if row.audit_log_id:
             with MySQLService.get_session() as session:
                 session.execute(
-                    delete(
-                        ContextFieldAuditLogRow
-                    ).where(
-                        ContextFieldAuditLogRow.audit_log_id == row.audit_log_id
-                    )
+                    delete(ContextFieldAuditLogRow).where(ContextFieldAuditLogRow.audit_log_id == row.audit_log_id)
                 )
                 session.commit()
 

@@ -40,5 +40,5 @@ class User(BaseModel):
             status=UserStatus(row.status),
             projects=projects,
             created_date=row.created_date,
-            updated_date=row.updated_date
+            updated_date=row.updated_date,
         )

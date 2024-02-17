@@ -11,28 +11,21 @@ from app.api.routes.feature_flags.condition_checker import ConditionChecker
 
 
 class GetFeatureFlagsController:
-
-    def __init__(
-        self,
-        project_id: int,
-        user_key: str,
-        context: dict[str, Any],
-        signature: str
-    ):
+    def __init__(self, project_id: int, user_key: str, context: dict[str, Any], signature: str):
         self.project_id = project_id
         self.user_key = user_key
         self.context = context
         self.signature = signature
 
     def handle_request(self) -> FeatureFlags:
-        feature_flags, context_fields, encrypted_private_keys = \
-            RedisService.get_project_data(project_id=self.project_id)
+        feature_flags, context_fields, encrypted_private_keys = RedisService.get_project_data(
+            project_id=self.project_id
+        )
         self._validate(encrypted_private_keys=encrypted_private_keys)
         enabled_feature_flags = self._get_enabled_feature_flags(
-            feature_flags=feature_flags, context_fields=context_fields)
-        return FeatureFlags(
-            items=enabled_feature_flags
+            feature_flags=feature_flags, context_fields=context_fields
         )
+        return FeatureFlags(items=enabled_feature_flags)
 
     def _validate(self, encrypted_private_keys: set[str]) -> None:
         for encrypted_private_key in encrypted_private_keys:
@@ -44,9 +37,7 @@ class GetFeatureFlagsController:
         raise UnauthorizedException
 
     def _get_enabled_feature_flags(
-        self,
-        feature_flags: dict[str, list[list[dict[str, Any]]] | None],
-        context_fields: dict[str, str]
+        self, feature_flags: dict[str, list[list[dict[str, Any]]] | None], context_fields: dict[str, str]
     ) -> list[str]:
         enabled_feature_flags = []
         if feature_flags and context_fields:
@@ -57,9 +48,7 @@ class GetFeatureFlagsController:
         return enabled_feature_flags
 
     def _is_feature_flag_enabled(
-        self,
-        conditions: list[list[dict[str, Any]]] | None,
-        context_fields: dict[str, str]
+        self, conditions: list[list[dict[str, Any]]] | None, context_fields: dict[str, str]
     ) -> bool:
         if conditions in (None, []):
             return True
@@ -75,7 +64,7 @@ class GetFeatureFlagsController:
                     context_value=context_value,
                     context_value_type=context_value_type,
                     operator=operator,
-                    condition_value=value
+                    condition_value=value,
                 ):
                     # And group failed check
                     break
@@ -86,6 +75,5 @@ class GetFeatureFlagsController:
         return False
 
     def _is_signature_valid(self, private_key: str) -> bool:
-        true_signature = hmac.new(
-            private_key.encode(), self.user_key.encode(), hashlib.sha256).hexdigest()
+        true_signature = hmac.new(private_key.encode(), self.user_key.encode(), hashlib.sha256).hexdigest()
         return self.signature == true_signature

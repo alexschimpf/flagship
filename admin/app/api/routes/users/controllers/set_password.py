@@ -7,8 +7,12 @@ from fastapi import status
 from fastapi.responses import RedirectResponse
 from fastapi_another_jwt_auth import AuthJWT
 
-from app.api.exceptions.exceptions import InvalidPasswordException, InvalidSetPasswordTokenException, AppException, \
-    PasswordsDontMatchException
+from app.api.exceptions.exceptions import (
+    InvalidPasswordException,
+    InvalidSetPasswordTokenException,
+    AppException,
+    PasswordsDontMatchException,
+)
 from app.config import Config
 from app.constants import AuditLogEventType
 from app.services.database.mysql.schemas.system_audit_logs import SystemAuditLogRow
@@ -18,7 +22,6 @@ from app.services.strings.service import StringsService
 
 
 class SetPasswordController:
-
     def __init__(self, email: str, password: str, password_repeat: str, token: str, authorize: AuthJWT):
         self.email = email
         self.password = password
@@ -38,21 +41,18 @@ class SetPasswordController:
             )
             return RedirectResponse(
                 url=f'{Config.UI_BASE_URL}/set-password?error={error}&token={self.token}',
-                status_code=status.HTTP_302_FOUND
+                status_code=status.HTTP_302_FOUND,
             )
         else:
             access_token = self.authorize.create_access_token(subject=cast(UserRow, user).user_id)
-            response = RedirectResponse(
-                url=Config.UI_BASE_URL,
-                status_code=status.HTTP_302_FOUND
-            )
+            response = RedirectResponse(url=Config.UI_BASE_URL, status_code=status.HTTP_302_FOUND)
             response.set_cookie(
                 key=Config.SESSION_COOKIE_KEY,
                 value=access_token,
                 max_age=Config.SESSION_COOKIE_MAX_AGE,
                 domain=Config.SESSION_COOKIE_DOMAIN,
                 secure=True,
-                samesite='lax'
+                samesite='lax',
             )
             return response
 
@@ -94,28 +94,13 @@ class SetPasswordController:
             else:
                 has_one_special_char = True
 
-        return (
-            has_one_uppercase_letter and
-            has_one_lowercase_letter and
-            has_one_number and
-            has_one_special_char
-        )
+        return has_one_uppercase_letter and has_one_lowercase_letter and has_one_number and has_one_special_char
 
     def _update_password(self, user: UserRow) -> None:
-        hashed_password = bcrypt.hashpw(
-            self.password.encode(),
-            bcrypt.gensalt(prefix=b'2a')
-        ).decode()
+        hashed_password = bcrypt.hashpw(self.password.encode(), bcrypt.gensalt(prefix=b'2a')).decode()
         with MySQLService.get_session() as session:
-            UsersTable.update_password(
-                user_id=user.user_id,
-                password=hashed_password,
-                session=session
-            )
-            session.add(SystemAuditLogRow(
-                actor=self.email,
-                event_type=AuditLogEventType.SET_PASSWORD
-            ))
+            UsersTable.update_password(user_id=user.user_id, password=hashed_password, session=session)
+            session.add(SystemAuditLogRow(actor=self.email, event_type=AuditLogEventType.SET_PASSWORD))
             session.commit()
 
     @staticmethod

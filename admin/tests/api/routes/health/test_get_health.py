@@ -7,7 +7,6 @@ client = TestClient(app)
 
 
 class TestGetHealth(BaseTestCase):
-
     def test_get_health__200(self) -> None:
         response = client.get('/health')
         self.assertEqual(response.status_code, 200)

@@ -30,11 +30,11 @@ deploy:
 
 # run ruff formatter
 format:
-	ruff format ./**/*.py
+	ruff format **/
 
 # run ruff linter
 lint:
-	ruff check ./**/*.py
+	ruff check **/
 
 # type-check python
 type-check:

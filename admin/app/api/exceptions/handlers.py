@@ -4,22 +4,14 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi_another_jwt_auth.exceptions import AuthJWTException
 
-from app.api.exceptions import AppException, AggregateException, BadRequestFieldException, \
-    UnauthenticatedException
+from app.api.exceptions import AppException, AggregateException, BadRequestFieldException, UnauthenticatedException
 from app.services.strings.service import StringsService
 
 
 def exception_handler(_: Request, __: Exception) -> JSONResponse:
     return JSONResponse(
         status_code=500,
-        content={
-            'errors': [
-                {
-                    'code': AppException.CODE,
-                    'msg': StringsService.get(key=AppException.CODE)
-                }
-            ]
-        }
+        content={'errors': [{'code': AppException.CODE, 'msg': StringsService.get(key=AppException.CODE)}]},
     )
 
 
@@ -28,23 +20,11 @@ def app_exception_handler(_: Request, e: AppException) -> JSONResponse:
     exceptions = e.exceptions if isinstance(e, AggregateException) else [e]
     for exc in exceptions:
         if isinstance(exc, BadRequestFieldException):
-            errors.append({
-                'field': exc.field,
-                'code': exc.CODE,
-                'message': str(exc)
-            })
+            errors.append({'field': exc.field, 'code': exc.CODE, 'message': str(exc)})
         else:
-            errors.append({
-                'code': exc.CODE,
-                'message': str(exc)
-            })
+            errors.append({'code': exc.CODE, 'message': str(exc)})
 
-    return JSONResponse(
-        status_code=e.STATUS,
-        content={
-            'errors': errors
-        }
-    )
+    return JSONResponse(status_code=e.STATUS, content={'errors': errors})
 
 
 def request_validation_exception_handler(_: Request, e: RequestValidationError) -> JSONResponse:
@@ -54,29 +34,17 @@ def request_validation_exception_handler(_: Request, e: RequestValidationError) 
         error_code, message = error['type'], error['msg']
         field = error['loc'][1]
         message = _make_user_friendly(error_code=error_code, field=field, message=message)
-        formatted_errors.append({
-            'field': field,
-            'code': error_code.upper(),
-            'message': message
-        })
+        formatted_errors.append({'field': field, 'code': error_code.upper(), 'message': message})
 
-    return JSONResponse(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        content=jsonable_encoder({
-            'errors': formatted_errors
-        })
-    )
+    return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=jsonable_encoder({'errors': formatted_errors}))
 
 
 def jwt_exception_handler(_: Request, __: AuthJWTException) -> JSONResponse:
     return JSONResponse(
         status_code=status.HTTP_401_UNAUTHORIZED,
         content={
-            'errors': [{
-                'code': UnauthenticatedException.CODE,
-                'message': StringsService.get(key=AppException.CODE)
-            }]
-        }
+            'errors': [{'code': UnauthenticatedException.CODE, 'message': StringsService.get(key=AppException.CODE)}]
+        },
     )
 
 

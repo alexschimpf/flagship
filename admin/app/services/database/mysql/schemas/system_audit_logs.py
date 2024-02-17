@@ -10,7 +10,6 @@ from app.services.database.mysql.schemas.base import BaseRow
 
 
 class SystemAuditLogRow(BaseRow):
-
     __tablename__ = 'system_audit_logs'
 
     audit_log_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
@@ -21,30 +20,16 @@ class SystemAuditLogRow(BaseRow):
 
 
 class SystemAuditLogsTable:
-
     @staticmethod
-    def get_system_audit_logs(
-        page: int,
-        page_size: int,
-        session: Session
-    ) -> tuple[list[SystemAuditLogRow], int]:
-        rows = list(session.scalars(
-            select(
-                SystemAuditLogRow
-            ).order_by(
-                SystemAuditLogRow.created_date.desc()
-            ).offset(
-                page * page_size
-            ).limit(
-                page_size
+    def get_system_audit_logs(page: int, page_size: int, session: Session) -> tuple[list[SystemAuditLogRow], int]:
+        rows = list(
+            session.scalars(
+                select(SystemAuditLogRow)
+                .order_by(SystemAuditLogRow.created_date.desc())
+                .offset(page * page_size)
+                .limit(page_size)
             )
-        ))
-        total_count = cast(int, session.scalar(
-            select(
-                func.count()
-            ).select_from(
-                SystemAuditLogRow
-            )
-        ))
+        )
+        total_count = cast(int, session.scalar(select(func.count()).select_from(SystemAuditLogRow)))
 
         return rows, total_count

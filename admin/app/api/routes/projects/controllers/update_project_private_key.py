@@ -7,7 +7,6 @@ from app.services.database.mysql.service import MySQLService
 
 
 class UpdateProjectPrivateKeyController:
-
     def __init__(self, project_id: int, project_private_key_id: int, request: ProjectPrivateKeyName, me: User):
         self.project_id = project_id
         self.project_private_key_id = project_private_key_id
@@ -15,8 +14,10 @@ class UpdateProjectPrivateKeyController:
         self.me = me
 
     def handle_request(self) -> SuccessResponse:
-        if (not self.me.role.has_permission(Permission.READ_PROJECT_PRIVATE_KEYS) or
-                self.project_id not in self.me.projects):
+        if (
+            not self.me.role.has_permission(Permission.READ_PROJECT_PRIVATE_KEYS)
+            or self.project_id not in self.me.projects
+        ):
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:
@@ -24,8 +25,10 @@ class UpdateProjectPrivateKeyController:
                 raise NotFoundException
 
             ProjectPrivateKeysTable.update_project_private_keys(
-                project_id=self.project_id, project_private_key_id=self.project_private_key_id,
-                name=self.request.name, session=session
+                project_id=self.project_id,
+                project_private_key_id=self.project_private_key_id,
+                name=self.request.name,
+                session=session,
             )
             session.commit()
 

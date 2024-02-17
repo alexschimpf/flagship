@@ -7,7 +7,6 @@ from app.config import Config
 
 
 class StringsService:
-
     DEFAULT_LOCALE: str
     LOOKUP: Final[dict[str, dict[str, str]]] = {}
 

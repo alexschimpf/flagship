@@ -21,7 +21,7 @@ def get_user(authorize: AuthJWT = Depends()) -> User:
             projects=list(range(100)),
             status=UserStatus.ACTIVATED,
             created_date=datetime.datetime.now(),
-            updated_date=datetime.datetime.now()
+            updated_date=datetime.datetime.now(),
         )
 
     authorize.jwt_required()

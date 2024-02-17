@@ -12,7 +12,6 @@ from app.constants import ContextValueType
 
 
 class RedisService:
-
     if TYPE_CHECKING:
         _client: RedisCluster[str]
     else:
@@ -25,7 +24,7 @@ class RedisService:
             decode_responses=True,
             require_full_coverage=True,
             retry_on_error=[redis.BusyLoadingError, redis.ConnectionError, redis.TimeoutError],
-            retry=Retry(ExponentialBackoff(), 3)
+            retry=Retry(ExponentialBackoff(), 3),
         )
 
     @classmethod
@@ -38,17 +37,12 @@ class RedisService:
 
     @classmethod
     def add_or_replace_feature_flag(
-        cls,
-        project_id: int,
-        feature_flag_name: str,
-        conditions: list[list[FeatureFlagCondition]],
-        is_enabled: bool
+        cls, project_id: int, feature_flag_name: str, conditions: list[list[FeatureFlagCondition]], is_enabled: bool
     ) -> None:
         if is_enabled:
-            conditions_str = ujson.dumps([
-                [condition.model_dump() for condition in and_group]
-                for and_group in conditions
-            ])
+            conditions_str = ujson.dumps(
+                [[condition.model_dump() for condition in and_group] for and_group in conditions]
+            )
             cls._client.hset(f'feature-flags:{{{project_id}}}', feature_flag_name, conditions_str)
         else:
             cls.remove_feature_flag(project_id=project_id, feature_flag_name=feature_flag_name)
@@ -59,10 +53,7 @@ class RedisService:
 
     @classmethod
     def add_or_replace_context_field(
-        cls,
-        project_id: int,
-        context_field_key: str,
-        context_value_type: ContextValueType
+        cls, project_id: int, context_field_key: str, context_value_type: ContextValueType
     ) -> None:
         cls._client.hset(f'context-fields:{{{project_id}}}', context_field_key, str(context_value_type))
 

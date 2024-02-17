@@ -15,10 +15,7 @@ class Project(BaseModel):
     @classmethod
     def from_row(cls, row: ProjectRow) -> Self:
         return cls(
-            project_id=row.project_id,
-            name=row.name,
-            created_date=row.created_date,
-            updated_date=row.updated_date
+            project_id=row.project_id, name=row.name, created_date=row.created_date, updated_date=row.updated_date
         )
 
 
@@ -34,9 +31,7 @@ class Projects(BaseModel):
 class CreateOrUpdateProject(BaseModel):
     name: str = Field(min_length=1, max_length=128)
 
-    model_config = ConfigDict(
-        str_strip_whitespace=True
-    )
+    model_config = ConfigDict(str_strip_whitespace=True)
 
 
 class ProjectPrivateKey(BaseModel):
@@ -46,9 +41,7 @@ class ProjectPrivateKey(BaseModel):
 class ProjectPrivateKeyName(BaseModel):
     name: str = Field(min_length=1, max_length=128)
 
-    model_config = ConfigDict(
-        str_strip_whitespace=True
-    )
+    model_config = ConfigDict(str_strip_whitespace=True)
 
 
 class ProjectPrivateKeyNameAndId(BaseModel):

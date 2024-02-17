@@ -7,7 +7,6 @@ from app.services.database.mysql.service import MySQLService
 
 
 class GetUserController:
-
     def __init__(self, user_id: int, me: User):
         self.user_id = user_id
         self.me = me

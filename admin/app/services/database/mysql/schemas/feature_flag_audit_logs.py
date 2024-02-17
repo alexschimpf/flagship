@@ -11,7 +11,6 @@ from app.services.database.mysql.schemas.base import BaseRow
 
 
 class FeatureFlagAuditLogRow(BaseRow):
-
     __tablename__ = 'feature_flag_audit_logs'
 
     audit_log_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
@@ -26,38 +25,32 @@ class FeatureFlagAuditLogRow(BaseRow):
 
 
 class FeatureFlagAuditLogsTable:
-
     @staticmethod
     def get_feature_flag_audit_logs(
-        project_id: int,
-        feature_flag_id: int,
-        page: int,
-        page_size: int,
-        session: Session
+        project_id: int, feature_flag_id: int, page: int, page_size: int, session: Session
     ) -> tuple[list[FeatureFlagAuditLogRow], int]:
-        rows = list(session.scalars(
-            select(
-                FeatureFlagAuditLogRow
-            ).where(
-                FeatureFlagAuditLogRow.feature_flag_id == feature_flag_id,
-                FeatureFlagAuditLogRow.project_id == project_id
-            ).order_by(
-                FeatureFlagAuditLogRow.created_date.asc()
-            ).offset(
-                page * page_size
-            ).limit(
-                page_size
+        rows = list(
+            session.scalars(
+                select(FeatureFlagAuditLogRow)
+                .where(
+                    FeatureFlagAuditLogRow.feature_flag_id == feature_flag_id,
+                    FeatureFlagAuditLogRow.project_id == project_id,
+                )
+                .order_by(FeatureFlagAuditLogRow.created_date.asc())
+                .offset(page * page_size)
+                .limit(page_size)
             )
-        ))
-        total_count = cast(int, session.scalar(
-            select(
-                func.count()
-            ).select_from(
-                FeatureFlagAuditLogRow
-            ).where(
-                FeatureFlagAuditLogRow.project_id == project_id,
-                FeatureFlagAuditLogRow.feature_flag_id == feature_flag_id
-            )
-        ))
+        )
+        total_count = cast(
+            int,
+            session.scalar(
+                select(func.count())
+                .select_from(FeatureFlagAuditLogRow)
+                .where(
+                    FeatureFlagAuditLogRow.project_id == project_id,
+                    FeatureFlagAuditLogRow.feature_flag_id == feature_flag_id,
+                )
+            ),
+        )
 
         return rows, total_count

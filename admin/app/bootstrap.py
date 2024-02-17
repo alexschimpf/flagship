@@ -24,7 +24,6 @@ from app.services.strings.service import StringsService
 
 
 class Bootstrap:
-
     def run(self) -> FastAPI:
         Config.init()
         self._init_logger()
@@ -52,18 +51,14 @@ class Bootstrap:
             Exception: exception_handlers.exception_handler,
             exceptions.AppException: exception_handlers.app_exception_handler,
             RequestValidationError: exception_handlers.request_validation_exception_handler,
-            AuthJWTException: exception_handlers.jwt_exception_handler
+            AuthJWTException: exception_handlers.jwt_exception_handler,
         }
         return FastAPI(
             title='Flagship Admin API',
             version='1.0',
-            responses={
-                400: {
-                    'model': ErrorResponseModel
-                }
-            },
+            responses={400: {'model': ErrorResponseModel}},
             exception_handlers=exceptions_handlers,
-            swagger_ui_parameters={'defaultRowsExpandDepth': -1}
+            swagger_ui_parameters={'defaultRowsExpandDepth': -1},
         )
 
     @staticmethod
@@ -76,11 +71,7 @@ class Bootstrap:
     @staticmethod
     def _override_openapi(app: FastAPI) -> None:
         def openapi() -> dict[str, Any]:
-            openapi_schema = fastapi.openapi.utils.get_openapi(
-                title=app.title,
-                version=app.version,
-                routes=app.routes
-            )
+            openapi_schema = fastapi.openapi.utils.get_openapi(title=app.title, version=app.version, routes=app.routes)
 
             # Remove 422 response from schema
             for schema_path in openapi_schema['paths']:

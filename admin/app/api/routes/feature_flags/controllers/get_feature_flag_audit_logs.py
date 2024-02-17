@@ -1,17 +1,22 @@
 import ujson
 from typing import Any
 
-from app.api.routes.feature_flags.schemas import FeatureFlagAuditLogs, FeatureFlagAuditLog, FeatureFlagChange, \
-    FeatureFlagCondition
+from app.api.routes.feature_flags.schemas import (
+    FeatureFlagAuditLogs,
+    FeatureFlagAuditLog,
+    FeatureFlagChange,
+    FeatureFlagCondition,
+)
 from app.api.schemas import User
 from app.constants import OPERATOR_DISPLAY_NAMES
-from app.services.database.mysql.schemas.feature_flag_audit_logs import FeatureFlagAuditLogsTable, \
-    FeatureFlagAuditLogRow
+from app.services.database.mysql.schemas.feature_flag_audit_logs import (
+    FeatureFlagAuditLogsTable,
+    FeatureFlagAuditLogRow,
+)
 from app.services.database.mysql.service import MySQLService
 
 
 class GetFeatureFlagAuditLogsController:
-
     def __init__(self, project_id: int, feature_flag_id: int, page: int, page_size: int, me: User):
         self.project_id = project_id
         self.feature_flag_id = feature_flag_id
@@ -22,8 +27,11 @@ class GetFeatureFlagAuditLogsController:
     def handle_request(self) -> FeatureFlagAuditLogs:
         with MySQLService.get_session() as session:
             audit_logs, total_count = FeatureFlagAuditLogsTable.get_feature_flag_audit_logs(
-                project_id=self.project_id, feature_flag_id=self.feature_flag_id,
-                page=self.page, page_size=self.page_size, session=session
+                project_id=self.project_id,
+                feature_flag_id=self.feature_flag_id,
+                page=self.page,
+                page_size=self.page_size,
+                session=session,
             )
 
         result = []
@@ -31,21 +39,15 @@ class GetFeatureFlagAuditLogsController:
             prev = audit_logs[i - 1] if i > 0 else None
             changes = self._get_changes(old=prev, new_=audit_log)
             if changes:
-                result.append(FeatureFlagAuditLog(
-                    actor=audit_log.actor,
-                    event_time=audit_log.created_date,
-                    changes=changes
-                ))
+                result.append(
+                    FeatureFlagAuditLog(actor=audit_log.actor, event_time=audit_log.created_date, changes=changes)
+                )
 
         result.reverse()
         return FeatureFlagAuditLogs(items=result, total=total_count)
 
     @classmethod
-    def _get_changes(
-        cls,
-        old: FeatureFlagAuditLogRow | None,
-        new_: FeatureFlagAuditLogRow
-    ) -> list[FeatureFlagChange]:
+    def _get_changes(cls, old: FeatureFlagAuditLogRow | None, new_: FeatureFlagAuditLogRow) -> list[FeatureFlagChange]:
         changes: list[FeatureFlagChange] = []
         for field, display_name in (
             ('name', 'Name'),
@@ -65,11 +67,7 @@ class GetFeatureFlagAuditLogsController:
                     old_val = cls._humanize_conditions(conditions=old_val)
                     new_val = cls._humanize_conditions(conditions=new_val)
 
-                changes.append(FeatureFlagChange(
-                    field=display_name,
-                    old=old_val,
-                    new=new_val
-                ))
+                changes.append(FeatureFlagChange(field=display_name, old=old_val, new=new_val))
 
         return changes
 
@@ -83,8 +81,7 @@ class GetFeatureFlagAuditLogsController:
         for condition_group in conditions_list:
             human_friendly_group: list[str] = []
             for condition in condition_group:
-                human_friendly_condition = cls._humanize_condition(
-                    condition=FeatureFlagCondition(**condition))
+                human_friendly_condition = cls._humanize_condition(condition=FeatureFlagCondition(**condition))
                 human_friendly_group.append(human_friendly_condition)
             human_friendly_conditions.append(human_friendly_group)
 
@@ -103,10 +100,7 @@ class GetFeatureFlagAuditLogsController:
         operator_name = OPERATOR_DISPLAY_NAMES[condition.operator]
         value: Any = condition.value
         if isinstance(condition.value, list):
-            value = ', '.join((
-                cls._humanize_condition_value(value=x)
-                for x in value
-            ))
+            value = ', '.join((cls._humanize_condition_value(value=x) for x in value))
             value = f'[{value}]'
         else:
             value = cls._humanize_condition_value(value=value)

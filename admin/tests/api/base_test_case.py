@@ -10,7 +10,6 @@ from tests.api import utils
 
 
 class BaseTestCase(TestCase):
-
     def run_test_with_user(
         self,
         runner: TestCaseRunner,
@@ -20,17 +19,18 @@ class BaseTestCase(TestCase):
         url_params: dict[str, Any] | None = None,
         test_data_modifier: Callable[[TestData], TestData] | None = None,
         request_json_modifiers: dict[str, Any] | None = None,
-        response_json_modifiers: dict[str, Any] | None = None
+        response_json_modifiers: dict[str, Any] | None = None,
     ) -> TestResult:
         with utils.new_user(user=user):
             return runner.run(
                 path_to_test_cases=path_to_test_cases,
                 test_name=test_name,
                 test_data_modifier=self._add_session_cookie(
-                    user=user, test_client=runner.client, test_data_modifier=test_data_modifier),
+                    user=user, test_client=runner.client, test_data_modifier=test_data_modifier
+                ),
                 url_params=url_params,
                 request_json_modifiers=request_json_modifiers,
-                response_json_modifiers=response_json_modifiers
+                response_json_modifiers=response_json_modifiers,
             )
 
     @classmethod
@@ -38,14 +38,13 @@ class BaseTestCase(TestCase):
         cls,
         user: utils.User,
         test_client: BaseTestClient,
-        test_data_modifier: Callable[[TestData], TestData] | None = None
+        test_data_modifier: Callable[[TestData], TestData] | None = None,
     ) -> Callable[[TestData], TestData]:
         def func(test_data: TestData) -> TestData:
             if test_data_modifier:
                 test_data = test_data_modifier(test_data)
 
-            session_cookie = cls._login(
-                email=user.email, password=user.password, test_client=test_client)
+            session_cookie = cls._login(email=user.email, password=user.password, test_client=test_client)
             if test_data.cookies is None:
                 test_data.cookies = {}
             test_data.cookies[Config.SESSION_COOKIE_KEY] = session_cookie
@@ -59,11 +58,9 @@ class BaseTestCase(TestCase):
         resp = test_client.post(
             url='/auth/login',
             allow_redirects=False,
-            headers={
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
+            headers={'Content-Type': 'application/x-www-form-urlencoded'},
             data=form_data,
-            timeout=5
+            timeout=5,
         )
 
         if resp.status_code != 302:

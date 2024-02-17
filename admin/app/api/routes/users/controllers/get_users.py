@@ -10,7 +10,6 @@ from app.services.database.mysql.service import MySQLService
 
 
 class GetUsersController:
-
     def __init__(self, page: int, page_size: int, me: User) -> None:
         self.page = page
         self.page_size = page_size
@@ -27,14 +26,6 @@ class GetUsersController:
             for user_project_row in all_user_projects:
                 projects_by_user[user_project_row.user_id].append(user_project_row.project_id)
 
-        users = [
-            User.from_row(
-                row=user_row,
-                projects=projects_by_user[user_row.user_id]
-            ) for user_row in user_rows
-        ]
+        users = [User.from_row(row=user_row, projects=projects_by_user[user_row.user_id]) for user_row in user_rows]
 
-        return Users(
-            items=users,
-            total=total_count
-        )
+        return Users(items=users, total=total_count)

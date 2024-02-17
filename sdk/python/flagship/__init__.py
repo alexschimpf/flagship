@@ -6,7 +6,6 @@ from typing import Any
 
 
 class Flagship:
-
     def __init__(self, host: str, project_id: int, user_key: str, private_key: str, port: int = 443):
         """
         :param host: host name of Flagship API
@@ -36,22 +35,10 @@ class Flagship:
 
         signature = self.generate_signature()
         post_data = json.dumps(dict(context=context))
-        headers = {
-            'Signature': signature,
-            'Content-Type': 'application/json'
-        }
+        headers = {'Signature': signature, 'Content-Type': 'application/json'}
         api_url = f'{self._scheme}://{self._host}:{self._port}/feature_flags'
-        params: dict[str, Any] = {
-            'project_id': self._project_id,
-            'user_key': self._user_key
-        }
-        response = requests.post(
-            url=api_url,
-            params=params,
-            data=post_data,
-            headers=headers,
-            timeout=timeout
-        )
+        params: dict[str, Any] = {'project_id': self._project_id, 'user_key': self._user_key}
+        response = requests.post(url=api_url, params=params, data=post_data, headers=headers, timeout=timeout)
         response.raise_for_status()
         response_json = response.json()
         self._enabled_feature_flags = set(response_json['feature_flags'] or ())
@@ -85,8 +72,4 @@ class Flagship:
 
         :return: str
         """
-        return hmac.new(
-            self._private_key.encode(),
-            self._user_key.encode(),
-            hashlib.sha256
-        ).hexdigest()
+        return hmac.new(self._private_key.encode(), self._user_key.encode(), hashlib.sha256).hexdigest()

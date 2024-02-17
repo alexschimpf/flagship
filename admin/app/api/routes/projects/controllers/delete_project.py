@@ -8,7 +8,6 @@ from app.services.database.redis.service import RedisService
 
 
 class DeleteProjectController:
-
     def __init__(self, project_id: int, me: User):
         self.project_id = project_id
         self.me = me
@@ -19,8 +18,7 @@ class DeleteProjectController:
         return SuccessResponse()
 
     def _validate(self) -> str:
-        if (not self.me.role.has_permission(Permission.DELETE_PROJECT) or
-                self.project_id not in self.me.projects):
+        if not self.me.role.has_permission(Permission.DELETE_PROJECT) or self.project_id not in self.me.projects:
             raise UnauthorizedException
 
         with MySQLService.get_session() as session:
@@ -33,11 +31,11 @@ class DeleteProjectController:
     def _delete_project(self, name: str) -> None:
         with MySQLService.get_session() as session:
             ProjectsTable.delete_project(project_id=self.project_id, session=session)
-            session.add(SystemAuditLogRow(
-                actor=self.me.email,
-                event_type=AuditLogEventType.DELETED_PROJECT,
-                details=f'Name: {name}'
-            ))
+            session.add(
+                SystemAuditLogRow(
+                    actor=self.me.email, event_type=AuditLogEventType.DELETED_PROJECT, details=f'Name: {name}'
+                )
+            )
             session.commit()
 
         RedisService.remove_project(project_id=self.project_id)
