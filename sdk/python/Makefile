@@ -28,13 +28,13 @@ install-build:
 deploy:
 	twine upload dist/*
 
-# run autopep8 formatter
+# run ruff formatter
 format:
-	autopep8 --global-config .autopep8 --in-place -r .
+	ruff format ./**/*.py
 
-# run flake8 linter
+# run ruff linter
 lint:
-	flake8 .
+	ruff check ./**/*.py
 
 # type-check python
 type-check:
