@@ -26,10 +26,10 @@ install-pre-commit:
 	npx husky init
 
 all-tests:
-	make -C admin api-tests &&\
 	make -C admin unit-tests &&\
-	make -C flags api-tests &&\
-	make -C flags unit-tests
+	make -C flags unit-tests &&\
+	make -C admin api-tests &&\
+	make -C flags api-tests
 
 format:
 	make -C admin format && make -C flags format && npm --prefix frontend run format

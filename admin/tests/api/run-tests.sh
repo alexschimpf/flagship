@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 WAIT_UNTIL=$(expr $(date +%s) + 600)
 
 echo "Waiting for Redis to be initialized"
@@ -30,7 +32,7 @@ done
 
 sleep 5
 
-PYTHONPATH=./admin MYSQL_ECHO=0 python -m pytest --disable-warnings --cov=./admin/app --cov-fail-under=80 --no-cov-on-fail ./admin/tests/api
+PYTHONPATH=./admin MYSQL_ECHO=0 python -m pytest --disable-warnings --cov=./app --cov-fail-under=80 --no-cov-on-fail ./tests/api
 
 # Reset DBs
 docker exec -i mysql bash /docker-entrypoint-initdb.d/init.sh
