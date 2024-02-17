@@ -1,21 +1,26 @@
+[tool.ruff]
 line-length = 120
 indent-width = 4
-
 target-version = "py312"
-
 src = ["."]
 
-[lint]
+[tool.ruff.lint]
 select = ["E4", "E7", "E9", "F"]
 ignore = []
 fixable = ["ALL"]
 unfixable = []
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
-[format]
+[tool.ruff.format]
 quote-style = "single"
 indent-style = "space"
 skip-magic-trailing-comma = true
 line-ending = "auto"
 docstring-code-format = false
 docstring-code-line-length = "dynamic"
+
+[tool.mypy]
+follow_imports = "normal"
+mypy_path = "stubs"
+show_error_context = true
+strict = true
