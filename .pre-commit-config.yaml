@@ -16,10 +16,12 @@ repos:
     hooks:
       - id: ruff
         name: admin linter
-        args: [ --fix, --config=admin/pyproject.toml, "admin/**" ]
+        args: [ --fix, --config=admin/pyproject.toml, admin ]
+        files: "admin/"
       - id: ruff-format
         name: admin formatter
-        args: [ --config=admin/pyproject.toml, "admin/**" ]
+        args: [ --config=admin/pyproject.toml, admin ]
+        files: "admin/"
 
   # Flags linter/formatter
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -27,10 +29,12 @@ repos:
     hooks:
       - id: ruff
         name: flags linter
-        args: [ --fix, --config=flags/pyproject.toml, "flags/**" ]
+        args: [ --fix, --config=flags/pyproject.toml, flags ]
+        files: "flags/"
       - id: ruff-format
-        name: admin formatter
-        args: [ --config=flags/pyproject.toml, "flags/**" ]
+        name: flags formatter
+        args: [ --config=flags/pyproject.toml, flags ]
+        files: "flags/"
 
   # Python SDK linter/formatter
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -38,34 +42,48 @@ repos:
     hooks:
       - id: ruff
         name: python sdk linter
-        args: [ --fix, --config=sdk/python/pyproject.toml, "sdk/python/**" ]
+        args: [ --fix, --config=sdk/python/pyproject.toml, sdk/python ]
+        files: "sdk/python/"
       - id: ruff-format
         name: python sdk formatter
-        args: [ --config=sdk/python/pyproject.toml, "sdk/python/**" ]
+        args: [ --config=sdk/python/pyproject.toml, sdk/python ]
+        files: "sdk/python/"
 
   # Admin type-check
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+  - repo: local
     hooks:
-      - id: mypy
-        name: admin type-check
-        args: [ --config-file="admin/pyproject.toml", "admin" ]
+      - id: admin-type-check
+        name: admin type check
+        entry: "make -C admin type-check"
+        language: system
+        types: [python]
+        require_serial: true
+        verbose: true
+        files: "admin/"
 
   # Flags type-check
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+  - repo: local
     hooks:
-      - id: mypy
-        name: flags type-check
-        args: [ --config-file="flags/pyproject.toml", "flags" ]
+      - id: flags-type-check
+        name: flags type check
+        entry: "make -C flags type-check"
+        language: system
+        types: [python]
+        require_serial: true
+        verbose: true
+        files: "flags/"
 
   # Python SDK type-check
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+  - repo: local
     hooks:
-      - id: mypy
-        name: python sdk type-check
-        args: [ --config-file="sdk/python/pyproject.toml", "python/sdk" ]
+      - id: python-sdk-type-check
+        name: python sdk type check
+        entry: "make -C sdk/python type-check"
+        language: system
+        types: [python]
+        require_serial: true
+        verbose: true
+        files: "python/sdk/"
 
   # Frontend linter
   - repo: local
@@ -77,3 +95,4 @@ repos:
         types_or: [javascript, jsx, ts, tsx, html, css]
         require_serial: true
         verbose: true
+        files: "frontend/"

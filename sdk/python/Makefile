@@ -34,7 +34,7 @@ format:
 
 # run ruff linter
 lint:
-	ruff check **/
+	ruff check --fix **/
 
 # type-check python
 type-check:

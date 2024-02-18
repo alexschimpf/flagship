@@ -17,11 +17,15 @@ help:
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
 setup-dev:
-	pip install -r requirements.txt &&\
-	make install-pre-commit &&\
+	make install-dev &&\
+	make install-pre-commit
+
+install-dev:
 	npm --prefix frontend install frontend &&\
+	pip install -r requirements.txt &&\
 	make -C admin install-dev &&\
 	make -C flags install-dev &&\
+	make -C sdk/python install-dev
 
 install-pre-commit:
 	pre-commit install --hook-type pre-commit
