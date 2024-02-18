@@ -85,6 +85,19 @@ repos:
         verbose: true
         files: "python/sdk/"
 
+  # Frontend formatter
+  - repo: local
+    hooks:
+      - id: frontend-format
+        name: frontend format
+        entry: "npm --prefix frontend run format"
+        language: system
+        types_or: [javascript, jsx, ts, tsx]
+        require_serial: true
+        verbose: true
+        files: "frontend/"
+        pass_filenames: false
+
   # Frontend linter
   - repo: local
     hooks:
