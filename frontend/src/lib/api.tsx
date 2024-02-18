@@ -47,6 +47,7 @@ export class AxiosClient extends BaseHttpRequest {
 export const apiClient = new APIClient(
     {
         BASE: API_BASE_URL,
+
         WITH_CREDENTIALS: true
     },
     AxiosClient

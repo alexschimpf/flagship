@@ -92,7 +92,8 @@ repos:
         name: frontend lint
         entry: "npm --prefix frontend run lint"
         language: system
-        types_or: [javascript, jsx, ts, tsx, html, css]
+        types_or: [javascript, jsx, ts, tsx]
         require_serial: true
         verbose: true
         files: "frontend/"
+        pass_filenames: false
