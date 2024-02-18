@@ -1,0 +1,68 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-toml
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.2.2
+    hooks:
+      - id: ruff
+        args: [ --fix, --config=admin/pyproject.toml, "admin/**" ]
+      - id: ruff-format
+        args: [ --config=admin/pyproject.toml, "admin/**" ]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.2.2
+    hooks:
+      - id: ruff
+        args: [ --fix, --config=flags/pyproject.toml, "flags/**" ]
+      - id: ruff-format
+        args: [ --config=flags/pyproject.toml, "flags/**" ]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.2.2
+    hooks:
+      - id: ruff
+        args: [ --fix, --config=sdk/python/pyproject.toml, "sdk/python/**" ]
+      - id: ruff-format
+        args: [ --config=sdk/python/pyproject.toml, "sdk/python/**" ]
+  - repo: local
+    hooks:
+      - id: admin-type-check
+        name: admin-type-check
+        entry: "make -C admin type-check"
+        language: system
+        types: [python]
+        require_serial: true
+        verbose: true
+  - repo: local
+    hooks:
+      - id: flags-type-check
+        name: flags-type-check
+        entry: "make -C flags type-check"
+        language: system
+        types: [python]
+        require_serial: true
+        verbose: true
+  - repo: local
+    hooks:
+      - id: sdk-python-type-check
+        name: sdk-python-type-check
+        entry: "make -C sdk/python type-check"
+        language: system
+        types: [python]
+        require_serial: true
+        verbose: true
+  - repo: local
+    hooks:
+      - id: frontend-lint
+        name: frontend-lint
+        entry: "npm --prefix frontend run lint"
+        language: system
+        types_or: [javascript, jsx, ts, tsx, html, css]
+        require_serial: true
+        verbose: true

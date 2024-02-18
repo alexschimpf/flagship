@@ -17,13 +17,14 @@ help:
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
 setup-dev:
-	npm install . &&\
+	pip install -r requirements.txt &&\
+	make install-pre-commit &&\
 	npm --prefix frontend install frontend &&\
 	make -C admin install-dev &&\
 	make -C flags install-dev &&\
 
 install-pre-commit:
-	npx husky init
+	pre-commit install --hook-type pre-commit
 
 all-tests:
 	make -C admin unit-tests &&\
