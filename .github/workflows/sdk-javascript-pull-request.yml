@@ -12,8 +12,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-  type-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+      - run: npm --prefix sdk/javascript install .
+      - run: npm --prefix sdk/javascript run lint

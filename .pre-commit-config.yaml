@@ -83,7 +83,7 @@ repos:
         types: [python]
         require_serial: true
         verbose: true
-        files: "python/sdk/"
+        files: "sdk/python"
 
   # Frontend formatter
   - repo: local
@@ -109,4 +109,17 @@ repos:
         require_serial: true
         verbose: true
         files: "frontend/"
+        pass_filenames: false
+
+  # Javascript SDK linter
+  - repo: local
+    hooks:
+      - id: javascript-sdk-lint
+        name: javascript sdk lint
+        entry: "npm --prefix sdk/javascript run lint"
+        language: system
+        types: [javascript]
+        require_serial: true
+        verbose: true
+        files: "sdk/javascript"
         pass_filenames: false
