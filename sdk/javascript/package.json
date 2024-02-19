@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "private": false,
     "scripts": {
-        "lint": "npx eslint ."
+        "lint": "npx eslint .",
+        "format": "npx eslint --fix ."
     },
     "devDependencies": {
         "eslint-config-standard": "^17.1.0",
