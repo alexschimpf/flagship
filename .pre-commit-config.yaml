@@ -60,6 +60,7 @@ repos:
         require_serial: true
         verbose: true
         files: "admin/"
+        pass_filenames: false
 
   # Flags type-check
   - repo: local
@@ -72,6 +73,7 @@ repos:
         require_serial: true
         verbose: true
         files: "flags/"
+        pass_filenames: false
 
   # Python SDK type-check
   - repo: local
@@ -83,7 +85,8 @@ repos:
         types: [python]
         require_serial: true
         verbose: true
-        files: "sdk/python"
+        files: "sdk/python/"
+        pass_filenames: false
 
   # Frontend formatter
   - repo: local

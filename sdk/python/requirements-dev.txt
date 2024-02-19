@@ -1,4 +1,5 @@
-debugpy==1.8.0
+debugpy==1.*
+hatchling==1.*
 ruff==0.*
 types-requests==2.*
 twine==5.*

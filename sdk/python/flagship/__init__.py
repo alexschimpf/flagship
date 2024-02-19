@@ -1,8 +1,11 @@
-import json
-import hmac
 import hashlib
-import requests
+import hmac
+import json
 from typing import Any
+
+import requests
+
+__version__ = '1.0.0'
 
 
 class Flagship:

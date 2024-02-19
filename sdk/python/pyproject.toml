@@ -1,3 +1,44 @@
+[build-system]
+requires = ["hatchling >= 1.21.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flagship"
+dynamic = ["version"]
+description = "Flagship SDK"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">= 3.8"
+authors = [
+  {name = "Alex Schimpf", email = "aschimpf1@gmaiil.com"}
+]
+keywords = ["feature", "flag", "feature flag", "flagship"]
+classifiers = [
+  "Environment :: Web Environment",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Internet",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development",
+  "Typing :: Typed"
+]
+dependencies = [
+  "requests==2.*"
+]
+
+[project.urls]
+Homepage = "https://github.com/alexschimpf/flagship"
+Repository = "https://github.com/alexschimpf/flagship"
+
+[tool.hatch.version]
+path = "flagship/__init__.py"
+
 [tool.ruff]
 line-length = 120
 indent-width = 4

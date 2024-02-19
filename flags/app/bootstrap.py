@@ -23,7 +23,6 @@ class Bootstrap:
     def run(self) -> FastAPI:
         Config.init()
         self._init_logger()
-
         app = self._build_app()
         self._init_services()
         app.include_router(router)

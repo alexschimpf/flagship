@@ -1,6 +1,6 @@
 -r requirements.txt
 
-debugpy==1.8.0
+debugpy==1.*
 httpx==0.*
 rest_api_tester==3.*
 mypy==1.*
