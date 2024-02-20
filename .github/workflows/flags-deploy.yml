@@ -6,32 +6,33 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: sergeysova/jq-action@v2
-          id: version
-          with:
-            cmd: "jq .version flags/version.json -r"
-        - run: |
-            docker login -u alexschimpf -p ${{ secrets.DOCKER_TOKEN }} && \
-            docker build . -t alexschimpf/flagship-flags:latest -t alexschimpf/flagship-flags:${{ steps.version.outputs.value }} && \
-            docker push alexschimpf/flagship-flags:${{ steps.version.outputs.value }} && \
-            docker push alexschimpf/flagship-flags:latest
-          working-directory: ./flags
+    steps:
+      - uses: actions/checkout@v4
+      - uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: "jq .version flags/version.json -r"
+      - run: |
+          docker login -u alexschimpf -p ${{ secrets.DOCKER_TOKEN }} && \
+          docker build . -t alexschimpf/flagship-flags:latest -t alexschimpf/flagship-flags:${{ steps.version.outputs.value }} && \
+          docker push alexschimpf/flagship-flags:${{ steps.version.outputs.value }} && \
+          docker push alexschimpf/flagship-flags:latest
+        working-directory: ./flags
 
   release:
+    needs: [deploy]
     runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: sergeysova/jq-action@v2
-          id: version
-          with:
-            cmd: "jq .version flags/version.json -r"
-        - uses: actions/create-release@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            tag_name: flags/${{ steps.version.outputs.value }}
-            release_name: Release flags/${{ steps.version.outputs.value }}
-            draft: false
-            prerelease: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: "jq .version flags/version.json -r"
+      - uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: flags/${{ steps.version.outputs.value }}
+          release_name: \[Flags\] Release ${{ steps.version.outputs.value }}
+          draft: false
+          prerelease: false

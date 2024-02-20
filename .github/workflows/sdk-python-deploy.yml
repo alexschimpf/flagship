@@ -11,17 +11,29 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.12
-
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-      - run: make build
-      - run: make install-build
+      - run: make -C sdk/python install-dev
+      - run: make -C sdk/python build
+      - run: make -C sdk/python install-build
       - env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: make deploy
+        run: make -C sdk/python deploy
+
+  release:
+    defaults:
+      run:
+        working-directory: ./sdk/python
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: version
+        run: echo "$(ls dist/*.tar.gz | sed 's/dist\/flagship-//' | sed 's/.tar.gz//')" >> "$GITHUB_OUTPUT"
+      - uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: sdk/python/${{ steps.version.outputs.value }}
+          release_name: \[SDK - Python\] Release ${{ steps.version.outputs.value }}
+          draft: false
+          prerelease: false

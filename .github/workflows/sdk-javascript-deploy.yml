@@ -5,11 +5,38 @@ on:
 
 jobs:
   deploy:
+    defaults:
+      run:
+        working-directory: ./sdk/javascript
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm install .
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   release:
+    defaults:
+      run:
+        working-directory: ./sdk/javascript
+    needs: [deploy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: "jq .version package.json -r"
+      - uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: sdk/javascript/${{ steps.version.outputs.value }}
+          release_name: \[SDK - Javascript\] Release ${{ steps.version.outputs.value }}
+          draft: false
+          prerelease: false

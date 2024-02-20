@@ -8,8 +8,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: "jq .version frontend/package.json -r"
+      - run: |
+          docker login -u alexschimpf -p ${{ secrets.DOCKER_TOKEN }} && \
+          docker build . -t alexschimpf/flagship-frontend:latest -t alexschimpf/flagship-frontend:${{ steps.version.outputs.value }} && \
+          docker push alexschimpf/flagship-frontend:${{ steps.version.outputs.value }} && \
+          docker push alexschimpf/flagship-frontend:latest
+        working-directory: ./frontend
 
   release:
+    needs: [deploy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: "jq .version frontend/package.json -r"
+      - uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: frontend/${{ steps.version.outputs.value }}
+          release_name: \[Frontend\] Release ${{ steps.version.outputs.value }}
+          draft: false
+          prerelease: false

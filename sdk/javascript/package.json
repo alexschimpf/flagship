@@ -1,7 +1,28 @@
 {
     "name": "flagship",
     "version": "1.0.0",
+    "author": "Alex Schimpf <aschimpf1@gmail.com>",
+    "description": "Flagship SDK",
+    "main": "index.js",
+    "keywords": [
+        "feature",
+        "flag",
+        "feature flag",
+        "flagship"
+    ],
+    "homepage": "https://github.com/alexschimpf/flagship/sdk/javascript",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alexschimpf/flagship.git",
+        "directory": "sdk/javascript"
+    },
+    "license": "MIT",
     "private": false,
+    "files": [
+        "index.js",
+        "LICENSE.txt",
+        "README.md"
+    ],
     "scripts": {
         "lint": "npx eslint .",
         "format": "npx eslint --fix ."
