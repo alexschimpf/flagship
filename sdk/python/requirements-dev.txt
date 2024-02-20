@@ -1,3 +1,4 @@
+build==1.*
 debugpy==1.*
 hatchling==1.*
 ruff==0.*

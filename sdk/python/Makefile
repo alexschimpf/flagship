@@ -18,11 +18,11 @@ help:
 
 # build python package
 build:
-	echo 'build'
+	python3 -m build
 
 # install package (after running `make build`)
 install-build:
-	echo 'install-build'
+	pip install dist/$(shell ls dist | grep tar.gz | head -1)
 
 # deploy to pypi
 deploy:

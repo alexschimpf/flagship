@@ -7,7 +7,7 @@ name = "flagship"
 dynamic = ["version"]
 description = "Flagship SDK"
 readme = "README.md"
-license = {file = "LICENSE"}
+license = {file = "LICENSE.txt"}
 requires-python = ">= 3.8"
 authors = [
   {name = "Alex Schimpf", email = "aschimpf1@gmaiil.com"}
