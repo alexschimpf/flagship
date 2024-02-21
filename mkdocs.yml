@@ -1,0 +1,18 @@
+site_name: Flagship
+site_url: https://alexschimpf.github.io/flagship
+site_author: Alex Schimpf
+
+theme:
+  name: material
+
+nav:
+  - Overview: index.md
+  - UI: ui.md
+  - Admin: admin.md
+  - Flags: flags.md
+  - SDK: sdk.md
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
