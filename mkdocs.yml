@@ -3,14 +3,22 @@ site_url: https://alexschimpf.github.io/flagship
 site_author: Alex Schimpf
 
 theme:
-  name: material
+  name: rtd-dropdown
 
 nav:
-  - Overview: index.md
-  - UI: ui.md
-  - Admin: admin.md
-  - Flags: flags.md
-  - SDK: sdk.md
+  - Flagship:
+    - Overview: index.md
+    - Projects: projects.md
+    - Context Fields: context-fields.md
+    - Feature Flags: feature-flags.md
+    - Users: users.md
+  - Production:
+    - Configuration: configuration.md
+    - SDK: sdk.md
+  - Components:
+    - UI: ui.md
+    - Admin API: admin-api.md
+    - Flags API: flags-api.md
 
 validation:
   omitted_files: warn

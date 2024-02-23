@@ -49,6 +49,14 @@ format:
 	npm --prefix frontend run format &&\
 	npm --prefix sdk/javascript run format
 
+# build docs
+build-docs:
+	mkdocs build --clean
+
+# deploy docs
+deploy-docs:
+	mkdocs gh-deploy
+
 # get lines of code
 loc:
 	git ls-files | grep -e '\.py' -e 'frontend/src' -e 'sdk/javascript/.*\\.js' | xargs wc -l
