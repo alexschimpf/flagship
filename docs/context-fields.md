@@ -161,3 +161,10 @@ Operators include:
 - DOES NOT HAVE
 - HAS ONE OF
 - DOES NOT HAVE ONE OF
+
+## Audit Logs
+
+<p>
+    All changes made to context fields are recorded and can be viewed in the UI. You can see which users changed which
+    fields and at what time.
+</p>

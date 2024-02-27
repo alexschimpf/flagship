@@ -7,7 +7,7 @@ Flagship is a full-stack feature flag management platform.
 ## How It Works
 
 <p>
-    Flagship provides n intuitive web application to manage your feature flags.
+    Flagship provides an intuitive web application to manage your feature flags.
 </p>
 <p>
     A <a href="/projects">project</a> typically maps to a specific system, e.g. a web app or backend system.
@@ -40,7 +40,7 @@ Most operations done via the UI are recorded via audit logs. For example, you ca
 for a particular feature flag.
 </p>
 <p>
-The Flagship web application also allows you to effectively manage <a href="/users">users</a>.
+The Flagship web application also allows you to effectively manage <a href="/users">users</a> within the platform.
 Users must be invited from within Flagship.
 Each user is given a role and is assigned to one or more projects.
 The following roles are available (in order of increasing permissions): read only, standard, admin, and owner.

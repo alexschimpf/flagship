@@ -13,7 +13,7 @@ class Flagship:
         """
         :param host: host name of Flagship API
         :param project_id:
-        :param private_key: the secret key assigned to the project
+        :param private_key: the private key assigned to the project
         :param user_key: the user's unique key
         :param port: port of Flagship API
         """
@@ -70,7 +70,7 @@ class Flagship:
 
     def generate_signature(self) -> str:
         """
-        Generates an HMAC signature based on the project's secret key and the user's key.
+        Generates an HMAC signature based on the project's private key and the user's key.
         This should be sent along with all requests to the Flagship API.
 
         :return: str
