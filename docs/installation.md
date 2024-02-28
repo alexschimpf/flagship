@@ -38,7 +38,7 @@ The latest Redis Cluster version is recommended.
 
 ## Admin API
 
-The Admin API is described in detail <a href="/admin-api">here</a>.
+The Admin API is described in detail <a href="/flagship/admin-api">here</a>.
 
 You can use the following Docker image from Dockerhub:
 
@@ -160,10 +160,11 @@ If certain environment variables are not specifically defined, a warning message
     <tr>
 </table>
 
+<hr>
 
 ## Flags API
 
-The Flags API is described in detail <a href="/flags-api">here</a>.
+The Flags API is described in detail <a href="/flagship/flags-api">here</a>.
 
 You can use the following Docker image from Dockerhub:
 
@@ -205,9 +206,11 @@ If certain environment variables are not specifically defined, a warning message
     <tr>
 </table>
 
+<hr>
+
 ## UI
 
-The UI is described in detail <a href="/ui">here</a>.
+The UI is described in detail <a href="/flagship/ui">here</a>.
 
 You can use the following Docker image from Dockerhub:
 
@@ -230,12 +233,16 @@ The docker container can be configured using the following environment variables
     <tr>
 </table>
 
+<hr>
+
 ## SDK
 
-To connect your system to Flagship's Flags API, you can use an available <a href="/sdk">SDK</a>.
+To connect your system to Flagship's Flags API, you can use an available <a href="/flagship/sdk">SDK</a>.
 There are currently 2 supported SDKs - one for Javascript and one for Python. It should
 be trivial to support other programming languages or use your own implementation.
 
+<hr>
+
 ## Example Project
 
-TODO
+See an example project <a href="/flagship/example">here</a>.

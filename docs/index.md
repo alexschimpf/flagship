@@ -10,14 +10,14 @@ Flagship is a full-stack feature flag management platform.
     Flagship provides an intuitive web application to manage your feature flags.
 </p>
 <p>
-    A <a href="/projects">project</a> typically maps to a specific system, e.g. a web app or backend system.
+    A <a href="/flagship/projects">project</a> typically maps to a specific system, e.g. a web app or backend system.
 </p>
 <p>
-Within a project, you can create <a href="/feature-flags">feature flags</a>.
+Within a project, you can create <a href="/flagship/feature-flags">feature flags</a>.
 You can configure feature flags to only be enabled under certain conditions.
 </p>
 <p>
-You can also create <a href="/context-fields">context fields</a> within a project.
+You can also create <a href="/flagship/context-fields">context fields</a> within a project.
 Context fields describe the context when resolving which feature flags are enabled.
 For example, suppose you have a website that you want to control with feature flags.
 When you ask the Flagship API to determine which feature flags are enabled for the current user, you need to describe
@@ -40,7 +40,7 @@ Most operations done via the UI are recorded via audit logs. For example, you ca
 for a particular feature flag.
 </p>
 <p>
-The Flagship web application also allows you to effectively manage <a href="/users">users</a> within the platform.
+The Flagship web application also allows you to effectively manage <a href="/flagship/users">users</a> within the platform.
 Users must be invited from within Flagship.
 Each user is given a role and is assigned to one or more projects.
 The following roles are available (in order of increasing permissions): read only, standard, admin, and owner.
@@ -85,17 +85,17 @@ To run Flagship in production, you can use the following images from Dockerhub:
     <tr>
 </table>
 
-To configure these appropriately, please read <a href="/installation">Installation</a>.
-To learn more about connecting your system to Flagship, please read <a href="/sdk">SDK</a>.
+To configure these appropriately, please read <a href="/flagship/installation">Installation</a>.
+To learn more about connecting your system to Flagship, please read <a href="/flagship/sdk">SDK</a>.
 
 <hr>
 
 ## Components
 
-#### <a href="/ui">UI Server</a>
+#### <a href="/flagship/ui">UI Server</a>
 - Runs the Flagship UI
 
-#### <a href="/admin-api">Admin API</a>
+#### <a href="/flagship/admin-api">Admin API</a>
 - API server used by the Flagship UI
 - Deals with:
     - Login / Authentication
@@ -106,7 +106,7 @@ To learn more about connecting your system to Flagship, please read <a href="/sd
     - Reading/writing audit logs
     - etc.
 
-#### <a href="/flags-api">Flags API</a>
+#### <a href="/flagship/flags-api">Flags API</a>
 - Handles determining which feature flags are enabled for a given context
 - This is what your system will be interacting with
 

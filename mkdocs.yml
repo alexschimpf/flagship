@@ -16,6 +16,7 @@ nav:
   - UI: ui.md
   - Admin API: admin-api.md
   - Flags API: flags-api.md
+  - Example: example.md
   - Development: development.md
 
 validation:

@@ -61,7 +61,7 @@ VALUES
 );
 ```
 
-You can read more about this in <a href="/installation">Installation</a>.
+You can read more about this in <a href="/flagship/installation">Installation</a>.
 
 ## Passwords
 

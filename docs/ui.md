@@ -51,4 +51,4 @@ You can use the following Docker image from Dockerhub:
 alexschimpf/flagship-frontend:latest
 ```
 
-You can read more about configuring this server in <a href="/installation">Installation</a>.
+You can read more about configuring this server in <a href="/flagship/installation">Installation</a>.

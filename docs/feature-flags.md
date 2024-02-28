@@ -13,7 +13,7 @@ is its primary identifier. It is recommended to follow a consistent naming conve
 
 <p>
     Conditions allow you to control when feature flags are enabled. Before setting feature flag conditions, you should
-    first create one or more <a href="/context-fields">context fields</a>. You can then build your conditions based off
+    first create one or more <a href="/flagship/context-fields">context fields</a>. You can then build your conditions based off
     these. There are different operators that can be used based on the value type of a context field. Conditions can be
     joined together using AND/OR boolean operators to form more complex conditions.
 </p>

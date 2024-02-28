@@ -34,7 +34,7 @@ Authentication is done via JWT cookies assigned at login.
 ## Authorization
 
 All endpoints have the necessary role-based permissions checks.
-User roles are described on the <a href="/users">Users</a> page.
+User roles are described on the <a href="/flagship/users">Users</a> page.
 
 <hr>
 
@@ -46,4 +46,4 @@ You can use the following Docker image from Dockerhub:
 alexschimpf/flagship-admin:latest
 ```
 
-You can read more about configuring this server in <a href="/installation">Installation</a>.
+You can read more about configuring this server in <a href="/flagship/installation">Installation</a>.
