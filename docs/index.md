@@ -24,6 +24,7 @@ When you ask the Flagship API to determine which feature flags are enabled for t
 the user to Flagship. So you may do this by providing the following context fields to Flagship: `user_id` and `country_code`.
 You would create a separate context field for each and tell Flagship their types (i.e. integer and string).
 You can then use these context fields in your feature flag conditions. For example, you could have conditions like:
+
 ```
 (
     `user_id` is one of [1,2,3] AND
@@ -33,6 +34,7 @@ You can then use these context fields in your feature flag conditions. For examp
     `country_code` is "US"
 )
 ```
+
 Context fields can be assigned the following types: integer, number, string, boolean, semantic version, integer list, string list, and enum list.
 </p>
 <p>
@@ -115,5 +117,3 @@ You can find a complete example project using the Flagship platform <a href="htt
 #### <a href="/flagship/flags-api">Flags API</a>
 - Handles determining which feature flags are enabled for a given context
 - This is what your system will be interacting with
-
-<hr>
