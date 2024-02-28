@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Alex Schimpf">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Context Fields - Flagship</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../css/extra.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Context Fields";
+    var mkdocs_page_input_path = "context-fields.md";
+    var mkdocs_page_url = "/flagship/context-fields/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Flagship</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="tocbase current">
+    
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="..">Overview</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../installation/">Installation</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../projects/">Projects</a>
+  </li>
+    
+      
+
+
+  
+    
+    <li class="navtree toctree-l1 page current">
+      <a class="current" href="./">
+        Context Fields
+      </a>
+    </li>
+    
+      
+
+
+
+  <li class="toctree-l1 current">
+    <ul class="subnav-l1 current">
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#field-keys">Field Keys</a>
+        </li>
+    
+      
+          
+
+  <li class="toctree-l2">
+    <a href="#value-types">
+      Value Types
+      <span class="toctree-expand"></span>
+    </a>
+  </li>
+
+
+
+  <li class="toctree-l2">
+    <ul class="subnav-l2 toc-hidden">
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#integer">Integer</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#number">Number</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#string">String</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#boolean">Boolean</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#semantic-version">Semantic Version</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#enum">Enum</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#integer-list">Integer List</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#string-list">String List</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#enum-list">Enum List</a>
+        </li>
+    
+    </ul>
+  </li>
+
+      
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#audit-logs">Audit Logs</a>
+        </li>
+    
+    </ul>
+  </li>
+
+
+  
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../feature-flags/">Feature Flags</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../users/">Users</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../sdk/">SDK</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../ui/">UI</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../admin-api/">Admin API</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../flags-api/">Flags API</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../development/">Development</a>
+  </li>
+    
+  </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Flagship</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Context Fields</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="context-fields">Context Fields</h1>
+<p>
+A context field exists within a single project.
+Context fields describe the context when resolving which feature flags are enabled.
+For example, suppose you have a website that you want to control with feature flags.
+When you ask the Flagship API to determine which feature flags are enabled for the current user, you need to describe
+the user to Flagship. So you may do this by providing the following context fields to Flagship: `user_id`` and `country_code`.
+You would create a separate context field for each and tell Flagship their types (i.e. integer and string).
+You can then use these context fields in your feature flag conditions. For example, you could have conditions like:
+
+<pre><code>(
+    `user_id` is one of [1,2,3] AND
+    `country_code` is not &quot;US&quot;
+) OR
+(
+    `country_code` is &quot;US&quot;
+)
+</code></pre>
+
+Context fields can be assigned the following types: integer, number, string, boolean, semantic version, integer list, string list, and enum list.
+</p>
+
+<hr>
+
+<h2 id="field-keys">Field Keys</h2>
+<p>
+Field keys are the actual keys you plan to pass to the Flags API. For example if your context includes a user ID, you
+could have a context field with field key `user_id`. This cannot be changed after a context field is created.
+</p>
+<p>
+In other words, field keys are only referenced by the Flags API, whereas the context field name is only relevant within the
+Flagship UI.
+</p>
+
+<hr>
+
+<h2 id="value-types">Value Types</h2>
+<p>A context field's value type describes what type of value it is expected to hold.
+For example, if you have a context field for a user's email address, it would have a "string" (i.e. text) value type.
+This cannot be changed after a context field is created.</p>
+<h3 id="integer">Integer</h3>
+<p>Used for integers (e.g. 123).
+<br>
+Operators inlude:</p>
+<ul>
+<li>IS, IS NOT</li>
+<li>IS ONE OF</li>
+<li>IS NOT ONE OF</li>
+<li>&lt;</li>
+<li>&lt;=</li>
+<li>&gt;</li>
+<li>&gt;=</li>
+</ul>
+<h3 id="number">Number</h3>
+<p>Used for floating point numbers (e.g. 1.23).
+<br>
+Operators are the same as for Integer.</p>
+<h3 id="string">String</h3>
+<p>For text values (e.g. "US").
+<br>
+Operators include:</p>
+<ul>
+<li>IS</li>
+<li>IS NOT</li>
+<li>MATCHES</li>
+<li>IS ONE OF</li>
+<li>IS NOT ONE OF</li>
+</ul>
+<h3 id="boolean">Boolean</h3>
+<p>For boolean values (e.g. true and false).
+<br>
+Operator include:</p>
+<ul>
+<li>IS</li>
+<li>IS NOT</li>
+</ul>
+<h3 id="semantic-version">Semantic Version</h3>
+<p>For semantic version strings (e.g. 1.2.3).
+<br>
+Operators include:</p>
+<ul>
+<li>IS</li>
+<li>IS NOT</li>
+<li>&lt;</li>
+<li>&lt;=</li>
+<li>&gt;</li>
+<li>&gt;=</li>
+</ul>
+<h3 id="enum">Enum</h3>
+<p>
+Enums are named strings or integers.
+For example, suppose your users can be assigned to one or more based groups, and these groups are identified by unique integer IDs.
+When you are configuring your feature flag conditions, you want the conditions to be as human friendly as possible.
+It may be confusing for someone to see conditions like:
+
+<pre><code>`groups` HAS ONE OF [3, 4]
+</code></pre>
+
+
+What is group 3? What is group 4?
+</p>
+<p>
+A way to improve on this is to use the enum value type for the `groups` context field.
+When you assign a context field to the enum value type, you must also define an <i>Enum Definition</i>.
+The enum definition should be a single-level JSON blob, where keys are strings and values are either all strings or all integer.
+The JSON keys represent the human-friendly enum names, whereas the values represent the values meant to be passed to the Flags API.
+So you may have something like this for your `groups` enum definition:
+
+<pre><code>{
+    &quot;Read Only&quot;: 1,
+    &quot;Standard&quot;: 2,
+    &quot;Admin&quot;: 3,
+    &quot;Owner&quot;: 4
+}
+</code></pre>
+
+</p>
+
+<p>So now feature flag conditions will appear in the Flagship UI like so:</p>
+<pre><code>`groups` HAS ONE OF [&quot;Admin&quot;, &quot;Owner&quot;]
+</code></pre>
+<h3 id="integer-list">Integer List</h3>
+<p>For lists containing only integers (e.g. [1, 2, 3]).
+<br>
+Operators include:</p>
+<ul>
+<li>HAS</li>
+<li>DOES NOT HAVE</li>
+<li>HAS ONE OF</li>
+<li>DOES NOT HAVE ONE OF</li>
+</ul>
+<h3 id="string-list">String List</h3>
+<p>For lists containing only strings (e.g. ["a", "b", "c"]).
+<br>
+Operators include:</p>
+<ul>
+<li>HAS</li>
+<li>DOES NOT HAVE</li>
+<li>HAS ONE OF</li>
+<li>DOES NOT HAVE ONE OF</li>
+</ul>
+<h3 id="enum-list">Enum List</h3>
+<p>For lists containing only enums. Enums are described above.
+<br>
+Operators include:</p>
+<ul>
+<li>HAS</li>
+<li>DOES NOT HAVE</li>
+<li>HAS ONE OF</li>
+<li>DOES NOT HAVE ONE OF</li>
+</ul>
+<h2 id="audit-logs">Audit Logs</h2>
+<p>
+    All changes made to context fields are recorded and can be viewed in the UI. You can see which users changed which
+    fields and at what time.
+</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../feature-flags/" class="btn btn-neutral float-right" title="Feature Flags">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../projects/" class="btn btn-neutral" title="Projects"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../projects/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../feature-flags/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

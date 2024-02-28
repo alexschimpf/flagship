@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Alex Schimpf">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Installation - Flagship</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../css/extra.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Installation";
+    var mkdocs_page_input_path = "installation.md";
+    var mkdocs_page_url = "/flagship/installation/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Flagship</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="tocbase current">
+    
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="..">Overview</a>
+  </li>
+    
+      
+
+
+  
+    
+    <li class="navtree toctree-l1 page current">
+      <a class="current" href="./">
+        Installation
+      </a>
+    </li>
+    
+      
+
+
+
+  <li class="toctree-l1 current">
+    <ul class="subnav-l1 current">
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#mysql">MySQL</a>
+        </li>
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#redis-cluster">Redis Cluster</a>
+        </li>
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#admin-api">Admin API</a>
+        </li>
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#flags-api">Flags API</a>
+        </li>
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#ui">UI</a>
+        </li>
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#sdk">SDK</a>
+        </li>
+    
+      
+        <li class="toctree-l2">
+          <a class="toctree-l3" href="#example-project">Example Project</a>
+        </li>
+    
+    </ul>
+  </li>
+
+
+  
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../projects/">Projects</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../context-fields/">Context Fields</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../feature-flags/">Feature Flags</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../users/">Users</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../sdk/">SDK</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../ui/">UI</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../admin-api/">Admin API</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../flags-api/">Flags API</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../development/">Development</a>
+  </li>
+    
+  </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Flagship</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Installation</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="installation">Installation</h1>
+<p>There are various components to the Flagship platform that must be configured and installed appropriately.
+They will be described below.</p>
+<hr>
+
+<h2 id="mysql">MySQL</h2>
+<p>All Flagship data is stored in MySQL. This is currently the only primary database that can be used.</p>
+<p>To use your own MySQL database, you must perform the following bootstrap steps:</p>
+<ol>
+<li>Create a <code>flagship</code> database. See <a href="https://github.com/alexschimpf/flagship/blob/main/docker/mysql/init.sh#L8">here</a>.</li>
+<li>Execute the statements listed <a href="https://github.com/alexschimpf/flagship/blob/main/docker/mysql/sql/flagship.sql">here</a>.<ul>
+<li>This will create all necessary tables.</li>
+</ul>
+</li>
+<li>Create an initial Flagship owner user. See <a href="https://github.com/alexschimpf/flagship/blob/main/docker/mysql/sql/data.sql#L1">here</a>.<ul>
+<li>This will create a user with username <code>owner@flag.ship</code> and password <code>Test123!</code>.</li>
+<li>You can modify the email as needed.</li>
+<li>It is recommended to reset your password from the UI.</li>
+</ul>
+</li>
+</ol>
+<p>The latest MySQL version is recommended.</p>
+<hr>
+
+<h2 id="redis-cluster">Redis Cluster</h2>
+<p>Some Flagship data is cached in Redis Cluster. This is primarily to make the Flags API faster.
+The following data is stored here:</p>
+<ul>
+<li>Encrypted project private keys</li>
+<li>Feature flags</li>
+<li>Context field keys and value types</li>
+</ul>
+<p>The latest Redis Cluster version is recommended.</p>
+<hr>
+
+<h2 id="admin-api">Admin API</h2>
+<p>The Admin API is described in detail <a href="/admin-api">here</a>.</p>
+<p>You can use the following Docker image from Dockerhub:</p>
+<pre><code>alexschimpf/flagship-admin:latest
+</code></pre>
+<p>This is the easiest way to get the Admin API up and running.</p>
+<p>The full list of config options is defined <a href="https://github.com/alexschimpf/flagship/blob/main/admin/app/config.py#L8">here</a>.
+The docker container can be configured by a number of environment variables.
+If certain environment variables are not specifically defined, a warning message will be logged on startup.</p>
+<table>
+    <tr>
+        <th>Variable Name</th>
+        <th>Notes</th>
+        <th>Default</th>
+    </tr>
+    <tr>
+        <td>SECRET_KEY</td>
+        <td>Used to encrypt JWT tokens and project private keys. This should be a long random string with a length that is a multiple of 4.</td>
+        <td>--</td>
+    <tr>
+    <tr>
+        <td>MYSQL_ECHO</td>
+        <td>If truthy, all MySQL statements will be logged. This should definitely be disabled in production.</td>
+        <td>1</td>
+    <tr>
+    <tr>
+        <td>MYSQL_ISOLATION_LEVEL</td>
+        <td>MySQL transaction isolation level</td>
+        <td>READ COMMITTED</td>
+    <tr>
+    <tr>
+        <td>MYSQL_POOL_SIZE</td>
+        <td><a href="https://docs.sqlalchemy.org/en/20/core/pooling.html#sqlalchemy.pool.QueuePool.params.pool_size">See here</a></td>
+        <td>5</td>
+    <tr>
+    <tr>
+        <td>MYSQL_MAX_OVERFLOW</td>
+        <td><a href="https://docs.sqlalchemy.org/en/20/core/pooling.html#sqlalchemy.pool.QueuePool.params.max_overflow">See here</a></td>
+        <td>10</td>
+    <tr>
+    <tr>
+        <td>MYSQL_CONN_STR</td>
+        <td>Should follow the following format: mysql+mysqlconnector://USER:PASSWORD@HOSTNAME:PORT/flagship</td>
+        <td>--</td>
+    <tr>
+    <tr>
+        <td>REDIS_CONN_STR</td>
+        <td>Should follow the following format: redis://HOSTNAME:PORT</td>
+        <td>--</td>
+    <tr>
+    <tr>
+        <td>UI_BASE_URL</td>
+        <td>The UI base URL. This should NOT end with a trailing slash.</td>
+        <td>http://localhost:3000</td>
+    <tr>
+    <tr>
+        <td>SESSION_COOKIE_KEY</td>
+        <td>The login session cookie key name</td>
+        <td>flagship-session</td>
+    <tr>
+    <tr>
+        <td>SESSION_COOKIE_MAX_AGE</td>
+        <td>Login session cookie max age (in seconds)</td>
+        <td>86400 (i.e. 24 hours)</td>
+    <tr>
+    <tr>
+        <td>SESSION_COOKIE_DOMAIN</td>
+        <td>The domain name tied to your login session cookie</td>
+        <td>localhost</td>
+    <tr>
+    <tr>
+        <td>CORS_ALLOW_ORIGINS</td>
+        <td>A comma-separated list of allowed origins for CORS. Your Flagship UI base URL should be listed here.</td>
+        <td>http://localhost:3000</td>
+    <tr>
+    <tr>
+        <td>SET_PASSWORD_TOKEN_TTL</td>
+        <td>How long a password reset token lives before becoming invalid</td>
+        <td>86400 (i.e. 24 hours)</td>
+    <tr>
+    <tr>
+        <td>ENABLE_FAKE_AUTH</td>
+        <td>This is used to skip authentication checks during testing. This should definitely be disabled in production.</td>
+        <td>False</td>
+    <tr>
+    <tr>
+        <td>DEFAULT_LOCALE</td>
+        <td>Currently this doesn't have any effect because "en-us" is the only supported locale.</td>
+        <td>en-us</td>
+    <tr>
+    <tr>
+        <td>SMTP_HOST</td>
+        <td>SMTP server hostname. Used for sending emails from Flagship.</td>
+        <td>--</td>
+    <tr>
+    <tr>
+        <td>SMTP_PORT</td>
+        <td>SMTP server port. Used for sending emails from Flagship.</td>
+        <td>--</td>
+    <tr>
+    <tr>
+        <td>SMTP_USER</td>
+        <td>SMTP server user. Used for sending emails from Flagship.</td>
+        <td>--</td>
+    <tr>
+    <tr>
+        <td>SMTP_PASSWORD</td>
+        <td>SMTP server password. Used for sending emails from Flagship.</td>
+        <td>--</td>
+    <tr>
+    <tr>
+        <td>EMAIL_FROM_ADDRESS</td>
+        <td>This is the "From" email address used for emails from Flagship. This address should be owned by you.</td>
+        <td>--</td>
+    <tr>
+</table>
+
+<h2 id="flags-api">Flags API</h2>
+<p>The Flags API is described in detail <a href="/flags-api">here</a>.</p>
+<p>You can use the following Docker image from Dockerhub:</p>
+<pre><code>alexschimpf/flagship-flags:latest
+</code></pre>
+<p>This is the easiest way to get the Flags API up and running.</p>
+<p>The full list of config options is defined <a href="https://github.com/alexschimpf/flagship/blob/main/flags/app/config.py#L8">here</a>.
+The docker container can be configured by a number of environment variables.
+If certain environment variables are not specifically defined, a warning message will be logged on startup.</p>
+<table>
+    <tr>
+        <th>Variable Name</th>
+        <th>Notes</th>
+        <th>Default</th>
+    </tr>
+    <tr>
+        <td>SECRET_KEY</td>
+        <td>Used to encrypt JWT tokens and project private keys. This should be a long random string with a length that is a multiple of 4.</td>
+        <td>--</td>
+    <tr>
+    <tr>
+        <td>REDIS_CONN_STR</td>
+        <td>Should follow the following format: redis://HOSTNAME:PORT</td>
+        <td>--</td>
+    <tr>
+    <tr>
+        <td>CORS_ALLOW_ORIGINS</td>
+        <td>A comma-separated list of allowed origins for CORS. If you are interacting with the Flags API from a browser, this should be set to your website's base URL.</td>
+        <td>http://localhost:3000</td>
+    <tr>
+    <tr>
+        <td>DEFAULT_LOCALE</td>
+        <td>Currently this doesn't have any effect because "en-us" is the only supported locale.</td>
+        <td>en-us</td>
+    <tr>
+</table>
+
+<h2 id="ui">UI</h2>
+<p>The UI is described in detail <a href="/ui">here</a>.</p>
+<p>You can use the following Docker image from Dockerhub:</p>
+<pre><code>alexschimpf/flagship-frontend:latest
+</code></pre>
+<p>The docker container can be configured using the following environment variables:</p>
+<table>
+    <tr>
+        <th>Variable Name</th>
+        <th>Notes</th>
+        <th>Default</th>
+    </tr>
+    <tr>
+        <td>API_BASE_URL</td>
+        <td>Base URL of the Admin API</td>
+        <td>http://localhost:8000</td>
+    <tr>
+</table>
+
+<h2 id="sdk">SDK</h2>
+<p>To connect your system to Flagship's Flags API, you can use an available <a href="/sdk">SDK</a>.
+There are currently 2 supported SDKs - one for Javascript and one for Python. It should
+be trivial to support other programming languages or use your own implementation.</p>
+<h2 id="example-project">Example Project</h2>
+<p>TODO</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../projects/" class="btn btn-neutral float-right" title="Projects">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../projects/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

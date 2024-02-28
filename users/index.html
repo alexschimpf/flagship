@@ -8,7 +8,7 @@
   
   <meta name="author" content="Alex Schimpf">
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>UI - Flagship</title>
+  <title>Users - Flagship</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
   <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
 
@@ -19,9 +19,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "UI";
-    var mkdocs_page_input_path = "ui.md";
-    var mkdocs_page_url = "/flagship/ui/";
+    var mkdocs_page_name = "Users";
+    var mkdocs_page_input_path = "users.md";
+    var mkdocs_page_url = "/flagship/users/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
@@ -88,25 +88,11 @@
       
 
 
-  <li class="navtree toctree-l1 inactive">
-    <a class="" href="../users/">Users</a>
-  </li>
-    
-      
-
-
-  <li class="navtree toctree-l1 inactive">
-    <a class="" href="../sdk/">SDK</a>
-  </li>
-    
-      
-
-
   
     
     <li class="navtree toctree-l1 page current">
       <a class="current" href="./">
-        UI
+        Users
       </a>
     </li>
     
@@ -121,8 +107,8 @@
           
 
   <li class="toctree-l2 current with-children">
-    <a href="#navigation">
-      Navigation
+    <a href="#user-roles">
+      User Roles
       <span class="toctree-expand"></span>
     </a>
   </li>
@@ -134,17 +120,22 @@
     
       
         <li class="toctree-l3">
-          <a class="toctree-l4" href="#login">Login</a>
+          <a class="toctree-l4" href="#read-only">Read only</a>
         </li>
     
       
         <li class="toctree-l3">
-          <a class="toctree-l4" href="#top-bar">Top Bar</a>
+          <a class="toctree-l4" href="#standard">Standard</a>
         </li>
     
       
         <li class="toctree-l3">
-          <a class="toctree-l4" href="#home-page">Home Page</a>
+          <a class="toctree-l4" href="#admin">Admin</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#owner">Owner</a>
         </li>
     
     </ul>
@@ -154,17 +145,12 @@
     
       
         <li class="toctree-l2">
-          <a class="toctree-l3" href="#infrastructure">Infrastructure</a>
+          <a class="toctree-l3" href="#initial-setup">Initial Setup</a>
         </li>
     
       
         <li class="toctree-l2">
-          <a class="toctree-l3" href="#dependencies">Dependencies</a>
-        </li>
-    
-      
-        <li class="toctree-l2">
-          <a class="toctree-l3" href="#installation">Installation</a>
+          <a class="toctree-l3" href="#passwords">Passwords</a>
         </li>
     
     </ul>
@@ -172,6 +158,20 @@
 
 
   
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../sdk/">SDK</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../ui/">UI</a>
+  </li>
     
       
 
@@ -216,7 +216,7 @@
     
       
     
-    <li>UI</li>
+    <li>Users</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -226,47 +226,63 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="ui">UI</h1>
-<p>The Flagship UI lets you manage everything - projects, context fields, feature flags, and users.</p>
-<hr>
+                <h1 id="users">Users</h1>
+<p>The Flagship UI also allows you to effectively manage users within the platform.
+Users must be invited from within Flagship.
+Each user is given a role and is assigned to one or more projects.</p>
+<h2 id="user-roles">User Roles</h2>
+<h3 id="read-only">Read only</h3>
+<p>Read only users can view feature flags. They have the lowest level of permissions.</p>
+<h3 id="standard">Standard</h3>
+<p>Standard users can manage feature flags and context fields.</p>
+<h3 id="admin">Admin</h3>
+<p>Admins can do anything except delete projects and project private keys.</p>
+<h3 id="owner">Owner</h3>
+<p>Owners can do <b>anything</b>.
+There should always be at least one owner.</p>
+<h2 id="initial-setup">Initial Setup</h2>
+<p>When you first launch Flagship, you need at least one owner to start with. From there, you can invite as many users as you need.</p>
+<p>If you're using the docker-compose setup, the database has a default owner user with the following credentials:</p>
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Password</th>
+    </tr>
+    <tr>
+        <td>owner@flag.ship</td>
+        <td>Test123!</td>
+    <tr>
+</table>
 
-<h2 id="navigation">Navigation</h2>
-<h3 id="login">Login</h3>
-<p>You must first log in using your email and password.
-If you've forgotten your password, you can reset it from here.</p>
-<h3 id="top-bar">Top Bar</h3>
-<p>
-Depending on your permissions, top bar allows you to navigate to the Projects, Users, and System Audit Logs pages.
-
-You can view the Help page by clicking the question mark button on the right side of the top bar.
-You can also view your profile and log out.
-
-If you have navigated within a project, you will see the active project's name here.
-
-Additionally, you can switch between light and dark mode.
-</p>
-
-<h3 id="home-page">Home Page</h3>
-<p>
-You will see a table with all projects on the home page.
-From here, you can can navigate to the feature flags or context fields of each project.
-</p>
-
-<hr>
-
-<h2 id="infrastructure">Infrastructure</h2>
-<p>The UI server is written in Typescript and uses Tailwind CSS and Next.js.</p>
-<hr>
-
-<h2 id="dependencies">Dependencies</h2>
-<p>The only external dependency of the UI is the Admin API.</p>
-<hr>
-
-<h2 id="installation">Installation</h2>
-<p>You can use the following Docker image from Dockerhub:</p>
-<pre><code>alexschimpf/flagship-frontend:latest
+<p>If you're connecting Flagship to your own database (and have already created the necessary tables), you can add this user by running the following query:</p>
+<pre><code class="language-sql">INSERT INTO flagship.users
+(
+    email,
+    name,
+    role,
+    status,
+    password
+)
+VALUES
+(
+    'owner@flag.ship',
+    'Flagship Owner',
+    20,
+    2,
+    '$2a$12$Qwux2dsu.moP5dLszwxJ5uWbPy59UY1PPnoraat/lFh35ZbpZ7SLq'
+);
 </code></pre>
-<p>You can read more about configuring this server in <a href="/installation">Installation</a>.</p>
+<p>You can read more about this in <a href="/installation">Installation</a>.</p>
+<h2 id="passwords">Passwords</h2>
+<p>Passwords must have:</p>
+<ul>
+<li>At least 8 characters</li>
+<li>At least one uppercase character</li>
+<li>At least one lowercase character</li>
+<li>At least one special character</li>
+<li>At least one number</li>
+</ul>
+<p>The Flagship UI allows you to reset your password from the login page.</p>
               
             </div>
           </div>
@@ -274,10 +290,10 @@ From here, you can can navigate to the feature flags or context fields of each p
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../admin-api/" class="btn btn-neutral float-right" title="Admin API">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../sdk/" class="btn btn-neutral float-right" title="SDK">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../sdk/" class="btn btn-neutral" title="SDK"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../feature-flags/" class="btn btn-neutral" title="Feature Flags"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -303,10 +319,10 @@ From here, you can can navigate to the feature flags or context fields of each p
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../sdk/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../feature-flags/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../admin-api/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../sdk/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

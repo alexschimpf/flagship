@@ -8,7 +8,7 @@
   
   <meta name="author" content="Alex Schimpf">
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>UI - Flagship</title>
+  <title>Flags API - Flagship</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
   <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
 
@@ -19,9 +19,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "UI";
-    var mkdocs_page_input_path = "ui.md";
-    var mkdocs_page_url = "/flagship/ui/";
+    var mkdocs_page_name = "Flags API";
+    var mkdocs_page_input_path = "flags-api.md";
+    var mkdocs_page_url = "/flagship/flags-api/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
@@ -102,11 +102,25 @@
       
 
 
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../ui/">UI</a>
+  </li>
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../admin-api/">Admin API</a>
+  </li>
+    
+      
+
+
   
     
     <li class="navtree toctree-l1 page current">
       <a class="current" href="./">
-        UI
+        Flags API
       </a>
     </li>
     
@@ -116,41 +130,6 @@
 
   <li class="toctree-l1 current">
     <ul class="subnav-l1 current">
-    
-      
-          
-
-  <li class="toctree-l2 current with-children">
-    <a href="#navigation">
-      Navigation
-      <span class="toctree-expand"></span>
-    </a>
-  </li>
-
-
-
-  <li class="toctree-l2 current">
-    <ul class="subnav-l2 current">
-    
-      
-        <li class="toctree-l3">
-          <a class="toctree-l4" href="#login">Login</a>
-        </li>
-    
-      
-        <li class="toctree-l3">
-          <a class="toctree-l4" href="#top-bar">Top Bar</a>
-        </li>
-    
-      
-        <li class="toctree-l3">
-          <a class="toctree-l4" href="#home-page">Home Page</a>
-        </li>
-    
-    </ul>
-  </li>
-
-      
     
       
         <li class="toctree-l2">
@@ -163,6 +142,41 @@
         </li>
     
       
+          
+
+  <li class="toctree-l2">
+    <a href="#api">
+      API
+      <span class="toctree-expand"></span>
+    </a>
+  </li>
+
+
+
+  <li class="toctree-l2">
+    <ul class="subnav-l2 toc-hidden">
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#body">Body</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#query-parameters">Query Parameters</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#headers">Headers</a>
+        </li>
+    
+    </ul>
+  </li>
+
+      
+    
+      
         <li class="toctree-l2">
           <a class="toctree-l3" href="#installation">Installation</a>
         </li>
@@ -172,20 +186,6 @@
 
 
   
-    
-      
-
-
-  <li class="navtree toctree-l1 inactive">
-    <a class="" href="../admin-api/">Admin API</a>
-  </li>
-    
-      
-
-
-  <li class="navtree toctree-l1 inactive">
-    <a class="" href="../flags-api/">Flags API</a>
-  </li>
     
       
 
@@ -216,7 +216,7 @@
     
       
     
-    <li>UI</li>
+    <li>Flags API</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -226,45 +226,54 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="ui">UI</h1>
-<p>The Flagship UI lets you manage everything - projects, context fields, feature flags, and users.</p>
-<hr>
-
-<h2 id="navigation">Navigation</h2>
-<h3 id="login">Login</h3>
-<p>You must first log in using your email and password.
-If you've forgotten your password, you can reset it from here.</p>
-<h3 id="top-bar">Top Bar</h3>
-<p>
-Depending on your permissions, top bar allows you to navigate to the Projects, Users, and System Audit Logs pages.
-
-You can view the Help page by clicking the question mark button on the right side of the top bar.
-You can also view your profile and log out.
-
-If you have navigated within a project, you will see the active project's name here.
-
-Additionally, you can switch between light and dark mode.
-</p>
-
-<h3 id="home-page">Home Page</h3>
-<p>
-You will see a table with all projects on the home page.
-From here, you can can navigate to the feature flags or context fields of each project.
-</p>
-
+                <h1 id="flags-api">Flags API</h1>
+<p>The Flags API is what your system interacts within to determine which feature flags are enabled for a given context.
+You can use an <a href="sdk">SDK</a> if there is one avaiable for your programming language of choice. It should
+be trivial to support other programming languages or use your own implementation.</p>
 <hr>
 
 <h2 id="infrastructure">Infrastructure</h2>
-<p>The UI server is written in Typescript and uses Tailwind CSS and Next.js.</p>
+<p>The Flags API is written in Python 3.12 and runs on FastAPI.</p>
 <hr>
 
 <h2 id="dependencies">Dependencies</h2>
-<p>The only external dependency of the UI is the Admin API.</p>
+<p>The only external dependency for the Flags API is Redis Cluster.
+Redis Cluser stores cached data related to projects and feature flags.</p>
+<hr>
+
+<h2 id="api">API</h2>
+<p>To get all feature flags enabled for a given context, you can use the following endpoint:</p>
+<pre><code>POST /feature_flags
+</code></pre>
+<h3 id="body">Body</h3>
+<p>The POST body should contain the context data in JSON format. The keys should match the field keys of context fields you
+have created for your Flagship project. The values should match the value types of those context fields.</p>
+<h3 id="query-parameters">Query Parameters</h3>
+<ul>
+<li><code>project_id</code><ul>
+<li>You can find this from the Flagship UI.</li>
+</ul>
+</li>
+<li><code>user_key</code><ul>
+<li>This is how you uniquely identify your users.</li>
+<li>For example, this could be a UUID or numeric user ID.</li>
+</ul>
+</li>
+</ul>
+<h3 id="headers">Headers</h3>
+<ul>
+<li><code>FLAGSHIP-SIGNATURE</code><ul>
+<li>This is how Flags API requests are authenticated.</li>
+<li>This can be generated by an <a href="sdk">SDK</a>.</li>
+<li>It is an HMAC signature based on the project's private key and the user key.</li>
+</ul>
+</li>
+</ul>
 <hr>
 
 <h2 id="installation">Installation</h2>
 <p>You can use the following Docker image from Dockerhub:</p>
-<pre><code>alexschimpf/flagship-frontend:latest
+<pre><code>alexschimpf/flagship-flags:latest
 </code></pre>
 <p>You can read more about configuring this server in <a href="/installation">Installation</a>.</p>
               
@@ -274,10 +283,10 @@ From here, you can can navigate to the feature flags or context fields of each p
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../admin-api/" class="btn btn-neutral float-right" title="Admin API">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../development/" class="btn btn-neutral float-right" title="Development">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../sdk/" class="btn btn-neutral" title="SDK"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../admin-api/" class="btn btn-neutral" title="Admin API"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -303,10 +312,10 @@ From here, you can can navigate to the feature flags or context fields of each p
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../sdk/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../admin-api/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../admin-api/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../development/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
