@@ -71,3 +71,4 @@ Pipfile.lock
 *~
 .*.sw?
 .*cache
+.vscode
