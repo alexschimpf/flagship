@@ -51,10 +51,10 @@ have created for your Flagship project. The values should match the value types 
 
 ## Installation
 
-You can use the following image from Dockerhub:
+You can use the following Docker image from Dockerhub:
 
 ```
 alexschimpf/flagship-flags:latest
 ```
 
-You can read more about configuring this server in <a href="/configuration">Configuration</a>.
+You can read more about configuring this server in <a href="/installation">Installation</a>.

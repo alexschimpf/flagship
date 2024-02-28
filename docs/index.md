@@ -85,8 +85,8 @@ To run Flagship in production, you can use the following images from Dockerhub:
     <tr>
 </table>
 
-To configure these appropriately, please read <a href="/configuration">Configuration</a>.
-To learn more about connecting your system to Flagship, please read <a href="/sdk">SDKs</a>.
+To configure these appropriately, please read <a href="/installation">Installation</a>.
+To learn more about connecting your system to Flagship, please read <a href="/sdk">SDK</a>.
 
 <hr>
 
@@ -95,7 +95,7 @@ To learn more about connecting your system to Flagship, please read <a href="/sd
 #### <a href="/ui">UI Server</a>
 - Runs the Flagship UI
 
-#### <a href="/admin">Admin API</a>
+#### <a href="/admin-api">Admin API</a>
 - API server used by the Flagship UI
 - Deals with:
     - Login / Authentication
@@ -106,7 +106,7 @@ To learn more about connecting your system to Flagship, please read <a href="/sd
     - Reading/writing audit logs
     - etc.
 
-#### <a href="/flags">Flags API</a>
+#### <a href="/flags-api">Flags API</a>
 - Handles determining which feature flags are enabled for a given context
 - This is what your system will be interacting with
 

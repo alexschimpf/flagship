@@ -8,4 +8,6 @@ RUN npm install .
 
 COPY . /frontend/
 
-CMD npm run build && npm run start
+ENV API_BASE_URL="http://localhost:8000"
+
+CMD echo "NEXT_PUBLIC_API_BASE_URL=${API_BASE_URL}" > /frontend/.env.production && npm run build && npm run start

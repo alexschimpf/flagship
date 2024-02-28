@@ -6,19 +6,17 @@ theme:
   name: rtd-dropdown
 
 nav:
-  - Flagship:
-    - Overview: index.md
-    - Projects: projects.md
-    - Context Fields: context-fields.md
-    - Feature Flags: feature-flags.md
-    - Users: users.md
-  - Production:
-    - Configuration: configuration.md
-    - SDKs: sdks.md
-  - Components:
-    - UI: ui.md
-    - Admin API: admin-api.md
-    - Flags API: flags-api.md
+  - Overview: index.md
+  - Installation: installation.md
+  - Projects: projects.md
+  - Context Fields: context-fields.md
+  - Feature Flags: feature-flags.md
+  - Users: users.md
+  - SDK: sdk.md
+  - UI: ui.md
+  - Admin API: admin-api.md
+  - Flags API: flags-api.md
+  - Development: development.md
 
 validation:
   omitted_files: warn

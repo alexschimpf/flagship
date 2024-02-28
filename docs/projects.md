@@ -18,7 +18,7 @@
 <p>
     Projects can be assigned one or more private keys.
     <b>Private keys are only ever shown at the time of creation, so remember to save them some place secure!</b>
-    Private keys are needed to sign requests to the <a href="/flags">Flags API</a>.
+    Private keys are needed to sign requests to the <a href="/flags-api">Flags API</a>.
 </p>
 <p>
     All private keys for a project are active at any given time. If you want to rotate keys, simply create a new

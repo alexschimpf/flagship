@@ -40,10 +40,10 @@ User roles are described on the <a href="/users">Users</a> page.
 
 ## Installation
 
-You can use the following image from Dockerhub:
+You can use the following Docker image from Dockerhub:
 
 ```
 alexschimpf/flagship-admin:latest
 ```
 
-You can read more about configuring this server in <a href="/configuration">Configuration</a>.
+You can read more about configuring this server in <a href="/installation">Installation</a>.
