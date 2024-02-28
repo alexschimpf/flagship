@@ -8,7 +8,7 @@
   
   <meta name="author" content="Alex Schimpf">
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Admin API - Flagship</title>
+  <title>Example - Flagship</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
   <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
 
@@ -19,9 +19,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Admin API";
-    var mkdocs_page_input_path = "admin-api.md";
-    var mkdocs_page_url = "/flagship/admin-api/";
+    var mkdocs_page_name = "Example";
+    var mkdocs_page_input_path = "example.md";
+    var mkdocs_page_url = "/flagship/example/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
@@ -109,51 +109,9 @@
       
 
 
-  
-    
-    <li class="navtree toctree-l1 page current">
-      <a class="current" href="./">
-        Admin API
-      </a>
-    </li>
-    
-      
-
-
-
-  <li class="toctree-l1 current">
-    <ul class="subnav-l1 current">
-    
-      
-        <li class="toctree-l2">
-          <a class="toctree-l3" href="#infrastructure">Infrastructure</a>
-        </li>
-    
-      
-        <li class="toctree-l2">
-          <a class="toctree-l3" href="#dependencies">Dependencies</a>
-        </li>
-    
-      
-        <li class="toctree-l2">
-          <a class="toctree-l3" href="#authentication">Authentication</a>
-        </li>
-    
-      
-        <li class="toctree-l2">
-          <a class="toctree-l3" href="#authorization">Authorization</a>
-        </li>
-    
-      
-        <li class="toctree-l2">
-          <a class="toctree-l3" href="#installation">Installation</a>
-        </li>
-    
-    </ul>
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../admin-api/">Admin API</a>
   </li>
-
-
-  
     
       
 
@@ -165,9 +123,20 @@
       
 
 
-  <li class="navtree toctree-l1 inactive">
-    <a class="" href="../example/">Example</a>
-  </li>
+  
+    
+    <li class="navtree toctree-l1 page current">
+      <a class="current" href="./">
+        Example
+      </a>
+    </li>
+    
+      
+
+
+
+
+  
     
       
 
@@ -198,7 +167,7 @@
     
       
     
-    <li>Admin API</li>
+    <li>Example</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -208,41 +177,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="admin-api">Admin API</h1>
-<p>The Flagship UI uses the Admin API to do the following types of things:
-- Login / Authentication
-- Managing projects
-- Managing context fields
-- Managing feature flags
-- Managing users
-- Reading/writing audit logs
-- etc.</p>
-<hr>
-
-<h2 id="infrastructure">Infrastructure</h2>
-<p>The Admin API is written in Python 3.12 and runs on FastAPI.</p>
-<hr>
-
-<h2 id="dependencies">Dependencies</h2>
-<p>The only external dependencies for the Admin API is Redis Cluster and MySQL.
-Redis Cluser stores cached data related to projects and feature flags.
-MySQL stores everything else.</p>
-<hr>
-
-<h2 id="authentication">Authentication</h2>
-<p>Authentication is done via JWT cookies assigned at login.</p>
-<hr>
-
-<h2 id="authorization">Authorization</h2>
-<p>All endpoints have the necessary role-based permissions checks.
-User roles are described on the <a href="/flagship/users">Users</a> page.</p>
-<hr>
-
-<h2 id="installation">Installation</h2>
-<p>You can use the following Docker image from Dockerhub:</p>
-<pre><code>alexschimpf/flagship-admin:latest
-</code></pre>
-<p>You can read more about configuring this server in <a href="/flagship/installation">Installation</a>.</p>
+                <h1 id="example">Example</h1>
               
             </div>
           </div>
@@ -250,10 +185,10 @@ User roles are described on the <a href="/flagship/users">Users</a> page.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../flags-api/" class="btn btn-neutral float-right" title="Flags API">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../development/" class="btn btn-neutral float-right" title="Development">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../ui/" class="btn btn-neutral" title="UI"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../flags-api/" class="btn btn-neutral" title="Flags API"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -279,10 +214,10 @@ User roles are described on the <a href="/flagship/users">Users</a> page.</p>
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../ui/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../flags-api/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../flags-api/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../development/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

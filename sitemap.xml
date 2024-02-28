@@ -21,6 +21,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://alexschimpf.github.io/flagship/example/</loc>
+         <lastmod>2024-02-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://alexschimpf.github.io/flagship/feature-flags/</loc>
          <lastmod>2024-02-28</lastmod>
          <changefreq>daily</changefreq>
