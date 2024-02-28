@@ -90,6 +90,12 @@ To learn more about connecting your system to Flagship, please read <a href="/fl
 
 <hr>
 
+## Example
+
+You can find a complete example project using the Flagship platform <a href="https://github.com/alexschimpf/flagship-example">here</a>.
+
+<hr>
+
 ## Components
 
 #### <a href="/flagship/ui">UI Server</a>
