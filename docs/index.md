@@ -59,7 +59,7 @@ To run Flagship from source, follow these steps:
 1. Make sure you have the latest version of <a href="https://docs.docker.com/engine/install/">Docker</a> installed and running
 1. `git clone git@github.com:alexschimpf/flagship.git`
 2. `cd flagship`
-1. `make -c docker flagship`
+1. `make -C docker flagship`
     - This will run the UI server, Admin API, Flags API, MySQL, and Redis Cluster via docker-compose
 1. Open <a href="https://localhost:3000">https://localhost:3000</a> in your browser
 1. Log in with user `owner@flag.ship` and password: `Test123!`
