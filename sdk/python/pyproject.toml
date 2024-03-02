@@ -3,7 +3,7 @@ requires = ["hatchling >= 1.21.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "flagship-sdk"
+name = "flagship_sdk"
 dynamic = ["version"]
 description = "Flagship SDK"
 readme = "README.md"
@@ -37,7 +37,7 @@ Homepage = "https://github.com/alexschimpf/flagship"
 Repository = "https://github.com/alexschimpf/flagship"
 
 [tool.hatch.version]
-path = "flagship/__init__.py"
+path = "flagship_sdk/__init__.py"
 
 [tool.ruff]
 line-length = 120

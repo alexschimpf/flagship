@@ -87,7 +87,7 @@ const enabledFeatureFlags = flagship.getEnabledFeatureFlags();
 ### Install
 
 ```shell
-pip install flagship-sdk
+pip install flagship_sdk
 ```
 
 ### Example
