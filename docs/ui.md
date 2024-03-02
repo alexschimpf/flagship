@@ -2,6 +2,8 @@
 
 The Flagship UI lets you manage everything - projects, context fields, feature flags, and users.
 
+You can find screenshots <a href="/flagship/#screenshots">here</a>.
+
 <hr>
 
 ## Navigation
