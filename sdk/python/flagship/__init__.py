@@ -37,14 +37,14 @@ class Flagship:
         """
 
         signature = self.generate_signature()
-        post_data = json.dumps(dict(context=context))
-        headers = {'Signature': signature, 'Content-Type': 'application/json'}
+        post_data = json.dumps(context or {})
+        headers = {'Flagship-Signature': signature, 'Content-Type': 'application/json'}
         api_url = f'{self._scheme}://{self._host}:{self._port}/feature_flags'
         params: dict[str, Any] = {'project_id': self._project_id, 'user_key': self._user_key}
         response = requests.post(url=api_url, params=params, data=post_data, headers=headers, timeout=timeout)
         response.raise_for_status()
         response_json = response.json()
-        self._enabled_feature_flags = set(response_json['feature_flags'] or ())
+        self._enabled_feature_flags = set(response_json['items'] or ())
         return self._enabled_feature_flags
 
     def is_feature_flag_enabled(self, name: str) -> bool:

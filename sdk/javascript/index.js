@@ -8,11 +8,15 @@ class Flagship {
        *    As a browser client, this should come from your application's server.
        *    This will be used by the Flagship API for authentication.
        *
-       *    If this is not provided, a `privateKey` must be provided instead. This is
+       *    If this is not provided, a `privateKey` can be provided instead. This is
        *    useful when using server-side javascript where the private key is secure.
+       *
+       *    If neither `signature` nor `privateKey` are provided, a `signature` must be
+       *    passed to `load`.
        * @param privateKey:
-       *    If `signature` is not provided, a `privateKey` must be provided instead. This is
-       *    useful when using server-side javascript where the private key is secure.
+       *    If `signature` is not provided, a `privateKey` can be provided instead. This is
+       *    useful when using server-side javascript where the private key is secure. The
+       *    signature will be generated behind the scenes.
        * @param port
        */
   constructor (host, projectId, userKey, signature = undefined, privateKey = undefined, port = 443) {
@@ -23,10 +27,6 @@ class Flagship {
     this.scheme = port === 443 ? 'https' : 'http'
     this.port = port
     this.enabledFeatureFlags = new Set()
-
-    if (!this.signature && !privateKey) {
-      throw new Error('Either signature or private key is required')
-    }
 
     if (!this.signature && privateKey) {
       this.signature = this._generateSignature(privateKey)
@@ -40,13 +40,15 @@ class Flagship {
 
        * @param context
        *     If this is not provided, the context passed into the constructor will be used instead.
+       * @param signature
+       *     If this is not provided, the `signature` instance variable will be used instead.
        * @param timeout
        *     Request timeout (in milliseconds)
        * @returns {Promise}
        */
-  load = async (context, timeout = 60000) => {
-    const response = await this._request(context, timeout)
-    const enabledFeatureFlags = response.data.feature_flags
+  load = async (context, signature = undefined, timeout = 60000) => {
+    const response = await this._request(context, signature || this.signature, timeout)
+    const enabledFeatureFlags = response.items
     this.setEnabledFeatureFlags(enabledFeatureFlags)
     return enabledFeatureFlags
   }
@@ -79,7 +81,7 @@ class Flagship {
     // TODO
   }
 
-  _request = async (context, timeout) => {
+  _request = async (context, signature, timeout) => {
     const params = new URLSearchParams({
       project_id: this.projectId,
       user_key: this.userKey
@@ -87,11 +89,9 @@ class Flagship {
     const url = `${this.scheme}://${this.host}:${this.port}/feature_flags?${params}`
     const headers = {
       'Content-Type': 'application/json',
-      Signature: this.signature
+      'Flagship-Signature': signature
     }
-    const data = JSON.stringify({
-      context
-    })
+    const data = JSON.stringify(context || {})
     const response = await fetch(url, {
       method: 'POST',
       body: data,

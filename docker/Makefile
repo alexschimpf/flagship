@@ -38,10 +38,10 @@ dev-clean:
 
 # run runs dependencies, admin server, flags server, and frontend
 flagship:
-	docker-compose up -f docker-compose.yml --remove-orphans
+	docker-compose up --remove-orphans
 
 # runs flagship from clean slate
 flagship-clean:
-	docker-compose down -f docker-compose.yml -v --remove-orphans &&\
-	docker-compose -f docker-compose.yml pull &&\
-	docker-compose -f docker-compose.yml up --build
+	docker-compose down -v --remove-orphans &&\
+	docker-compose pull &&\
+	docker-compose up --build
