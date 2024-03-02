@@ -3,7 +3,7 @@ requires = ["hatchling >= 1.21.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "flagship"
+name = "flagship-sdk"
 dynamic = ["version"]
 description = "Flagship SDK"
 readme = "README.md"
