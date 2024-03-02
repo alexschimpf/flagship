@@ -13,7 +13,7 @@
 ### Install
 
 ```shell
-npm install flagship
+npm install flagship-sdk
 ```
 
 ### Browser Example
