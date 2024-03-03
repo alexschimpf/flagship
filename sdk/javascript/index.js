@@ -16,7 +16,8 @@ class Flagship {
        * @param privateKey:
        *    If `signature` is not provided, a `privateKey` can be provided instead. This is
        *    useful when using server-side javascript where the private key is secure. The
-       *    signature will be generated behind the scenes.
+       *    signature will be generated behind the scenes. This should only be used server-side and
+       *    requires the `crypto` module.
        * @param port
        */
   constructor (host, projectId, userKey, signature = undefined, privateKey = undefined, port = 443) {
@@ -29,7 +30,7 @@ class Flagship {
     this.enabledFeatureFlags = new Set()
 
     if (!this.signature && privateKey) {
-      this.signature = this._generateSignature(privateKey)
+      this.signature = this._generateSignature(privateKey, userKey)
     }
   }
 
@@ -77,8 +78,11 @@ class Flagship {
     this.enabledFeatureFlags = new Set(enabledFeatureFlags)
   }
 
-  _generateSignature = (privateKey) => {
-    // TODO
+  _generateSignature = (privateKey, userKey) => {
+    const crypto = require('crypto')
+    const hmac = crypto.createHmac('sha256', privateKey)
+    hmac.update(userKey)
+    return hmac.digest('hex')
   }
 
   _request = async (context, signature, timeout) => {
