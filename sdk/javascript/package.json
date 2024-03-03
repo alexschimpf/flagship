@@ -1,6 +1,6 @@
 {
     "name": "flagship-sdk",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Alex Schimpf <aschimpf1@gmail.com>",
     "description": "Flagship SDK",
     "main": "index.js",
