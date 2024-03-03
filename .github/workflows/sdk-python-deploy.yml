@@ -4,23 +4,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-      - run: make -C sdk/python install-dev
-      - run: make -C sdk/python build
-      - run: make -C sdk/python install-build
-      - env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_KEY }}
-        run: make -C sdk/python deploy
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-python@v5
+  #       with:
+  #         python-version: 3.12
+  #     - run: make -C sdk/python install-dev
+  #     - run: make -C sdk/python build
+  #     - run: make -C sdk/python install-build
+  #     - env:
+  #         TWINE_USERNAME: __token__
+  #         TWINE_PASSWORD: ${{ secrets.PYPI_API_KEY }}
+  #       run: make -C sdk/python deploy
 
   release:
-    needs: [deploy]
+    # needs: [deploy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
