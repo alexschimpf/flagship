@@ -35,7 +35,9 @@ jobs:
           git config --global user.name "Alex Schimpf"
         env:
           GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
-      - run: git tag -a admin/v${{ steps.version.outputs.value }} -m "Flagship Admin API v${{ steps.version.outputs.value }}" $COMMIT_SHA
+      - run: |
+          git tag -a admin/v${{ steps.version.outputs.value }} -m "Flagship Admin API v${{ steps.version.outputs.value }}" $COMMIT_SHA
+          git push origin admin/v${{ steps.version.outputs.value }}
         env:
           GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
       - uses: actions/create-release@v1
