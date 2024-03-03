@@ -24,10 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: sergeysova/jq-action@v2
-        id: version
-        with:
-          cmd: "jq .version sdk/python/version.json -r"
+      - id: version
+        run: echo "$(ls dist/*.tar.gz | sed 's/dist\/flagship-//' | sed 's/.tar.gz//')" >> "$GITHUB_OUTPUT"
       - run: |
           git fetch origin main
           echo "COMMIT_SHA=$(git rev-parse origin/main)" >> $GITHUB_ENV
