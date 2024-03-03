@@ -5,7 +5,7 @@ set -e
 WAIT_UNTIL=$(expr $(date +%s) + 600)
 
 echo "Waiting for Redis to be initialized"
-while [[ $(redis-cli -p 7000 ping) != "PONG" ]]
+while [[ $(docker exec -i redis redis-cli -p 7000 ping) != "PONG" ]]
 do
     CURRENT_TIME=$(date +%s)
     if [ $CURRENT_TIME \> $WAIT_UNTIL ]; then
@@ -18,7 +18,7 @@ do
 done
 
 echo "Waiting for MySQL to be initialized"
-while [[ $(mysqladmin -h 127.0.0.1 -uroot -ptest ping) != "mysqld is alive" ]]
+while [[ $(docker exec -i mysql mysqladmin -h 127.0.0.1 -uroot -ptest ping) != "mysqld is alive" ]]
 do
     CURRENT_TIME=$(date +%s)
     if [ $CURRENT_TIME \> $WAIT_UNTIL ]; then
@@ -36,4 +36,4 @@ PYTHONPATH=./admin MYSQL_ECHO=0 python -m pytest --disable-warnings --cov=./app 
 
 # Reset DBs
 docker exec -i mysql bash /docker-entrypoint-initdb.d/init.sh
-docker exec -i redis bash redis-cli --cluster call 127.0.0.1:7000 FLUSHALL
+docker exec -i redis redis-cli --cluster call 127.0.0.1:7000 FLUSHALL
