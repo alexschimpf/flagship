@@ -31,9 +31,13 @@ jobs:
       - run: |
           git fetch origin main
           echo "COMMIT_SHA=$(git rev-parse origin/main)" >> $GITHUB_ENV
+          git config --global user.email "aschimpf1@gmail.com"
+          git config --global user.name "Alex Schimpf"
         env:
           GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
-      - run: git tag -a flags/v${{ steps.version.outputs.value }} -m "Flagship Flags API v${{ steps.version.outputs.value }}" $COMMIT_SHA
+      - run: |
+          git tag -a flags/v${{ steps.version.outputs.value }} -m "Flagship Flags API v${{ steps.version.outputs.value }}" $COMMIT_SHA
+          git push origin flags/v${{ steps.version.outputs.value }}
         env:
           GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
       - uses: actions/create-release@v1
