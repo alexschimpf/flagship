@@ -36,4 +36,4 @@ PYTHONPATH=./admin MYSQL_ECHO=0 python -m pytest --disable-warnings --cov=./app 
 
 # Reset DBs
 docker exec -i mysql bash /docker-entrypoint-initdb.d/init.sh
-redis-cli --cluster call --cluster-only-masters 127.0.0.1:7000 FLUSHALL
+docker exec -i redis bash redis-cli --cluster call 127.0.0.1:7000 FLUSHALL

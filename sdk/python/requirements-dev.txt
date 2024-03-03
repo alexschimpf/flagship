@@ -1,6 +1,7 @@
 build==1.*
 debugpy==1.*
 hatchling==1.*
+mypy==1.*
 ruff==0.*
 types-requests==2.*
 twine==5.*
