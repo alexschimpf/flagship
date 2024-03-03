@@ -4,23 +4,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: sergeysova/jq-action@v2
-  #       id: version
-  #       with:
-  #         cmd: "jq .version frontend/package.json -r"
-  #     - run: |
-  #         docker login -u alexschimpf -p ${{ secrets.DOCKER_TOKEN }} && \
-  #         docker build . -t alexschimpf/flagship-frontend:latest -t alexschimpf/flagship-frontend:${{ steps.version.outputs.value }} && \
-  #         docker push alexschimpf/flagship-frontend:${{ steps.version.outputs.value }} && \
-  #         docker push alexschimpf/flagship-frontend:latest
-  #       working-directory: ./frontend
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: "jq .version frontend/package.json -r"
+      - run: |
+          docker login -u alexschimpf -p ${{ secrets.DOCKER_TOKEN }} && \
+          docker build . -t alexschimpf/flagship-frontend:latest -t alexschimpf/flagship-frontend:${{ steps.version.outputs.value }} && \
+          docker push alexschimpf/flagship-frontend:${{ steps.version.outputs.value }} && \
+          docker push alexschimpf/flagship-frontend:latest
+        working-directory: ./frontend
 
   release:
-    # needs: [deploy]
+    needs: [deploy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
