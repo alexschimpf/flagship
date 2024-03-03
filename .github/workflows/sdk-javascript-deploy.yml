@@ -21,9 +21,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   release:
-    defaults:
-      run:
-        working-directory: ./sdk/javascript
     needs: [deploy]
     runs-on: ubuntu-latest
     steps:
@@ -31,12 +28,18 @@ jobs:
       - uses: sergeysova/jq-action@v2
         id: version
         with:
-          cmd: "jq .version package.json -r"
+          cmd: "jq .version sdk/javascript/package.json -r"
+      - run: |
+          git fetch origin main
+          echo "COMMIT_SHA=$(git rev-parse origin/main)" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
+      - run: git tag -a sdk-javascript/v${{ steps.version.outputs.value }} -m "Flagship Javascript SDK v${{ steps.version.outputs.value }}" $COMMIT_SHA
+        env:
+          GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
       - uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
         with:
-          tag_name: sdk/javascript/${{ steps.version.outputs.value }}
-          release_name: \[SDK - Javascript\] Release ${{ steps.version.outputs.value }}
-          draft: false
-          prerelease: false
+          tag_name: sdk-javascript/v${{ steps.version.outputs.value }}
+          release_name: "[SDK - Javascript] Release v${{ steps.version.outputs.value }}"

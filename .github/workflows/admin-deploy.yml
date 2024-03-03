@@ -28,11 +28,17 @@ jobs:
         id: version
         with:
           cmd: "jq .version admin/version.json -r"
+      - run: |
+          git fetch origin main
+          echo "COMMIT_SHA=$(git rev-parse origin/main)" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
+      - run: git tag -a admin/v${{ steps.version.outputs.value }} -m "Flagship Admin API v${{ steps.version.outputs.value }}" $COMMIT_SHA
+        env:
+          GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
       - uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
         with:
-          tag_name: admin/${{ steps.version.outputs.value }}
-          release_name: \[Admin\] Release ${{ steps.version.outputs.value }}
-          draft: false
-          prerelease: false
+          tag_name: admin/v${{ steps.version.outputs.value }}
+          release_name: "[Admin] Release v${{ steps.version.outputs.value }}"
