@@ -46,4 +46,5 @@ jobs:
         with:
           python-version: 3.12
       - run: make -C admin install-dev
+      - run: docker-compose -f docker/docker-compose-deps.yml up --detach
       - run: make -C admin api-tests
