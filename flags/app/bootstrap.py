@@ -56,7 +56,6 @@ class Bootstrap:
 
     @staticmethod
     def _init_services() -> None:
-        # TODO: Move these to lifespan?
         RedisService.init()
         StringsService.init(default_locale=Config.DEFAULT_LOCALE)
 

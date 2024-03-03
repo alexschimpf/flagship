@@ -15,5 +15,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'latest'
-      - run: npm --prefix sdk/javascript install .
-      - run: npm --prefix sdk/javascript run lint
+      - run: npm install .
+        working-directory: sdk/javascript
+      - run: npm run lint
+        working-directory: sdk/javascript

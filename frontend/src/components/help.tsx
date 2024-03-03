@@ -32,7 +32,7 @@ export default function Help() {
                         What is Flagship?
                     </h1>
                     <p>
-                        Flagship is an open-source feature flag management
+                        Flagship is a full-stack feature flag management
                         platform.
                     </p>
                     <p>
