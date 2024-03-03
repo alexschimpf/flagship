@@ -30,7 +30,7 @@ jobs:
       - run: make -C sdk/python install-dev
       - run: make -C sdk/python build
       - id: version
-        run: echo "$(ls dist/*.tar.gz | sed 's/dist\/flagship_sdk-//' | sed 's/.tar.gz//')" >> "$GITHUB_OUTPUT"
+        run: GITHUB_OUTPUT=$(ls dist/*.tar.gz | sed 's/dist\/flagship_sdk-//' | sed 's/.tar.gz//')
         working-directory: ./sdk/python
       - run: |
           git fetch origin main
