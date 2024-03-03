@@ -30,7 +30,7 @@ jobs:
       - run: make -C sdk/python install-dev
       - run: make -C sdk/python build
       - id: version
-        run: GITHUB_OUTPUT=$(ls dist/*.tar.gz | sed 's/dist\/flagship_sdk-//' | sed 's/.tar.gz//')
+        run: echo "VERSION=$(ls dist/*.tar.gz | sed 's/dist\/flagship_sdk-//' | sed 's/.tar.gz//')" >> $GITHUB_OUTPUT
         working-directory: ./sdk/python
       - run: |
           git fetch origin main
@@ -40,13 +40,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
       - run: |
-          git tag -a sdk-python/v${{ steps.version.outputs.value }} -m "Flagship Python SDK v${{ steps.version.outputs.value }}" $COMMIT_SHA
-          git push origin sdk-python/v${{ steps.version.outputs.value }}
+          git tag -a sdk-python/v${{ steps.version.outputs.VERSION }} -m "Flagship Python SDK v${{ steps.version.outputs.VERSION }}" $COMMIT_SHA
+          git push origin sdk-python/v${{ steps.version.outputs.VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
       - uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.CLI_PAT }}
         with:
-          tag_name: sdk-python/v${{ steps.version.outputs.value }}
-          release_name: "[SDK - Python] Release v${{ steps.version.outputs.value }}"
+          tag_name: sdk-python/v${{ steps.version.outputs.VERSION }}
+          release_name: "[SDK - Python] Release v${{ steps.version.outputs.VERSION }}"
