@@ -1,6 +1,7 @@
+import logging
 import os
 import smtplib
-import logging
+import ssl
 from email.message import EmailMessage
 
 from app.config import Config
@@ -26,10 +27,10 @@ class EmailService:
             logger.info('Skipping email...')
             return
 
-        server = smtplib.SMTP_SSL(host=Config.SMTP_HOST, port=Config.SMTP_PORT)
-        try:
-            server.ehlo()
-            server.login(user=Config.SMTP_HOST, password=Config.SMTP_PASSWORD)
+        context = ssl.create_default_context()
+        with smtplib.SMTP(host=Config.SMTP_HOST, port=Config.SMTP_PORT) as server:
+            server.starttls(context=context)
+            server.login(user=Config.SMTP_USER, password=Config.SMTP_PASSWORD)
 
             message = EmailMessage()
             message['Subject'] = subject
@@ -49,5 +50,3 @@ class EmailService:
                     message.set_content(template_content)
 
             server.send_message(message)
-        finally:
-            server.quit()
